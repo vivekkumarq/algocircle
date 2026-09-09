@@ -1,0 +1,38 @@
+<div class="inner container">
+  <div class="about">
+    <a class="brand" routerLink="/">
+      <app-logo [size]="30" />
+      <span><strong>Algo</strong><span class="accent">Circle</span></span>
+    </a>
+    <p class="about__text">
+      A structured path through data structures and algorithms: concepts first, then the patterns
+      behind them, then deliberate practice. Everything runs in your browser — your progress stays
+      on your device.
+    </p>
+    <a class="repo" href="https://github.com/vivekkumarq/algocircle" target="_blank" rel="noopener">
+      <app-icon name="github" [size]="15" />
+      Source on GitHub
+    </a>
+  </div>
+
+  <nav class="columns" aria-label="Footer">
+    @for (section of sections; track section.id) {
+      <div class="column">
+        <h2 class="column__title">{{ section.label }}</h2>
+        <ul>
+          @for (item of section.items.slice(0, 5); track item.route) {
+            <li><a [routerLink]="item.route">{{ item.label }}</a></li>
+          }
+        </ul>
+      </div>
+    }
+  </nav>
+</div>
+
+<div class="baseline container">
+  <p>&copy; {{ year }} AlgoCircle. Built by Vivek Kumar.</p>
+  <p class="baseline__note">
+    Explanations, examples and diagrams here are written for this project. Practice problems are
+    described in our own words rather than reproduced from other platforms.
+  </p>
+</div>

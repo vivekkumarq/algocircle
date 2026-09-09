@@ -1,0 +1,125 @@
+:host {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  display: block;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-main) 88%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  height: var(--header-h);
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-primary);
+  font-size: 1.02rem;
+  letter-spacing: -0.02em;
+}
+
+.brand__text strong {
+  font-weight: 680;
+}
+
+.brand__accent {
+  color: var(--accent-text);
+  font-weight: 500;
+}
+
+.primary {
+  display: none;
+  flex: 1;
+  gap: var(--space-1);
+  margin-left: var(--space-4);
+}
+
+.primary a {
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.89rem;
+  font-weight: 500;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.primary a:hover {
+  background: var(--bg-inset);
+  color: var(--text-primary);
+}
+
+.primary a.is-active {
+  color: var(--text-primary);
+  background: var(--bg-inset);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+.search {
+  display: none;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 190px;
+  padding: 0.38rem 0.5rem 0.38rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  transition: border-color var(--dur-fast) var(--ease);
+}
+
+.search:hover {
+  border-color: var(--border-strong);
+  color: var(--text-secondary);
+}
+
+.search__text {
+  flex: 1;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--text-secondary);
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.icon-btn:hover {
+  background: var(--bg-inset);
+  color: var(--text-primary);
+}
+
+@media (min-width: 700px) {
+  .search { display: inline-flex; }
+}
+
+@media (min-width: 1024px) {
+  .primary { display: flex; }
+  .menu { display: none; }
+}
+
+@media (max-width: 480px) {
+  .bar { padding-inline: var(--space-4); gap: var(--space-2); }
+  .hide-sm { display: none; }
+}

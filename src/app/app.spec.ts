@@ -1,24 +1,35 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
+    localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [App],
-    })
-      .compileComponents();
+      providers: [provideRouter([])],
+    }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('creates the application shell', () => {
+    expect(TestBed.createComponent(App).componentInstance).toBeTruthy();
   });
 
-  it('should render title', async () => {
+  it('renders the header, a skip link and the footer', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, algocircle');
+    const element = fixture.nativeElement as HTMLElement;
+
+    expect(element.querySelector('.skip-link')?.textContent).toContain('Skip to content');
+    expect(element.querySelector('app-header')).not.toBeNull();
+    expect(element.querySelector('main#main')).not.toBeNull();
+    expect(element.querySelector('app-footer')).not.toBeNull();
+  });
+
+  it('shows the AlgoCircle wordmark', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain('AlgoCircle');
   });
 });

@@ -1,0 +1,64 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+}
+
+.rail {
+  display: none;
+}
+
+.page {
+  min-width: 0;
+  padding: var(--space-6) var(--space-5) var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  :host {
+    display: grid;
+    grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+    gap: var(--space-6);
+    padding-inline: var(--space-5);
+  }
+
+  .rail {
+    display: block;
+    border-right: 1px solid var(--border);
+  }
+
+  .rail__inner {
+    position: sticky;
+    top: var(--header-h);
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+    padding-right: var(--space-3);
+  }
+
+  .page {
+    padding-inline: 0;
+  }
+}
+
+.rail__progress {
+  margin: 0 var(--space-3) var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-subtle);
+}
+
+.rail__label {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.rail__hint {
+  margin: var(--space-3) 0 0;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}

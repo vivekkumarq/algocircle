@@ -1,0 +1,135 @@
+/* ---------------------------------------------------------------------------
+   AlgoCircle design tokens
+   Every colour used by a component must resolve to a variable declared here,
+   so a theme switch never requires touching component styles.
+   --------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --bg-main: #ffffff;
+  --bg-subtle: #f6f7f9;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-inset: #f1f3f6;
+  --bg-code: #f7f8fa;
+  --bg-overlay: rgb(16 18 24 / 45%);
+
+  /* Text */
+  --text-primary: #0e1116;
+  --text-secondary: #4c5666;
+  --text-muted: #6b7688;
+  --text-inverse: #ffffff;
+
+  /* Lines */
+  --border: #e2e5ea;
+  --border-strong: #cdd2db;
+  --border-focus: #3b6cf6;
+
+  /* Brand */
+  --accent: #3b6cf6;
+  --accent-hover: #2f5ce0;
+  --accent-soft: #eaf0ff;
+  --accent-text: #2a4fc4;
+  --accent-contrast: #ffffff;
+
+  /* Semantic */
+  --easy: #0f8a5f;
+  --easy-soft: #e4f5ee;
+  --medium: #a86a00;
+  --medium-soft: #fdf1de;
+  --hard: #c8384f;
+  --hard-soft: #fdeaed;
+  --info: #2563c9;
+  --info-soft: #e8f1fd;
+
+  /* Effects */
+  --shadow-xs: 0 1px 2px rgb(16 18 24 / 6%);
+  --shadow-sm: 0 1px 3px rgb(16 18 24 / 8%), 0 1px 2px rgb(16 18 24 / 4%);
+  --shadow-md: 0 6px 16px rgb(16 18 24 / 8%), 0 2px 6px rgb(16 18 24 / 4%);
+  --shadow-lg: 0 18px 44px rgb(16 18 24 / 12%), 0 4px 12px rgb(16 18 24 / 6%);
+  --grid-line: rgb(14 17 22 / 5%);
+
+  /* Geometry */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* Rhythm */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* Type */
+  --font-sans: 'Inter', 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', 'SF Mono', 'Fira Code', ui-monospace,
+    'Consolas', 'Liberation Mono', monospace;
+
+  /* Layout */
+  --header-h: 60px;
+  --sidebar-w: 268px;
+  --content-max: 1240px;
+  --prose-max: 74ch;
+
+  /* Motion */
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-fast: 120ms;
+  --dur: 220ms;
+  --dur-slow: 420ms;
+
+  --z-header: 60;
+  --z-sidebar: 50;
+  --z-overlay: 90;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg-main: #0b0d12;
+  --bg-subtle: #0f1218;
+  --bg-card: #12161e;
+  --bg-elevated: #171c26;
+  --bg-inset: #161b24;
+  --bg-code: #0d1017;
+  --bg-overlay: rgb(4 6 10 / 66%);
+
+  --text-primary: #e8ecf3;
+  --text-secondary: #a7b1c2;
+  --text-muted: #7d879a;
+  --text-inverse: #0b0d12;
+
+  --border: #222834;
+  --border-strong: #323a4a;
+  --border-focus: #6f95ff;
+
+  --accent: #6f95ff;
+  --accent-hover: #86a7ff;
+  --accent-soft: #16203a;
+  --accent-text: #9db8ff;
+  --accent-contrast: #08101f;
+
+  --easy: #34d399;
+  --easy-soft: #0e2a22;
+  --medium: #f0b357;
+  --medium-soft: #2b2113;
+  --hard: #f87f92;
+  --hard-soft: #2e1620;
+  --info: #7fb0ff;
+  --info-soft: #131f33;
+
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 45%), 0 1px 2px rgb(0 0 0 / 30%);
+  --shadow-md: 0 8px 20px rgb(0 0 0 / 45%), 0 2px 6px rgb(0 0 0 / 30%);
+  --shadow-lg: 0 22px 50px rgb(0 0 0 / 55%), 0 6px 14px rgb(0 0 0 / 35%);
+  --grid-line: rgb(180 200 255 / 5%);
+}

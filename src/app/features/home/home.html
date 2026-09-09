@@ -1,0 +1,281 @@
+<section class="hero">
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow"><app-icon name="compass" [size]="14" /> A structured path, not a problem dump</p>
+      <h1>Master Data Structures<br />&amp; Algorithms</h1>
+      <p class="lead">
+        Learn the concepts. Recognise the patterns. Solve the problems. Prepare for the interview.
+        AlgoCircle turns scattered practice into an ordered curriculum that always tells you what
+        comes next.
+      </p>
+
+      <div class="hero__cta">
+        <a class="btn btn--primary btn--lg" routerLink="/learn/foundations">
+          Start learning <app-icon name="arrow-right" [size]="16" />
+        </a>
+        <a class="btn btn--secondary btn--lg" routerLink="/roadmap">Explore the roadmap</a>
+      </div>
+
+      <dl class="hero__stats">
+        <div>
+          <dt>Stages</dt>
+          <dd>{{ stageCount }}</dd>
+        </div>
+        <div>
+          <dt>Concepts mapped</dt>
+          <dd>{{ conceptCount }}</dd>
+        </div>
+        <div>
+          <dt>Estimated hours</dt>
+          <dd>{{ totalHours }}</dd>
+        </div>
+        <div>
+          <dt>Accounts needed</dt>
+          <dd>0</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="hero__panel">
+      <div class="editor">
+        <div class="editor__bar">
+          <span class="editor__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="editor__file">sliding_window.txt</span>
+        </div>
+        <pre class="editor__code"><code>{{ patterns[0].template }}</code></pre>
+        <div class="editor__meta">
+          <span class="tag">Pattern: Sliding Window</span>
+          <span class="tag">{{ patterns[0].complexity }}</span>
+        </div>
+      </div>
+
+      <div class="window-demo" aria-hidden="true">
+        <span class="window-demo__frame"></span>
+        @for (cell of [1, 2, 3, 4, 5, 6, 7, 8]; track cell) {
+          <span class="window-demo__cell">{{ cell }}</span>
+        }
+      </div>
+      <p class="window-demo__caption">
+        A window that grows and shrinks — one idea behind dozens of problems.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="loop container">
+  <ol class="loop__list">
+    @for (step of loop; track step.label; let last = $last) {
+      <li class="loop__step">
+        <span class="loop__label">{{ step.label }}</span>
+        <span class="loop__detail">{{ step.detail }}</span>
+        @if (!last) {
+          <span class="loop__arrow" aria-hidden="true"><app-icon name="arrow-right" [size]="14" /></span>
+        }
+      </li>
+    }
+  </ol>
+</section>
+
+<section class="section container" id="roadmap-preview">
+  <header class="section__head">
+    <div>
+      <p class="eyebrow">The roadmap</p>
+      <h2>Every stage knows what comes before it</h2>
+      <p class="lead">
+        Prerequisites are explicit, so you can start anywhere without discovering a gap three
+        topics later. Mark a stage complete and the path updates.
+      </p>
+    </div>
+    <a class="btn btn--secondary" routerLink="/roadmap">
+      Full roadmap <app-icon name="arrow-right" [size]="15" />
+    </a>
+  </header>
+
+  <ol class="track">
+    @for (stage of previewStages; track stage.id) {
+      <li class="track__item">
+        <span class="track__order">{{ pad(stage.order) }}</span>
+        <div class="track__body">
+          <h3>{{ stage.title }}</h3>
+          <p>{{ stage.summary }}</p>
+          <div class="track__meta">
+            <app-difficulty-badge [level]="stage.difficulty" />
+            <span class="tag">{{ stage.syllabus.length }} concepts</span>
+            <span class="tag">{{ stage.estimatedHours }} h</span>
+            <span class="tag">{{ stage.level }}</span>
+          </div>
+        </div>
+      </li>
+    }
+    <li class="track__item track__item--more">
+      <span class="track__order">+{{ remainingStages }}</span>
+      <div class="track__body">
+        <h3>Graphs, greedy, dynamic programming and advanced structures</h3>
+        <p>The remaining stages carry the same structure through to segment trees and DP on trees.</p>
+        <a class="link" routerLink="/roadmap">Open the roadmap <app-icon name="arrow-right" [size]="14" /></a>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section class="section container">
+  <header class="section__head section__head--stacked">
+    <p class="eyebrow">Pattern recognition</p>
+    <h2>The skill that transfers between problems</h2>
+    <p class="lead">
+      Interviews rarely repeat a problem you have seen. They repeat the shape of one. Each pattern
+      page teaches the signals that give it away, the template it reduces to, and where the template
+      breaks.
+    </p>
+  </header>
+
+  <div class="patterns">
+    <div class="patterns__list" role="tablist" aria-label="Patterns">
+      @for (item of patterns; track item.slug) {
+        <button
+          type="button"
+          role="tab"
+          class="patterns__tab"
+          [class.is-active]="item.slug === activePattern()"
+          [attr.aria-selected]="item.slug === activePattern()"
+          (click)="selectPattern(item.slug)"
+        >
+          {{ item.name }}
+          <app-icon name="chevron-right" [size]="14" />
+        </button>
+      }
+    </div>
+
+    <article class="patterns__detail surface">
+      <h3>{{ pattern().name }}</h3>
+      <p class="patterns__idea">{{ pattern().coreIdea }}</p>
+
+      <h4>Recognition signals</h4>
+      <ul class="signals">
+        @for (signal of pattern().signals; track signal) {
+          <li><app-icon name="check" [size]="14" /> {{ signal }}</li>
+        }
+      </ul>
+
+      <h4>Template</h4>
+      <pre><code>{{ pattern().template }}</code></pre>
+      <p class="patterns__complexity">{{ pattern().complexity }}</p>
+    </article>
+  </div>
+</section>
+
+<section class="section container">
+  <header class="section__head section__head--stacked">
+    <p class="eyebrow">How a problem page works</p>
+    <h2>Nothing is revealed before you have thought about it</h2>
+    <p class="lead">
+      The solution is not the first thing on the page. You get the problem, then progressively
+      stronger hints, then the approaches in the order you should have discovered them.
+    </p>
+  </header>
+
+  <ol class="flow">
+    @for (step of solveFlow; track step.label; let i = $index) {
+      <li class="flow__step">
+        <span class="flow__index">{{ i + 1 }}</span>
+        <div>
+          <h3>{{ step.label }}</h3>
+          <p>{{ step.detail }}</p>
+        </div>
+      </li>
+    }
+  </ol>
+</section>
+
+<section class="section container">
+  <div class="split">
+    <div>
+      <p class="eyebrow">Interview preparation</p>
+      <h2>Practise the round, not just the problem</h2>
+      <p class="lead">
+        Solving is half of it. The other half is choosing an approach out loud, justifying the
+        complexity, and handling the follow-up question calmly.
+      </p>
+      <ul class="checks">
+        <li><app-icon name="check" [size]="15" /> Company pages organised by level, topics and patterns</li>
+        <li><app-icon name="check" [size]="15" /> Timed mock rounds with a countdown and a notes pane</li>
+        <li><app-icon name="check" [size]="15" /> Online-assessment conditions for speed practice</li>
+        <li><app-icon name="check" [size]="15" /> A practice score across understanding, patterns, complexity and edge cases</li>
+      </ul>
+      <a class="btn btn--secondary" routerLink="/interview">
+        Interview roadmap <app-icon name="arrow-right" [size]="15" />
+      </a>
+    </div>
+
+    <div class="panel surface">
+      <div class="panel__head">
+        <h3>Example dashboard</h3>
+        <span class="tag">Sample view</span>
+      </div>
+      <p class="panel__note">
+        Your own dashboard starts empty and fills in as you solve, revise and complete stages.
+      </p>
+      <div class="mastery">
+        @for (row of sampleMastery; track row.label) {
+          <div class="mastery__row">
+            <span class="mastery__label">{{ row.label }}</span>
+            <span class="mastery__bar"><i [style.width.%]="row.value"></i></span>
+            <span class="mastery__value">{{ row.value }}%</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section container">
+  <header class="section__head section__head--stacked">
+    <p class="eyebrow">What is inside</p>
+    <h2>Built for the whole preparation, end to end</h2>
+  </header>
+
+  <div class="cards">
+    @for (feature of features; track feature.title) {
+      <a class="card" [routerLink]="feature.route">
+        <span class="card__icon"><app-icon [name]="feature.icon" [size]="18" /></span>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.body }}</p>
+        <span class="card__link">Open <app-icon name="arrow-right" [size]="14" /></span>
+      </a>
+    }
+  </div>
+</section>
+
+<section class="section container">
+  <header class="section__head section__head--stacked">
+    <p class="eyebrow">Questions</p>
+    <h2>Before you start</h2>
+  </header>
+
+  <div class="faq">
+    @for (item of faqs; track item.q) {
+      <details class="faq__item">
+        <summary>
+          {{ item.q }}
+          <app-icon name="chevron-down" [size]="16" />
+        </summary>
+        <p>{{ item.a }}</p>
+      </details>
+    }
+  </div>
+</section>
+
+<section class="container">
+  <div class="cta">
+    <h2>Start with the first stage</h2>
+    <p>
+      Foundations takes about ten hours and makes everything after it easier. If you already know
+      it, mark it complete and move on.
+    </p>
+    <div class="cta__actions">
+      <a class="btn btn--primary btn--lg" routerLink="/learn/foundations">Begin foundations</a>
+      <a class="btn btn--ghost btn--lg" routerLink="/roadmap">See all {{ stageCount }} stages</a>
+    </div>
+  </div>
+</section>
