@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { Roadmap } from './roadmap';
 import { ProgressService } from '../../core/services/progress.service';
 import { ROADMAP_STAGES } from '../../data/roadmaps/roadmap.data';
@@ -7,7 +8,7 @@ describe('Roadmap page', () => {
   beforeEach(() => {
     localStorage.clear();
     TestBed.resetTestingModule();
-    TestBed.configureTestingModule({ imports: [Roadmap] });
+    TestBed.configureTestingModule({ imports: [Roadmap], providers: [provideRouter([])] });
   });
 
   it('renders a card for every stage', async () => {
@@ -28,7 +29,7 @@ describe('Roadmap page', () => {
 
   it('moves the recommendation forward as stages are completed', async () => {
     const progress = TestBed.inject(ProgressService);
-    progress.toggleTopic('foundations');
+    progress.toggleTopic(ROADMAP_STAGES[0].slug);
 
     const fixture = TestBed.createComponent(Roadmap);
     await fixture.whenStable();

@@ -1,0 +1,136 @@
+@if (chapter(); as ch) {
+  <article class="chapter">
+    <header class="head">
+      <p class="eyebrow">
+        <a routerLink="/learn">Learn</a> / {{ ch.level }}
+      </p>
+      <h1>{{ ch.title }}</h1>
+      <p class="lead">{{ ch.summary }}</p>
+
+      <div class="head__meta">
+        @if (stage(); as st) {
+          <app-difficulty-badge [level]="st.difficulty" />
+        }
+        <span class="tag"><app-icon name="clock" [size]="12" /> {{ ch.readingMinutes }} min read</span>
+        <span class="tag">{{ ch.sections.length }} sections</span>
+        <button type="button" class="mark" [class.is-done]="isComplete()" (click)="toggleComplete()">
+          <app-icon [name]="isComplete() ? 'check' : 'bookmark'" [size]="14" />
+          {{ isComplete() ? 'Completed' : 'Mark complete' }}
+        </button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav class="toc" aria-label="On this page">
+        <p class="toc__label">On this page</p>
+        <ol>
+          @for (section of ch.sections; track section.id) {
+            <li><a [href]="'#' + section.id">{{ section.title }}</a></li>
+          }
+          <li><a href="#takeaways">Key takeaways</a></li>
+        </ol>
+      </nav>
+
+      <div class="body">
+        <section class="objectives surface">
+          <h2><app-icon name="target" [size]="16" /> By the end of this chapter you can</h2>
+          <ul>
+            @for (objective of ch.objectives; track objective) {
+              <li>{{ objective }}</li>
+            }
+          </ul>
+          @if (prerequisiteStages().length) {
+            <p class="objectives__prereq">
+              Assumes you have read:
+              @for (prerequisite of prerequisiteStages(); track $index) {
+                @if (prerequisite) {
+                  <a [routerLink]="['/learn', prerequisite.slug]">{{ prerequisite.title }}</a>
+                }
+              }
+            </p>
+          }
+        </section>
+
+        @for (section of ch.sections; track section.id) {
+          <section class="section" [id]="section.id">
+            <h2>
+              {{ section.title }}
+              <a class="anchor" [href]="'#' + section.id" [attr.aria-label]="'Link to ' + section.title">#</a>
+            </h2>
+            <app-content-blocks [blocks]="section.blocks" />
+          </section>
+        }
+
+        <section class="takeaways surface" id="takeaways">
+          <h2><app-icon name="zap" [size]="16" /> Key takeaways</h2>
+          <ul>
+            @for (takeaway of ch.keyTakeaways; track takeaway) {
+              <li>{{ takeaway }}</li>
+            }
+          </ul>
+        </section>
+
+        @if (position(); as nav) {
+          <nav class="pager" aria-label="Chapter navigation">
+            @if (nav.previous) {
+              <a class="pager__link" [routerLink]="['/learn', nav.previous.slug]">
+                <span class="pager__dir"><app-icon name="chevron-right" [size]="13" /> Previous</span>
+                <span class="pager__title">{{ nav.previous.title }}</span>
+              </a>
+            } @else {
+              <span></span>
+            }
+            @if (nav.next) {
+              <a class="pager__link pager__link--next" [routerLink]="['/learn', nav.next.slug]">
+                <span class="pager__dir">Next <app-icon name="chevron-right" [size]="13" /></span>
+                <span class="pager__title">{{ nav.next.title }}</span>
+              </a>
+            }
+          </nav>
+        }
+      </div>
+    </div>
+  </article>
+} @else if (stage(); as st) {
+  <article class="outline">
+    <header class="head">
+      <p class="eyebrow"><a routerLink="/learn">Learn</a> / {{ st.level }}</p>
+      <h1>{{ st.title }}</h1>
+      <p class="lead">{{ st.summary }}</p>
+      <div class="head__meta">
+        <app-difficulty-badge [level]="st.difficulty" />
+        <span class="tag">{{ st.syllabus.length }} concepts</span>
+        <span class="tag">{{ st.estimatedHours }} h</span>
+        <span class="tag tag--draft">Chapter being written</span>
+      </div>
+    </header>
+
+    <p class="outline__note">
+      <app-icon name="book" [size]="15" />
+      The full chapter for this stage is still being written. The outline below is the exact list of
+      concepts it will cover, in order.
+    </p>
+
+    <section class="surface outline__list">
+      <h2>What this stage covers</h2>
+      <ol>
+        @for (item of st.syllabus; track item) {
+          <li>{{ item }}</li>
+        }
+      </ol>
+    </section>
+
+    <p class="outline__why"><strong>Why it matters.</strong> {{ st.whyItMatters }}</p>
+
+    <div class="outline__actions">
+      <a class="btn btn--primary" routerLink="/learn/why-dsa">Start from Why DSA</a>
+      <a class="btn btn--secondary" routerLink="/roadmap">See the roadmap</a>
+    </div>
+  </article>
+} @else {
+  <div class="missing">
+    <h1>We couldn't find that chapter</h1>
+    <p class="lead">The link may be out of date. The curriculum index lists everything available.</p>
+    <a class="btn btn--primary" routerLink="/learn">Back to the curriculum</a>
+  </div>
+}

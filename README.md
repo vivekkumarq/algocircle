@@ -35,10 +35,13 @@ runs client-side. Your progress is stored in your own browser and never leaves y
 
 ## Features
 
-**Available now (Phase 1)**
+**Available now**
 
-- A 19-stage DSA roadmap covering 240 mapped concepts, with explicit prerequisites, difficulty,
-  time estimates and a "what this stage covers" syllabus for every stage
+- **A written curriculum.** Chapters with definitions, worked examples, diagrams, comparison tables,
+  common traps and "check yourself" questions — starting with *Why DSA*, which explains what the
+  subject is and why it matters before a line of code
+- A 20-stage roadmap covering 250 mapped concepts, with prerequisites, difficulty, time estimates
+  and a syllabus for every stage; stages without a written chapter show their outline instead
 - Completion tracking with a recommended-next-stage engine that respects prerequisites
 - Light, dark and system themes with no flash of the wrong theme on load
 - Responsive application shell: sidebar on desktop, off-canvas drawer on mobile
@@ -52,7 +55,7 @@ runs client-side. Your progress is stored in your own browser and never leaves y
 
 | Phase | Scope |
 | ----- | ----- |
-| 2 | Topic, concept and pattern pages; the full pattern library |
+| 2 | Remaining chapters (strings, hashing, trees, graphs, DP ...) and the full pattern library — *in progress* |
 | 3 | Problem catalogue, client-side search, filters, Problem DNA |
 | 4 | Progressive hints, staged solutions, notes, bookmarks |
 | 5 | Dashboard, mastery, weak areas, spaced revision, analytics |
@@ -75,7 +78,7 @@ never leads to a dead link.
 | Routing | Angular Router, every route lazy-loaded |
 | Persistence | `localStorage` behind a single versioned service |
 | Tests | Vitest via `@angular/build:unit-test` |
-| Hosting | Static — GitHub Pages, Netlify, Vercel or Cloudflare Pages |
+| Hosting | GitHub Pages, published straight from this repository |
 
 There is deliberately no server, no API and no authentication. Once the page has loaded, the
 application works offline.
@@ -89,10 +92,12 @@ src/
     ├── core/
     │   ├── models/          content and navigation interfaces
     │   └── services/        storage, theme, progress, SEO, layout
-    ├── shared/components/   icon, logo, progress bar, difficulty badge
+    ├── shared/components/   icon, animated logo, progress bar, badges, content renderer
     ├── layout/              header, sidebar nav, mobile drawer, shell, footer
-    ├── features/            home, roadmap, placeholder, 404
-    ├── data/                curriculum content, kept out of components
+    ├── features/            home, roadmap, learn, placeholder, 404
+    ├── data/
+    │   ├── chapters/        the written curriculum, as typed content blocks
+    │   └── roadmaps/        stages, prerequisites and syllabi
     └── app.routes.ts        the full route table
 ```
 
@@ -122,20 +127,18 @@ npm run watch      # rebuild on change
 
 ## Deployment
 
-The site is static, so any static host works.
+The site is hosted on **GitHub Pages from this repository** — there is no other host, service or
+external dependency involved.
 
-**GitHub Pages** (configured): pushing to `main` runs `.github/workflows/deploy.yml`, which tests,
-builds with `--base-href /algocircle/`, copies `index.html` to `404.html` so deep links survive a
-refresh, and publishes. Enable it once under *Settings → Pages → Source: GitHub Actions*.
+Pushing to `main` runs `.github/workflows/deploy.yml`, which:
 
-**Netlify / Vercel / Cloudflare Pages**
+1. installs dependencies and runs the unit tests,
+2. builds with `--base-href /algocircle/`,
+3. copies `index.html` to `404.html` so deep links such as `/roadmap` survive a refresh,
+4. publishes the build to GitHub Pages.
 
-```
-Build command:    npm run build
-Publish directory: dist/algocircle/browser
-```
-
-Add a redirect from `/*` to `/index.html` with status 200 so client-side routes resolve.
+Pages is configured under *Settings -> Pages -> Source: GitHub Actions*. Nothing needs to be
+deployed by hand.
 
 ## Screenshots
 

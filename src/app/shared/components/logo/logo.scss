@@ -1,0 +1,86 @@
+:host {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.plate {
+  fill: var(--accent-soft);
+}
+
+.ring {
+  stroke: var(--border-strong);
+  stroke-width: 1.2;
+}
+
+.arc {
+  stroke: var(--accent);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.traveller {
+  fill: var(--accent);
+}
+
+.node {
+  fill: var(--bg-main);
+  stroke: var(--border-strong);
+  stroke-width: 1.4;
+  animation: light 6s linear infinite;
+}
+
+.core {
+  fill: var(--accent);
+  opacity: 0.85;
+  animation: breathe 6s ease-in-out infinite;
+}
+
+/* The traversal sweeps once around the ring every six seconds. */
+.sweep {
+  transform-origin: 16px 16px;
+  animation: orbit 6s linear infinite;
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Each node lights as the sweep passes it, then fades back. */
+@keyframes light {
+  0%,
+  12% {
+    fill: var(--accent);
+    stroke: var(--accent);
+  }
+  30%,
+  100% {
+    fill: var(--bg-main);
+    stroke: var(--border-strong);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sweep,
+  .node,
+  .core {
+    animation: none;
+  }
+
+  .node:first-of-type {
+    fill: var(--accent);
+    stroke: var(--accent);
+  }
+}

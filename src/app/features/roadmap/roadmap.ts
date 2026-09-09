@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ROADMAP_STAGES, TOTAL_CONCEPTS, TOTAL_HOURS } from '../../data/roadmaps/roadmap.data';
+import { CHAPTERS } from '../../data/chapters';
 import { ProgressService } from '../../core/services/progress.service';
 import { Icon } from '../../shared/components/icon/icon';
 import { DifficultyBadge } from '../../shared/components/difficulty-badge/difficulty-badge';
@@ -8,7 +10,7 @@ import { ProgressBar } from '../../shared/components/progress-bar/progress-bar';
 @Component({
   selector: 'app-roadmap',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, DifficultyBadge, ProgressBar],
+  imports: [RouterLink, Icon, DifficultyBadge, ProgressBar],
   templateUrl: './roadmap.html',
   styleUrl: './roadmap.scss',
 })
@@ -34,6 +36,12 @@ export class Roadmap {
       ) ?? this.stages.find((stage) => !done.has(stage.slug))
     );
   });
+
+  private readonly written = new Set(CHAPTERS.map((chapter) => chapter.slug));
+
+  protected hasChapter(slug: string): boolean {
+    return this.written.has(slug);
+  }
 
   protected isComplete(slug: string): boolean {
     return this.completed().has(slug);

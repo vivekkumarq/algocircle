@@ -28,109 +28,26 @@ export const routes: Routes = [
         loadComponent: () => import('./features/roadmap/roadmap').then((m) => m.Roadmap),
         data: {
           description:
-            'A 19-stage path through data structures and algorithms, with prerequisites, concept counts and time estimates for every stage.',
+            'The ordered path through data structures and algorithms, with prerequisites, concept counts and time estimates for every stage.',
         },
       },
 
       // ---- Learn -------------------------------------------------------
       {
         path: 'learn',
-        title: 'Learn',
-        loadComponent: comingSoon,
+        title: 'Curriculum',
+        loadComponent: () => import('./features/learn/learn-index').then((m) => m.LearnIndex),
         data: {
-          breadcrumb: 'Learn',
-          icon: 'book',
-          heading: 'The curriculum',
-          blurb:
-            'Topic pages with definitions, worked examples, diagrams and the reasoning behind each data structure and algorithm.',
-          phase: 2,
-          description: 'Topic-by-topic DSA curriculum with concepts, examples and diagrams.',
-          plans: [
-            'A page per topic with concept, example and diagram',
-            'Prerequisite and next-topic links on every page',
-            'Complexity summary tables per structure',
-            'Links from each concept to the problems that use it',
-          ],
+          description:
+            'The AlgoCircle curriculum: every stage of the DSA path, from why the subject matters through to advanced data structures.',
         },
       },
       {
-        path: 'learn/foundations',
-        title: 'Foundations',
-        loadComponent: comingSoon,
+        path: 'learn/:slug',
+        loadComponent: () => import('./features/learn/chapter-page').then((m) => m.ChapterPage),
         data: {
-          breadcrumb: 'Learn / Foundations',
-          icon: 'book',
-          heading: 'Programming foundations',
-          blurb:
-            'Variables, control flow, functions, recursion, references and memory, then complexity analysis from Big-O to recurrence relations.',
-          phase: 2,
-          description: 'Programming and complexity foundations for data structures and algorithms.',
-          plans: [
-            'Value versus reference semantics, with diagrams',
-            'Stack and heap memory during a recursive call',
-            'Big-O, Big-Omega, Big-Theta and amortised analysis',
-            'Recurrence relations and the recursion tree method',
-          ],
-        },
-      },
-      {
-        path: 'learn/data-structures',
-        title: 'Data Structures',
-        loadComponent: comingSoon,
-        data: {
-          breadcrumb: 'Learn / Data structures',
-          icon: 'layers',
-          heading: 'Data structures',
-          blurb:
-            'Arrays, strings, hash tables, linked lists, stacks, queues, trees, heaps, tries and graphs — what each one costs and when it is the right choice.',
-          phase: 2,
-          description: 'Every core data structure with operations, costs and trade-offs.',
-          plans: [
-            'Operation cost tables for each structure',
-            'Memory layout diagrams',
-            'When to choose one structure over another',
-            'Language notes for Java, C++ and Python',
-          ],
-        },
-      },
-      {
-        path: 'learn/algorithms',
-        title: 'Algorithms',
-        loadComponent: comingSoon,
-        data: {
-          breadcrumb: 'Learn / Algorithms',
-          icon: 'zap',
-          heading: 'Algorithms',
-          blurb:
-            'Sorting, searching, recursion, greedy, graph traversal, shortest paths and dynamic programming, each with correctness reasoning rather than just code.',
-          phase: 2,
-          description: 'Core algorithms with correctness reasoning and complexity analysis.',
-          plans: [
-            'Step-by-step derivation of each algorithm',
-            'Why the algorithm is correct, not only what it does',
-            'Complexity with best, average and worst cases',
-            'Common implementation pitfalls',
-          ],
-        },
-      },
-      {
-        path: 'learn/advanced',
-        title: 'Advanced DSA',
-        loadComponent: comingSoon,
-        data: {
-          breadcrumb: 'Learn / Advanced',
-          icon: 'grid',
-          heading: 'Advanced DSA',
-          blurb:
-            'Segment trees, Fenwick trees, sparse tables, tries, disjoint set union, string automata and the structures competitive rounds rely on.',
-          phase: 9,
-          description: 'Advanced data structures and algorithms beyond the core interview set.',
-          plans: [
-            'Range query structures and lazy propagation',
-            'String indices: tries, suffix arrays, automata',
-            'Union-find refinements',
-            'A clear line between interview-core and specialist material',
-          ],
+          description:
+            'A DSA chapter with concepts explained from scratch, worked examples, diagrams and the traps to avoid.',
         },
       },
       {

@@ -1,0 +1,72 @@
+<header class="page-head">
+  <p class="eyebrow"><app-icon name="book" [size]="14" /> Learn</p>
+  <h1>The curriculum</h1>
+  <p class="lead">
+    {{ totalStages }} stages covering {{ totalConcepts }} concepts, in the order that keeps every
+    prerequisite behind you. Start at <a routerLink="/learn/why-dsa">Why DSA</a> if you are new —
+    it explains what the subject is for before any code.
+  </p>
+  <p class="status">
+    <app-icon name="check" [size]="14" />
+    {{ publishedCount }} chapters published ({{ readingMinutes }} minutes of reading). The rest show
+    their outline while they are being written.
+  </p>
+</header>
+
+<div class="filters" role="group" aria-label="Filter by level">
+  <button
+    type="button"
+    class="filters__chip"
+    [class.is-active]="activeLevel() === 'All'"
+    (click)="setLevel('All')"
+  >
+    All <span>{{ countFor('All') }}</span>
+  </button>
+  @for (level of levels; track level) {
+    <button
+      type="button"
+      class="filters__chip"
+      [class.is-active]="activeLevel() === level"
+      (click)="setLevel(level)"
+    >
+      {{ level }} <span>{{ countFor(level) }}</span>
+    </button>
+  }
+</div>
+
+<ul class="chapters">
+  @for (entry of entries(); track entry.stage.id) {
+    <li>
+      <a class="chapter" [routerLink]="['/learn', entry.stage.slug]" [class.chapter--draft]="!entry.published">
+        <span class="chapter__order">{{ pad(entry.stage.order) }}</span>
+
+        <span class="chapter__body">
+          <span class="chapter__title">
+            {{ entry.stage.title }}
+            @if (completed().has(entry.stage.slug)) {
+              <span class="chapter__done" title="Marked complete"><app-icon name="check" [size]="13" /></span>
+            }
+          </span>
+          <span class="chapter__summary">{{ entry.stage.summary }}</span>
+
+          <span class="chapter__meta">
+            <app-difficulty-badge [level]="entry.stage.difficulty" />
+            <span class="tag">{{ entry.stage.level }}</span>
+            @if (entry.published) {
+              <span class="tag tag--live">
+                <app-icon name="book" [size]="12" /> {{ entry.sections }} sections · {{ entry.minutes }} min
+              </span>
+            } @else {
+              <span class="tag">{{ entry.stage.syllabus.length }} concepts outlined</span>
+            }
+          </span>
+        </span>
+
+        <span class="chapter__go">
+          {{ entry.published ? 'Read' : 'Outline' }}
+          <app-icon name="arrow-right" [size]="14" />
+        </span>
+      </a>
+    </li>
+  }
+</ul>

@@ -7,8 +7,36 @@ import { RoadmapStage } from '../../core/models';
  */
 export const ROADMAP_STAGES: RoadmapStage[] = [
   {
-    id: 'foundations',
+    id: 'why-dsa',
     order: 1,
+    title: 'Why DSA',
+    slug: 'why-dsa',
+    level: 'Foundations',
+    summary:
+      'What data structures and algorithms actually are, why a slow program stays slow on fast hardware, and what changes once you can reason about cost.',
+    whyItMatters:
+      'Starting without this is why most people quit: they practise problems without ever seeing what the subject is for.',
+    difficulty: 'Easy',
+    syllabus: [
+      'What a data structure is',
+      'What an algorithm is',
+      'Linear search vs. binary search',
+      'Growth rates and why they dominate',
+      'Why faster hardware does not fix a bad algorithm',
+      'Where DSA runs in software you already use',
+      'Time, memory and clarity as competing costs',
+      'What interviews are really measuring',
+      'What DSA is not',
+      'How to study it without memorising',
+    ],
+    patterns: [],
+    prerequisites: [],
+    next: ['foundations'],
+    estimatedHours: 2,
+  },
+  {
+    id: 'foundations',
+    order: 2,
     title: 'Programming Foundations',
     slug: 'foundations',
     level: 'Foundations',
@@ -32,13 +60,13 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
       'Debugging by hand-tracing',
     ],
     patterns: [],
-    prerequisites: [],
+    prerequisites: ['why-dsa'],
     next: ['complexity'],
     estimatedHours: 10,
   },
   {
     id: 'complexity',
-    order: 2,
+    order: 3,
     title: 'Complexity Analysis',
     slug: 'complexity',
     level: 'Foundations',
@@ -66,7 +94,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'mathematics',
-    order: 3,
+    order: 4,
     title: 'Mathematics for DSA',
     slug: 'mathematics',
     level: 'Foundations',
@@ -98,7 +126,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'arrays',
-    order: 4,
+    order: 5,
     title: 'Arrays',
     slug: 'arrays',
     level: 'Core',
@@ -128,7 +156,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'strings',
-    order: 5,
+    order: 6,
     title: 'Strings',
     slug: 'strings',
     level: 'Core',
@@ -157,7 +185,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'hashing',
-    order: 6,
+    order: 7,
     title: 'Hashing',
     slug: 'hashing',
     level: 'Core',
@@ -185,7 +213,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'two-pointers',
-    order: 7,
+    order: 8,
     title: 'Two Pointers',
     slug: 'two-pointers',
     level: 'Core',
@@ -211,7 +239,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'sliding-window',
-    order: 8,
+    order: 9,
     title: 'Sliding Window',
     slug: 'sliding-window',
     level: 'Core',
@@ -237,7 +265,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'binary-search',
-    order: 9,
+    order: 10,
     title: 'Binary Search',
     slug: 'binary-search',
     level: 'Core',
@@ -265,7 +293,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'sorting',
-    order: 10,
+    order: 11,
     title: 'Sorting & Selection',
     slug: 'sorting',
     level: 'Core',
@@ -295,7 +323,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'recursion',
-    order: 11,
+    order: 12,
     title: 'Recursion & Backtracking',
     slug: 'recursion',
     level: 'Core',
@@ -323,7 +351,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'linked-lists',
-    order: 12,
+    order: 13,
     title: 'Linked Lists',
     slug: 'linked-lists',
     level: 'Core',
@@ -353,7 +381,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'stacks-queues',
-    order: 13,
+    order: 14,
     title: 'Stacks & Queues',
     slug: 'stacks-queues',
     level: 'Core',
@@ -383,7 +411,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'trees',
-    order: 14,
+    order: 15,
     title: 'Trees',
     slug: 'trees',
     level: 'Core',
@@ -418,7 +446,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'heaps',
-    order: 15,
+    order: 16,
     title: 'Heaps & Priority Queues',
     slug: 'heaps',
     level: 'Core',
@@ -446,7 +474,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'graphs',
-    order: 16,
+    order: 17,
     title: 'Graphs',
     slug: 'graphs',
     level: 'Advanced',
@@ -485,7 +513,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'greedy',
-    order: 17,
+    order: 18,
     title: 'Greedy Algorithms',
     slug: 'greedy',
     level: 'Advanced',
@@ -517,7 +545,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'dynamic-programming',
-    order: 18,
+    order: 19,
     title: 'Dynamic Programming',
     slug: 'dynamic-programming',
     level: 'Advanced',
@@ -558,7 +586,7 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
   },
   {
     id: 'advanced',
-    order: 19,
+    order: 20,
     title: 'Advanced Structures',
     slug: 'advanced',
     level: 'Expert',

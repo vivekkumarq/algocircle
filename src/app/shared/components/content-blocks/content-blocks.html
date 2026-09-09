@@ -1,0 +1,122 @@
+@for (block of blocks(); track $index) {
+  @switch (block.kind) {
+    @case ('para') {
+      <p [innerHTML]="rich(block.text)"></p>
+    }
+
+    @case ('heading') {
+      <h3>{{ block.text }}</h3>
+    }
+
+    @case ('list') {
+      @if (block.ordered) {
+        <ol>
+          @for (item of block.items; track item) {
+            <li [innerHTML]="rich(item)"></li>
+          }
+        </ol>
+      } @else {
+        <ul>
+          @for (item of block.items; track item) {
+            <li [innerHTML]="rich(item)"></li>
+          }
+        </ul>
+      }
+    }
+
+    @case ('code') {
+      <figure class="code">
+        <figcaption>
+          <span class="code__lang">{{ block.language }}</span>
+          @if (block.caption) {
+            <span class="code__caption">{{ block.caption }}</span>
+          }
+        </figcaption>
+        <pre><code>{{ block.source }}</code></pre>
+      </figure>
+    }
+
+    @case ('callout') {
+      <aside class="callout" [class]="'callout--' + block.tone">
+        <p class="callout__head">
+          <app-icon [name]="calloutIcon[block.tone]" [size]="15" />
+          {{ block.title ?? calloutLabel[block.tone] }}
+        </p>
+        <p class="callout__body" [innerHTML]="rich(block.text)"></p>
+      </aside>
+    }
+
+    @case ('table') {
+      <figure class="table">
+        <div class="table__scroll">
+          <table>
+            <thead>
+              <tr>
+                @for (header of block.headers; track header) {
+                  <th scope="col">{{ header }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of block.rows; track $index) {
+                <tr>
+                  @for (cell of row; track $index) {
+                    <td [innerHTML]="rich(cell)"></td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        @if (block.caption) {
+          <figcaption>{{ block.caption }}</figcaption>
+        }
+      </figure>
+    }
+
+    @case ('steps') {
+      <ol class="steps">
+        @for (item of block.items; track item.title) {
+          <li>
+            <span class="steps__title">{{ item.title }}</span>
+            <span class="steps__text" [innerHTML]="rich(item.text)"></span>
+          </li>
+        }
+      </ol>
+    }
+
+    @case ('diagram') {
+      <figure class="diagram">
+        <pre>{{ block.art }}</pre>
+        @if (block.caption) {
+          <figcaption>{{ block.caption }}</figcaption>
+        }
+      </figure>
+    }
+
+    @case ('compare') {
+      <div class="compare">
+        @for (column of block.columns; track column.title) {
+          <div class="compare__col">
+            <h4>{{ column.title }}</h4>
+            <ul>
+              @for (point of column.points; track point) {
+                <li [innerHTML]="rich(point)"></li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('check') {
+      <details class="check">
+        <summary>
+          <app-icon name="target" [size]="15" />
+          {{ block.question }}
+        </summary>
+        <p [innerHTML]="rich(block.answer)"></p>
+      </details>
+    }
+  }
+}

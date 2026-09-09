@@ -300,3 +300,20 @@
     columns: 1;
   }
 }
+
+.node__read {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin-bottom: var(--space-4);
+  font-size: 0.85rem;
+  font-weight: 550;
+}
+
+.node__read:hover app-icon {
+  transform: translateX(2px);
+}
+
+.node__read app-icon {
+  transition: transform var(--dur-fast) var(--ease);
+}

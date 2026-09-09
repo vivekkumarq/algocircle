@@ -69,6 +69,11 @@
 
         <p class="node__why"><strong>Why it matters.</strong> {{ stage.whyItMatters }}</p>
 
+        <a class="node__read" [routerLink]="['/learn', stage.slug]">
+          {{ hasChapter(stage.slug) ? 'Read the chapter' : 'See the outline' }}
+          <app-icon name="arrow-right" [size]="14" />
+        </a>
+
         <div class="node__meta">
           <app-difficulty-badge [level]="stage.difficulty" />
           <span class="tag">{{ stage.level }}</span>

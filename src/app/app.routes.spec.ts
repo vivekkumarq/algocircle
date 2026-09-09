@@ -12,6 +12,17 @@ function collectPaths(config: Routes, prefix = ''): string[] {
   });
 }
 
+/** '/learn/:slug' should count as a target for '/learn/why-dsa'. */
+function isRoutable(paths: Set<string>, link: string): boolean {
+  if (paths.has(link)) return true;
+  const parts = link.split('/');
+  return [...paths].some((path) => {
+    const candidate = path.split('/');
+    if (candidate.length !== parts.length) return false;
+    return candidate.every((segment, i) => segment.startsWith(':') || segment === parts[i]);
+  });
+}
+
 describe('route table', () => {
   const paths = new Set(collectPaths(routes));
 
@@ -23,14 +34,14 @@ describe('route table', () => {
   it('has a target for every sidebar link', () => {
     for (const section of NAV_SECTIONS) {
       for (const item of section.items) {
-        expect(paths.has(item.route)).toBe(true);
+        expect(isRoutable(paths, item.route)).toBe(true);
       }
     }
   });
 
   it('has a target for every header link', () => {
     for (const link of HEADER_LINKS) {
-      expect(paths.has(link.route)).toBe(true);
+      expect(isRoutable(paths, link.route)).toBe(true);
     }
   });
 

@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-/** The AlgoCircle mark: three connected nodes on a traversal ring. */
+/**
+ * The AlgoCircle mark: six nodes on a ring, with a traversal running around it
+ * lighting each node as it arrives — an algorithm walking a circle.
+ * The animation is ambient and stops entirely under `prefers-reduced-motion`.
+ */
 @Component({
   selector: 'app-logo',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,49 +17,41 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       role="img"
       aria-label="AlgoCircle"
     >
-      <circle cx="16" cy="16" r="14.2" class="plate" />
-      <circle cx="16" cy="16" r="10.6" class="ring" />
-      <path d="M16 5.4 6.8 21.3h18.4z" class="edges" />
-      <circle cx="16" cy="5.4" r="3" class="node node--accent" />
-      <circle cx="6.8" cy="21.3" r="3" class="node" />
-      <circle cx="25.2" cy="21.3" r="3" class="node" />
+      <circle cx="16" cy="16" r="14.6" class="plate" />
+      <circle cx="16" cy="16" r="10.5" class="ring" />
+
+      <g class="sweep">
+        <path d="M16 5.5 A10.5 10.5 0 0 1 25.09 10.75" class="arc" />
+        <circle cx="25.09" cy="10.75" r="1.6" class="traveller" />
+      </g>
+
+      @for (node of nodes; track node.i) {
+        <circle
+          [attr.cx]="node.x"
+          [attr.cy]="node.y"
+          r="2.3"
+          class="node"
+          [style.animation-delay]="node.delay"
+        />
+      }
+
+      <circle cx="16" cy="16" r="1.7" class="core" />
     </svg>
   `,
-  styles: `
-    :host {
-      display: inline-flex;
-      line-height: 0;
-    }
-
-    .plate {
-      fill: var(--accent-soft);
-    }
-
-    .ring {
-      stroke: var(--accent);
-      stroke-width: 1.3;
-      stroke-dasharray: 3.4 3.2;
-      opacity: 0.55;
-    }
-
-    .edges {
-      stroke: var(--accent);
-      stroke-width: 1.5;
-      stroke-linejoin: round;
-      opacity: 0.85;
-    }
-
-    .node {
-      fill: var(--bg-main);
-      stroke: var(--accent);
-      stroke-width: 1.6;
-    }
-
-    .node--accent {
-      fill: var(--accent);
-    }
-  `,
+  styleUrl: './logo.scss',
 })
 export class Logo {
   readonly size = input(28);
+
+  /** Six evenly spaced points on the ring, each lit as the traversal reaches it. */
+  protected readonly nodes = Array.from({ length: 6 }, (_, i) => {
+    const angle = (-90 + i * 60) * (Math.PI / 180);
+    return {
+      i,
+      x: +(16 + 10.5 * Math.cos(angle)).toFixed(2),
+      y: +(16 + 10.5 * Math.sin(angle)).toFixed(2),
+      // The traveller leads the arc, so the node it is heading for lights first.
+      delay: `${(i + 5) % 6}s`,
+    };
+  });
 }
