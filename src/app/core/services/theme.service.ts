@@ -3,7 +3,7 @@ import { StorageService } from './storage.service';
 
 export type ThemeMode = 'system' | 'light' | 'paper' | 'dark' | 'midnight' | 'forest' | 'contrast';
 export type ResolvedTheme = Exclude<ThemeMode, 'system'>;
-export type FontChoice = 'sans' | 'serif' | 'mono';
+export type FontChoice = 'sans' | 'serif' | 'rounded' | 'script' | 'marker' | 'mono';
 export type SizeChoice = 'small' | 'normal' | 'large';
 
 export interface ThemeOption {
@@ -28,6 +28,9 @@ export const THEME_OPTIONS: ThemeOption[] = [
 export const FONT_OPTIONS: { id: FontChoice; label: string; sample: string }[] = [
   { id: 'sans', label: 'Sans', sample: 'Aa' },
   { id: 'serif', label: 'Serif', sample: 'Aa' },
+  { id: 'rounded', label: 'Rounded', sample: 'Aa' },
+  { id: 'script', label: 'Script', sample: 'Aa' },
+  { id: 'marker', label: 'Marker', sample: 'Aa' },
   { id: 'mono', label: 'Mono', sample: 'Aa' },
 ];
 
@@ -79,7 +82,9 @@ export class ThemeService {
 
   constructor() {
     this.mode.set(this.readStored(KEY_THEME, THEME_OPTIONS.map((t) => t.id), 'system'));
-    this.fontChoice.set(this.readStored(KEY_FONT, ['sans', 'serif', 'mono'], 'sans'));
+    this.fontChoice.set(
+      this.readStored(KEY_FONT, FONT_OPTIONS.map((option) => option.id), 'sans'),
+    );
     this.sizeChoice.set(this.readStored(KEY_SIZE, ['small', 'normal', 'large'], 'normal'));
 
     if (typeof window !== 'undefined' && window.matchMedia) {

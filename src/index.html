@@ -42,7 +42,7 @@
 
         var root = document.documentElement;
         root.setAttribute('data-theme', mode);
-        root.setAttribute('data-font', read('font', ['sans', 'serif', 'mono'], 'sans'));
+        root.setAttribute('data-font', read('font', ['sans', 'serif', 'rounded', 'script', 'marker', 'mono'], 'sans'));
         root.setAttribute('data-size', read('size', ['small', 'normal', 'large'], 'normal'));
         root.style.colorScheme = dark.indexOf(mode) === -1 ? 'light' : 'dark';
       })();

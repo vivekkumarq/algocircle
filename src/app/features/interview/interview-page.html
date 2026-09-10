@@ -1,0 +1,96 @@
+<header class="page-head">
+  <p class="eyebrow"><app-icon name="briefcase" [size]="14" /> Interview preparation</p>
+  <h1>DSA interview questions</h1>
+  <p class="lead">
+    {{ total }} questions with answers, grouped by topic and ordered exactly as the curriculum is.
+    These are the conceptual questions a DSA round actually opens with — what a structure costs, why
+    an algorithm is correct, and which trade-off you would make.
+  </p>
+</header>
+
+<div class="filters">
+  <label class="search">
+    <app-icon name="search" [size]="15" />
+    <input
+      type="search"
+      placeholder="Search questions and answers…"
+      [value]="query()"
+      (input)="onSearch($event)"
+      aria-label="Search interview questions"
+    />
+  </label>
+
+  <div class="chips" role="group" aria-label="Filter by difficulty">
+    @for (option of levels; track option) {
+      <button
+        type="button"
+        class="chip"
+        [class.is-active]="level() === option"
+        (click)="setLevel(option)"
+      >
+        {{ option }}
+      </button>
+    }
+  </div>
+
+  <div class="chips chips--topics" role="group" aria-label="Filter by topic">
+    <button
+      type="button"
+      class="chip"
+      [class.is-active]="topic() === 'all'"
+      (click)="setTopic('all')"
+    >
+      All topics <span>{{ total }}</span>
+    </button>
+    @for (option of topicOptions; track option.slug) {
+      <button
+        type="button"
+        class="chip"
+        [class.is-active]="topic() === option.slug"
+        (click)="setTopic(option.slug)"
+      >
+        {{ option.label }} <span>{{ option.count }}</span>
+      </button>
+    }
+  </div>
+
+  <p class="count">{{ matches() }} shown</p>
+</div>
+
+@if (matches() === 0) {
+  <div class="empty">
+    <p>Nothing matches that search.</p>
+    <button type="button" class="btn btn--secondary" (click)="clear()">Clear filters</button>
+  </div>
+} @else {
+  @for (group of groups(); track group.slug) {
+    <section class="group">
+      <header class="group__head">
+        <h2>
+          <span class="group__order">{{ pad(group.order) }}</span>
+          {{ group.title }}
+        </h2>
+        <a class="group__link" [routerLink]="['/learn', group.slug]">
+          Read the topic <app-icon name="arrow-right" [size]="13" />
+        </a>
+      </header>
+
+      <ul class="questions">
+        @for (item of group.questions; track item.q) {
+          <li>
+            <details class="qa">
+              <summary>
+                <span class="qa__level" [class]="'qa__level--' + item.level.toLowerCase()">
+                  {{ item.level }}
+                </span>
+                <span class="qa__q">{{ item.q }}</span>
+                <app-icon name="chevron-down" [size]="15" />
+              </summary>
+              <p class="qa__a">{{ item.a }}</p>
+            </details>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+}

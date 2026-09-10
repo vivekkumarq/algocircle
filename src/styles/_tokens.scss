@@ -336,6 +336,30 @@
   --line-height: 1.72;
 }
 
+[data-font='rounded'] {
+  --font-body: 'Segoe UI Variable Display', 'Nunito', 'Quicksand', 'Trebuchet MS', system-ui,
+    sans-serif;
+  --font-heading: var(--font-body);
+  --line-height: 1.66;
+}
+
+/* Handwriting faces are shipped with Windows and macOS, so no web font is
+   downloaded. They need more room per line to stay readable. */
+[data-font='script'] {
+  --font-body: 'Segoe Script', 'Bradley Hand', 'Lucida Handwriting', 'Apple Chancery',
+    'Brush Script MT', cursive;
+  --font-heading: var(--font-body);
+  --font-scale: 1.08;
+  --line-height: 1.85;
+}
+
+[data-font='marker'] {
+  --font-body: 'Ink Free', 'Marker Felt', 'Chalkboard SE', 'Comic Sans MS', 'Segoe Print', cursive;
+  --font-heading: var(--font-body);
+  --font-scale: 1.04;
+  --line-height: 1.74;
+}
+
 [data-font='mono'] {
   --font-body: var(--font-mono);
   --font-heading: var(--font-mono);
@@ -360,4 +384,20 @@
 
 [data-font='mono'][data-size='large'] {
   --font-scale: 1.06;
+}
+
+[data-font='script'][data-size='small'] {
+  --font-scale: 1;
+}
+
+[data-font='script'][data-size='large'] {
+  --font-scale: 1.2;
+}
+
+[data-font='marker'][data-size='small'] {
+  --font-scale: 0.96;
+}
+
+[data-font='marker'][data-size='large'] {
+  --font-scale: 1.16;
 }

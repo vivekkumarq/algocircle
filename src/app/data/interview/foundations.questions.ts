@@ -1,0 +1,47 @@
+import { QuestionSet } from './question.model';
+
+export const WHY_DSA_QUESTIONS: QuestionSet = {
+  topic: 'why-dsa',
+  questions: [
+    { level: 'Easy', q: 'What is the difference between a data structure and an algorithm?', a: 'A data structure is how data is arranged in memory; an algorithm is the procedure you run on it. The arrangement decides which procedures are cheap — looking a word up is fast in a sorted dictionary and slow in a shoebox of loose slips.' },
+    { level: 'Easy', q: 'Why does it matter how fast an algorithm is if hardware keeps improving?', a: 'Hardware multiplies your speed by a constant; a better algorithm changes the shape of the growth curve. `100 × n²` still grows quadratically, so past some input size the better algorithm wins no matter what machine you buy.' },
+    { level: 'Easy', q: 'Give a concrete example where the algorithm matters more than the machine.', a: 'Searching one million sorted entries: a linear scan takes up to a million comparisons, binary search takes twenty. That is a 50,000× difference that no CPU upgrade can close.' },
+    { level: 'Easy', q: 'Where is DSA actually used in real software?', a: 'Maps use graph shortest paths, search boxes use tries, databases use B-trees and hash indexes, ZIP uses Huffman coding, `git diff` uses longest common subsequence, and undo is a stack.' },
+    { level: 'Easy', q: 'What are you optimising for besides time?', a: 'Memory, clarity, and predictability. A constant-time solution that does not fit in RAM is useless, and an algorithm that is usually fast but occasionally very slow can be worse than one that is always merely acceptable.' },
+    { level: 'Easy', q: 'What does an interviewer actually assess in a DSA round?', a: 'Whether you can define the problem precisely, reach a correct solution, spot the wasted work, predict cost without running the code, handle edge cases, and explain your reasoning to another person.' },
+    { level: 'Medium', q: 'Is a faster algorithm always the right choice?', a: 'No. If `n` is always small, the simpler solution is better — its constant factor may win and it is easier to maintain. Complexity only pays off once the input is large enough to cross the break-even point.' },
+    { level: 'Easy', q: 'What is the difference between correctness and efficiency?', a: 'Correctness means the output is right for every valid input; efficiency means it is produced within an acceptable time and memory budget. Testing only ever answers the first question.' },
+    { level: 'Easy', q: 'Why do people say memorising problems does not work?', a: 'Interview problems are reworded versions of familiar shapes. Memorised code collapses the moment the wording changes, whereas the pattern and the reasoning transfer.' },
+    { level: 'Medium', q: 'How would you approach a problem you have never seen?', a: 'Restate it and pin down constraints, work a small example by hand, name a candidate pattern, write brute force, cost it, find the repeated work, remove it, then state the final complexity and the edge cases.' },
+    { level: 'Easy', q: 'What background do you need before studying DSA?', a: 'One language you can write a loop and a function in, plus school arithmetic. No calculus and no formal proof technique are required.' },
+    { level: 'Medium', q: 'How do you keep what you learn from fading?', a: 'Spaced revision. Re-solve a problem after 1, 3, 7, 21 and 45 days rather than solving new ones continuously — recall, not exposure, is what forms memory.' },
+  ],
+};
+
+export const FOUNDATIONS_QUESTIONS: QuestionSet = {
+  topic: 'foundations',
+  questions: [
+    { level: 'Easy', q: 'What is the difference between the stack and the heap?', a: 'The stack holds one frame per active function call — parameters, locals and the return address — and is freed automatically on return. The heap holds objects and arrays with a lifetime you control, reached through a reference stored on the stack.' },
+    { level: 'Easy', q: 'What happens when you assign one array variable to another?', a: 'You copy the reference, not the data. Both names then point at the same array, so a write through one is visible through the other.' },
+    { level: 'Medium', q: 'Explain pass by value versus pass by reference in the languages you use.', a: 'Java and Python always pass by value — but for objects the value being copied is a reference. So mutating the object is visible to the caller, while reassigning the parameter is not. C++ can pass a genuine reference with `&`.' },
+    { level: 'Easy', q: 'Why is reading `a[i]` constant time?', a: 'An array is a contiguous block of equally sized slots, so the address is `base + i × elementSize` — one multiplication and one addition, regardless of `i` or of the array length.' },
+    { level: 'Easy', q: 'Why is inserting into the middle of an array `O(n)`?', a: 'Contiguity has to be preserved, so every element after the insertion point shifts one slot to make room.' },
+    { level: 'Medium', q: 'What is integer overflow and how do you avoid it?', a: 'Adding beyond the maximum wraps around to the minimum, silently. Sum an array of large `int` values into a `long`, and be careful with `(lo + hi) / 2` in binary search — use `lo + (hi - lo) / 2`.' },
+    { level: 'Easy', q: 'Why should you never compare doubles with `==`?', a: 'Binary floating point cannot represent most decimal fractions exactly, so `0.1 + 0.2 != 0.3`. Compare with a tolerance, or use integers or a decimal type where exactness matters.' },
+    { level: 'Medium', q: 'Why is building a string with `+=` in a loop slow?', a: 'Strings are immutable in Java and Python, so each `+=` allocates a new string and copies everything built so far. That makes the loop quadratic. Use a `StringBuilder`, or collect into a list and join.' },
+    { level: 'Easy', q: 'What is a stack frame?', a: 'A small record pushed when a function is called: its arguments, its local variables and the address to return to. It is popped when the function returns.' },
+    { level: 'Medium', q: 'What causes a stack overflow?', a: 'Recursion with no reachable base case, or recursion whose depth exceeds the few megabytes of stack available — for example a recursive walk over a linked list of a million nodes.' },
+    { level: 'Easy', q: 'What two things does every recursive function need?', a: 'A base case that returns without recursing, and a recursive case that moves strictly closer to that base case.' },
+    { level: 'Medium', q: 'What is a loop invariant and why is it useful?', a: 'A statement true before the loop, preserved by every iteration, and therefore true when the loop ends. Stating it first turns boundary conditions from guesswork into derivation, and it is the closest thing to a proof you use daily.' },
+    { level: 'Easy', q: 'Why prefer half-open ranges like `[lo, hi)`?', a: 'The length is simply `hi - lo`, an empty range is `lo == hi`, and splitting at `mid` gives `[lo, mid)` and `[mid, hi)` with no gap or overlap. Most fence-post bugs disappear.' },
+    { level: 'Easy', q: 'What is the difference between a `ListNode` and a `TreeNode`?', a: 'One forward reference versus two. That single difference is what separates a linked list from a binary tree at the data level; everything else is the order in which you follow the references.' },
+    { level: 'Medium', q: 'What must you override to use your own class as a hash-map key?', a: 'Equality and hashing together — `equals` and `hashCode` in Java, `__eq__` and `__hash__` in Python, a hash functor in C++. Equal objects must produce equal hash codes, or lookups silently fail.' },
+    { level: 'Medium', q: 'Why must a hash-map key be immutable while it is stored?', a: 'The map placed it in a bucket derived from its hash. Mutating the key changes the hash, so the entry is now in the wrong bucket and can never be found again.' },
+    { level: 'Easy', q: 'Why is `Scanner` a problem on large inputs in Java?', a: 'It parses with regular expressions and is unbuffered, so it can dominate the running time. Use `BufferedReader` with a `StringTokenizer`, and build output in a `StringBuilder`.' },
+    { level: 'Easy', q: 'How do you debug an algorithm without a debugger?', a: 'Shrink the input to four or five elements, draw a table with one column per variable and one row per iteration, and fill it in by reading the code. The first row that diverges from your expectation contains the bug.' },
+    { level: 'Medium', q: 'Why does storing the same list repeatedly in backtracking give identical results?', a: 'You stored the reference to the working list, which keeps mutating. Every entry points at the same object, so they all end up showing the final state. Store a copy instead.' },
+    { level: 'Easy', q: 'What is the difference between a value type and a reference type in memory?', a: 'A value type holds the data itself in its slot. A reference type holds an address; the data lives on the heap and can be shared by several names.' },
+    { level: 'Medium', q: 'Why is iterating an array faster than following a linked list, when both are `O(n)`?', a: 'Cache locality. Array elements sit next to each other so the CPU has already fetched the next one; linked-list nodes are scattered, so each hop can be a cache miss.' },
+    { level: 'Easy', q: 'What does `char - \'a\'` do and why is it useful?', a: 'It maps a lowercase letter onto `0..25`, which turns a character into an array index. That is what makes a 26-slot frequency array possible.' },
+  ],
+};

@@ -54,12 +54,19 @@ window, two pointers, linked-list reversal, tree traversal in three orders, heap
 buckets with a collision, prefix sums, stack versus queue, recursion trees, memory layout and
 growth curves.
 
+## Interview questions
+
+[560 questions with answers](https://vivekkumarq.github.io/algocircle/interview), grouped by topic
+in curriculum order and filterable by difficulty or free-text search. These are the conceptual
+questions a DSA round opens with — what a structure costs, why an algorithm is correct, which
+trade-off you would make — rather than a list of problems to grind.
+
 ## Appearance
 
-Seven palettes — System, Light, Paper, Dark, Midnight, Forest and Contrast — three typefaces
-(sans, serif, monospace) and three text sizes, all switchable from the header and remembered per
-browser. Each topic also paints its own background wash, so you can tell at a glance that the page
-changed.
+Seven palettes — System, Light, Paper, Dark, Midnight, Forest and Contrast — six typefaces
+(sans, serif, rounded, script, marker and monospace, all shipped with the operating system so
+nothing is downloaded) and three text sizes, switchable from the header and remembered per browser.
+Each topic also paints its own background wash, so you can tell at a glance that the page changed.
 
 ## How each topic is written
 
@@ -105,11 +112,12 @@ src/
     │   ├── components/         animated logo, icons, content renderer
     │   └── visuals/            the animated diagrams and their step player
     ├── layout/                 header, sidebar, mobile drawer, shell, footer
-    ├── features/               home, learn, algorithms, 404
+    ├── features/               home, learn, algorithms, interview, 404
     ├── data/
     │   ├── chapters/           the curriculum, as typed content blocks
+    │   ├── interview/          560 questions and answers, one file per group
     │   └── topics.data.ts      lightweight metadata for the navigation
-    └── app.routes.ts           five routes
+    └── app.routes.ts           six routes
 ```
 
 Three rules hold it together:

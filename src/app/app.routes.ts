@@ -45,6 +45,16 @@ export const routes: Routes = [
             'Every algorithm in the curriculum in one reference: what it does, how it works, what it costs and when to use it.',
         },
       },
+      {
+        path: 'interview',
+        title: 'Interview Questions',
+        loadComponent: () =>
+          import('./features/interview/interview-page').then((m) => m.InterviewPage),
+        data: {
+          description:
+            'Data structures and algorithms interview questions with answers, grouped by topic and filterable by difficulty.',
+        },
+      },
       // The roadmap and the topic list are the same thing, so keep one URL.
       { path: 'roadmap', redirectTo: 'learn', pathMatch: 'full' },
       {
