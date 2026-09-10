@@ -8,13 +8,12 @@
 
   <nav class="primary" aria-label="Primary">
     <a routerLink="/learn" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">DSA Topics</a>
+    <a routerLink="/algorithms" routerLinkActive="is-active">Algorithms</a>
     <a routerLink="/learn/why-dsa" routerLinkActive="is-active">Why DSA</a>
   </nav>
 
   <div class="actions">
-    <button type="button" class="icon-btn" (click)="cycleTheme()" [attr.aria-label]="themeLabel()">
-      <app-icon [name]="themeIcon()" [size]="17" />
-    </button>
+    <app-appearance-menu />
 
     <a
       class="icon-btn hide-sm"

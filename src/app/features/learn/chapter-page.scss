@@ -2,6 +2,68 @@
   display: block;
 }
 
+.chapter {
+  position: relative;
+}
+
+/* A soft, topic-coloured wash behind the page. Sits under the content and is
+   never dark enough to fight with the text. */
+.backdrop {
+  position: fixed;
+  inset: var(--header-h) 0 auto 0;
+  z-index: -1;
+  height: 62vh;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: var(--wash-opacity);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 35%, transparent 100%);
+}
+
+.backdrop__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  animation: drift 26s ease-in-out infinite alternate;
+}
+
+.backdrop__blob--a {
+  top: -14vh;
+  left: -6vw;
+  width: 56vw;
+  height: 46vh;
+  background: hsl(var(--hue) 72% var(--wash-light) / 0.5);
+}
+
+.backdrop__blob--b {
+  top: -8vh;
+  right: -10vw;
+  width: 48vw;
+  height: 40vh;
+  background: hsl(calc(var(--hue) + 48) 66% var(--wash-light) / 0.42);
+  animation-delay: -13s;
+  animation-duration: 32s;
+}
+
+.backdrop__grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@keyframes drift {
+  to {
+    transform: translate3d(4vw, 3vh, 0) scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop__blob {
+    animation: none;
+  }
+}
+
 .head {
   max-width: 74ch;
   padding-bottom: var(--space-5);
@@ -45,12 +107,33 @@
 }
 
 .toc__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin: 0 0 var(--space-3);
+  cursor: pointer;
+  list-style: none;
   font-family: var(--font-mono);
   font-size: 0.66rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+.toc__label::-webkit-details-marker {
+  display: none;
+}
+
+.toc__label::after {
+  content: '+';
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--text-muted);
+}
+
+.toc[open] .toc__label::after {
+  content: '-';
 }
 
 .toc ol {
@@ -209,6 +292,16 @@
 @media (min-width: 1100px) {
   .layout {
     grid-template-columns: minmax(0, 1fr) 220px;
+  }
+
+  .toc__label {
+    cursor: default;
+    margin-bottom: var(--space-3);
+  }
+
+  .toc__label::after,
+  .toc[open] .toc__label::after {
+    display: none;
   }
 
   .toc {

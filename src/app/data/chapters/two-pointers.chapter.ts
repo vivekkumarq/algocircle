@@ -24,6 +24,12 @@ export const TWO_POINTERS: Chapter = {
       title: 'The idea',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'Instead of two nested loops checking every pair, you use two markers that walk through the data once and never go backwards. Fewer steps, same answer.',
+        },
+        {
           kind: 'para',
           text: 'A nested loop examines every pair: `O(n^2)`. Two pointers examine a linear number of pairs by making each move **eliminate candidates permanently**. The whole technique rests on proving that the discarded candidates could not have been the answer.',
         },
@@ -59,6 +65,12 @@ export const TWO_POINTERS: Chapter = {
         {
           kind: 'para',
           text: 'Given a **sorted** array, find two values summing to a target.',
+        },
+        {
+          kind: 'visual',
+          name: 'two-pointers',
+          caption:
+            'Each move rules out a whole set of pairs, which is why one pass is enough.',
         },
         {
           kind: 'code',

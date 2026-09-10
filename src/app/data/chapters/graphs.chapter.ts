@@ -25,6 +25,12 @@ export const GRAPHS: Chapter = {
       title: 'Vocabulary, and what a graph really is',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'Dots joined by lines: cities and roads, people and friendships, web pages and links. Most of this chapter is about walking those connections in a sensible order, and the rest is about finding the cheapest way across them.',
+        },
+        {
           kind: 'para',
           text: 'A graph is a set of **vertices** and a set of **edges** connecting them. That is all. A tree is a graph with no cycles; a grid is a graph where each cell connects to its neighbours; a state machine is a graph where each configuration is a vertex.',
         },
@@ -89,6 +95,12 @@ for (int[] edge : edges) {
         {
           kind: 'para',
           text: 'BFS explores in rings of increasing distance from the source. The first time it reaches a vertex, it has used the fewest possible **edges** — which is why it answers shortest-path questions on unweighted graphs.',
+        },
+        {
+          kind: 'visual',
+          name: 'graph-traversal',
+          caption:
+            'Breadth-first spreads in rings; depth-first dives. Switch between them and compare.',
         },
         {
           kind: 'code',

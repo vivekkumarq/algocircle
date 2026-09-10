@@ -24,8 +24,20 @@ export const SLIDING_WINDOW: Chapter = {
       title: 'The idea',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'Picture a frame sitting over part of a list. You slide it along, adding whatever enters and removing whatever leaves, instead of recounting the whole frame every time it moves.',
+        },
+        {
           kind: 'para',
           text: 'Recomputing a property for every subarray is `O(n^2)` or worse. A sliding window keeps one range `[left, right]` and updates the property **incrementally** as the boundaries move, so the work per element is constant.',
+        },
+        {
+          kind: 'visual',
+          name: 'sliding-window',
+          caption:
+            'The right edge always advances; the left edge only moves when the window breaks its rule.',
         },
         {
           kind: 'diagram',

@@ -24,6 +24,12 @@ export const HEAPS: Chapter = {
       title: 'A weaker order, and why that is the point',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'A structure that always knows its smallest item without keeping everything in order. Keeping only that much order is far cheaper than sorting, and it is usually all you actually need.',
+        },
+        {
           kind: 'para',
           text: 'A sorted array knows the full order and costs `O(n log n)` to build. Often you only ever need the smallest or largest element. A heap maintains just enough order for that — the **heap property** — and everything else stays unsorted.',
         },
@@ -64,6 +70,12 @@ root is the minimum; no ordering between 8 and 4`,
         {
           kind: 'para',
           text: 'A heap is a **complete** binary tree: every level is full except possibly the last, which fills left to right. That regularity means the tree structure can be inferred from indices, so no child pointers are stored at all.',
+        },
+        {
+          kind: 'visual',
+          name: 'heap',
+          caption:
+            'Insert 2 and watch it sift up. The array below is the same structure.',
         },
         {
           kind: 'diagram',

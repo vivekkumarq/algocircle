@@ -24,6 +24,12 @@ export const LINKED_LISTS: Chapter = {
       title: 'What a linked list is',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'Instead of a row of boxes side by side, imagine a chain where each box holds an arrow pointing at the next one. Rearranging the chain is easy; finding the tenth box is not.',
+        },
+        {
           kind: 'para',
           text: 'A linked list is a chain of nodes. Each node holds a value and a reference to the next node. There is no contiguous block and no index arithmetic — the only way to reach the fifth element is to walk through the first four.',
         },
@@ -106,6 +112,12 @@ node = ahead;`,
         {
           kind: 'para',
           text: 'Reversal is the canonical linked-list exercise, and it is three pointers moving in lockstep: what came before, where you are, and what comes next.',
+        },
+        {
+          kind: 'visual',
+          name: 'linked-reverse',
+          caption:
+            'One link flips per step. Watch the arrow directions, not the boxes.',
         },
         {
           kind: 'code',

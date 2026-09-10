@@ -24,8 +24,20 @@ export const BINARY_SEARCH: Chapter = {
       title: 'The idea, and the one requirement',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'Think of finding a word in a paper dictionary. You open it in the middle, decide which half your word is in, and ignore the other half completely. Twenty of those decisions is enough for a million entries.',
+        },
+        {
           kind: 'para',
           text: 'Binary search needs exactly one thing: a search space that is **monotonic** with respect to your question. Look at the middle, decide which half can be discarded, repeat. Each step halves what is left, so `n` becomes 1 in about `log2(n)` steps.',
+        },
+        {
+          kind: 'visual',
+          name: 'binary-search',
+          caption:
+            'Ten values, four comparisons. Doubling the array would add just one more.',
         },
         {
           kind: 'callout',

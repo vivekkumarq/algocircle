@@ -94,6 +94,10 @@
       </figure>
     }
 
+    @case ('visual') {
+      <app-algo-visual [name]="block.name" [caption]="block.caption" />
+    }
+
     @case ('compare') {
       <div class="compare">
         @for (column of block.columns; track column.title) {

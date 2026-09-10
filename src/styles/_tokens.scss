@@ -1,7 +1,13 @@
 /* ---------------------------------------------------------------------------
    AlgoCircle design tokens
-   Every colour used by a component must resolve to a variable declared here,
-   so a theme switch never requires touching component styles.
+
+   Three independent axes, all set as attributes on <html>:
+     data-theme  light | paper | dark | midnight | forest | contrast
+     data-font   sans  | serif | mono
+     data-size   small | normal | large
+
+   Every colour a component uses resolves to a variable declared here, so a new
+   palette is a block of variables and nothing else.
    --------------------------------------------------------------------------- */
 
 :root {
@@ -51,6 +57,10 @@
   --shadow-lg: 0 18px 44px rgb(16 18 24 / 12%), 0 4px 12px rgb(16 18 24 / 6%);
   --grid-line: rgb(14 17 22 / 5%);
 
+  /* Strength of the per-topic background wash. */
+  --wash-opacity: 0.5;
+  --wash-light: 62%;
+
   /* Geometry */
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -72,8 +82,12 @@
   /* Type */
   --font-sans: 'Inter', 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system,
     'Helvetica Neue', Arial, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Cascadia Code', 'SF Mono', 'Fira Code', ui-monospace,
-    'Consolas', 'Liberation Mono', monospace;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', 'SF Mono', 'Fira Code', ui-monospace, 'Consolas',
+    'Liberation Mono', monospace;
+  --font-body: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --font-scale: 1;
+  --line-height: 1.6;
 
   /* Layout */
   --header-h: 60px;
@@ -91,6 +105,46 @@
   --z-sidebar: 50;
   --z-overlay: 90;
 }
+
+/* ---------- Warm light ---------- */
+
+[data-theme='paper'] {
+  color-scheme: light;
+
+  --bg-main: #fbf8f3;
+  --bg-subtle: #f4efe6;
+  --bg-card: #fffdf9;
+  --bg-elevated: #fffdf9;
+  --bg-inset: #efe8dc;
+  --bg-code: #f5efe4;
+  --bg-overlay: rgb(46 38 28 / 45%);
+
+  --text-primary: #241d14;
+  --text-secondary: #55483a;
+  --text-muted: #7a6b59;
+
+  --border: #e4dacb;
+  --border-strong: #cfc0ab;
+  --border-focus: #a2662a;
+
+  --accent: #a2662a;
+  --accent-hover: #8a5522;
+  --accent-soft: #f6ead8;
+  --accent-text: #82501c;
+  --accent-contrast: #fffdf9;
+
+  --easy: #4a7c26;
+  --easy-soft: #ecf3df;
+  --medium: #9a6a12;
+  --medium-soft: #f8eed6;
+  --hard: #b0452f;
+  --hard-soft: #f8e5df;
+
+  --grid-line: rgb(80 60 40 / 6%);
+  --wash-opacity: 0.55;
+}
+
+/* ---------- Neutral dark ---------- */
 
 [data-theme='dark'] {
   color-scheme: dark;
@@ -132,4 +186,178 @@
   --shadow-md: 0 8px 20px rgb(0 0 0 / 45%), 0 2px 6px rgb(0 0 0 / 30%);
   --shadow-lg: 0 22px 50px rgb(0 0 0 / 55%), 0 6px 14px rgb(0 0 0 / 35%);
   --grid-line: rgb(180 200 255 / 5%);
+
+  --wash-opacity: 0.55;
+  --wash-light: 28%;
+}
+
+/* ---------- Deep indigo dark ---------- */
+
+[data-theme='midnight'] {
+  color-scheme: dark;
+
+  --bg-main: #0a0a18;
+  --bg-subtle: #0f0f22;
+  --bg-card: #14142c;
+  --bg-elevated: #1a1a38;
+  --bg-inset: #191934;
+  --bg-code: #0c0c1e;
+  --bg-overlay: rgb(3 3 12 / 70%);
+
+  --text-primary: #e9e7fb;
+  --text-secondary: #aeaad6;
+  --text-muted: #8480ad;
+  --text-inverse: #0a0a18;
+
+  --border: #262450;
+  --border-strong: #383567;
+  --border-focus: #a78bfa;
+
+  --accent: #a78bfa;
+  --accent-hover: #bda4ff;
+  --accent-soft: #221d45;
+  --accent-text: #c4b1ff;
+  --accent-contrast: #120c26;
+
+  --easy: #4ade80;
+  --easy-soft: #12291f;
+  --medium: #fbbf5c;
+  --medium-soft: #2c2314;
+  --hard: #fb7185;
+  --hard-soft: #2e1524;
+  --info: #93b4ff;
+  --info-soft: #171a38;
+
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 45%);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 50%), 0 1px 2px rgb(0 0 0 / 32%);
+  --shadow-md: 0 8px 20px rgb(0 0 0 / 50%), 0 2px 6px rgb(0 0 0 / 32%);
+  --shadow-lg: 0 22px 50px rgb(0 0 0 / 60%), 0 6px 14px rgb(0 0 0 / 38%);
+  --grid-line: rgb(190 175 255 / 6%);
+
+  --wash-opacity: 0.6;
+  --wash-light: 30%;
+}
+
+/* ---------- Muted green dark ---------- */
+
+[data-theme='forest'] {
+  color-scheme: dark;
+
+  --bg-main: #0a1210;
+  --bg-subtle: #0e1815;
+  --bg-card: #111e1a;
+  --bg-elevated: #16261f;
+  --bg-inset: #142320;
+  --bg-code: #0c1614;
+  --bg-overlay: rgb(3 9 7 / 68%);
+
+  --text-primary: #e4efe8;
+  --text-secondary: #a3bcae;
+  --text-muted: #7c968a;
+  --text-inverse: #0a1210;
+
+  --border: #1f342c;
+  --border-strong: #2e4a3f;
+  --border-focus: #5eead4;
+
+  --accent: #4fd1a5;
+  --accent-hover: #6fe0b9;
+  --accent-soft: #102a23;
+  --accent-text: #7ee0bd;
+  --accent-contrast: #06170f;
+
+  --easy: #5eead4;
+  --easy-soft: #0d2a25;
+  --medium: #e3b95f;
+  --medium-soft: #2a2415;
+  --hard: #f38a8a;
+  --hard-soft: #2c1a1a;
+  --info: #74c8e0;
+  --info-soft: #10242c;
+
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 42%);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 48%), 0 1px 2px rgb(0 0 0 / 30%);
+  --shadow-md: 0 8px 20px rgb(0 0 0 / 48%), 0 2px 6px rgb(0 0 0 / 30%);
+  --shadow-lg: 0 22px 50px rgb(0 0 0 / 58%), 0 6px 14px rgb(0 0 0 / 36%);
+  --grid-line: rgb(150 220 190 / 6%);
+
+  --wash-opacity: 0.55;
+  --wash-light: 28%;
+}
+
+/* ---------- High contrast ---------- */
+
+[data-theme='contrast'] {
+  color-scheme: dark;
+
+  --bg-main: #000000;
+  --bg-subtle: #0a0a0a;
+  --bg-card: #0d0d0d;
+  --bg-elevated: #141414;
+  --bg-inset: #161616;
+  --bg-code: #0a0a0a;
+  --bg-overlay: rgb(0 0 0 / 80%);
+
+  --text-primary: #ffffff;
+  --text-secondary: #e4e4e4;
+  --text-muted: #bdbdbd;
+  --text-inverse: #000000;
+
+  --border: #4a4a4a;
+  --border-strong: #6e6e6e;
+  --border-focus: #ffd400;
+
+  --accent: #ffd400;
+  --accent-hover: #ffe34d;
+  --accent-soft: #2a2200;
+  --accent-text: #ffdf3d;
+  --accent-contrast: #000000;
+
+  --easy: #4ef08a;
+  --easy-soft: #032010;
+  --medium: #ffc247;
+  --medium-soft: #2a1f00;
+  --hard: #ff7a8a;
+  --hard-soft: #2a0a10;
+  --info: #7ec8ff;
+  --info-soft: #001d2e;
+
+  --grid-line: rgb(255 255 255 / 8%);
+  --wash-opacity: 0.25;
+  --wash-light: 22%;
+}
+
+/* ---------- Typeface choice ---------- */
+
+[data-font='serif'] {
+  --font-body: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, Cambria, 'Times New Roman',
+    serif;
+  --font-heading: var(--font-body);
+  --line-height: 1.72;
+}
+
+[data-font='mono'] {
+  --font-body: var(--font-mono);
+  --font-heading: var(--font-mono);
+  --font-scale: 0.95;
+  --line-height: 1.68;
+}
+
+/* ---------- Text size ---------- */
+
+[data-size='small'] {
+  --font-scale: 0.92;
+}
+
+[data-size='large'] {
+  --font-scale: 1.12;
+  --prose-max: 68ch;
+}
+
+[data-font='mono'][data-size='small'] {
+  --font-scale: 0.88;
+}
+
+[data-font='mono'][data-size='large'] {
+  --font-scale: 1.06;
 }

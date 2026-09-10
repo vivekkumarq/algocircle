@@ -5,9 +5,24 @@ import { Injectable, signal } from '@angular/core';
 export class LayoutService {
   private readonly mobileNav = signal(false);
   private readonly sidebar = signal(true);
+  private readonly wide = signal(true);
 
   readonly mobileNavOpen = this.mobileNav.asReadonly();
   readonly sidebarOpen = this.sidebar.asReadonly();
+
+  /** True once there is room for the sidebar and the table of contents. */
+  readonly isWide = this.wide.asReadonly();
+
+  constructor() {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+
+    const query = window.matchMedia('(min-width: 1100px)');
+    this.wide.set(query.matches);
+    query.addEventListener('change', (event) => {
+      this.wide.set(event.matches);
+      if (event.matches) this.closeMobileNav();
+    });
+  }
 
   toggleMobileNav(): void {
     this.mobileNav.update((open) => !open);

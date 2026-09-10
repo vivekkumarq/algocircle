@@ -24,6 +24,12 @@ export const COMPLEXITY: Chapter = {
       title: 'What we measure, and why not seconds',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'This chapter teaches you to work out, before running anything, whether your code will finish in a second or in three hours. You are not measuring time — you are counting roughly how many steps it takes as the input gets bigger.',
+        },
+        {
           kind: 'para',
           text: 'Timing a program with a stopwatch tells you about your laptop, your compiler, the current CPU temperature and what else was running. None of that transfers. So instead of seconds we count **elementary operations as a function of the input size**, which is a property of the algorithm itself.',
         },
@@ -99,6 +105,12 @@ total = 2n + 2`,
             ['`O(2^n)`', 'exponential', 'enumerate every subset'],
             ['`O(n!)`', 'factorial', 'enumerate every permutation'],
           ],
+        },
+        {
+          kind: 'visual',
+          name: 'big-o',
+          caption:
+            'Where each growth rate ends up as the input grows.',
         },
         {
           kind: 'diagram',
@@ -295,6 +307,12 @@ average per append = O(1)`,
         {
           kind: 'para',
           text: 'Recursive algorithms are analysed with a recurrence: the cost of size `n` written in terms of smaller sizes. Merge sort splits in half, sorts both halves, and merges in linear time:',
+        },
+        {
+          kind: 'visual',
+          name: 'recursion-tree',
+          caption:
+            'Naive Fibonacci: the highlighted calls are the ones being recomputed.',
         },
         {
           kind: 'code',

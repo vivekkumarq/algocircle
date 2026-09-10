@@ -24,6 +24,12 @@ export const MATHEMATICS: Chapter = {
       title: 'Divisibility, factors and multiples',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'A handful of school-level maths facts that turn slow loops into one-line formulas. You do not need advanced maths for interviews; you need these specific few things, and they come up constantly.',
+        },
+        {
           kind: 'para',
           text: '`a` divides `b` when `b % a == 0`. Almost every number-theory problem is a question about divisors dressed up, so the first tool is finding them quickly.',
         },

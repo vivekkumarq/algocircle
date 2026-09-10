@@ -13,7 +13,7 @@ export const ARRAYS: Chapter = {
   objectives: [
     'Answer any range-sum query in constant time after linear preprocessing',
     'Apply many range updates in `O(1)` each with a difference array',
-    'Derive Kadane’s algorithm rather than recall it',
+    "Derive Kadane's algorithm rather than recall it",
     'Tell a subarray from a subsequence, and know which techniques apply to each',
     'Extend prefix sums and traversal patterns to a 2D matrix',
   ],
@@ -24,8 +24,20 @@ export const ARRAYS: Chapter = {
       title: 'What an array buys you, and what it costs',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'An array is a row of boxes, numbered from zero. This chapter is about the handful of tricks that let you answer questions about that row without ever looking at the same box twice.',
+        },
+        {
           kind: 'para',
           text: 'An array is a contiguous block of equally sized slots. Because the slots are equal and adjacent, the machine can compute the address of any element with one multiplication — which is why `a[i]` costs the same whether `i` is 0 or 999,999.',
+        },
+        {
+          kind: 'visual',
+          name: 'array-memory',
+          caption:
+            'Contiguous slots are what make indexing constant time.',
         },
         {
           kind: 'table',
@@ -136,6 +148,12 @@ for (int read = 0; read < n; read++) {
         {
           kind: 'para',
           text: 'Given many queries of the form "what is the sum of `a[l..r]`", answering each by looping is `O(n)` per query. Precomputing running totals makes every query `O(1)`.',
+        },
+        {
+          kind: 'visual',
+          name: 'prefix-sum',
+          caption:
+            'Pick a range: the answer is always one subtraction.',
         },
         {
           kind: 'code',

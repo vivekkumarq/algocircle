@@ -14,6 +14,7 @@ export type Block =
   | { kind: 'table'; headers: string[]; rows: string[][]; caption?: string }
   | { kind: 'steps'; items: { title: string; text: string }[] }
   | { kind: 'diagram'; art: string; caption?: string }
+  | { kind: 'visual'; name: string; caption?: string }
   | { kind: 'compare'; columns: { title: string; points: string[] }[] }
   | { kind: 'check'; question: string; answer: string };
 

@@ -24,6 +24,12 @@ export const FOUNDATIONS: Chapter = {
       title: 'Values, variables and types',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'Before any algorithm, you need to know what your program is doing with memory. This chapter is the machinery underneath: where a value actually lives, what a name really points at, and what happens while a function is calling itself.',
+        },
+        {
           kind: 'para',
           text: 'A variable is a **name bound to a location in memory**. The type tells the machine two things: how many bytes that location occupies, and how to interpret the bits stored there.',
         },
@@ -163,6 +169,12 @@ b[0] = 99;
         {
           kind: 'para',
           text: 'An array is a single contiguous block of memory holding equally sized elements. That is the entire definition, and every property of arrays follows from it.',
+        },
+        {
+          kind: 'visual',
+          name: 'array-memory',
+          caption:
+            'Equal-sized slots side by side, so any index is one multiplication away.',
         },
         {
           kind: 'diagram',

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Block } from '../../../core/models/chapter.models';
 import { Icon } from '../icon/icon';
+import { AlgoVisual } from '../../visuals/algo-visual';
 
 const CALLOUT_ICON = { key: 'zap', note: 'book', trap: 'shield', why: 'compass' } as const;
 const CALLOUT_LABEL = {
@@ -15,7 +16,7 @@ const CALLOUT_LABEL = {
 @Component({
   selector: 'app-content-blocks',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon],
+  imports: [Icon, AlgoVisual],
   templateUrl: './content-blocks.html',
   styleUrl: './content-blocks.scss',
 })

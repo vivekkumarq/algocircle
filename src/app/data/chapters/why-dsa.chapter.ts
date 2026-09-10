@@ -74,6 +74,12 @@ export const WHY_DSA: Chapter = {
           text: 'You have a phone directory with one million entries, and you need the number for one person. Two honest strategies, both of which always give the right answer.',
         },
         {
+          kind: 'visual',
+          name: 'binary-search',
+          caption:
+            'Press play: each comparison throws away half of what is left.',
+        },
+        {
           kind: 'heading',
           text: 'Strategy 1: read every entry',
         },
@@ -145,6 +151,12 @@ return "not found"`,
         {
           kind: 'para',
           text: 'What matters is not how long your program takes on your test input. It is how the time **grows** as the input grows. That growth pattern has a name and a notation, which you will meet properly in the complexity chapter, but you can read the table now.',
+        },
+        {
+          kind: 'visual',
+          name: 'big-o',
+          caption:
+            'The same four growth rates, drawn. Shape beats every constant factor.',
         },
         {
           kind: 'para',

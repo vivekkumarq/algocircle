@@ -1,0 +1,78 @@
+<header class="page-head">
+  <p class="eyebrow"><app-icon name="zap" [size]="14" /> Reference</p>
+  <h1>Algorithms</h1>
+  <p class="lead">
+    Every algorithm the curriculum covers — {{ total }} of them — with what it does, how it works,
+    what it costs and when to reach for it. Each one links to the topic that explains it properly.
+  </p>
+</header>
+
+<div class="filters">
+  <label class="search">
+    <app-icon name="search" [size]="15" />
+    <input
+      type="search"
+      placeholder="Search algorithms…"
+      [value]="query()"
+      (input)="onSearch($event)"
+      aria-label="Search algorithms"
+    />
+  </label>
+
+  <div class="chips" role="group" aria-label="Filter by category">
+    <button
+      type="button"
+      class="chip"
+      [class.is-active]="category() === 'All'"
+      (click)="setCategory('All')"
+    >
+      All <span>{{ total }}</span>
+    </button>
+    @for (name of categories; track name) {
+      <button
+        type="button"
+        class="chip"
+        [class.is-active]="category() === name"
+        (click)="setCategory(name)"
+      >
+        {{ name }} <span>{{ countFor(name) }}</span>
+      </button>
+    }
+  </div>
+</div>
+
+@if (matches() === 0) {
+  <div class="empty">
+    <p>Nothing matches “{{ query() }}”.</p>
+    <button type="button" class="btn btn--secondary" (click)="clear()">Clear filters</button>
+  </div>
+} @else {
+  @for (group of groups(); track group.name) {
+    <section class="group">
+      <h2 class="group__title">{{ group.name }}</h2>
+
+      <ul class="entries">
+        @for (entry of group.entries; track entry.name) {
+          <li class="entry">
+            <div class="entry__head">
+              <h3>{{ entry.name }}</h3>
+              <span class="cost">
+                <span class="cost__item"><b>time</b> {{ entry.time }}</span>
+                <span class="cost__item"><b>space</b> {{ entry.space }}</span>
+              </span>
+            </div>
+
+            <p class="entry__what">{{ entry.what }}</p>
+            <p class="entry__how"><b>How.</b> {{ entry.how }}</p>
+            <p class="entry__when"><b>Use when.</b> {{ entry.useWhen }}</p>
+
+            <a class="entry__link" [routerLink]="['/learn', entry.topic]">
+              Learn it in {{ topicLabel(entry.topic) }}
+              <app-icon name="arrow-right" [size]="13" />
+            </a>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+}

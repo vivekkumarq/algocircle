@@ -24,6 +24,12 @@ export const GREEDY: Chapter = {
       title: 'The idea, and the risk',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'Take the best-looking option right now and never reconsider. It produces the shortest solutions you will write and the easiest ones to get wrong, so most of this chapter is about proving the choice is safe.',
+        },
+        {
           kind: 'para',
           text: 'A greedy algorithm builds a solution one decision at a time, always taking what looks best right now and never reconsidering. When it works it is beautifully short — usually a sort followed by a single scan. When it does not, it produces a confident, plausible, wrong answer.',
         },

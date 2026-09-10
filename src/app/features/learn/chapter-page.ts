@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, input } f
 import { RouterLink } from '@angular/router';
 import { CHAPTERS, chapterBySlug } from '../../data/chapters';
 import { SeoService } from '../../core/services/seo.service';
+import { LayoutService } from '../../core/services/layout.service';
 import { Icon } from '../../shared/components/icon/icon';
 import { ContentBlocks } from '../../shared/components/content-blocks/content-blocks';
 
@@ -14,6 +15,7 @@ import { ContentBlocks } from '../../shared/components/content-blocks/content-bl
 })
 export class ChapterPage {
   private readonly seo = inject(SeoService);
+  protected readonly isWide = inject(LayoutService).isWide;
 
   /** Bound from the route parameter by `withComponentInputBinding()`. */
   readonly slug = input.required<string>();
@@ -34,6 +36,15 @@ export class ChapterPage {
       .map((slug) => chapterBySlug(slug))
       .filter((chapter) => chapter !== undefined),
   );
+
+  /**
+   * A stable hue per topic, so each chapter gets its own background wash and
+   * you can tell at a glance that the page changed.
+   */
+  protected readonly hue = computed(() => {
+    const order = this.chapter()?.order ?? 1;
+    return (order * 53 + 205) % 360;
+  });
 
   protected pad(order: number): string {
     return order.toString().padStart(2, '0');

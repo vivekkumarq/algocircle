@@ -24,8 +24,20 @@ export const HASHING: Chapter = {
       title: 'The idea: compute the address instead of searching for it',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'Instead of searching for something, you calculate where it must be and look straight there. That one change is what turns a huge number of slow solutions into fast ones.',
+        },
+        {
           kind: 'para',
           text: 'Finding a value in an unsorted array means looking at every element. Sorting first gets you to `O(log n)`. Hashing does something different: it **computes** where the value should live, then looks there.',
+        },
+        {
+          kind: 'visual',
+          name: 'hash-buckets',
+          caption:
+            'Each key is hashed to a bucket. Two keys landing in the same bucket is a collision.',
         },
         {
           kind: 'diagram',

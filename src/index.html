@@ -17,19 +17,34 @@
     <link rel="manifest" href="manifest.webmanifest" />
 
     <script>
-      // Apply the stored theme before first paint so there is no flash.
+      // Apply the stored appearance before first paint so there is no flash.
       (function () {
-        try {
-          var stored = localStorage.getItem('algocircle:v1:theme');
-          var mode = stored ? JSON.parse(stored) : 'system';
-          var dark =
-            mode === 'dark' ||
-            (mode !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-          document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-          document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'light');
+        var read = function (key, allowed, fallback) {
+          try {
+            var raw = localStorage.getItem('algocircle:v1:' + key);
+            var value = raw ? JSON.parse(raw) : fallback;
+            return allowed.indexOf(value) === -1 ? fallback : value;
+          } catch (e) {
+            return fallback;
+          }
+        };
+
+        var mode = read('theme', ['system', 'light', 'paper', 'dark', 'midnight', 'forest', 'contrast'], 'system');
+        var dark = ['dark', 'midnight', 'forest', 'contrast'];
+
+        if (mode === 'system') {
+          try {
+            mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          } catch (e) {
+            mode = 'light';
+          }
         }
+
+        var root = document.documentElement;
+        root.setAttribute('data-theme', mode);
+        root.setAttribute('data-font', read('font', ['sans', 'serif', 'mono'], 'sans'));
+        root.setAttribute('data-size', read('size', ['small', 'normal', 'large'], 'normal'));
+        root.style.colorScheme = dark.indexOf(mode) === -1 ? 'light' : 'dark';
       })();
     </script>
   </head>

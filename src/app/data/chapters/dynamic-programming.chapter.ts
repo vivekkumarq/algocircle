@@ -24,8 +24,20 @@ export const DYNAMIC_PROGRAMMING: Chapter = {
       title: 'What dynamic programming actually is',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'If your code keeps solving the same small problem over and over, write the answer down the first time and look it up afterwards. That single idea is the whole technique; everything else is deciding what to write down.',
+        },
+        {
           kind: 'para',
           text: 'Dynamic programming is not a category of problems. It is what you do when a recursion solves the same subproblem more than once: you remember the answer instead of recomputing it.',
+        },
+        {
+          kind: 'visual',
+          name: 'recursion-tree',
+          caption:
+            'The repeated calls are exactly what memoisation removes.',
         },
         {
           kind: 'code',

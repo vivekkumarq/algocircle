@@ -24,6 +24,12 @@ export const ADVANCED: Chapter = {
       title: 'When you actually need these',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'When the ordinary tools are too slow because the same kind of question gets asked thousands of times, these structures do enough work up front to answer each one almost instantly.',
+        },
+        {
           kind: 'para',
           text: 'Everything in this chapter exists to answer one question fast: **a query over a range, or a query over a prefix, repeated many times**. If a problem has a hundred thousand queries against changing data, a linear scan per query is a hundred thousand times too slow.',
         },

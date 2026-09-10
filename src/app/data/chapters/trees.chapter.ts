@@ -24,6 +24,12 @@ export const TREES: Chapter = {
       title: 'Vocabulary and shape',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'A structure that branches, like a family tree or a folder inside a folder. Almost every tree question is answered the same way: ask each branch, then combine whatever comes back.',
+        },
+        {
           kind: 'para',
           text: 'A tree is a connected graph with no cycles: `n` nodes and exactly `n - 1` edges, with one node designated the root. A **binary** tree gives each node at most two children.',
         },
@@ -65,6 +71,12 @@ height of the tree = 2      (longest root-to-leaf path in edges)
         {
           kind: 'para',
           text: 'Preorder, inorder and postorder differ only in **when the node itself is visited** relative to its two recursive calls. Level order is different in kind: it uses a queue rather than recursion.',
+        },
+        {
+          kind: 'visual',
+          name: 'tree-traversal',
+          caption:
+            'Switch the order and watch which node lights up first.',
         },
         {
           kind: 'code',

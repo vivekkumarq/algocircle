@@ -24,6 +24,12 @@ export const STACKS_QUEUES: Chapter = {
       title: 'Two containers, two orders',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'A stack is a pile of plates — you can only take the top one. A queue is the line at a counter — whoever arrived first is served first. That really is the whole difference, and it decides which problems each one solves.',
+        },
+        {
           kind: 'compare',
           columns: [
             {
@@ -45,6 +51,12 @@ export const STACKS_QUEUES: Chapter = {
               ],
             },
           ],
+        },
+        {
+          kind: 'visual',
+          name: 'stack-queue',
+          caption:
+            'Same four items pushed into both. The difference is only which end comes back out.',
         },
         {
           kind: 'table',

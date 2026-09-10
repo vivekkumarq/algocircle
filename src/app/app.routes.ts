@@ -35,6 +35,16 @@ export const routes: Routes = [
             'A DSA topic explained from scratch, with diagrams, worked examples, complexity analysis and the mistakes to avoid.',
         },
       },
+      {
+        path: 'algorithms',
+        title: 'Algorithms',
+        loadComponent: () =>
+          import('./features/algorithms/algorithms-page').then((m) => m.AlgorithmsPage),
+        data: {
+          description:
+            'Every algorithm in the curriculum in one reference: what it does, how it works, what it costs and when to use it.',
+        },
+      },
       // The roadmap and the topic list are the same thing, so keep one URL.
       { path: 'roadmap', redirectTo: 'learn', pathMatch: 'full' },
       {

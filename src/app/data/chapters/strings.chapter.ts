@@ -24,6 +24,12 @@ export const STRINGS: Chapter = {
       title: 'A string is an array with rules',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'A string is just an array of characters, so everything from the arrays chapter still applies. What is new is that there are only 26 letters, which makes plain counting surprisingly powerful.',
+        },
+        {
           kind: 'para',
           text: 'Everything from the arrays chapter applies: indexing is `O(1)`, scanning is `O(n)`, two pointers work. The differences are immutability in some languages, and the fact that the alphabet is usually small — often just 26 letters — which makes frequency arrays extremely effective.',
         },
@@ -54,6 +60,12 @@ export const STRINGS: Chapter = {
         {
           kind: 'para',
           text: 'When the alphabet is fixed, a 26-slot array beats a hash map: no hashing, no collisions, perfect cache behaviour, and comparing two counts is a fixed 26-step loop.',
+        },
+        {
+          kind: 'visual',
+          name: 'hash-buckets',
+          caption:
+            'Counting characters is the same lookup idea, with the character as the key.',
         },
         {
           kind: 'code',

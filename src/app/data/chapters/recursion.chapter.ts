@@ -24,6 +24,12 @@ export const RECURSION: Chapter = {
       title: 'Trust the contract, do not trace the stack',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'A function that calls itself on a smaller version of the same problem. The trick is to stop trying to follow every call in your head, and instead trust that the smaller call already works.',
+        },
+        {
           kind: 'para',
           text: 'The mistake almost everyone makes at first is trying to follow the calls in their head. That works for depth three and collapses after. The way out is to define a **contract** and assume it already holds for smaller inputs.',
         },
@@ -105,6 +111,12 @@ export const RECURSION: Chapter = {
         {
           kind: 'para',
           text: 'To find the complexity of a recursive function, draw the tree of calls and ask two questions: how many nodes are there, and how much work does each node do outside its recursive calls?',
+        },
+        {
+          kind: 'visual',
+          name: 'recursion-tree',
+          caption:
+            'Every highlighted node is a subproblem solved more than once.',
         },
         {
           kind: 'code',

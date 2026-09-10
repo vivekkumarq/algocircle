@@ -16,9 +16,9 @@ body {
   min-height: 100dvh;
   background: var(--bg-main);
   color: var(--text-primary);
-  font-family: var(--font-sans);
-  font-size: 15px;
-  line-height: 1.6;
+  font-family: var(--font-body);
+  font-size: calc(15px * var(--font-scale));
+  line-height: var(--line-height);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
@@ -31,6 +31,7 @@ h4,
 h5,
 h6 {
   margin: 0 0 var(--space-3);
+  font-family: var(--font-heading);
   font-weight: 650;
   line-height: 1.2;
   letter-spacing: -0.02em;

@@ -1,0 +1,69 @@
+<button
+  type="button"
+  class="trigger"
+  (click)="toggle()"
+  [attr.aria-expanded]="open()"
+  aria-haspopup="dialog"
+  [attr.aria-label]="'Appearance: ' + current().label + '. Open theme and font settings.'"
+>
+  <app-icon [name]="theme.isDark() ? 'moon' : 'sun'" [size]="17" />
+  <span class="trigger__label">Theme</span>
+</button>
+
+@if (open()) {
+  <div class="panel" role="dialog" aria-label="Appearance settings">
+    <p class="panel__title">Theme</p>
+    <div class="themes">
+      @for (option of theme.themes; track option.id) {
+        <button
+          type="button"
+          class="theme"
+          [class.is-active]="option.id === theme.theme()"
+          (click)="choose(option.id)"
+          [title]="option.hint"
+        >
+          <span class="theme__swatch" aria-hidden="true">
+            <i [style.background]="option.swatch[0]"></i>
+            <i [style.background]="option.swatch[1]"></i>
+            <i [style.background]="option.swatch[2]"></i>
+          </span>
+          <span class="theme__label">{{ option.label }}</span>
+          @if (option.id === theme.theme()) {
+            <app-icon name="check" [size]="13" />
+          }
+        </button>
+      }
+    </div>
+
+    <p class="panel__title">Typeface</p>
+    <div class="segmented">
+      @for (option of theme.fonts; track option.id) {
+        <button
+          type="button"
+          [class.is-active]="option.id === theme.font()"
+          [class]="'font font--' + option.id"
+          (click)="chooseFont(option.id)"
+        >
+          <span class="font__sample">{{ option.sample }}</span>
+          {{ option.label }}
+        </button>
+      }
+    </div>
+
+    <p class="panel__title">Text size</p>
+    <div class="segmented">
+      @for (option of theme.sizes; track option.id) {
+        <button
+          type="button"
+          class="size"
+          [class.is-active]="option.id === theme.size()"
+          (click)="chooseSize(option.id)"
+        >
+          {{ option.label }}
+        </button>
+      }
+    </div>
+
+    <p class="panel__note">Saved in this browser only.</p>
+  </div>
+}

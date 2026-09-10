@@ -1,0 +1,299 @@
+/* ---------------------------------------------------------------------------
+   Diagram styles.
+
+   Kept global rather than per-component so every visual shares one vocabulary
+   and SVG children can be styled without encapsulation attributes.
+   --------------------------------------------------------------------------- */
+
+.viz {
+  display: block;
+  margin: 0;
+}
+
+.viz svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* ---- Cells: arrays, windows, pointers ---- */
+
+.viz-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  overflow-x: auto;
+  padding-block: 2px;
+}
+
+.viz-cell {
+  display: grid;
+  flex: 1 0 34px;
+  place-items: center;
+  min-width: 34px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.viz-cell--active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.viz-cell--found {
+  border-color: var(--easy);
+  background: var(--easy-soft);
+  color: var(--easy);
+  font-weight: 600;
+  transform: translateY(-3px);
+}
+
+.viz-cell--dropped {
+  opacity: 0.32;
+  text-decoration: line-through;
+}
+
+.viz-cell--marked {
+  border-color: var(--medium);
+  background: var(--medium-soft);
+  color: var(--medium);
+}
+
+.viz-index {
+  display: flex;
+  gap: 4px;
+  margin-top: 3px;
+}
+
+.viz-index span {
+  flex: 1 0 34px;
+  min-width: 34px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ---- Controls ---- */
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin-top: var(--space-3);
+}
+
+.viz-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.viz-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.viz-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.viz-btn--primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.viz-btn--primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  color: var(--accent-contrast);
+}
+
+.viz-progress {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.viz-note {
+  min-height: 2.6em;
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--bg-subtle);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.viz-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.viz-legend span {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.viz-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  border: 1px solid var(--border-strong);
+}
+
+/* ---- SVG parts ---- */
+
+.viz-node {
+  fill: var(--bg-card);
+  stroke: var(--border-strong);
+  stroke-width: 1.6;
+  transition: fill var(--dur) var(--ease), stroke var(--dur) var(--ease);
+}
+
+.viz-node--queued {
+  fill: var(--medium-soft);
+  stroke: var(--medium);
+}
+
+.viz-node--active {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.viz-node--done {
+  fill: var(--easy-soft);
+  stroke: var(--easy);
+}
+
+.viz-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--text-secondary);
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+  transition: fill var(--dur) var(--ease);
+}
+
+.viz-label--on {
+  fill: var(--accent-contrast);
+  font-weight: 600;
+}
+
+.viz-edge {
+  stroke: var(--border-strong);
+  stroke-width: 1.6;
+  fill: none;
+  transition: stroke var(--dur) var(--ease), stroke-width var(--dur) var(--ease);
+}
+
+.viz-edge--on {
+  stroke: var(--accent);
+  stroke-width: 2.6;
+}
+
+.viz-caption {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--text-muted);
+  text-anchor: middle;
+}
+
+.viz-bar {
+  fill: var(--border-strong);
+  transition: fill var(--dur) var(--ease), y var(--dur) var(--ease), height var(--dur) var(--ease),
+    x var(--dur-slow) var(--ease);
+}
+
+.viz-bar--compare {
+  fill: var(--medium);
+}
+
+.viz-bar--swap {
+  fill: var(--accent);
+}
+
+.viz-bar--sorted {
+  fill: var(--easy);
+}
+
+/* ---- Ambient (non-stepped) animations ---- */
+
+.viz-loop path,
+.viz-loop circle,
+.viz-loop rect {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viz-loop * {
+    animation: none !important;
+  }
+}
+
+/* ---- Growth curves ---- */
+
+.viz-curve {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: viz-draw 1.6s var(--ease) forwards;
+}
+
+.viz-curve--log { stroke: var(--easy); animation-delay: 0.1s; }
+.viz-curve--n { stroke: var(--info); animation-delay: 0.3s; }
+.viz-curve--nlogn { stroke: var(--medium); animation-delay: 0.5s; }
+.viz-curve--n2 { stroke: var(--hard); animation-delay: 0.7s; }
+
+@keyframes viz-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ---- Small labels between rows ---- */
+
+.viz-caption-label {
+  margin: var(--space-3) 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.viz-arrowhead {
+  fill: var(--border-strong);
+}
+
+.viz-edge--on + .viz-arrowhead,
+.viz-edge--on .viz-arrowhead {
+  fill: var(--accent);
+}

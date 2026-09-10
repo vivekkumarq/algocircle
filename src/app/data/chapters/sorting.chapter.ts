@@ -24,6 +24,12 @@ export const SORTING: Chapter = {
       title: 'Why sorting matters more than the sorts',
       blocks: [
         {
+          kind: 'callout',
+          tone: 'note',
+          title: 'In plain words',
+          text: 'You will rarely write a sort by hand. Knowing what each one costs is what matters, because it tells you whether sorting the data first is worth it — and surprisingly often it is.',
+        },
+        {
           kind: 'para',
           text: 'You will rarely implement a sort at work — but sorting is the most common **preprocessing step** in problem solving, because a sorted array unlocks binary search, two pointers, greedy scans and easy duplicate handling.',
         },
@@ -46,6 +52,12 @@ export const SORTING: Chapter = {
             ['Selection', 'repeatedly take the minimum', '`O(n^2)`', '`O(n^2)`', 'no', 'it makes the fewest writes'],
             ['Insertion', 'insert each element into the sorted prefix', '`O(n)`', '`O(n^2)`', 'yes', 'it is genuinely fast on small or nearly sorted input'],
           ],
+        },
+        {
+          kind: 'visual',
+          name: 'sorting',
+          caption:
+            'Insertion sort: each value slides left until it meets something smaller.',
         },
         {
           kind: 'code',

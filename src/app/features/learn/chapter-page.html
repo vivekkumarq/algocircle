@@ -1,5 +1,11 @@
 @if (chapter(); as ch) {
-  <article class="chapter">
+  <article class="chapter" [style.--hue]="hue()">
+    <div class="backdrop" aria-hidden="true">
+      <span class="backdrop__blob backdrop__blob--a"></span>
+      <span class="backdrop__blob backdrop__blob--b"></span>
+      <span class="backdrop__grid"></span>
+    </div>
+
     <header class="head">
       <p class="eyebrow">
         <a routerLink="/learn">DSA Topics</a> / {{ ch.level }} / Topic {{ pad(ch.order) }}
@@ -22,15 +28,15 @@
     </header>
 
     <div class="layout">
-      <nav class="toc" aria-label="On this page">
-        <p class="toc__label">On this page</p>
+      <details class="toc" [open]="isWide()">
+        <summary class="toc__label">On this page</summary>
         <ol>
           @for (section of ch.sections; track section.id) {
             <li><a [href]="'#' + section.id">{{ section.title }}</a></li>
           }
           <li><a href="#takeaways">Key takeaways</a></li>
         </ol>
-      </nav>
+      </details>
 
       <div class="body">
         <section class="objectives surface">
