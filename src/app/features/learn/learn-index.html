@@ -8,6 +8,14 @@
   </p>
 </header>
 
+<details class="map-toggle">
+  <summary>
+    <app-icon name="network" [size]="15" />
+    See the topics as a dependency map
+  </summary>
+  <app-topic-graph />
+</details>
+
 @for (group of groups; track group.level) {
   <section class="level">
     <h2 class="level__title">{{ group.level }}</h2>

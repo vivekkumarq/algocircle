@@ -46,6 +46,23 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'guide',
+        title: 'How to learn DSA',
+        loadComponent: () => import('./features/guide/guide-page').then((m) => m.GuidePage),
+        data: {
+          description:
+            'How to build problem-solving logic from zero, how to turn an idea into working code, and a realistic study plan.',
+        },
+      },
+      {
+        path: 'guide/:slug',
+        loadComponent: () => import('./features/guide/guide-page').then((m) => m.GuidePage),
+        data: {
+          description:
+            'Practical guidance on building DSA problem-solving skill, not just knowledge of the structures.',
+        },
+      },
+      {
         path: 'interview',
         title: 'Interview Questions',
         loadComponent: () =>

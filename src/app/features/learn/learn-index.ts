@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 import { TOPIC_GROUPS } from '../../data/navigation.data';
 import { TOPICS, TOTAL_TOPIC_MINUTES, TOTAL_TOPIC_SECTIONS } from '../../data/topics.data';
 import { Icon } from '../../shared/components/icon/icon';
+import { TopicGraph } from '../../shared/components/topic-graph/topic-graph';
 
 @Component({
   selector: 'app-learn-index',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon],
+  imports: [RouterLink, Icon, TopicGraph],
   templateUrl: './learn-index.html',
   styleUrl: './learn-index.scss',
 })

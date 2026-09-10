@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Icon } from '../../shared/components/icon/icon';
+import { TopicGraph } from '../../shared/components/topic-graph/topic-graph';
 import { TOPIC_GROUPS } from '../../data/navigation.data';
 import { TOPICS, TOTAL_TOPIC_MINUTES, TOTAL_TOPIC_SECTIONS } from '../../data/topics.data';
 import { PATTERN_PREVIEWS } from '../../data/patterns/pattern-preview.data';
@@ -8,7 +9,7 @@ import { PATTERN_PREVIEWS } from '../../data/patterns/pattern-preview.data';
 @Component({
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon],
+  imports: [RouterLink, Icon, TopicGraph],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

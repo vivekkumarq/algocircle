@@ -1,0 +1,240 @@
+:host {
+  display: block;
+}
+
+.head {
+  max-width: 74ch;
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow a {
+  color: var(--text-muted);
+}
+
+.eyebrow a:hover {
+  color: var(--accent-text);
+}
+
+.head__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin-top: var(--space-4);
+}
+
+.tag app-icon {
+  margin-right: 0.15rem;
+}
+
+/* ---- Index ---- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards li {
+  margin: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  color: inherit;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.card h2 {
+  font-size: 1.02rem;
+}
+
+.card p {
+  margin-bottom: var(--space-4);
+  font-size: 0.86rem;
+}
+
+.card__meta {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.footnote {
+  max-width: 70ch;
+  margin-top: var(--space-6);
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
+/* ---- Guide body ---- */
+
+.layout {
+  display: grid;
+  gap: var(--space-6);
+  padding-top: var(--space-6);
+}
+
+.toc {
+  order: -1;
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+}
+
+.toc__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
+  list-style: none;
+}
+
+.toc__label::-webkit-details-marker {
+  display: none;
+}
+
+.toc ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc li {
+  margin-bottom: 0.3rem;
+}
+
+.toc a {
+  display: block;
+  padding: 0.18rem 0;
+  color: var(--text-secondary);
+  font-size: 0.83rem;
+  line-height: 1.45;
+}
+
+.toc a:hover {
+  color: var(--accent-text);
+}
+
+.body {
+  min-width: 0;
+}
+
+.section {
+  padding-top: var(--space-6);
+  scroll-margin-top: calc(var(--header-h) + var(--space-4));
+}
+
+.section h2 {
+  margin-bottom: var(--space-4);
+  font-size: 1.35rem;
+}
+
+.pager {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.pager__link {
+  display: grid;
+  gap: 0.2rem;
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  transition: border-color var(--dur-fast) var(--ease);
+}
+
+.pager__link:hover {
+  border-color: var(--accent);
+}
+
+.pager__link--next {
+  text-align: right;
+}
+
+.pager__dir {
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.pager__title {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.missing {
+  max-width: 60ch;
+  padding-top: var(--space-7);
+}
+
+@media (min-width: 1100px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 220px;
+  }
+
+  .toc {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-4));
+    order: 1;
+    align-self: start;
+    max-height: calc(100dvh - var(--header-h) - var(--space-8));
+    overflow-y: auto;
+    border: 0;
+    border-left: 1px solid var(--border);
+    border-radius: 0;
+    background: none;
+  }
+
+  .toc__label {
+    cursor: default;
+  }
+
+  .pager {
+    grid-template-columns: 1fr 1fr;
+  }
+}

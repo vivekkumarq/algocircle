@@ -466,3 +466,13 @@
 .card:hover {
   transform: none;
 }
+
+/* The anatomy cards are static; the guide cards are links and keep the lift. */
+.card--link {
+  cursor: pointer;
+}
+
+.card--link:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}

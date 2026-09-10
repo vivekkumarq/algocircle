@@ -10,6 +10,8 @@ export interface TopicMeta {
   minutes: number;
   sections: number;
   summary: string;
+  /** Slugs of the topics this one assumes.  */
+  prerequisites: string[];
 }
 
 /**
@@ -28,6 +30,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 11,
     summary:
       'Before any code: what data structures and algorithms actually are, why a slow program stays slow no matter how fast your laptop is, and what changes once you can reason about cost.',
+    prerequisites: [],
   },
   {
     order: 2,
@@ -39,6 +42,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 10,
     summary:
       'The machinery every algorithm is written with: how values live in memory, what a reference really is, why an array is fast, and what the call stack is doing while your recursion runs.',
+    prerequisites: ['why-dsa'],
   },
   {
     order: 3,
@@ -50,6 +54,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 10,
     summary:
       'How to predict the cost of code before running it: Big-O and its siblings, the four rules that cover most analysis, amortised cost, recurrences, and reading the constraints to decide what you are allowed to write.',
+    prerequisites: ['foundations'],
   },
   {
     order: 4,
@@ -61,6 +66,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 9,
     summary:
       'The number theory, combinatorics and bit tricks that turn brute-force problems into one-line formulas: GCD, primes, modular arithmetic, counting and XOR.',
+    prerequisites: ['complexity'],
   },
   {
     order: 5,
@@ -72,6 +78,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 11,
     summary:
       'The structure everything else is built on: index arithmetic, in-place work, and the prefix, difference and running-best techniques that collapse nested loops into a single pass.',
+    prerequisites: ['complexity'],
   },
   {
     order: 6,
@@ -83,6 +90,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 8,
     summary:
       'Character-level reasoning first — frequency, anagrams, palindromes — then the matching algorithms that beat the naive scan: rolling hash, KMP, Z and Manacher.',
+    prerequisites: ['arrays'],
   },
   {
     order: 7,
@@ -94,6 +102,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 8,
     summary:
       'How a hash table turns a search into a single memory access, what collisions really cost, and the handful of patterns — complement lookup, grouping, prefix hashing — that collapse quadratic solutions to linear.',
+    prerequisites: ['arrays'],
   },
   {
     order: 8,
@@ -105,6 +114,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 8,
     summary:
       'Two indices moving under a rule that never rewinds. The cheapest way to turn a nested loop into a single pass — and the foundation the sliding window is built on.',
+    prerequisites: ['arrays', 'hashing'],
   },
   {
     order: 9,
@@ -116,6 +126,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 7,
     summary:
       'One window over a contiguous range, maintained incrementally. Almost every "longest", "shortest" or "at most K" question about a contiguous run is this single idea.',
+    prerequisites: ['two-pointers', 'hashing'],
   },
   {
     order: 10,
@@ -127,6 +138,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 7,
     summary:
       'Halving a monotonic search space — first over a sorted array, then over the answer itself, which is what turns many "minimise the maximum" problems from impossible into routine.',
+    prerequisites: ['arrays', 'complexity'],
   },
   {
     order: 11,
@@ -138,6 +150,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 9,
     summary:
       'How each classic sort works and what it costs, why comparison sorting cannot beat `n log n`, when counting beats comparing, and how to select the kth element without sorting at all.',
+    prerequisites: ['binary-search'],
   },
   {
     order: 12,
@@ -149,6 +162,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 8,
     summary:
       'Defining a problem in terms of itself, drawing the recursion tree to see the cost, and pruning a search that would otherwise explode. Trees, graphs and dynamic programming are all this chapter with extra bookkeeping.',
+    prerequisites: ['sorting'],
   },
   {
     order: 13,
@@ -160,6 +174,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 9,
     summary:
       'Pointer surgery: reversing, finding the middle, detecting cycles and rebuilding lists without losing a reference. The clearest test of whether you can reason precisely about references.',
+    prerequisites: ['recursion'],
   },
   {
     order: 14,
@@ -171,6 +186,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 8,
     summary:
       'Two containers defined by the order they give things back, and the monotonic variants that answer "next greater element" style questions in a single pass instead of a nested loop.',
+    prerequisites: ['linked-lists'],
   },
   {
     order: 15,
@@ -182,6 +198,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 8,
     summary:
       'Hierarchies, the four traversal orders, and the habit of returning an answer up from the children that solves most tree problems. Then binary search trees, where the ordering does the work.',
+    prerequisites: ['recursion', 'stacks-queues'],
   },
   {
     order: 16,
@@ -193,6 +210,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 9,
     summary:
       'A partial order that hands you the extreme element in constant time and restores itself in logarithmic time. Top-K, k-way merges, streaming medians and scheduling all reduce to picking the right heap.',
+    prerequisites: ['trees'],
   },
   {
     order: 17,
@@ -204,6 +222,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 13,
     summary:
       'Modelling relationships and traversing them: BFS and DFS, cycles and components, topological order, shortest paths, minimum spanning trees and disjoint sets. Many hard-looking problems are ordinary graph problems in disguise.',
+    prerequisites: ['trees', 'heaps'],
   },
   {
     order: 18,
@@ -215,6 +234,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 7,
     summary:
       'Making the locally best choice — and, more importantly, proving the local choice is safe. Greedy is short to write and easy to get wrong; the exchange argument is what separates the two.',
+    prerequisites: ['sorting', 'heaps'],
   },
   {
     order: 19,
@@ -226,6 +246,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 10,
     summary:
       'Recursion with memory. Define the state, write the transition, then trade the call stack for a table. Every classic DP — knapsack, LCS, edit distance, LIS — is that same three-step recipe with a different state.',
+    prerequisites: ['recursion', 'greedy'],
   },
   {
     order: 20,
@@ -237,6 +258,7 @@ export const TOPICS: TopicMeta[] = [
     sections: 9,
     summary:
       'What to reach for when the core toolkit runs out of speed: tries for prefixes, Fenwick and segment trees for range queries, sparse tables for immutable ranges, and the specialised structures behind real systems.',
+    prerequisites: ['dynamic-programming', 'graphs'],
   },
 ];
 

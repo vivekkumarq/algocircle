@@ -54,6 +54,27 @@ window, two pointers, linked-list reversal, tree traversal in three orders, heap
 buckets with a collision, prefix sums, stack versus queue, recursion trees, memory layout and
 growth curves.
 
+## The curriculum map
+
+The landing page and the topic index both carry an interactive dependency map: every topic as a
+node, with an edge from each of its prerequisites. Hover one and it traces the whole chain it
+depends on and everything it unlocks, dimming the rest; click to open it. Layout positions are
+hand-placed in `topic-graph.data.ts` while the edges come from the topics themselves, and tests fail
+the build if a topic is ever placed above one of its own prerequisites.
+
+## How to learn
+
+Knowing what a heap is does not make anyone good at this, so there is a separate corner for the
+part that is usually left unwritten:
+
+- [**How to build problem-solving logic**](https://vivekkumarq.github.io/algocircle/guide/build-logic)
+  — four stages from staring at a blank screen to recognising shapes, and a protocol for being stuck
+- [**From idea to working code**](https://vivekkumarq.github.io/algocircle/guide/write-the-code)
+  — naming the state and invariant before typing, the four bugs behind most failures, and the script
+  for explaining a solution out loud
+- [**A realistic plan**](https://vivekkumarq.github.io/algocircle/guide/study-plan)
+  — how long this actually takes, what one good session looks like, and how to tell you are improving
+
 ## Interview questions
 
 [560 questions with answers](https://vivekkumarq.github.io/algocircle/interview), grouped by topic
@@ -112,12 +133,13 @@ src/
     │   ├── components/         animated logo, icons, content renderer
     │   └── visuals/            the animated diagrams and their step player
     ├── layout/                 header, sidebar, mobile drawer, shell, footer
-    ├── features/               home, learn, algorithms, interview, 404
+    ├── features/               home, learn, algorithms, interview, guide, 404
     ├── data/
     │   ├── chapters/           the curriculum, as typed content blocks
+    │   ├── guides/             the how-to-learn corner
     │   ├── interview/          560 questions and answers, one file per group
     │   └── topics.data.ts      lightweight metadata for the navigation
-    └── app.routes.ts           six routes
+    └── app.routes.ts           eight routes
 ```
 
 Three rules hold it together:

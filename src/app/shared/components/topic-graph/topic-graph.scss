@@ -1,0 +1,212 @@
+:host {
+  display: block;
+}
+
+.map {
+  position: relative;
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---- Edges ---- */
+
+.edge {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 1.6;
+  transition: stroke var(--dur) var(--ease), stroke-width var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+
+.edge--on {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+}
+
+.edge--dim {
+  opacity: 0.18;
+}
+
+/* ---- Nodes ---- */
+
+.node {
+  cursor: pointer;
+}
+
+.node a {
+  outline: none;
+}
+
+.node__box {
+  fill: var(--bg-subtle);
+  stroke: var(--border-strong);
+  stroke-width: 1.4;
+  transition: fill var(--dur) var(--ease), stroke var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+
+.node__order {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--text-muted);
+  dominant-baseline: central;
+  transition: fill var(--dur) var(--ease);
+}
+
+.node__label {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 560;
+  fill: var(--text-primary);
+  dominant-baseline: central;
+  transition: fill var(--dur) var(--ease);
+}
+
+.node:hover .node__box,
+.node a:focus-visible .node__box {
+  stroke: var(--accent);
+}
+
+/* Level tint keeps the four stages readable at a glance. */
+.node--level-foundations .node__box {
+  fill: color-mix(in srgb, var(--info-soft) 70%, var(--bg-subtle));
+}
+
+.node--level-core .node__box {
+  fill: color-mix(in srgb, var(--easy-soft) 55%, var(--bg-subtle));
+}
+
+.node--level-advanced .node__box {
+  fill: color-mix(in srgb, var(--medium-soft) 60%, var(--bg-subtle));
+}
+
+.node--level-expert .node__box {
+  fill: color-mix(in srgb, var(--hard-soft) 55%, var(--bg-subtle));
+}
+
+/* ---- Hover relationships ---- */
+
+.node--current .node__box {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.node--current .node__label,
+.node--current .node__order {
+  fill: var(--accent-contrast);
+}
+
+.node--needs .node__box {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+}
+
+.node--needs .node__label {
+  fill: var(--accent-text);
+}
+
+.node--unlocks .node__box {
+  stroke: var(--easy);
+  stroke-dasharray: 4 3;
+}
+
+.node--dim .node__box,
+.node--dim .node__label,
+.node--dim .node__order {
+  opacity: 0.28;
+}
+
+/* ---- Legend and detail ---- */
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.legend__item {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.legend__item::before {
+  content: '';
+  width: 14px;
+  height: 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+}
+
+.legend__item--needs::before {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.legend__item--current::before {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.legend__item--unlocks::before {
+  border-color: var(--easy);
+  border-style: dashed;
+}
+
+.detail {
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border);
+  min-height: 4.6rem;
+}
+
+.detail__title {
+  margin: 0 0 0.2rem;
+  font-size: 0.9rem;
+  font-weight: 620;
+  color: var(--text-primary);
+}
+
+.detail__summary {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+}
+
+.detail__meta {
+  margin: 0.3rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 720px) {
+  .map {
+    padding: var(--space-4) var(--space-3);
+  }
+
+  /* Below this width the labels stop being legible once the map is scaled to
+     fit, so it scrolls sideways at a readable size instead. */
+  .scroll {
+    overflow-x: auto;
+    margin-inline: calc(var(--space-3) * -1);
+    padding-inline: var(--space-3);
+  }
+
+  .scroll svg {
+    width: 620px;
+    max-width: none;
+  }
+}

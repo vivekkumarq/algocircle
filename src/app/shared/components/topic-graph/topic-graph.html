@@ -1,0 +1,57 @@
+<div class="map" (pointerleave)="leave()">
+  <div class="scroll">
+    <svg
+      [attr.viewBox]="'0 0 ' + width + ' ' + height"
+    role="img"
+    aria-label="Curriculum dependency map: every topic and the topics it depends on"
+  >
+    @for (edge of edges; track edge.id) {
+      <path [attr.d]="edge.d" class="edge" [class]="'edge edge--' + edgeState(edge)" />
+    }
+
+    @for (node of nodes; track node.slug) {
+      <g
+        class="node"
+        [class]="'node node--' + state(node.slug) + ' node--level-' + node.level.toLowerCase()"
+        (pointerenter)="enter(node.slug)"
+        (focusin)="enter(node.slug)"
+      >
+        <a [routerLink]="['/learn', node.slug]" [attr.aria-label]="node.label + ': ' + node.summary">
+          <rect
+            [attr.x]="node.x"
+            [attr.y]="node.y"
+            [attr.width]="layout.nodeWidth"
+            [attr.height]="layout.nodeHeight"
+            rx="9"
+            class="node__box"
+          />
+          <text [attr.x]="node.x + 12" [attr.y]="node.cy" class="node__order">
+            {{ pad(node.order) }}
+          </text>
+          <text [attr.x]="node.x + 34" [attr.y]="node.cy" class="node__label">{{ node.label }}</text>
+        </a>
+      </g>
+    }
+    </svg>
+  </div>
+
+  <div class="legend">
+    <span class="legend__item legend__item--needs">needs this first</span>
+    <span class="legend__item legend__item--current">hovered topic</span>
+    <span class="legend__item legend__item--unlocks">this unlocks</span>
+  </div>
+
+  <div class="detail" [class.detail--empty]="!hovered()">
+    @if (hovered(); as node) {
+      <p class="detail__title">{{ pad(node.order) }} · {{ node.label }}</p>
+      <p class="detail__summary">{{ node.summary }}</p>
+      <p class="detail__meta">
+        {{ node.level }} · {{ node.sections }} sections · {{ node.minutes }} min · click to open
+      </p>
+    } @else {
+      <p class="detail__summary">
+        Hover a topic to see what it needs and what it unlocks. Click to open it.
+      </p>
+    }
+  </div>
+</div>

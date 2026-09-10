@@ -1,0 +1,87 @@
+@if (guide(); as g) {
+  <article class="guide">
+    <header class="head">
+      <p class="eyebrow"><a routerLink="/guide">How to learn</a> / Guide</p>
+      <h1>{{ g.title }}</h1>
+      <p class="lead">{{ g.tagline }}</p>
+      <div class="head__meta">
+        <span class="tag"><app-icon name="clock" [size]="12" /> {{ g.readingMinutes }} min read</span>
+        <span class="tag">{{ g.sections.length }} sections</span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <details class="toc" [open]="isWide()">
+        <summary class="toc__label">On this page</summary>
+        <ol>
+          @for (section of g.sections; track section.id) {
+            <li><a [href]="'#' + section.id">{{ section.title }}</a></li>
+          }
+        </ol>
+      </details>
+
+      <div class="body">
+        @for (section of g.sections; track section.id) {
+          <section class="section" [id]="section.id">
+            <h2>{{ section.title }}</h2>
+            <app-content-blocks [blocks]="section.blocks" />
+          </section>
+        }
+
+        @if (position(); as nav) {
+          <nav class="pager" aria-label="Guide navigation">
+            @if (nav.previous) {
+              <a class="pager__link" [routerLink]="['/guide', nav.previous.slug]">
+                <span class="pager__dir">Previous</span>
+                <span class="pager__title">{{ nav.previous.title }}</span>
+              </a>
+            } @else {
+              <span></span>
+            }
+            @if (nav.next) {
+              <a class="pager__link pager__link--next" [routerLink]="['/guide', nav.next.slug]">
+                <span class="pager__dir">Next</span>
+                <span class="pager__title">{{ nav.next.title }}</span>
+              </a>
+            }
+          </nav>
+        }
+      </div>
+    </div>
+  </article>
+} @else if (isIndex()) {
+  <header class="head">
+    <p class="eyebrow"><app-icon name="compass" [size]="14" /> How to learn</p>
+    <h1>Building the skill, not just the knowledge</h1>
+    <p class="lead">
+      The topics teach you what a heap is. These teach you how to get from staring at a blank screen
+      to seeing the shape of a problem — the part nobody writes down.
+    </p>
+  </header>
+
+  <ul class="cards">
+    @for (item of guides; track item.slug) {
+      <li>
+        <a class="card" [routerLink]="['/guide', item.slug]">
+          <span class="card__icon"><app-icon [name]="item.icon" [size]="18" /></span>
+          <h2>{{ item.title }}</h2>
+          <p>{{ item.tagline }}</p>
+          <span class="card__meta">
+            {{ item.sections.length }} sections · {{ item.readingMinutes }} min
+            <app-icon name="arrow-right" [size]="13" />
+          </span>
+        </a>
+      </li>
+    }
+  </ul>
+
+  <p class="footnote">
+    Read these alongside the curriculum rather than before it — they make far more sense once you
+    have a few topics behind you.
+  </p>
+} @else {
+  <div class="missing">
+    <h1>We couldn't find that guide</h1>
+    <a class="btn btn--primary" routerLink="/guide">Back to the guides</a>
+  </div>
+}

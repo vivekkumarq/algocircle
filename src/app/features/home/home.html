@@ -67,10 +67,10 @@
   <header class="section__head">
     <div>
       <p class="eyebrow">The path</p>
-      <h2>Twenty topics, in a deliberate order</h2>
+      <h2>The whole curriculum, as a map</h2>
       <p class="lead">
-        Nothing is locked. The order simply means that by the time you reach graphs, recursion and
-        heaps are already behind you.
+        Every topic and what it depends on. Hover one to trace what you need first and what it
+        unlocks; click to open it. Nothing is locked — the order is a suggestion, not a gate.
       </p>
     </div>
     <a class="btn btn--secondary" routerLink="/learn">
@@ -78,23 +78,7 @@
     </a>
   </header>
 
-  <div class="path">
-    @for (group of groups; track group.level) {
-      <div class="path__group">
-        <h3>{{ group.level }}</h3>
-        <ul>
-          @for (topic of group.topics; track topic.slug) {
-            <li>
-              <a [routerLink]="['/learn', topic.slug]">
-                <span class="path__num">{{ topic.order }}</span>
-                {{ topic.label }}
-              </a>
-            </li>
-          }
-        </ul>
-      </div>
-    }
-  </div>
+  <app-topic-graph />
 </section>
 
 <section class="section container">
@@ -160,6 +144,49 @@
       <pre><code>{{ pattern().template }}</code></pre>
       <p class="patterns__complexity">{{ pattern().complexity }}</p>
     </article>
+  </div>
+</section>
+
+<section class="section container">
+  <header class="section__head section__head--stacked">
+    <p class="eyebrow">Building the skill</p>
+    <h2>Knowing what a heap is will not make you good at this</h2>
+    <p class="lead">
+      The hard part is getting from a blank screen to seeing the shape of a problem. That part is
+      usually left unwritten, so there is a separate corner for it.
+    </p>
+  </header>
+
+  <div class="cards">
+    <a class="card card--link" routerLink="/guide/build-logic">
+      <span class="card__icon"><app-icon name="compass" [size]="18" /></span>
+      <h3>How to build logic</h3>
+      <p>
+        Four stages from "I stare at the screen" to "I know what shape this is", what to practise at
+        each, and a protocol for when you are stuck.
+      </p>
+      <span class="card__link">Read it <app-icon name="arrow-right" [size]="14" /></span>
+    </a>
+
+    <a class="card card--link" routerLink="/guide/write-the-code">
+      <span class="card__icon"><app-icon name="code" [size]="18" /></span>
+      <h3>From idea to working code</h3>
+      <p>
+        Naming the state and the invariant before typing, the four bugs that cause most failures,
+        and the script for explaining a solution out loud.
+      </p>
+      <span class="card__link">Read it <app-icon name="arrow-right" [size]="14" /></span>
+    </a>
+
+    <a class="card card--link" routerLink="/guide/study-plan">
+      <span class="card__icon"><app-icon name="clock" [size]="18" /></span>
+      <h3>A realistic plan</h3>
+      <p>
+        How long this actually takes, what one good session looks like, why spaced revision is not
+        optional, and how to tell you are improving.
+      </p>
+      <span class="card__link">Read it <app-icon name="arrow-right" [size]="14" /></span>
+    </a>
   </div>
 </section>
 
