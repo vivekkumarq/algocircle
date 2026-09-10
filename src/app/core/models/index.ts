@@ -1,2 +1,2 @@
 export * from './content.models';
-export * from './navigation.models';
+export * from './chapter.models';

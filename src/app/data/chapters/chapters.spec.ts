@@ -1,18 +1,17 @@
 import { CHAPTERS, TOTAL_SECTIONS, chapterBySlug } from './index';
-import { ROADMAP_STAGES } from '../roadmaps/roadmap.data';
 
 describe('chapters', () => {
-  const stageSlugs = new Set(ROADMAP_STAGES.map((stage) => stage.slug));
-
-  it('opens the curriculum with Why DSA', () => {
+  it('opens the curriculum with Why DSA, which has no prerequisites', () => {
     expect(CHAPTERS[0].slug).toBe('why-dsa');
     expect(CHAPTERS[0].prerequisites).toEqual([]);
   });
 
-  it('maps every chapter onto a roadmap stage', () => {
-    for (const chapter of CHAPTERS) {
-      expect(stageSlugs.has(chapter.slug)).toBe(true);
-    }
+  it('is numbered in reading order without gaps', () => {
+    CHAPTERS.forEach((chapter, index) => expect(chapter.order).toBe(index + 1));
+  });
+
+  it('has unique slugs', () => {
+    expect(new Set(CHAPTERS.map((chapter) => chapter.slug)).size).toBe(CHAPTERS.length);
   });
 
   it('gives every chapter objectives, sections and takeaways', () => {
@@ -21,6 +20,7 @@ describe('chapters', () => {
       expect(chapter.sections.length).toBeGreaterThan(0);
       expect(chapter.keyTakeaways.length).toBeGreaterThan(0);
       expect(chapter.readingMinutes).toBeGreaterThan(0);
+      expect(chapter.summary.length).toBeGreaterThan(0);
     }
   });
 
@@ -36,10 +36,13 @@ describe('chapters', () => {
     }
   });
 
-  it('only lists prerequisites that are themselves chapters or stages', () => {
+  it('only lists prerequisites that are earlier chapters', () => {
+    const orderOf = new Map(CHAPTERS.map((chapter) => [chapter.slug, chapter.order]));
+
     for (const chapter of CHAPTERS) {
       for (const prerequisite of chapter.prerequisites) {
-        expect(stageSlugs.has(prerequisite)).toBe(true);
+        expect(orderOf.has(prerequisite)).toBe(true);
+        expect(orderOf.get(prerequisite)!).toBeLessThan(chapter.order);
       }
     }
   });
@@ -49,22 +52,20 @@ describe('chapters', () => {
       for (const section of chapter.sections) {
         for (const block of section.blocks) {
           if (block.kind !== 'table') continue;
-          for (const row of block.rows) {
-            expect(row.length).toBe(block.headers.length);
-          }
+          for (const row of block.rows) expect(row.length).toBe(block.headers.length);
         }
       }
     }
   });
 
-  it('counts published sections from the chapters themselves', () => {
+  it('counts sections from the chapters themselves', () => {
     expect(TOTAL_SECTIONS).toBe(
       CHAPTERS.reduce((total, chapter) => total + chapter.sections.length, 0),
     );
   });
 
   it('looks a chapter up by slug', () => {
-    expect(chapterBySlug('arrays')?.title).toBe('Arrays');
+    expect(chapterBySlug('graphs')?.title).toBe('Graphs');
     expect(chapterBySlug('nope')).toBeUndefined();
   });
 });

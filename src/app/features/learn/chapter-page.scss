@@ -28,36 +28,6 @@
   margin-right: 0.15rem;
 }
 
-.tag--draft {
-  border-style: dashed;
-  color: var(--text-muted);
-}
-
-.mark {
-  display: inline-flex;
-  gap: var(--space-2);
-  align-items: center;
-  padding: 0.3rem 0.75rem;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-pill);
-  background: var(--bg-main);
-  color: var(--text-secondary);
-  font-size: 0.78rem;
-  font-weight: 520;
-  transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
-}
-
-.mark:hover {
-  border-color: var(--accent);
-  color: var(--accent-text);
-}
-
-.mark.is-done {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--accent-contrast);
-}
-
 .layout {
   display: grid;
   gap: var(--space-6);
@@ -236,63 +206,6 @@
   color: var(--text-primary);
 }
 
-/* ---- Outline fallback ---- */
-
-.outline,
-.missing {
-  max-width: 74ch;
-}
-
-.outline__note {
-  display: flex;
-  gap: var(--space-3);
-  align-items: flex-start;
-  margin: var(--space-5) 0;
-  padding: var(--space-4);
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--radius-md);
-  background: var(--bg-subtle);
-  font-size: 0.88rem;
-}
-
-.outline__note app-icon {
-  flex: none;
-  margin-top: 0.2rem;
-  color: var(--accent);
-}
-
-.outline__list {
-  padding: var(--space-5);
-}
-
-.outline__list h2 {
-  font-size: 1rem;
-}
-
-.outline__list ol {
-  margin: 0;
-  padding-left: 1.3rem;
-  columns: 2;
-  column-gap: var(--space-6);
-}
-
-.outline__list li {
-  font-size: 0.88rem;
-  break-inside: avoid;
-}
-
-.outline__why {
-  margin-top: var(--space-5);
-  font-size: 0.9rem;
-}
-
-.outline__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  margin-top: var(--space-5);
-}
-
 @media (min-width: 1100px) {
   .layout {
     grid-template-columns: minmax(0, 1fr) 220px;
@@ -312,8 +225,12 @@
   }
 }
 
-@media (max-width: 640px) {
-  .outline__list ol {
-    columns: 1;
-  }
+
+.missing {
+  max-width: 60ch;
+  padding-top: var(--space-7);
+}
+
+.head__meta .tag a {
+  margin-left: 0.25rem;
 }

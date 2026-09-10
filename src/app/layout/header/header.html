@@ -7,18 +7,11 @@
   </a>
 
   <nav class="primary" aria-label="Primary">
-    @for (link of links; track link.route) {
-      <a [routerLink]="link.route" routerLinkActive="is-active">{{ link.label }}</a>
-    }
+    <a routerLink="/learn" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">DSA Topics</a>
+    <a routerLink="/learn/why-dsa" routerLinkActive="is-active">Why DSA</a>
   </nav>
 
   <div class="actions">
-    <a class="search" routerLink="/search" aria-label="Search AlgoCircle">
-      <app-icon name="search" [size]="15" />
-      <span class="search__text">Search</span>
-      <span class="kbd">/</span>
-    </a>
-
     <button type="button" class="icon-btn" (click)="cycleTheme()" [attr.aria-label]="themeLabel()">
       <app-icon [name]="themeIcon()" [size]="17" />
     </button>

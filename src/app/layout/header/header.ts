@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { HEADER_LINKS } from '../../data/navigation.data';
 import { Icon } from '../../shared/components/icon/icon';
 import { Logo } from '../../shared/components/logo/logo';
 import { LayoutService } from '../../core/services/layout.service';
@@ -24,7 +23,6 @@ export class Header {
   private readonly layout = inject(LayoutService);
   protected readonly theme = inject(ThemeService);
 
-  protected readonly links = HEADER_LINKS;
   protected readonly menuOpen = this.layout.mobileNavOpen;
   protected readonly themeIcon = computed(() => THEME_ICON[this.theme.theme()]);
   protected readonly themeLabel = computed(

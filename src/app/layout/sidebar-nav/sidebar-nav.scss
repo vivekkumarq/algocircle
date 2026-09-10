@@ -1,91 +1,69 @@
 :host {
   display: block;
-  padding: var(--space-4) var(--space-3) var(--space-6);
+  padding: var(--space-5) var(--space-3) var(--space-6);
 }
 
-.group + .group {
-  margin-top: var(--space-4);
-}
-
-.group__header {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  width: 100%;
-  padding: var(--space-2) var(--space-3);
-  border: 0;
-  border-radius: var(--radius-md);
-  background: none;
-  color: var(--text-muted);
+.title {
+  margin: 0 var(--space-3) var(--space-4);
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  transition: color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
+  color: var(--text-muted);
 }
 
-.group__header:hover {
-  background: var(--bg-inset);
-  color: var(--text-secondary);
+.group + .group {
+  margin-top: var(--space-5);
 }
 
 .group__label {
-  flex: 1;
-  text-align: left;
+  margin: 0 var(--space-3) var(--space-2);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
 }
 
-.group__chevron {
-  display: inline-flex;
-  transition: transform var(--dur) var(--ease);
-}
-
-.group__chevron--collapsed {
-  transform: rotate(-90deg);
-}
-
-.group__items {
-  margin: var(--space-1) 0 0;
+.group ul {
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.group__items li {
+.group li {
   margin: 0;
 }
 
-.group__items a {
+.group a {
   display: flex;
-  align-items: center;
   gap: var(--space-3);
-  padding: 0.42rem var(--space-3);
+  align-items: baseline;
+  padding: 0.4rem var(--space-3);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
-  font-size: 0.865rem;
+  font-size: 0.875rem;
   transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
 
-.group__items a:hover {
+.group a:hover {
   background: var(--bg-inset);
   color: var(--text-primary);
 }
 
-.dot {
-  width: 5px;
-  height: 5px;
-  border: 1px solid var(--border-strong);
-  border-radius: 50%;
-  transition: background-color var(--dur-fast) var(--ease),
-    border-color var(--dur-fast) var(--ease);
+.num {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
 }
 
-.group__items a.is-active {
+.group a.is-active {
   background: var(--accent-soft);
   color: var(--accent-text);
   font-weight: 550;
 }
 
-.group__items a.is-active .dot {
-  border-color: var(--accent);
-  background: var(--accent);
+.group a.is-active .num {
+  color: var(--accent-text);
 }

@@ -5,115 +5,87 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://vivekkumarq.github.io/algocircle/roadmap</loc>
-    <priority>0.8</priority>
+    <loc>https://vivekkumarq.github.io/algocircle/learn</loc>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://vivekkumarq.github.io/algocircle/learn</loc>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/why-dsa</loc>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vivekkumarq.github.io/algocircle/learn/foundations</loc>
-    <priority>0.6</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vivekkumarq.github.io/algocircle/learn/data-structures</loc>
-    <priority>0.6</priority>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/complexity</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vivekkumarq.github.io/algocircle/learn/algorithms</loc>
-    <priority>0.6</priority>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/mathematics</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/arrays</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/strings</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/hashing</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/two-pointers</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/sliding-window</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/binary-search</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/sorting</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/recursion</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/linked-lists</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/stacks-queues</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/trees</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/heaps</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/graphs</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/greedy</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vivekkumarq.github.io/algocircle/learn/dynamic-programming</loc>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vivekkumarq.github.io/algocircle/learn/advanced</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/patterns</loc>
     <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/problems</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/search</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/practice/topics</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/practice/patterns</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/practice/random</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/practice/daily</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/practice/weak-areas</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/interview</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/interview/companies</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/interview/mock</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/interview/timed-oa</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/progress</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/progress/mastery</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/progress/revision</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/progress/streak</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/progress/analytics</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/visualizer</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/tools/playground</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/tools/complexity</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/tools/cheatsheets</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://vivekkumarq.github.io/algocircle/tools/encyclopedia</loc>
-    <priority>0.6</priority>
   </url>
 </urlset>

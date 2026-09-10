@@ -1,31 +1,18 @@
-@for (section of sections; track section.id) {
-  <section class="group">
-    <button
-      type="button"
-      class="group__header"
-      [attr.aria-expanded]="!isCollapsed(section.id)"
-      [attr.aria-controls]="'nav-' + section.id"
-      (click)="toggle(section.id)"
-    >
-      <app-icon [name]="section.icon" [size]="15" />
-      <span class="group__label">{{ section.label }}</span>
-      <span class="group__chevron" [class.group__chevron--collapsed]="isCollapsed(section.id)">
-        <app-icon name="chevron-down" [size]="14" />
-      </span>
-    </button>
+<p class="title">DSA Topics</p>
 
-    <ul class="group__items" [id]="'nav-' + section.id" [hidden]="isCollapsed(section.id)">
-      @for (item of section.items; track item.route) {
+@for (group of groups; track group.level) {
+  <section class="group">
+    <h2 class="group__label">{{ group.level }}</h2>
+    <ul>
+      @for (topic of group.topics; track topic.slug) {
         <li>
           <a
-            [routerLink]="item.route"
+            [routerLink]="['/learn', topic.slug]"
             routerLinkActive="is-active"
-            [routerLinkActiveOptions]="{ exact: !!item.exact }"
-            [title]="item.hint ?? item.label"
             (click)="onNavigate()"
           >
-            <span class="dot" aria-hidden="true"></span>
-            {{ item.label }}
+            <span class="num">{{ pad(topic.order) }}</span>
+            <span class="label">{{ topic.label }}</span>
           </a>
         </li>
       }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NAV_SECTIONS } from '../../data/navigation.data';
+import { TOPIC_GROUPS } from '../../data/navigation.data';
 import { Logo } from '../../shared/components/logo/logo';
 import { Icon } from '../../shared/components/icon/icon';
 
@@ -12,6 +12,6 @@ import { Icon } from '../../shared/components/icon/icon';
   styleUrl: './footer.scss',
 })
 export class Footer {
-  protected readonly sections = NAV_SECTIONS;
+  protected readonly groups = TOPIC_GROUPS;
   protected readonly year = new Date().getFullYear();
 }

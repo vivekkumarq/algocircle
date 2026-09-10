@@ -5,9 +5,8 @@
       <span><strong>Algo</strong><span class="accent">Circle</span></span>
     </a>
     <p class="about__text">
-      A structured path through data structures and algorithms: concepts first, then the patterns
-      behind them, then deliberate practice. Everything runs in your browser — your progress stays
-      on your device.
+      Data structures and algorithms explained from scratch, in the order that makes each topic
+      easier than the last. Everything runs in your browser — no account, no tracking.
     </p>
     <a class="repo" href="https://github.com/vivekkumarq/algocircle" target="_blank" rel="noopener">
       <app-icon name="github" [size]="15" />
@@ -16,12 +15,12 @@
   </div>
 
   <nav class="columns" aria-label="Footer">
-    @for (section of sections; track section.id) {
+    @for (group of groups; track group.level) {
       <div class="column">
-        <h2 class="column__title">{{ section.label }}</h2>
+        <h2 class="column__title">{{ group.level }}</h2>
         <ul>
-          @for (item of section.items.slice(0, 5); track item.route) {
-            <li><a [routerLink]="item.route">{{ item.label }}</a></li>
+          @for (topic of group.topics; track topic.slug) {
+            <li><a [routerLink]="['/learn', topic.slug]">{{ topic.label }}</a></li>
           }
         </ul>
       </div>
@@ -32,7 +31,7 @@
 <div class="baseline container">
   <p>&copy; {{ year }} AlgoCircle. Built by Vivek Kumar.</p>
   <p class="baseline__note">
-    Explanations, examples and diagrams here are written for this project. Practice problems are
-    described in our own words rather than reproduced from other platforms.
+    Every explanation, example and diagram here is written for this project rather than reproduced
+    from another platform.
   </p>
 </div>

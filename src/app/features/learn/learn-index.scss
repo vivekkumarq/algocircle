@@ -4,69 +4,26 @@
 
 .page-head {
   max-width: 72ch;
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-7);
 }
 
-.status {
-  display: inline-flex;
-  gap: var(--space-2);
-  align-items: center;
-  margin: 0;
-  padding: 0.3rem 0.7rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: var(--bg-subtle);
-  font-size: 0.8rem;
-  color: var(--text-muted);
+.level {
+  margin-bottom: var(--space-7);
 }
 
-.status app-icon {
-  color: var(--easy);
-}
-
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-5);
-}
-
-.filters__chip {
-  display: inline-flex;
-  gap: var(--space-2);
-  align-items: center;
-  padding: 0.35rem 0.8rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: var(--bg-card);
-  color: var(--text-secondary);
-  font-size: 0.84rem;
-  transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
-    background-color var(--dur-fast) var(--ease);
-}
-
-.filters__chip span {
+.level__title {
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
   font-family: var(--font-mono);
   font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--text-muted);
 }
 
-.filters__chip:hover {
-  border-color: var(--border-strong);
-  color: var(--text-primary);
-}
-
-.filters__chip.is-active {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  color: var(--accent-text);
-}
-
-.filters__chip.is-active span {
-  color: var(--accent-text);
-}
-
-.chapters {
+.topics {
   display: grid;
   gap: var(--space-3);
   margin: 0;
@@ -74,15 +31,15 @@
   list-style: none;
 }
 
-.chapters li {
+.topics li {
   margin: 0;
 }
 
-.chapter {
+.topic {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: var(--space-4);
-  align-items: center;
+  align-items: start;
   padding: var(--space-4) var(--space-5);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -92,85 +49,68 @@
     transform var(--dur) var(--ease);
 }
 
-.chapter:hover {
+.topic:hover {
   border-color: var(--accent);
   box-shadow: var(--shadow-sm);
   transform: translateX(3px);
 }
 
-.chapter--draft {
-  border-style: dashed;
-  background: var(--bg-subtle);
-}
-
-.chapter__order {
+.topic__order {
   font-family: var(--font-mono);
   font-size: 0.86rem;
   font-weight: 600;
   color: var(--accent-text);
 }
 
-.chapter__body {
+.topic__body {
   display: grid;
-  gap: 0.3rem;
+  gap: 0.35rem;
   min-width: 0;
 }
 
-.chapter__title {
-  display: flex;
-  gap: var(--space-2);
-  align-items: center;
+.topic__title {
   font-size: 1.02rem;
   font-weight: 620;
   color: var(--text-primary);
 }
 
-.chapter__done {
-  display: inline-grid;
-  place-items: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--accent-contrast);
-}
-
-.chapter__summary {
+.topic__summary {
   font-size: 0.86rem;
   color: var(--text-secondary);
 }
 
-.chapter__meta {
+.topic__covers {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
-  align-items: center;
-  margin-top: 0.3rem;
-}
-
-.tag--live {
   gap: 0.3rem;
-  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
-  background: var(--accent-soft);
-  color: var(--accent-text);
+  margin-top: 0.2rem;
 }
 
-.chapter__go {
+.chip {
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-subtle);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.topic__go {
   display: inline-flex;
   gap: var(--space-2);
   align-items: center;
-  font-size: 0.82rem;
-  font-weight: 550;
-  color: var(--accent-text);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-muted);
   white-space: nowrap;
 }
 
 @media (max-width: 640px) {
-  .chapter {
+  .topic {
     grid-template-columns: auto minmax(0, 1fr);
   }
 
-  .chapter__go {
+  .topic__go {
     display: none;
   }
 }

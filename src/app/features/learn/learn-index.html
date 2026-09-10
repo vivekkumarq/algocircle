@@ -1,72 +1,39 @@
 <header class="page-head">
-  <p class="eyebrow"><app-icon name="book" [size]="14" /> Learn</p>
-  <h1>The curriculum</h1>
+  <p class="eyebrow"><app-icon name="book" [size]="14" /> Curriculum</p>
+  <h1>DSA topics, in order</h1>
   <p class="lead">
-    {{ totalStages }} stages covering {{ totalConcepts }} concepts, in the order that keeps every
-    prerequisite behind you. Start at <a routerLink="/learn/why-dsa">Why DSA</a> if you are new —
-    it explains what the subject is for before any code.
-  </p>
-  <p class="status">
-    <app-icon name="check" [size]="14" />
-    {{ publishedCount }} chapters published ({{ readingMinutes }} minutes of reading). The rest show
-    their outline while they are being written.
+    {{ topics.length }} topics, {{ sections }} sections, about {{ minutes }} minutes of reading.
+    Start at <a routerLink="/learn/why-dsa">Why DSA</a> and work down, or jump to whatever you need —
+    nothing is locked.
   </p>
 </header>
 
-<div class="filters" role="group" aria-label="Filter by level">
-  <button
-    type="button"
-    class="filters__chip"
-    [class.is-active]="activeLevel() === 'All'"
-    (click)="setLevel('All')"
-  >
-    All <span>{{ countFor('All') }}</span>
-  </button>
-  @for (level of levels; track level) {
-    <button
-      type="button"
-      class="filters__chip"
-      [class.is-active]="activeLevel() === level"
-      (click)="setLevel(level)"
-    >
-      {{ level }} <span>{{ countFor(level) }}</span>
-    </button>
-  }
-</div>
+@for (group of groups; track group.level) {
+  <section class="level">
+    <h2 class="level__title">{{ group.level }}</h2>
 
-<ul class="chapters">
-  @for (entry of entries(); track entry.stage.id) {
-    <li>
-      <a class="chapter" [routerLink]="['/learn', entry.stage.slug]" [class.chapter--draft]="!entry.published">
-        <span class="chapter__order">{{ pad(entry.stage.order) }}</span>
+    <ul class="topics">
+      @for (topic of group.topics; track topic.slug) {
+        <li>
+          <a class="topic" [routerLink]="['/learn', topic.slug]">
+            <span class="topic__order">{{ pad(topic.order) }}</span>
 
-        <span class="chapter__body">
-          <span class="chapter__title">
-            {{ entry.stage.title }}
-            @if (completed().has(entry.stage.slug)) {
-              <span class="chapter__done" title="Marked complete"><app-icon name="check" [size]="13" /></span>
-            }
-          </span>
-          <span class="chapter__summary">{{ entry.stage.summary }}</span>
-
-          <span class="chapter__meta">
-            <app-difficulty-badge [level]="entry.stage.difficulty" />
-            <span class="tag">{{ entry.stage.level }}</span>
-            @if (entry.published) {
-              <span class="tag tag--live">
-                <app-icon name="book" [size]="12" /> {{ entry.sections }} sections · {{ entry.minutes }} min
+            <span class="topic__body">
+              <span class="topic__title">{{ topic.title }}</span>
+              <span class="topic__summary">{{ topic.summary }}</span>
+              <span class="topic__covers">
+                <span class="chip">{{ topic.sections }} sections</span>
+                <span class="chip">{{ topic.minutes }} min read</span>
               </span>
-            } @else {
-              <span class="tag">{{ entry.stage.syllabus.length }} concepts outlined</span>
-            }
-          </span>
-        </span>
+            </span>
 
-        <span class="chapter__go">
-          {{ entry.published ? 'Read' : 'Outline' }}
-          <app-icon name="arrow-right" [size]="14" />
-        </span>
-      </a>
-    </li>
-  }
-</ul>
+            <span class="topic__go">
+              {{ topic.minutes }} min
+              <app-icon name="arrow-right" [size]="14" />
+            </span>
+          </a>
+        </li>
+      }
+    </ul>
+  </section>
+}
