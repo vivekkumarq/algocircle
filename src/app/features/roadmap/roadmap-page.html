@@ -1,0 +1,93 @@
+<header class="head">
+  <div>
+    <p class="eyebrow"><app-icon name="map" [size]="14" /> Roadmap</p>
+    <h1>The whole curriculum, as a map</h1>
+    <p class="lead">
+      Drag to move, scroll to zoom, click any topic to open it. Hovering traces everything that
+      topic needs first and everything it unlocks.
+    </p>
+  </div>
+  <a class="btn btn--secondary" routerLink="/learn">
+    Topic list <app-icon name="arrow-right" [size]="15" />
+  </a>
+</header>
+
+<div
+  class="surface"
+  #surface
+  [class.is-dragging]="dragging()"
+  (pointerdown)="onPointerDown($event)"
+  (pointermove)="onPointerMove($event)"
+  (pointerup)="onPointerUp($event)"
+  (pointercancel)="onPointerUp($event)"
+  (pointerleave)="active.set(null)"
+  (wheel)="onWheel($event)"
+>
+  <div class="stage" [style.transform]="transform()">
+    <svg
+      [attr.width]="width"
+      [attr.height]="height"
+      [attr.viewBox]="'0 0 ' + width + ' ' + height"
+      role="img"
+      aria-label="Curriculum roadmap: every topic and its prerequisites"
+    >
+      @for (edge of edges; track edge.id) {
+        <path [attr.d]="edge.d" [class]="'edge edge--' + edgeState(edge)" />
+      }
+
+      @for (node of nodes; track node.slug) {
+        <g
+          [class]="'node node--' + state(node.slug) + ' node--level-' + node.level.toLowerCase()"
+          (pointerenter)="active.set(node.slug)"
+          (click)="openTopic($event, node.slug)"
+        >
+          <a [routerLink]="['/learn', node.slug]" [attr.aria-label]="node.label">
+            <rect
+              [attr.x]="node.x"
+              [attr.y]="node.y"
+              [attr.width]="layout.nodeWidth"
+              [attr.height]="layout.nodeHeight"
+              rx="9"
+              class="node__box"
+            />
+            <text [attr.x]="node.x + 12" [attr.y]="node.y + 22" class="node__order">
+              {{ pad(node.order) }}
+            </text>
+            <text [attr.x]="node.x + 34" [attr.y]="node.y + 22" class="node__label">
+              {{ node.label }}
+            </text>
+          </a>
+        </g>
+      }
+    </svg>
+  </div>
+
+  <div class="controls">
+    <button type="button" (click)="zoomIn()" aria-label="Zoom in">+</button>
+    <button type="button" (click)="zoomOut()" aria-label="Zoom out">−</button>
+    <button type="button" (click)="fit()" aria-label="Fit the whole map">
+      <app-icon name="grid" [size]="14" />
+    </button>
+    <button type="button" (click)="reset()" aria-label="Reset the view">
+      <app-icon name="repeat" [size]="14" />
+    </button>
+    <span class="controls__zoom">{{ (zoom() * 100).toFixed(0) }}%</span>
+  </div>
+
+  <div class="legend">
+    <span class="legend__item legend__item--needs">needs first</span>
+    <span class="legend__item legend__item--current">hovered</span>
+    <span class="legend__item legend__item--unlocks">unlocks</span>
+  </div>
+
+  @if (hovered(); as node) {
+    <div class="card">
+      <p class="card__title">{{ pad(node.order) }} · {{ node.label }}</p>
+      <p class="card__summary">{{ node.summary }}</p>
+      <p class="card__meta">
+        {{ node.level }} · {{ node.sections }} sections · {{ node.minutes }} min ·
+        {{ node.problems }} problems
+      </p>
+    </div>
+  }
+</div>
