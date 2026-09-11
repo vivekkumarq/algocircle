@@ -469,7 +469,7 @@ return "not found"`,
         },
         {
           kind: 'para',
-          text: 'The next chapter, **Programming Foundations**, covers the machinery every algorithm is written with: variables, memory, references, functions and the call stack. If you already know it, mark it complete on the roadmap and move to Complexity Analysis.',
+          text: 'The next chapter, **Programming Foundations**, covers the machinery every algorithm is written with: variables, memory, references, functions and the call stack. If you already know it, skim it and move straight to Complexity Analysis.',
         },
       ],
     },

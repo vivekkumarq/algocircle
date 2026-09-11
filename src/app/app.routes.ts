@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 
 /**
- * Four routes. Every topic in the curriculum is served by `learn/:slug`, so
- * the route table does not grow when a chapter is added.
+ * Every topic in the curriculum is served by `learn/:slug` and every problem by
+ * `problems/:slug`, so the route table does not grow when content is added. Only the
+ * landing page sits outside the shell; everything else shares the same frame.
  */
 export const routes: Routes = [
   {
@@ -104,8 +105,24 @@ export const routes: Routes = [
             'Data structures and algorithms interview questions with answers, grouped by topic and filterable by difficulty.',
         },
       },
-      // The roadmap and the topic list are the same thing, so keep one URL.
-      { path: 'roadmap', redirectTo: 'learn', pathMatch: 'full' },
+      {
+        path: 'roadmap',
+        title: 'Roadmap',
+        loadComponent: () => import('./features/roadmap/roadmap-page').then((m) => m.RoadmapPage),
+        data: {
+          description:
+            'The AlgoCircle roadmap: every DSA topic as a node you can pan, zoom and click, wired to the topics it depends on.',
+        },
+      },
+      {
+        path: 'list/:slug',
+        loadComponent: () => import('./features/lists/list-page').then((m) => m.ListPage),
+        data: {
+          description:
+            'A curated DSA practice list: the classic interview categories in order, each problem with graded hints and solutions in Java and Python.',
+        },
+      },
+      { path: 'list', redirectTo: 'list/core-75', pathMatch: 'full' },
       {
         path: '**',
         title: 'Page not found',

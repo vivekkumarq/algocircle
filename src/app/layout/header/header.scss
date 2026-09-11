@@ -145,7 +145,16 @@
 
 @media (min-width: 1024px) {
   .primary { display: flex; }
+  .primary a { padding-inline: 0.5rem; }
+  /* Held back until there is room, so the bar never wraps. Both live in the
+     footer and the drawer as well, so nothing becomes unreachable. */
+  .primary a.wide { display: none; }
   .menu { display: none; }
+}
+
+@media (min-width: 1240px) {
+  .primary a { padding-inline: 0.7rem; }
+  .primary a.wide { display: block; }
 }
 
 @media (max-width: 480px) {

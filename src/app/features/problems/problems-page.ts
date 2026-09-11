@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PROBLEMS, TOTAL_PROBLEMS, problemBySlug } from '../../data/problems';
+import { PYTHON_SOLUTIONS } from '../../data/problems/solutions.python';
 import { ProblemDifficulty } from '../../data/problems/problem.model';
 import { PATTERNS, patternBySlug } from '../../data/patterns/patterns.data';
 import { TOPICS } from '../../data/topics.data';
@@ -70,6 +71,7 @@ export class ProblemsPage {
   );
 
   // ---- detail state ------------------------------------------------------
+  protected readonly language = signal<'java' | 'python'>('java');
   protected readonly hintsShown = signal(0);
   protected readonly approachShown = signal(false);
   protected readonly solutionShown = signal(false);
@@ -82,6 +84,14 @@ export class ProblemsPage {
   protected readonly topicOf = computed(() => {
     const problem = this.problem();
     return problem ? TOPICS.find((topic) => topic.slug === problem.topic) : undefined;
+  });
+
+  protected readonly code = computed(() => {
+    const problem = this.problem();
+    if (!problem) return '';
+    return this.language() === 'python'
+      ? (PYTHON_SOLUTIONS[problem.slug] ?? '# solution coming')
+      : problem.optimal.code;
   });
 
   protected readonly related = computed(() => {
@@ -110,6 +120,10 @@ export class ProblemsPage {
         );
       }
     });
+  }
+
+  protected setLanguage(language: 'java' | 'python'): void {
+    this.language.set(language);
   }
 
   protected revealHint(): void {

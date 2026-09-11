@@ -64,9 +64,16 @@
       @if (solutionShown()) {
         <section class="block">
           <h2>Implementation</h2>
+
+          <div class="langs" role="tablist" aria-label="Language">
+            <button type="button" role="tab" [class.is-active]="language() === 'java'"
+              [attr.aria-selected]="language() === 'java'" (click)="setLanguage('java')">Java</button>
+            <button type="button" role="tab" [class.is-active]="language() === 'python'"
+              [attr.aria-selected]="language() === 'python'" (click)="setLanguage('python')">Python</button>
+          </div>
+
           <figure class="code">
-            <figcaption>{{ p.optimal.language }}</figcaption>
-            <pre><code>{{ p.optimal.code }}</code></pre>
+            <pre><code>{{ code() }}</code></pre>
           </figure>
         </section>
       } @else {

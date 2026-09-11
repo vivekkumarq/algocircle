@@ -1,0 +1,116 @@
+<header class="page-head">
+  <p class="eyebrow"><app-icon name="target" [size]="14" /> Curated practice</p>
+  <h1>{{ list().name }}</h1>
+  <p class="lead">{{ list().description }}</p>
+
+  <dl class="stats">
+    <div>
+      <dt>Problems</dt>
+      <dd>{{ total() }}</dd>
+    </div>
+    <div>
+      <dt>Easy</dt>
+      <dd class="stats--easy">{{ counts().easy }}</dd>
+    </div>
+    <div>
+      <dt>Medium</dt>
+      <dd class="stats--medium">{{ counts().medium }}</dd>
+    </div>
+    <div>
+      <dt>Hard</dt>
+      <dd class="stats--hard">{{ counts().hard }}</dd>
+    </div>
+    <div>
+      <dt>Groups</dt>
+      <dd>{{ list().groups.length }}</dd>
+    </div>
+  </dl>
+</header>
+
+<div class="filters">
+  <label class="search">
+    <app-icon name="search" [size]="15" />
+    <input
+      type="search"
+      placeholder="Search the list…"
+      [value]="query()"
+      (input)="onSearch($event)"
+      aria-label="Search the list"
+    />
+  </label>
+
+  <div class="chips" role="group" aria-label="Filter by difficulty">
+    @for (option of levels; track option) {
+      <button
+        type="button"
+        class="chip"
+        [class.is-active]="level() === option"
+        (click)="setLevel(option)"
+      >
+        {{ option }}
+      </button>
+    }
+  </div>
+
+  <p class="count">{{ matches() }} shown</p>
+</div>
+
+@if (matches() === 0) {
+  <div class="empty">
+    <p>Nothing matches that search.</p>
+    <button type="button" class="btn btn--secondary" (click)="clear()">Clear filters</button>
+  </div>
+} @else {
+  @for (group of groups(); track group.name) {
+    <details class="group" open>
+      <summary>
+        <span class="group__name">{{ group.name }}</span>
+        <span class="group__count">{{ group.rows.length }} / {{ group.size }}</span>
+      </summary>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Problem</th>
+              <th scope="col">Pattern</th>
+              <th scope="col">Difficulty</th>
+              <th scope="col">Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of group.rows; track row.slug) {
+              <tr>
+                <td>
+                  <a class="row__title" [routerLink]="['/problems', row.slug]">{{ row.title }}</a>
+                  <span class="row__statement">{{ row.statement }}</span>
+                </td>
+                <td>
+                  <a class="row__pattern" [routerLink]="['/patterns', row.patternSlug]">
+                    {{ row.pattern }}
+                  </a>
+                </td>
+                <td>
+                  <span class="level" [class]="'level--' + row.difficulty.toLowerCase()">
+                    {{ row.difficulty }}
+                  </span>
+                </td>
+                <td>
+                  <a class="row__solution" [routerLink]="['/problems', row.slug]">
+                    <app-icon name="code" [size]="14" />
+                    Java · Python
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </details>
+  }
+}
+
+<p class="footnote">
+  Solutions stay hidden until you ask for them: each problem shows the statement, then graded hints
+  one at a time, then the brute force and the optimal approach, and only then the code.
+</p>

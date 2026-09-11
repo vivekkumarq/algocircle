@@ -25,10 +25,13 @@ describe('route table', () => {
     expect(paths.has('/learn/:slug')).toBe(true);
   });
 
-  it('keeps the old roadmap URL working', () => {
+  it('serves the pannable roadmap and the curated lists', () => {
+    expect(paths.has('/roadmap')).toBe(true);
+    expect(paths.has('/list/:slug')).toBe(true);
+
     const shell = routes.find((route) => route.children?.length);
-    const roadmap = shell?.children?.find((route) => route.path === 'roadmap');
-    expect(roadmap?.redirectTo).toBe('learn');
+    const list = shell?.children?.find((route) => route.path === 'list');
+    expect(list?.redirectTo).toBe('list/core-75');
   });
 
   it('lazy-loads every routed page', () => {
