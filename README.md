@@ -52,7 +52,9 @@ so a picture can never drift away from the text beside it. Play, pause, step and
 one: graph traversal (breadth-first and depth-first side by side), binary search, sorting, sliding
 window, two pointers, linked-list reversal, tree traversal in three orders, heap sift-up, hash
 buckets with a collision, prefix sums, stack versus queue, recursion trees, memory layout and
-growth curves.
+growth curves, plus a dynamic-programming table filling in cell by cell with the cells it reads from
+highlighted, KMP against the naive scan with live comparison counts, palindrome centre expansion,
+and greedy interval selection and merging.
 
 ## The curriculum map
 
@@ -74,6 +76,25 @@ part that is usually left unwritten:
   for explaining a solution out loud
 - [**A realistic plan**](https://vivekkumarq.github.io/algocircle/guide/study-plan)
   — how long this actually takes, what one good session looks like, and how to tell you are improving
+
+## Patterns and worked problems
+
+Two halves of the same idea. The [**pattern library**](https://vivekkumarq.github.io/algocircle/patterns)
+holds the 24 recurring problem shapes — each with the phrases in a statement that give it away, why
+it works, a template, its variations and the mistakes that break it.
+
+The [**76 worked problems**](https://vivekkumarq.github.io/algocircle/problems) are how you drill
+them. Every problem opens with the statement and nothing else, then reveals graded hints one at a
+time, then the brute force and its cost, then the optimal approach — and only after that the code.
+Each names its pattern, links to the topic that teaches it, and ends with the one sentence worth
+remembering.
+
+## Search
+
+Press `/` anywhere (or `Ctrl`+`K`) to search every topic, section, pattern, problem, algorithm,
+interview question and guide on the site — about 900 entries, ranked with title matches first and
+navigable entirely from the keyboard. The index is built from a dynamic import the first time it is
+opened, so none of that content sits in the initial bundle.
 
 ## Interview questions
 
@@ -133,13 +154,16 @@ src/
     │   ├── components/         animated logo, icons, content renderer
     │   └── visuals/            the animated diagrams and their step player
     ├── layout/                 header, sidebar, mobile drawer, shell, footer
-    ├── features/               home, learn, algorithms, interview, guide, 404
+    ├── features/               home, learn, patterns, problems, algorithms,
+    │                           interview, guide, 404
     ├── data/
     │   ├── chapters/           the curriculum, as typed content blocks
     │   ├── guides/             the how-to-learn corner
+    │   ├── patterns/           24 problem shapes
+    │   ├── problems/           76 worked problems with graded hints
     │   ├── interview/          560 questions and answers, one file per group
     │   └── topics.data.ts      lightweight metadata for the navigation
-    └── app.routes.ts           eight routes
+    └── app.routes.ts           twelve routes
 ```
 
 Three rules hold it together:
@@ -151,7 +175,9 @@ Three rules hold it together:
    without their content, so the sidebar and landing page never drag 275 kB of prose into the
    initial bundle. A test fails the build if the two ever drift apart.
 3. **One door to storage.** Only `StorageService` touches `localStorage`, under versioned keys.
-   Today that is just the theme preference.
+   Today that is the appearance preferences.
+4. **Heavy content is imported on demand.** Search pulls the chapters, problems and questions in
+   with a dynamic import the first time it opens, so the landing page stays small.
 
 ## Local setup
 

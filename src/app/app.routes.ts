@@ -46,6 +46,38 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'patterns',
+        title: 'Patterns',
+        loadComponent: () =>
+          import('./features/patterns/patterns-page').then((m) => m.PatternsPage),
+        data: {
+          description:
+            'The recurring DSA problem shapes, each with the signals that give it away, a template, and the problems that drill it.',
+        },
+      },
+      {
+        path: 'patterns/:slug',
+        loadComponent: () =>
+          import('./features/patterns/patterns-page').then((m) => m.PatternsPage),
+        data: { description: 'A DSA problem-solving pattern with its recognition signals and template.' },
+      },
+      {
+        path: 'problems',
+        title: 'Worked Problems',
+        loadComponent: () =>
+          import('./features/problems/problems-page').then((m) => m.ProblemsPage),
+        data: {
+          description:
+            'DSA problems worked from brute force to optimal, with graded hints before any solution is revealed.',
+        },
+      },
+      {
+        path: 'problems/:slug',
+        loadComponent: () =>
+          import('./features/problems/problems-page').then((m) => m.ProblemsPage),
+        data: { description: 'A DSA problem worked from brute force to optimal, with graded hints.' },
+      },
+      {
         path: 'guide',
         title: 'How to learn DSA',
         loadComponent: () => import('./features/guide/guide-page').then((m) => m.GuidePage),

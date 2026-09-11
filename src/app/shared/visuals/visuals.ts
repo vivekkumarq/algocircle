@@ -1,5 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { createStepPlayer } from './step-player';
+import {
+  VizDpTable,
+  VizIntervalGreedy,
+  VizMergeIntervals,
+  VizPalindrome,
+  VizStringMatch,
+} from './dp-visuals';
 
 /* ---------------------------------------------------------------------------
    Animated diagrams.
@@ -1152,6 +1159,11 @@ export const VISUALS = {
   'hash-buckets': VizHashBuckets,
   sorting: VizSortingBars,
   'recursion-tree': VizRecursionTree,
+  'dp-table': VizDpTable,
+  palindrome: VizPalindrome,
+  'string-match': VizStringMatch,
+  'interval-greedy': VizIntervalGreedy,
+  'merge-intervals': VizMergeIntervals,
 } as const;
 
 export type VisualName = keyof typeof VISUALS;

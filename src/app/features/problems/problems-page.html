@@ -1,0 +1,209 @@
+@if (problem(); as p) {
+  <article class="detail">
+    <header class="head">
+      <p class="eyebrow">
+        <a routerLink="/problems">Problems</a> /
+        <a [routerLink]="['/learn', p.topic]">{{ topicOf()?.label }}</a>
+      </p>
+      <h1>{{ p.title }}</h1>
+
+      <div class="head__meta">
+        <span class="level" [class]="'level--' + p.difficulty.toLowerCase()">{{ p.difficulty }}</span>
+        <a class="tag" [routerLink]="['/patterns', p.pattern]">Pattern: {{ patternName(p.pattern) }}</a>
+        <a class="tag" [routerLink]="['/learn', p.topic]">Topic: {{ topicOf()?.label }}</a>
+      </div>
+    </header>
+
+    <section class="block">
+      <h2>The problem</h2>
+      <p class="statement">{{ p.statement }}</p>
+
+      <div class="example">
+        <p><b>Input</b> <code>{{ p.example.input }}</code></p>
+        <p><b>Output</b> <code>{{ p.example.output }}</code></p>
+        @if (p.example.note) {
+          <p class="example__note">{{ p.example.note }}</p>
+        }
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Think first</h2>
+      <p class="prompt">
+        Try it before reading on. If you stall, take one hint — not the solution. Each hint is a
+        nudge, not an answer.
+      </p>
+
+      <ol class="hints">
+        @for (hint of p.hints.slice(0, hintsShown()); track hint) {
+          <li>{{ hint }}</li>
+        }
+      </ol>
+
+      @if (hintsShown() < p.hints.length) {
+        <button type="button" class="btn btn--secondary" (click)="revealHint()">
+          <app-icon name="zap" [size]="15" />
+          Show hint {{ hintsShown() + 1 }} of {{ p.hints.length }}
+        </button>
+      } @else {
+        <p class="exhausted">That is every hint. If it still has not come, read the approach below.</p>
+      }
+    </section>
+
+    @if (approachShown()) {
+      <section class="block">
+        <h2>Brute force</h2>
+        <p>{{ p.bruteForce.idea }}</p>
+        <p class="cost">{{ p.bruteForce.complexity }}</p>
+
+        <h2>The better approach</h2>
+        <p>{{ p.optimal.idea }}</p>
+        <p class="cost">{{ p.optimal.complexity }}</p>
+      </section>
+
+      @if (solutionShown()) {
+        <section class="block">
+          <h2>Implementation</h2>
+          <figure class="code">
+            <figcaption>{{ p.optimal.language }}</figcaption>
+            <pre><code>{{ p.optimal.code }}</code></pre>
+          </figure>
+        </section>
+      } @else {
+        <section class="block block--gate">
+          <p>Write it yourself from the approach above before looking at the code.</p>
+          <button type="button" class="btn btn--secondary" (click)="revealSolution()">
+            <app-icon name="code" [size]="15" />
+            Show the implementation
+          </button>
+        </section>
+      }
+
+      <section class="block block--insight">
+        <h2><app-icon name="zap" [size]="16" /> Worth remembering</h2>
+        <p>{{ p.insight }}</p>
+      </section>
+    } @else {
+      <section class="block block--gate">
+        <p>Reveal the reasoning once you have had a genuine attempt.</p>
+        <button type="button" class="btn btn--primary" (click)="revealApproach()">
+          Show the approach
+        </button>
+      </section>
+    }
+
+    @if (related().length) {
+      <section class="block">
+        <h2>More problems with this pattern</h2>
+        <ul class="related">
+          @for (other of related(); track other.slug) {
+            <li>
+              <a [routerLink]="['/problems', other.slug]">
+                <span class="level" [class]="'level--' + other.difficulty.toLowerCase()">
+                  {{ other.difficulty }}
+                </span>
+                {{ other.title }}
+              </a>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  </article>
+} @else if (isIndex()) {
+  <header class="page-head">
+    <p class="eyebrow"><app-icon name="target" [size]="14" /> Practice</p>
+    <h1>Worked problems</h1>
+    <p class="lead">
+      {{ total }} problems taken from brute force to optimal, with graded hints before any solution.
+      Every one names the pattern it belongs to and links back to the topic that teaches it.
+    </p>
+  </header>
+
+  <div class="filters">
+    <label class="search">
+      <app-icon name="search" [size]="15" />
+      <input
+        type="search"
+        placeholder="Search problems…"
+        [value]="query()"
+        (input)="onSearch($event)"
+        aria-label="Search problems"
+      />
+    </label>
+
+    <div class="chips" role="group" aria-label="Filter by difficulty">
+      @for (option of levels; track option) {
+        <button
+          type="button"
+          class="chip"
+          [class.is-active]="levelFilter() === option"
+          (click)="setLevel(option)"
+        >
+          {{ option }}
+        </button>
+      }
+    </div>
+
+    <div class="chips chips--topics" role="group" aria-label="Filter by topic">
+      <button
+        type="button"
+        class="chip"
+        [class.is-active]="topicFilter() === 'all'"
+        (click)="setTopic('all')"
+      >
+        All topics <span>{{ total }}</span>
+      </button>
+      @for (option of topicOptions; track option.slug) {
+        <button
+          type="button"
+          class="chip"
+          [class.is-active]="topicFilter() === option.slug"
+          (click)="setTopic(option.slug)"
+        >
+          {{ option.label }} <span>{{ option.count }}</span>
+        </button>
+      }
+    </div>
+
+    <p class="count">{{ matches() }} shown</p>
+  </div>
+
+  @if (matches() === 0) {
+    <div class="empty">
+      <p>Nothing matches that search.</p>
+      <button type="button" class="btn btn--secondary" (click)="clear()">Clear filters</button>
+    </div>
+  } @else {
+    @for (group of groups(); track group.slug) {
+      <section class="group">
+        <h2 class="group__title">
+          <span class="group__order">{{ pad(group.order) }}</span>
+          {{ group.label }}
+        </h2>
+
+        <ul class="problems">
+          @for (item of group.problems; track item.slug) {
+            <li>
+              <a class="problem" [routerLink]="['/problems', item.slug]">
+                <span class="level" [class]="'level--' + item.difficulty.toLowerCase()">
+                  {{ item.difficulty }}
+                </span>
+                <span class="problem__body">
+                  <span class="problem__title">{{ item.title }}</span>
+                  <span class="problem__statement">{{ item.statement }}</span>
+                </span>
+                <span class="problem__pattern">{{ patternName(item.pattern) }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  }
+} @else {
+  <div class="missing">
+    <h1>We couldn't find that problem</h1>
+    <a class="btn btn--primary" routerLink="/problems">Back to the problems</a>
+  </div>
+}

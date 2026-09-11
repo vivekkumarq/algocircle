@@ -8,12 +8,20 @@
 
   <nav class="primary" aria-label="Primary">
     <a routerLink="/learn" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">DSA Topics</a>
+    <a routerLink="/patterns" routerLinkActive="is-active">Patterns</a>
+    <a routerLink="/problems" routerLinkActive="is-active">Problems</a>
     <a routerLink="/algorithms" routerLinkActive="is-active">Algorithms</a>
     <a routerLink="/interview" routerLinkActive="is-active">Interview Q&amp;A</a>
     <a routerLink="/guide" routerLinkActive="is-active">How to Learn</a>
   </nav>
 
   <div class="actions">
+    <button type="button" class="search-trigger" (click)="openSearch()" aria-label="Search (press /)">
+      <app-icon name="search" [size]="15" />
+      <span class="search-trigger__text">Search</span>
+      <span class="kbd">/</span>
+    </button>
+
     <app-appearance-menu />
 
     <a

@@ -170,6 +170,12 @@ return Math.max(take, skip);`,
           text: 'When the state needs two coordinates — a position in a grid, or an index into each of two sequences — the table becomes two-dimensional and the transition reads its neighbours.',
         },
         {
+          kind: 'visual',
+          name: 'dp-table',
+          caption:
+            'The table filling in, one cell at a time. Amber cells are the ones the current cell reads from.',
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Unique paths in a grid, moving only right or down',
@@ -255,6 +261,12 @@ return Math.max(take, skip);`,
         {
           kind: 'para',
           text: 'Two strings, two indices, and a transition that asks whether the current characters match. Almost every string DP is this.',
+        },
+        {
+          kind: 'visual',
+          name: 'dp-table',
+          caption:
+            'Switch to the LCS mode and watch how only the transition changes, not the shape.',
         },
         {
           kind: 'code',

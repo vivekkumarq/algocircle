@@ -113,6 +113,12 @@ for (String word : words) {
           text: 'Checking whether a string is a palindrome is two pointers moving inward. Finding the **longest palindromic substring** is different: every palindrome has a centre, so try all centres and expand outward while the characters match.',
         },
         {
+          kind: 'visual',
+          name: 'palindrome',
+          caption:
+            'Every character and every gap is a centre. Watch it try each one and keep the widest.',
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Expand around centre - O(n^2) time, O(1) space',
@@ -154,6 +160,12 @@ void expand(int lo, int hi) {
         {
           kind: 'para',
           text: 'Find pattern `p` (length `m`) inside text `t` (length `n`). The obvious approach tries every starting position and compares forward.',
+        },
+        {
+          kind: 'visual',
+          name: 'string-match',
+          caption:
+            'Switch between the naive scan and KMP and compare the comparison counts.',
         },
         {
           kind: 'code',

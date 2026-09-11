@@ -1,0 +1,56 @@
+@if (open()) {
+  <div class="scrim" (click)="close()" aria-hidden="true"></div>
+
+  <div class="panel" role="dialog" aria-modal="true" aria-label="Search AlgoCircle">
+    <label class="field">
+      <app-icon name="search" [size]="17" />
+      <input
+        #field
+        type="search"
+        placeholder="Search topics, patterns, problems, algorithms and questions…"
+        [value]="query()"
+        (input)="onInput($event)"
+        aria-label="Search"
+      />
+      <span class="kbd">Esc</span>
+    </label>
+
+    <div class="results">
+      @if (indexing()) {
+        <p class="state">Building the index…</p>
+      } @else if (query().trim().length < 2) {
+        <p class="state">
+          Type at least two characters. Use the arrow keys to move and Enter to open.
+        </p>
+      } @else if (results().length === 0) {
+        <p class="state">Nothing matches “{{ query() }}”.</p>
+      } @else {
+        @for (group of grouped(); track group.kind) {
+          <p class="group">{{ group.kind }}</p>
+          <ul>
+            @for (result of group.items; track result.title + result.detail) {
+              <li>
+                <button
+                  type="button"
+                  class="result"
+                  [class.is-active]="indexOf(result) === active()"
+                  (click)="go(result)"
+                  (mouseenter)="active.set(indexOf(result))"
+                >
+                  <span class="result__title">{{ result.title }}</span>
+                  <span class="result__detail">{{ result.detail }}</span>
+                </button>
+              </li>
+            }
+          </ul>
+        }
+      }
+    </div>
+
+    <p class="footer">
+      <span><span class="kbd">/</span> to open</span>
+      <span><span class="kbd">↑</span><span class="kbd">↓</span> to move</span>
+      <span><span class="kbd">↵</span> to open a result</span>
+    </p>
+  </div>
+}

@@ -1,0 +1,150 @@
+@if (pattern(); as p) {
+  <article class="detail">
+    <header class="head">
+      <p class="eyebrow"><a routerLink="/patterns">Patterns</a> / {{ p.frequency }} frequency</p>
+      <h1>{{ p.name }}</h1>
+      <p class="lead">{{ p.tagline }}</p>
+      <div class="head__meta">
+        <span class="tag">{{ p.complexity }}</span>
+        <a class="tag" [routerLink]="['/learn', p.topic]">Taught in {{ topicLabel() }}</a>
+        <span class="tag">{{ problems().length }} problems</span>
+      </div>
+    </header>
+
+    <section class="block block--signals">
+      <h2><app-icon name="target" [size]="16" /> Recognition signals</h2>
+      <p class="hint">If a problem statement says any of these, try this pattern first.</p>
+      <ul class="signals">
+        @for (signal of p.signals; track signal) {
+          <li><app-icon name="check" [size]="14" /> {{ signal }}</li>
+        }
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Why it works</h2>
+      <p>{{ p.idea }}</p>
+    </section>
+
+    <section class="block">
+      <h2>Template</h2>
+      <figure class="code">
+        <figcaption>pseudocode</figcaption>
+        <pre><code>{{ p.template }}</code></pre>
+      </figure>
+    </section>
+
+    <section class="block two-up">
+      <div>
+        <h2>Variations</h2>
+        <ul>
+          @for (item of p.variations; track item) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      </div>
+      <div>
+        <h2>Common mistakes</h2>
+        <ul class="mistakes">
+          @for (item of p.mistakes; track item) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    @if (problems().length) {
+      <section class="block">
+        <h2>Problems that drill it</h2>
+        <ul class="problems">
+          @for (problem of problems(); track problem.slug) {
+            <li>
+              <a [routerLink]="['/problems', problem.slug]">
+                <span class="level" [class]="'level--' + problem.difficulty.toLowerCase()">
+                  {{ problem.difficulty }}
+                </span>
+                <span class="problem__body">
+                  <span class="problem__title">{{ problem.title }}</span>
+                  <span class="problem__statement">{{ problem.statement }}</span>
+                </span>
+                <app-icon name="arrow-right" [size]="14" />
+              </a>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+
+    @if (position(); as nav) {
+      <nav class="pager" aria-label="Pattern navigation">
+        @if (nav.previous) {
+          <a class="pager__link" [routerLink]="['/patterns', nav.previous.slug]">
+            <span class="pager__dir">Previous</span>
+            <span class="pager__title">{{ nav.previous.name }}</span>
+          </a>
+        } @else {
+          <span></span>
+        }
+        @if (nav.next) {
+          <a class="pager__link pager__link--next" [routerLink]="['/patterns', nav.next.slug]">
+            <span class="pager__dir">Next</span>
+            <span class="pager__title">{{ nav.next.name }}</span>
+          </a>
+        }
+      </nav>
+    }
+  </article>
+} @else if (isIndex()) {
+  <header class="page-head">
+    <p class="eyebrow"><app-icon name="layers" [size]="14" /> Pattern library</p>
+    <h1>The shapes problems come in</h1>
+    <p class="lead">
+      Interviews rarely repeat a problem you have seen — they repeat the shape of one. These are the
+      {{ patterns.length }} shapes worth recognising, each with the phrases that give it away and the
+      problems that drill it.
+    </p>
+  </header>
+
+  <div class="table-scroll">
+    <table class="index">
+      <thead>
+        <tr>
+          <th scope="col">Pattern</th>
+          <th scope="col">Give-away signals</th>
+          <th scope="col">Cost</th>
+          <th scope="col">Seen</th>
+          <th scope="col">Problems</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of rows; track row.slug) {
+          <tr>
+            <td>
+              <a class="index__name" [routerLink]="['/patterns', row.slug]">{{ row.name }}</a>
+              <span class="index__tagline">{{ row.tagline }}</span>
+            </td>
+            <td>
+              <span class="index__signals">
+                @for (signal of row.signals.slice(0, 3); track signal) {
+                  <span class="signal">{{ signal }}</span>
+                }
+              </span>
+            </td>
+            <td class="index__cost">{{ row.complexity }}</td>
+            <td>
+              <span class="freq" [class]="'freq--' + row.frequency.toLowerCase().replace(' ', '-')">
+                {{ row.frequency }}
+              </span>
+            </td>
+            <td class="index__count">{{ row.problems }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else {
+  <div class="missing">
+    <h1>We couldn't find that pattern</h1>
+    <a class="btn btn--primary" routerLink="/patterns">Back to the patterns</a>
+  </div>
+}

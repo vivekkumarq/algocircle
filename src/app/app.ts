@@ -3,11 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { Header } from './layout/header/header';
 import { Footer } from './layout/footer/footer';
 import { MobileNav } from './layout/mobile-nav/mobile-nav';
+import { SearchOverlay } from './layout/search-overlay/search-overlay';
 import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Footer, MobileNav],
+  imports: [RouterOutlet, Header, Footer, MobileNav, SearchOverlay],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

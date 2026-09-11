@@ -106,6 +106,12 @@ export const GREEDY: Chapter = {
           text: 'Almost every interval problem is solved by choosing what to sort by. Get that right and the scan is five lines; get it wrong and no amount of clever scanning recovers.',
         },
         {
+          kind: 'visual',
+          name: 'interval-greedy',
+          caption:
+            'Sorted by finish time. Each step either takes the interval or skips it, and never reconsiders.',
+        },
+        {
           kind: 'table',
           headers: ['Problem', 'Sort by', 'Then'],
           rows: [
@@ -167,6 +173,12 @@ for (int[] interval : intervals) {
             ['Kruskal MST', 'add the cheapest edge that joins two components', 'the cut property'],
             ['Dijkstra', 'settle the nearest unvisited vertex', 'non-negative weights mean it cannot improve later'],
           ],
+        },
+        {
+          kind: 'visual',
+          name: 'merge-intervals',
+          caption:
+            'Sorted by start instead: one forward pass either extends the current block or starts a new one.',
         },
         {
           kind: 'code',
