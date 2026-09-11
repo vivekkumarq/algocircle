@@ -9,7 +9,7 @@
 Twenty topics in the order that makes each one easier than the last — from what an algorithm even
 is, through to segment trees and dynamic programming.
 
-[Read it here](https://vivekkumarq.github.io/algocircle/) · [All topics](https://vivekkumarq.github.io/algocircle/learn)
+[Read it here](https://vivekkumarq.github.io/algocircle/) · [All topics](https://vivekkumarq.github.io/algocircle/learn) · [Roadmap](https://vivekkumarq.github.io/algocircle/roadmap) · [Practice list](https://vivekkumarq.github.io/algocircle/list/core-75) · [Advanced course](https://vivekkumarq.github.io/algocircle/course)
 
 </div>
 
@@ -58,11 +58,15 @@ and greedy interval selection and merging.
 
 ## The curriculum map
 
-The landing page and the topic index both carry an interactive dependency map: every topic as a
-node, with an edge from each of its prerequisites. Hover one and it traces the whole chain it
-depends on and everything it unlocks, dimming the rest; click to open it. Layout positions are
-hand-placed in `topic-graph.data.ts` while the edges come from the topics themselves, and tests fail
-the build if a topic is ever placed above one of its own prerequisites.
+The landing page carries an interactive dependency map: every topic as a node, with an edge from
+each of its prerequisites. Hover one and it traces the whole chain it depends on and everything it
+unlocks, dimming the rest; click to open it. Layout positions are hand-placed in
+`topic-graph.data.ts` while the edges come from the topics themselves, and tests fail the build if a
+topic is ever placed above one of its own prerequisites.
+
+The [**full roadmap**](https://vivekkumarq.github.io/algocircle/roadmap) is the same map with room
+to move: drag to pan, scroll or pinch to zoom, and click any topic to open its lesson. It opens
+fitted to the window and refits while you resize, until you take control of the view yourself.
 
 ## How to learn
 
@@ -89,10 +93,42 @@ time, then the brute force and its cost, then the optimal approach — and only 
 Each names its pattern, links to the topic that teaches it, and ends with the one sentence worth
 remembering.
 
+## The Core List
+
+[**The Core List**](https://vivekkumarq.github.io/algocircle/list/core-75) is the curated practice
+run: every problem in the catalogue, grouped into the eighteen classic interview categories —
+arrays and hashing, two pointers, sliding window, stack, binary search, linked list, trees, tries
+and bit manipulation, heaps, backtracking, graphs, dynamic programming, greedy, intervals, sorting
+and selection, maths, range queries, and reading the constraints — and ordered so each group builds
+on the one before. Search it, filter it by difficulty, and open any row for the full write-up.
+
+Every solution is given in **both Java and Python**, on a tab switch, after the hints and the
+approaches rather than before them.
+
+## The advanced course
+
+[**Advanced Algorithms**](https://vivekkumarq.github.io/algocircle/course) is 22 lessons on the
+techniques that turn a correct solution into an optimal one, grouped into eight sections:
+
+| Section | Lessons |
+| ------- | ------- |
+| Arrays | Kadane's algorithm · sliding window, fixed and variable · two pointers · prefix sums |
+| Linked lists | Fast and slow pointers |
+| Trees | Iterative DFS |
+| Advanced structures | Trie · Union-Find · segment tree |
+| Heaps | Two heaps |
+| Backtracking | Subsets · combinations · permutations |
+| Graphs | Dijkstra · Prim · Kruskal · topological sort |
+| Dynamic programming | 0/1 knapsack · unbounded knapsack · LCS · palindromes |
+
+Each lesson states the idea in plain words, proves why the technique is correct, gives the code in
+Java and Python, tabulates the cost against the alternatives, names the mistake people make, and
+ends with a question and the problems that drill it.
+
 ## Search
 
 Press `/` anywhere (or `Ctrl`+`K`) to search every topic, section, pattern, problem, algorithm,
-interview question and guide on the site — about 900 entries, ranked with title matches first and
+interview question, course lesson and guide on the site — over 900 entries, ranked with title matches first and
 navigable entirely from the keyboard. The index is built from a dynamic import the first time it is
 opened, so none of that content sits in the initial bundle.
 
@@ -154,16 +190,17 @@ src/
     │   ├── components/         animated logo, icons, content renderer
     │   └── visuals/            the animated diagrams and their step player
     ├── layout/                 header, sidebar, mobile drawer, shell, footer
-    ├── features/               home, learn, patterns, problems, algorithms,
-    │                           interview, guide, 404
+    ├── features/               home, learn, roadmap, patterns, problems, lists,
+    │                           algorithms, course, interview, guide, 404
     ├── data/
     │   ├── chapters/           the curriculum, as typed content blocks
     │   ├── guides/             the how-to-learn corner
     │   ├── patterns/           24 problem shapes
-    │   ├── problems/           76 worked problems with graded hints
+    │   ├── problems/           76 worked problems, Python solutions, the Core List
+    │   ├── course/             the 22-lesson advanced course
     │   ├── interview/          560 questions and answers, one file per group
     │   └── topics.data.ts      lightweight metadata for the navigation
-    └── app.routes.ts           twelve routes
+    └── app.routes.ts           seventeen lazy routes
 ```
 
 Three rules hold it together:

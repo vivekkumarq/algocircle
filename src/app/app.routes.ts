@@ -106,6 +106,23 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'course',
+        title: 'Advanced Algorithms',
+        loadComponent: () => import('./features/course/course-page').then((m) => m.CoursePage),
+        data: {
+          description:
+            'An advanced algorithms course: twenty-two techniques, each with the idea, why it is correct, the code in Java and Python, and the problems that drill it.',
+        },
+      },
+      {
+        path: 'course/:slug',
+        loadComponent: () => import('./features/course/course-page').then((m) => m.CoursePage),
+        data: {
+          description:
+            'One advanced algorithm technique explained in full: the idea, the proof, the code in Java and Python, the cost and the common trap.',
+        },
+      },
+      {
         path: 'roadmap',
         title: 'Roadmap',
         loadComponent: () => import('./features/roadmap/roadmap-page').then((m) => m.RoadmapPage),

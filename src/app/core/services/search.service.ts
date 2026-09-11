@@ -1,6 +1,14 @@
 import { Injectable, signal } from '@angular/core';
 
-export type SearchKind = 'Topic' | 'Section' | 'Pattern' | 'Problem' | 'Algorithm' | 'Question' | 'Guide';
+export type SearchKind =
+  | 'Topic'
+  | 'Section'
+  | 'Pattern'
+  | 'Problem'
+  | 'Algorithm'
+  | 'Question'
+  | 'Guide'
+  | 'Lesson';
 
 export interface SearchEntry {
   kind: SearchKind;
@@ -26,6 +34,7 @@ const KIND_WEIGHT: Record<SearchKind, number> = {
   Problem: 4,
   Section: 3,
   Algorithm: 3,
+  Lesson: 3,
   Guide: 2,
   Question: 1,
 };
@@ -79,14 +88,16 @@ export class SearchService {
   }
 
   private async build(): Promise<void> {
-    const [chapters, patterns, problems, algorithms, questions, guides] = await Promise.all([
-      import('../../data/chapters'),
-      import('../../data/patterns/patterns.data'),
-      import('../../data/problems'),
-      import('../../data/algorithms.data'),
-      import('../../data/interview'),
-      import('../../data/guides/guides.data'),
-    ]);
+    const [chapters, patterns, problems, algorithms, questions, guides, course] =
+      await Promise.all([
+        import('../../data/chapters'),
+        import('../../data/patterns/patterns.data'),
+        import('../../data/problems'),
+        import('../../data/algorithms.data'),
+        import('../../data/interview'),
+        import('../../data/guides/guides.data'),
+        import('../../data/course'),
+      ]);
 
     const entries: SearchEntry[] = [];
     const add = (entry: Omit<SearchEntry, 'haystack' | 'lowerTitle'> & { body?: string }): void => {
@@ -175,6 +186,18 @@ export class SearchService {
           fragment: section.id,
         });
       }
+    }
+
+    for (const lesson of course.COURSE_LESSONS) {
+      add({
+        kind: 'Lesson',
+        title: lesson.title,
+        detail: lesson.tagline,
+        route: ['/course', lesson.slug],
+        body: lesson.blocks
+          .map((block) => ('text' in block ? block.text : ''))
+          .join(' '),
+      });
     }
 
     this.entries = entries;

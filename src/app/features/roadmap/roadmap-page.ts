@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
+  afterNextRender,
   computed,
   inject,
   signal,
@@ -42,6 +44,7 @@ interface Node {
 })
 export class RoadmapPage {
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly surface = viewChild<ElementRef<HTMLElement>>('surface');
 
   protected readonly layout = GRAPH_LAYOUT;
@@ -109,6 +112,8 @@ export class RoadmapPage {
 
   private pointerStart: { x: number; y: number; panX: number; panY: number } | null = null;
   private moved = false;
+  /** Set once the reader takes control, so auto-fitting stops interfering. */
+  private touched = false;
 
   // ---- hover -------------------------------------------------------------
   protected readonly active = signal<string | null>(null);
@@ -146,6 +151,22 @@ export class RoadmapPage {
   });
 
   constructor() {
+    // Open showing the whole map rather than the middle of it, and keep it
+    // fitted while the window resizes — until the reader pans or zooms, after
+    // which the view is theirs.
+    afterNextRender(() => {
+      const element = this.surface()?.nativeElement;
+      if (!element) return;
+
+      const observer = new ResizeObserver(() => {
+        if (this.touched) observer.disconnect();
+        else this.fit();
+      });
+
+      observer.observe(element);
+      this.destroyRef.onDestroy(() => observer.disconnect());
+    });
+
     inject(SeoService).update(
       'DSA Roadmap',
       'The whole curriculum as a map you can pan and zoom. Every topic links to its lesson, and hovering one traces what it needs and what it unlocks.',
@@ -180,6 +201,7 @@ export class RoadmapPage {
 
   protected onPointerDown(event: PointerEvent): void {
     if (event.button !== 0) return;
+    this.touched = true;
     this.pointerStart = { x: event.clientX, y: event.clientY, panX: this.panX(), panY: this.panY() };
     this.moved = false;
     this.dragging.set(true);
@@ -205,6 +227,7 @@ export class RoadmapPage {
 
   protected onWheel(event: WheelEvent): void {
     event.preventDefault();
+    this.touched = true;
     this.scale(event.deltaY < 0 ? 1.12 : 1 / 1.12);
   }
 
@@ -218,10 +241,12 @@ export class RoadmapPage {
   }
 
   protected zoomIn(): void {
+    this.touched = true;
     this.scale(1.2);
   }
 
   protected zoomOut(): void {
+    this.touched = true;
     this.scale(1 / 1.2);
   }
 
@@ -229,18 +254,24 @@ export class RoadmapPage {
     const element = this.surface()?.nativeElement;
     if (!element) return;
 
+    if (element.clientHeight < 80) return;      // styles have not landed yet
+
+    const margin = 28;
     const scale = Math.min(
-      element.clientWidth / this.width,
-      element.clientHeight / this.height,
+      (element.clientWidth - margin) / this.width,
+      (element.clientHeight - margin) / this.height,
       1.4,
     );
 
-    this.zoom.set(Math.max(scale, 0.2));
+    // Never shrink past readable: the map is taller than it is wide, so on a
+    // short window it is better to fit the width and let the reader pan down.
+    this.zoom.set(Math.max(scale, 0.62));
     this.panX.set(0);
     this.panY.set(0);
   }
 
   protected reset(): void {
+    this.touched = true;
     this.zoom.set(1);
     this.panX.set(0);
     this.panY.set(0);

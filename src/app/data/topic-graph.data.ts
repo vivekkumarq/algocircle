@@ -30,11 +30,11 @@ export const TOPIC_POSITIONS: Record<string, { col: number; row: number }> = {
 
 /** Geometry of one grid cell, in SVG units. */
 export const GRAPH_LAYOUT = {
-  nodeWidth: 132,
-  nodeHeight: 38,
-  colPitch: 150,
-  rowPitch: 62,
-  padding: 12,
+  nodeWidth: 148,
+  nodeHeight: 36,
+  colPitch: 172,
+  rowPitch: 58,
+  padding: 14,
   columns: 5,
   rows: 14,
 };
