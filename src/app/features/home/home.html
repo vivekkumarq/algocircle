@@ -149,6 +149,50 @@
 
 <section class="section container">
   <header class="section__head section__head--stacked">
+    <p class="eyebrow">Then practise</p>
+    <h2>Three ways to use the site once the reading is done</h2>
+    <p class="lead">
+      Reading is the smaller half. These are the parts you come back to: a map to navigate by, a
+      list to work down, and a course on the techniques that separate a correct answer from a fast
+      one.
+    </p>
+  </header>
+
+  <div class="cards">
+    <a class="card card--link" routerLink="/roadmap">
+      <span class="card__icon"><app-icon name="map" [size]="18" /></span>
+      <h3>The roadmap</h3>
+      <p>
+        All {{ topicCount }} topics as a map you can drag, zoom and click. Hover one to trace what
+        it needs first and everything it unlocks.
+      </p>
+      <span class="card__link">Open the map <app-icon name="arrow-right" [size]="14" /></span>
+    </a>
+
+    <a class="card card--link" routerLink="/list/core-75">
+      <span class="card__icon"><app-icon name="bookmark" [size]="18" /></span>
+      <h3>The Core List</h3>
+      <p>
+        {{ stats.listProblems }} problems in the {{ stats.listGroups }} classic interview
+        categories, each with graded hints and a solution in both Java and Python.
+      </p>
+      <span class="card__link">Start the list <app-icon name="arrow-right" [size]="14" /></span>
+    </a>
+
+    <a class="card card--link" routerLink="/course">
+      <span class="card__icon"><app-icon name="layers" [size]="18" /></span>
+      <h3>Advanced Algorithms</h3>
+      <p>
+        {{ stats.courseLessons }} lessons, about {{ courseHours }} hours: Kadane, tries, union-find,
+        segment trees, Dijkstra, knapsacks and the rest — with the proof and the trap for each.
+      </p>
+      <span class="card__link">See the course <app-icon name="arrow-right" [size]="14" /></span>
+    </a>
+  </div>
+</section>
+
+<section class="section container">
+  <header class="section__head section__head--stacked">
     <p class="eyebrow">Building the skill</p>
     <h2>Knowing what a heap is will not make you good at this</h2>
     <p class="lead">

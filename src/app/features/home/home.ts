@@ -5,6 +5,7 @@ import { TopicGraph } from '../../shared/components/topic-graph/topic-graph';
 import { TOPIC_GROUPS } from '../../data/navigation.data';
 import { TOPICS, TOTAL_TOPIC_MINUTES, TOTAL_TOPIC_SECTIONS } from '../../data/topics.data';
 import { PATTERN_PREVIEWS } from '../../data/patterns/pattern-preview.data';
+import { SITE_STATS } from '../../data/site-stats.data';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,9 @@ export class Home {
   protected readonly sectionCount = TOTAL_TOPIC_SECTIONS;
   protected readonly minutes = TOTAL_TOPIC_MINUTES;
   protected readonly groups = TOPIC_GROUPS;
+
+  protected readonly stats = SITE_STATS;
+  protected readonly courseHours = Math.round(SITE_STATS.courseMinutes / 60);
 
   protected readonly patterns = PATTERN_PREVIEWS;
   protected readonly activePattern = signal(this.patterns[0].slug);
