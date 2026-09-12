@@ -44,7 +44,6 @@
         <g
           [class]="'node node--' + state(node.slug) + ' node--level-' + node.level.toLowerCase()"
           (pointerenter)="active.set(node.slug)"
-          (click)="openTopic($event, node.slug)"
         >
           <a [routerLink]="['/learn', node.slug]" [attr.aria-label]="node.label">
             <rect

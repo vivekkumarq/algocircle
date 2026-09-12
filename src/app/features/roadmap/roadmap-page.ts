@@ -1,15 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   ElementRef,
-  afterNextRender,
   computed,
+  effect,
   inject,
   signal,
   viewChild,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { TOPICS } from '../../data/topics.data';
 import { GRAPH_LAYOUT, TOPIC_POSITIONS } from '../../data/topic-graph.data';
 import { PROBLEMS } from '../../data/problems';
@@ -43,8 +42,6 @@ interface Node {
   styleUrl: './roadmap-page.scss',
 })
 export class RoadmapPage {
-  private readonly router = inject(Router);
-  private readonly destroyRef = inject(DestroyRef);
   private readonly surface = viewChild<ElementRef<HTMLElement>>('surface');
 
   protected readonly layout = GRAPH_LAYOUT;
@@ -151,20 +148,37 @@ export class RoadmapPage {
   });
 
   constructor() {
-    // Open showing the whole map rather than the middle of it, and keep it
-    // fitted while the window resizes — until the reader pans or zooms, after
-    // which the view is theirs.
-    afterNextRender(() => {
+    effect((onCleanup) => {
       const element = this.surface()?.nativeElement;
       if (!element) return;
 
-      const observer = new ResizeObserver(() => {
-        if (this.touched) observer.disconnect();
-        else this.fit();
-      });
+      // A drag that happens to end on a node must not open it. Capture phase,
+      // so this runs before the link's own handler.
+      const swallowDragClick = (event: MouseEvent): void => {
+        if (!this.moved) return;
+        event.preventDefault();
+        event.stopPropagation();
+      };
 
-      observer.observe(element);
-      this.destroyRef.onDestroy(() => observer.disconnect());
+      element.addEventListener('click', swallowDragClick, true);
+
+      // Open showing the whole map rather than the middle of it, and keep it
+      // fitted while the window resizes — until the reader pans or zooms,
+      // after which the view is theirs.
+      const observer =
+        typeof ResizeObserver === 'undefined'
+          ? null
+          : new ResizeObserver(() => {
+              if (this.touched) observer?.disconnect();
+              else this.fit();
+            });
+
+      observer?.observe(element);
+
+      onCleanup(() => {
+        element.removeEventListener('click', swallowDragClick, true);
+        observer?.disconnect();
+      });
     });
 
     inject(SeoService).update(
@@ -205,7 +219,8 @@ export class RoadmapPage {
     this.pointerStart = { x: event.clientX, y: event.clientY, panX: this.panX(), panY: this.panY() };
     this.moved = false;
     this.dragging.set(true);
-    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    // Capturing here would retarget the click to the surface, so a plain click
+    // on a node would never reach its link. Capture only once a drag starts.
   }
 
   protected onPointerMove(event: PointerEvent): void {
@@ -213,7 +228,14 @@ export class RoadmapPage {
 
     const dx = event.clientX - this.pointerStart.x;
     const dy = event.clientY - this.pointerStart.y;
-    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) this.moved = true;
+
+    if (!this.moved && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+      this.moved = true;
+      // Now that this is a drag, keep receiving moves even outside the surface.
+      (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    }
+
+    if (!this.moved) return;
 
     this.panX.set(this.pointerStart.panX + dx);
     this.panY.set(this.pointerStart.panY + dy);
@@ -222,22 +244,14 @@ export class RoadmapPage {
   protected onPointerUp(event: PointerEvent): void {
     this.pointerStart = null;
     this.dragging.set(false);
-    (event.currentTarget as HTMLElement).releasePointerCapture?.(event.pointerId);
+    const surface = event.currentTarget as HTMLElement;
+    if (surface.hasPointerCapture?.(event.pointerId)) surface.releasePointerCapture(event.pointerId);
   }
 
   protected onWheel(event: WheelEvent): void {
     event.preventDefault();
     this.touched = true;
     this.scale(event.deltaY < 0 ? 1.12 : 1 / 1.12);
-  }
-
-  /** A drag that ended on a node should not also navigate. */
-  protected openTopic(event: Event, slug: string): void {
-    if (this.moved) {
-      event.preventDefault();
-      return;
-    }
-    void this.router.navigate(['/learn', slug]);
   }
 
   protected zoomIn(): void {
