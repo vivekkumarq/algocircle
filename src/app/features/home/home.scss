@@ -277,31 +277,74 @@
 }
 
 .card {
+  position: relative;
   display: block;
   padding: var(--space-5);
+  overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--bg-card);
+  background-image: var(--sheen);
   color: inherit;
+  box-shadow: var(--shadow-xs);
   transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
     transform var(--dur) var(--ease);
 }
 
+/* A soft accent bloom that fades in from the top-left corner on hover. It is
+   an opacity change on a pre-painted layer, so hovering costs nothing. */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: -40% 40% 40% -40%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    color-mix(in srgb, var(--accent) 24%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+  pointer-events: none;
+}
+
+.card > * {
+  position: relative;
+}
+
 .card:hover {
-  border-color: var(--border-strong);
+  border-color: var(--ring-soft);
   box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card__icon {
   display: inline-grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   margin-bottom: var(--space-4);
+  border: 1px solid var(--ring-soft);
   border-radius: var(--radius-md);
   background: var(--accent-soft);
   color: var(--accent-text);
+  transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.card:hover .card__icon {
+  box-shadow: var(--glow-accent-soft);
+  transform: translateY(-1px);
+}
+
+.card__link app-icon {
+  transition: transform var(--dur) var(--ease);
+}
+
+.card:hover .card__link app-icon {
+  transform: translateX(3px);
 }
 
 .card h3 {
@@ -463,16 +506,20 @@
   cursor: default;
 }
 
+/* The anatomy cards are static: no lift, and no bloom either. */
 .card:hover {
   transform: none;
 }
 
-/* The anatomy cards are static; the guide cards are links and keep the lift. */
+.card:not(.card--link):hover::before {
+  opacity: 0;
+}
+
 .card--link {
   cursor: pointer;
 }
 
 .card--link:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
+  border-color: var(--ring-strong);
+  transform: translateY(-3px);
 }

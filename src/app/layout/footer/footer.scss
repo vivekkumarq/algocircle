@@ -44,6 +44,13 @@
   gap: var(--space-5);
 }
 
+.column {
+  /* Every page carries the whole topic list down here; skip it until it is
+     scrolled into view. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 260px;
+}
+
 .column__title {
   margin-bottom: var(--space-3);
   font-family: var(--font-mono);

@@ -4,8 +4,48 @@
   z-index: var(--z-header);
   display: block;
   border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--bg-main) 88%, transparent);
+  background: var(--glass-strong);
   backdrop-filter: saturate(180%) blur(12px);
+}
+
+/* Reading progress: a hairline that fills as the page scrolls. It runs on a
+   scroll timeline, so the browser animates it off the main thread and there is
+   no scroll listener anywhere in the app. */
+:host::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 -1px 0;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 45%, transparent));
+  opacity: 0.9;
+}
+
+@supports (animation-timeline: scroll()) {
+  :host::after {
+    animation: read-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+
+  :host {
+    animation: header-lift linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 140px;
+  }
+}
+
+@keyframes read-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes header-lift {
+  to {
+    border-bottom-color: var(--border-strong);
+    box-shadow: var(--shadow-sm);
+  }
 }
 
 .bar {
@@ -58,9 +98,28 @@
   color: var(--text-primary);
 }
 
+.primary a {
+  position: relative;
+}
+
+.primary a::after {
+  content: '';
+  position: absolute;
+  inset: auto 0.45rem -1px;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform var(--dur) var(--ease);
+}
+
 .primary a.is-active {
   color: var(--text-primary);
   background: var(--bg-inset);
+}
+
+.primary a.is-active::after {
+  transform: scaleX(1);
 }
 
 .actions {

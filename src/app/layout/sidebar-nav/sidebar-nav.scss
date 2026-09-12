@@ -5,26 +5,54 @@
 
 .shortcuts {
   display: grid;
-  gap: 4px;
+  gap: 1px;
   margin: 0 var(--space-3) var(--space-5);
+  padding: var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--glass);
+  background-image: var(--sheen);
 }
 
 .shortcuts a {
+  position: relative;
   display: block;
-  padding: 0.45rem var(--space-3);
-  border: 1px dashed var(--border-strong);
+  padding: 0.42rem var(--space-3) 0.42rem calc(var(--space-3) + 10px);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
   font-size: 0.84rem;
-  text-align: center;
-  transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
 
-.shortcuts a:hover,
+/* A small marker that slides open on the active row instead of a heavy box. */
+.shortcuts a::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: var(--space-3);
+  width: 3px;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: currentcolor;
+  opacity: 0.4;
+  transform: translateY(-50%);
+  transition: height var(--dur) var(--ease), opacity var(--dur) var(--ease);
+}
+
+.shortcuts a:hover {
+  background: var(--bg-inset);
+  color: var(--text-primary);
+}
+
 .shortcuts a.is-active {
-  border-color: var(--accent);
-  border-style: solid;
+  background: var(--accent-soft);
   color: var(--accent-text);
+  font-weight: 560;
+}
+
+.shortcuts a.is-active::before {
+  height: 14px;
+  opacity: 1;
 }
 
 .title {
@@ -60,6 +88,7 @@
 }
 
 .group a {
+  position: relative;
   display: flex;
   gap: var(--space-3);
   align-items: baseline;
@@ -68,6 +97,23 @@
   color: var(--text-secondary);
   font-size: 0.875rem;
   transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.group a::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 2px;
+  height: 0;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  transform: translateY(-50%);
+  transition: height var(--dur) var(--ease);
+}
+
+.group a.is-active::before {
+  height: 60%;
 }
 
 .group a:hover {

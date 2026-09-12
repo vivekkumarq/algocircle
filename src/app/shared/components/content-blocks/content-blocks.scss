@@ -51,8 +51,49 @@
 }
 
 .code__caption {
+  flex: 1;
   font-size: 0.78rem;
   color: var(--text-muted);
+}
+
+.code__copy {
+  display: inline-flex;
+  gap: 0.3rem;
+  align-items: center;
+  margin-left: auto;
+  padding: 0.16rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease), border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.code:hover .code__copy,
+.code__copy:focus-visible {
+  opacity: 1;
+}
+
+.code__copy:hover {
+  border-color: var(--ring-strong);
+  color: var(--text-primary);
+}
+
+.code__copy.is-done {
+  opacity: 1;
+  border-color: var(--easy);
+  color: var(--easy);
+}
+
+/* Touch has no hover, so the button is simply always there. */
+@media (hover: none) {
+  .code__copy {
+    opacity: 1;
+  }
 }
 
 .code pre {

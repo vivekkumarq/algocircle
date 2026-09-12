@@ -142,6 +142,11 @@
 }
 
 .questions li {
+  /* 560 questions are in the DOM at once. The browser skips styling and
+     painting the ones off screen, and the reserved size keeps the scrollbar
+     honest. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 46px;
   margin: 0;
 }
 

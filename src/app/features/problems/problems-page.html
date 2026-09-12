@@ -73,6 +73,19 @@
           </div>
 
           <figure class="code">
+            <figcaption>
+              <span>{{ language() }}</span>
+              <button
+                type="button"
+                class="code__copy"
+                [class.is-done]="copied()"
+                (click)="copyCode()"
+                [attr.aria-label]="copied() ? 'Copied' : 'Copy this solution'"
+              >
+                <app-icon [name]="copied() ? 'check' : 'code'" [size]="13" />
+                {{ copied() ? 'Copied' : 'Copy' }}
+              </button>
+            </figcaption>
             <pre><code>{{ code() }}</code></pre>
           </figure>
         </section>

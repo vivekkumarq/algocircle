@@ -61,6 +61,22 @@
   --wash-opacity: 0.5;
   --wash-light: 62%;
 
+  /* Depth and light. Every one is derived from the palette above with
+     color-mix, so a new theme inherits the whole set for free. */
+  --watermark-opacity: 0.05;
+  --glass: color-mix(in srgb, var(--bg-card) 76%, transparent);
+  --glass-strong: color-mix(in srgb, var(--bg-main) 88%, transparent);
+  --edge-light: color-mix(in srgb, var(--text-primary) 7%, transparent);
+  --ring-soft: color-mix(in srgb, var(--accent) 32%, transparent);
+  --ring-strong: color-mix(in srgb, var(--accent) 55%, transparent);
+  --glow-accent: 0 8px 26px color-mix(in srgb, var(--accent) 22%, transparent);
+  --glow-accent-soft: 0 4px 14px color-mix(in srgb, var(--accent) 14%, transparent);
+  --sheen: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--text-primary) 5%, transparent),
+    transparent 42%
+  );
+
   /* Geometry */
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -400,4 +416,18 @@
 
 [data-font='marker'][data-size='large'] {
   --font-scale: 1.16;
+}
+
+/* Dark palettes carry the watermark a little stronger, because a faint mark on
+   a dark ground disappears long before it does on a light one. */
+[data-theme='dark'],
+[data-theme='midnight'],
+[data-theme='forest'] {
+  --watermark-opacity: 0.075;
+}
+
+[data-theme='contrast'] {
+  --watermark-opacity: 0.035;
+  --glass: var(--bg-card);
+  --glass-strong: var(--bg-main);
 }

@@ -102,6 +102,7 @@ button { cursor: pointer; }
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 4px var(--ring-soft);
 }
 
 ::selection { background: var(--accent-soft); color: var(--accent-text); }
@@ -130,12 +131,20 @@ button { cursor: pointer; }
   align-items: center;
   gap: var(--space-2);
   margin-bottom: var(--space-3);
+  padding: 0.22rem 0.62rem 0.22rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--glass);
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+.eyebrow app-icon {
+  color: var(--accent);
 }
 
 .lead {
@@ -145,9 +154,12 @@ button { cursor: pointer; }
 }
 
 .surface {
+  position: relative;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--bg-card);
+  background-image: var(--sheen);
+  box-shadow: var(--shadow-xs);
 }
 
 .btn {
@@ -165,23 +177,44 @@ button { cursor: pointer; }
   white-space: nowrap;
   transition: background-color var(--dur-fast) var(--ease),
     border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
-    transform var(--dur-fast) var(--ease);
+    box-shadow var(--dur) var(--ease), transform var(--dur-fast) var(--ease);
 }
 
-.btn:active { transform: translateY(1px); }
+.btn:active { transform: translateY(1px) scale(0.995); }
 
 .btn--primary {
-  background: var(--accent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 88%, white),
+    var(--accent)
+  );
   color: var(--accent-contrast);
+  box-shadow: var(--glow-accent-soft);
 }
-.btn--primary:hover { background: var(--accent-hover); color: var(--accent-contrast); }
+
+.btn--primary:hover {
+  background: linear-gradient(180deg, var(--accent), var(--accent-hover));
+  color: var(--accent-contrast);
+  box-shadow: var(--glow-accent);
+  transform: translateY(-1px);
+}
+
+.btn--primary:active { box-shadow: var(--glow-accent-soft); }
 
 .btn--secondary {
   border-color: var(--border-strong);
   background: var(--bg-card);
+  background-image: var(--sheen);
   color: var(--text-primary);
+  box-shadow: var(--shadow-xs);
 }
-.btn--secondary:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+.btn--secondary:hover {
+  border-color: var(--ring-strong);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
 
 .btn--ghost { color: var(--text-secondary); }
 .btn--ghost:hover { background: var(--bg-inset); color: var(--text-primary); }
@@ -243,6 +276,60 @@ button { cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* -------- Page transitions --------
+
+   The router drives the View Transition API. Only the routed content moves:
+   the header, the rail and the watermark are named so the browser keeps them
+   still while the page beneath them changes. */
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: vt-out 140ms var(--ease) both;
+}
+
+::view-transition-new(root) {
+  animation: vt-in 260ms var(--ease) both;
+}
+
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* -------- Motion, globally --------
+
+   One switch for the whole site rather than a guard in every component. */
+
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {

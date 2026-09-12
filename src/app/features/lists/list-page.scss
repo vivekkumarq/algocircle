@@ -111,6 +111,9 @@
 /* ---- Groups ---- */
 
 .group {
+  /* Eighteen tables are open at once; the ones off screen are skipped. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px;
   margin-bottom: var(--space-4);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);

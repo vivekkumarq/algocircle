@@ -31,6 +31,16 @@
           @if (block.caption) {
             <span class="code__caption">{{ block.caption }}</span>
           }
+          <button
+            type="button"
+            class="code__copy"
+            [class.is-done]="copied() === block.source"
+            (click)="copy(block.source)"
+            [attr.aria-label]="copied() === block.source ? 'Copied' : 'Copy this code'"
+          >
+            <app-icon [name]="copied() === block.source ? 'check' : 'code'" [size]="13" />
+            {{ copied() === block.source ? 'Copied' : 'Copy' }}
+          </button>
         </figcaption>
         <pre><code>{{ block.source }}</code></pre>
       </figure>

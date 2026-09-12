@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Block } from '../../../core/models/chapter.models';
 import { Icon } from '../icon/icon';
@@ -24,6 +24,28 @@ export class ContentBlocks {
   private readonly sanitizer = inject(DomSanitizer);
 
   readonly blocks = input.required<Block[]>();
+
+  /** Source of the snippet most recently copied, so one button can confirm. */
+  protected readonly copied = signal<string | null>(null);
+
+  private confirmation?: ReturnType<typeof setTimeout>;
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => clearTimeout(this.confirmation));
+  }
+
+  protected async copy(source: string): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(source);
+      this.copied.set(source);
+    } catch {
+      // Clipboard access can be refused; leaving the label alone says so.
+      return;
+    }
+
+    clearTimeout(this.confirmation);
+    this.confirmation = setTimeout(() => this.copied.set(null), 1600);
+  }
 
   protected readonly calloutIcon = CALLOUT_ICON;
   protected readonly calloutLabel = CALLOUT_LABEL;

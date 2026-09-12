@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PROBLEMS, TOTAL_PROBLEMS, problemBySlug } from '../../data/problems';
 import { PYTHON_SOLUTIONS } from '../../data/problems/solutions.python';
@@ -103,6 +112,8 @@ export class ProblemsPage {
   });
 
   constructor() {
+    inject(DestroyRef).onDestroy(() => clearTimeout(this.confirmation));
+
     effect(() => {
       const problem = this.problem();
 
@@ -124,6 +135,23 @@ export class ProblemsPage {
 
   protected setLanguage(language: 'java' | 'python'): void {
     this.language.set(language);
+  }
+
+  /** Confirmation state for the copy button on the implementation block. */
+  protected readonly copied = signal(false);
+
+  private confirmation?: ReturnType<typeof setTimeout>;
+
+  protected async copyCode(): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(this.code());
+      this.copied.set(true);
+    } catch {
+      return;
+    }
+
+    clearTimeout(this.confirmation);
+    this.confirmation = setTimeout(() => this.copied.set(false), 1600);
   }
 
   protected revealHint(): void {

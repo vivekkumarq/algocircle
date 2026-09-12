@@ -365,6 +365,10 @@
 }
 
 .code figcaption {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
   padding: 0.4rem var(--space-4);
   border-bottom: 1px solid var(--border);
   background: var(--bg-inset);
@@ -373,6 +377,32 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent-text);
+}
+
+.code__copy {
+  display: inline-flex;
+  gap: 0.3rem;
+  align-items: center;
+  padding: 0.16rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.code__copy:hover {
+  border-color: var(--ring-strong);
+  color: var(--text-primary);
+}
+
+.code__copy.is-done {
+  border-color: var(--easy);
+  color: var(--easy);
 }
 
 .code pre {
