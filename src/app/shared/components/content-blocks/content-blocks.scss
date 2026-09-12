@@ -106,12 +106,32 @@
 /* ---- Callouts ---- */
 
 .callout {
+  position: relative;
   margin: var(--space-5) 0;
   padding: var(--space-4) var(--space-5);
+  overflow: hidden;
   border: 1px solid var(--border);
   border-left: 3px solid var(--text-muted);
   border-radius: var(--radius-md);
   background: var(--bg-subtle);
+  box-shadow: var(--shadow-xs);
+}
+
+/* The tint fades out across the panel instead of sitting flat behind it. */
+.callout::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, currentcolor 8%, transparent),
+    transparent 46%
+  );
+  pointer-events: none;
+}
+
+.callout > * {
+  position: relative;
 }
 
 .callout__head {
@@ -134,6 +154,7 @@
 .callout--key {
   border-left-color: var(--accent);
   background: var(--accent-soft);
+  color: var(--accent);
 }
 
 .callout--key .callout__head {
@@ -143,6 +164,7 @@
 .callout--trap {
   border-left-color: var(--hard);
   background: var(--hard-soft);
+  color: var(--hard);
 }
 
 .callout--trap .callout__head {
@@ -152,6 +174,7 @@
 .callout--why {
   border-left-color: var(--easy);
   background: var(--easy-soft);
+  color: var(--easy);
 }
 
 .callout--why .callout__head {
@@ -184,6 +207,9 @@ td {
 }
 
 th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   background: var(--bg-inset);
   font-size: 0.76rem;
   font-weight: 620;
@@ -191,6 +217,14 @@ th {
   text-transform: uppercase;
   color: var(--text-muted);
   white-space: nowrap;
+}
+
+tbody tr {
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+tbody tr:hover {
+  background: var(--bg-subtle);
 }
 
 td {

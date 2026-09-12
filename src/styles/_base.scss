@@ -339,3 +339,31 @@ button { cursor: pointer; }
     scroll-behavior: auto !important;
   }
 }
+
+/* -------- Scroll reveal --------
+
+   Sections fade up as they come into view. This runs on a view timeline, so
+   the browser drives it from the compositor: no observer, no scroll handler,
+   nothing on the main thread. Browsers without the feature simply show the
+   content, which is why the starting opacity lives inside the @supports. */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 65%;
+    }
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

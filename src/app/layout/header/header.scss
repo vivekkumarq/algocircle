@@ -221,3 +221,16 @@
   .bar { padding-inline: var(--space-4); gap: var(--space-2); }
   .hide-sm { display: none; }
 }
+
+/* The global reduced-motion rule shortens every animation, which would leave
+   the scroll-driven pair stuck at their end state. Turn them off instead. */
+@media (prefers-reduced-motion: reduce) {
+  :host,
+  :host::after {
+    animation: none !important;
+  }
+
+  :host::after {
+    opacity: 0;
+  }
+}

@@ -32,7 +32,7 @@ export const TOPIC_POSITIONS: Record<string, { col: number; row: number }> = {
 export const GRAPH_LAYOUT = {
   nodeWidth: 148,
   nodeHeight: 36,
-  colPitch: 172,
+  colPitch: 208,
   rowPitch: 58,
   padding: 14,
   columns: 5,
