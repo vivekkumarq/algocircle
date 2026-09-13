@@ -65,14 +65,17 @@
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  height: var(--header-h);
-  max-width: var(--content-max);
+  min-height: var(--header-h);
+  /* Wider than the content column, because the bar has to hold the whole
+     navigation as well — capped so it never sprawls on a very wide screen. */
+  max-width: min(100%, 1560px);
   margin-inline: auto;
   padding-inline: var(--space-5);
 }
 
 .brand {
   display: inline-flex;
+  flex: none;
   align-items: center;
   gap: var(--space-3);
   color: var(--text-primary);
@@ -91,9 +94,18 @@
 
 .primary {
   display: none;
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+  /* Links never shrink, so this is the backstop: if a typeface is wider than
+     anything tested, a link is clipped rather than sliding under the search
+     box and the theme button. */
+  overflow: hidden;
   gap: var(--space-1);
   margin-left: var(--space-4);
+}
+
+.primary a {
+  flex: none;
 }
 
 .primary a {
@@ -137,6 +149,7 @@
 
 .actions {
   display: flex;
+  flex: none;
   align-items: center;
   gap: var(--space-2);
   margin-left: auto;
@@ -167,11 +180,12 @@
 
 .search-trigger {
   display: none;
+  flex: none;
   align-items: center;
   gap: var(--space-2);
-  height: 34px;
+  min-height: 34px;
   min-width: 170px;
-  padding: 0 0.5rem 0 0.7rem;
+  padding: 0.34em 0.5em 0.34em 0.75em;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-subtle);
@@ -192,10 +206,12 @@
 
 .icon-btn {
   display: inline-flex;
+  flex: none;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0.3em;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   background: none;
@@ -214,6 +230,18 @@
 
 @media (min-width: 700px) {
   .search-trigger { display: inline-flex; }
+}
+
+/* Between the point the navigation appears and the point there is room for
+   everything, the search control drops back to its icon. */
+@media (min-width: 1024px) and (max-width: 1319px) {
+  .search-trigger {
+    min-width: 0;
+  }
+
+  .search-trigger__text {
+    display: none;
+  }
 }
 
 @media (min-width: 1024px) {

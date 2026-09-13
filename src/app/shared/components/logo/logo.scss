@@ -1,14 +1,22 @@
 :host {
   display: inline-flex;
+  flex: none;
   line-height: 0;
 }
 
+/* The mark must read on every palette, so each part is mixed from the accent
+   rather than borrowed from surface tokens that can land on the page colour. */
+:host svg {
+  flex: none;
+  max-width: none;
+}
+
 .plate {
-  fill: var(--accent-soft);
+  fill: color-mix(in srgb, var(--accent) 15%, transparent);
 }
 
 .ring {
-  stroke: var(--border-strong);
+  stroke: color-mix(in srgb, var(--accent) 45%, transparent);
   stroke-width: 1.2;
 }
 
@@ -25,7 +33,7 @@
 
 .node {
   fill: var(--bg-main);
-  stroke: var(--border-strong);
+  stroke: color-mix(in srgb, var(--accent) 62%, transparent);
   stroke-width: 1.4;
   animation: light 6s linear infinite;
 }
@@ -58,7 +66,7 @@
   30%,
   100% {
     fill: var(--bg-main);
-    stroke: var(--border-strong);
+    stroke: color-mix(in srgb, var(--accent) 62%, transparent);
   }
 }
 
