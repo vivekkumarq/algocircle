@@ -137,3 +137,28 @@
 .group a.is-active .num {
   color: var(--accent-text);
 }
+
+/* Below the rail breakpoint this list is the off-canvas drawer, driven by a
+   thumb rather than a cursor. Rows there are given a comfortable target
+   height; the desktop rail keeps its denser spacing. */
+@media (max-width: 1023px) {
+  :host {
+    padding: var(--space-4) var(--space-3) var(--space-7);
+  }
+
+  .shortcuts {
+    gap: 2px;
+  }
+
+  .shortcuts a {
+    padding-block: 0.62rem;
+  }
+
+  .group a {
+    padding-block: 0.55rem;
+  }
+
+  .group__label {
+    margin-bottom: var(--space-3);
+  }
+}

@@ -255,6 +255,13 @@ tbody tr:hover {
 }
 
 @media (max-width: 760px) {
+  .row__solution,
+  .row__title {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+  }
+
   .filters {
     position: static;
     backdrop-filter: none;

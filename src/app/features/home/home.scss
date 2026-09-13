@@ -223,6 +223,13 @@
   gap: var(--space-5);
 }
 
+/* The detail panel contains a code template. Without this its min-content
+   becomes the grid item's minimum width and the page scrolls sideways on a
+   phone; the code block scrolls inside itself instead. */
+.patterns > * {
+  min-width: 0;
+}
+
 .patterns__list {
   display: grid;
   gap: var(--space-2);

@@ -32,6 +32,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
+  min-height: 32px;
+  padding-right: var(--space-2);
   font-size: 0.85rem;
   color: var(--text-secondary);
 }
@@ -75,6 +77,15 @@
 }
 
 .column a:hover { color: var(--accent-text); }
+
+/* On a phone these are thumb targets rather than cursor targets. */
+@media (max-width: 760px) {
+  .column a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+  }
+}
 
 .baseline {
   display: flex;
