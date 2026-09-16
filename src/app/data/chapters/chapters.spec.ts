@@ -76,4 +76,13 @@ describe('chapters', () => {
       expect(last?.blocks.some((block) => block.kind === 'table')).toBe(true);
     }
   });
+
+  it('explains how big tech uses every topic', () => {
+    for (const chapter of CHAPTERS) {
+      const section = chapter.sections.find((item) => item.id === 'at-big-tech');
+      expect(section).toBeDefined();
+      const table = section?.blocks.find((block) => block.kind === 'table');
+      expect(table?.kind === 'table' && table.rows.length).toBeGreaterThanOrEqual(4);
+    }
+  });
 });
