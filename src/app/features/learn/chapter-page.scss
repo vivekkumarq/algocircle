@@ -149,7 +149,7 @@
 
 .toc a {
   display: block;
-  padding: 0.18rem 0;
+  padding: 0.32rem 0;
   color: var(--text-secondary);
   font-size: 0.83rem;
   line-height: 1.45;
@@ -189,6 +189,12 @@
 .section:hover .anchor,
 .anchor:focus-visible {
   opacity: 1;
+}
+
+@media (hover: none) {
+  .anchor {
+    opacity: 0.55;
+  }
 }
 
 .objectives,
@@ -248,6 +254,12 @@
   border-top: 1px solid var(--border);
 }
 
+@media (min-width: 640px) {
+  .pager {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .pager__link {
   display: grid;
   gap: 0.2rem;
@@ -289,9 +301,9 @@
   color: var(--text-primary);
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 900px) {
   .layout {
-    grid-template-columns: minmax(0, 1fr) 220px;
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 220px);
   }
 
   .toc__label {

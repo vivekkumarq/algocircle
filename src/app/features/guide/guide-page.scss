@@ -32,7 +32,7 @@
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: var(--space-4);
   margin: var(--space-6) 0 0;
   padding: 0;
@@ -212,9 +212,15 @@
   padding-top: var(--space-7);
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 640px) {
+  .pager {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 900px) {
   .layout {
-    grid-template-columns: minmax(0, 1fr) 220px;
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 220px);
   }
 
   .toc {
@@ -232,9 +238,5 @@
 
   .toc__label {
     cursor: default;
-  }
-
-  .pager {
-    grid-template-columns: 1fr 1fr;
   }
 }

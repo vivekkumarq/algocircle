@@ -3,9 +3,10 @@
   top: 0;
   z-index: var(--z-header);
   display: block;
+  padding-top: var(--safe-t);
   border-bottom: 1px solid var(--border);
   background: var(--glass-strong);
-  backdrop-filter: saturate(180%) blur(12px);
+  backdrop-filter: saturate(180%) blur(16px);
 }
 
 /* Reading progress. Two layers of the same 2px line sit on the header's
@@ -64,13 +65,11 @@
 .bar {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  min-height: var(--header-h);
-  /* Wider than the content column, because the bar has to hold the whole
-     navigation as well — capped so it never sprawls on a very wide screen. */
-  max-width: min(100%, 1560px);
+  gap: var(--space-3);
+  min-height: var(--header-bar);
+  max-width: min(100%, 1680px);
   margin-inline: auto;
-  padding-inline: var(--space-5);
+  padding-inline: max(var(--gutter), var(--safe-l)) max(var(--gutter), var(--safe-r));
 }
 
 .brand {
@@ -96,41 +95,41 @@
   display: none;
   flex: 1 1 auto;
   min-width: 0;
-  /* Links never shrink, so this is the backstop: if a typeface is wider than
-     anything tested, a link is clipped rather than sliding under the search
-     box and the theme button. */
-  overflow: hidden;
-  gap: var(--space-1);
-  margin-left: var(--space-4);
+  overflow: visible;
+  gap: 2px;
+  margin-left: var(--space-2);
 }
 
-.primary a {
+.primary a,
+.more__trigger {
   flex: none;
 }
 
-.primary a {
-  padding: 0.4rem 0.7rem;
+.primary > a,
+.more__trigger {
+  padding: 0.42rem 0.68rem;
   white-space: nowrap;
   border-radius: var(--radius-md);
   color: var(--text-secondary);
-  font-size: 0.89rem;
-  font-weight: 500;
+  font-size: 0.875rem;
+  font-weight: 520;
   transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
 
-.primary a:hover {
+.primary > a:hover,
+.more__trigger:hover {
   background: var(--bg-inset);
   color: var(--text-primary);
 }
 
-.primary a {
+.primary > a {
   position: relative;
 }
 
-.primary a::after {
+.primary > a::after {
   content: '';
   position: absolute;
-  inset: auto 0.45rem -1px;
+  inset: auto 0.5rem -1px;
   height: 2px;
   border-radius: 2px 2px 0 0;
   background: var(--accent);
@@ -138,13 +137,75 @@
   transition: transform var(--dur) var(--ease);
 }
 
-.primary a.is-active {
+.primary > a.is-active {
   color: var(--text-primary);
   background: var(--bg-inset);
 }
 
-.primary a.is-active::after {
+.primary > a.is-active::after {
   transform: scaleX(1);
+}
+
+.more {
+  position: relative;
+  display: none;
+}
+
+.more__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 34px;
+  border: 0;
+  background: none;
+}
+
+.more.is-open .more__trigger {
+  background: var(--bg-inset);
+  color: var(--text-primary);
+}
+
+.more.is-open .more__trigger app-icon {
+  transform: rotate(180deg);
+}
+
+.more__trigger app-icon {
+  transition: transform var(--dur) var(--ease);
+}
+
+.more__panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: calc(var(--z-header) + 8);
+  display: grid;
+  min-width: 196px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-lg);
+  animation: pop var(--dur) var(--ease);
+}
+
+.more__panel a {
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+.more__panel a:hover,
+.more__panel a.is-active {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
 }
 
 .actions {
@@ -155,37 +216,15 @@
   margin-left: auto;
 }
 
-.search {
-  display: none;
-  align-items: center;
-  gap: var(--space-2);
-  min-width: 190px;
-  padding: 0.38rem 0.5rem 0.38rem 0.7rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--bg-subtle);
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  transition: border-color var(--dur-fast) var(--ease);
-}
-
-.search:hover {
-  border-color: var(--border-strong);
-  color: var(--text-secondary);
-}
-
-.search__text {
-  flex: 1;
-}
-
 .search-trigger {
-  display: none;
+  display: inline-flex;
   flex: none;
   align-items: center;
+  justify-content: center;
   gap: var(--space-2);
-  min-height: 34px;
-  min-width: 170px;
-  padding: 0.34em 0.5em 0.34em 0.75em;
+  min-width: var(--touch);
+  min-height: var(--touch);
+  padding: 0.3em;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-subtle);
@@ -199,9 +238,9 @@
   color: var(--text-secondary);
 }
 
-.search-trigger__text {
-  flex: 1;
-  text-align: left;
+.search-trigger__text,
+.search-trigger .kbd {
+  display: none;
 }
 
 .icon-btn {
@@ -209,8 +248,8 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  min-width: 34px;
-  min-height: 34px;
+  min-width: var(--touch);
+  min-height: var(--touch);
   padding: 0.3em;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
@@ -225,41 +264,53 @@
 }
 
 @media (min-width: 700px) {
-  .search { display: inline-flex; }
-}
-
-@media (min-width: 700px) {
-  .search-trigger { display: inline-flex; }
-}
-
-/* Between the point the navigation appears and the point there is room for
-   everything, the search control drops back to its icon. */
-@media (min-width: 1024px) and (max-width: 1319px) {
   .search-trigger {
-    min-width: 0;
+    min-width: 168px;
+    min-height: 36px;
+    justify-content: flex-start;
+    padding: 0.34em 0.5em 0.34em 0.75em;
   }
 
   .search-trigger__text {
+    display: block;
+    flex: 1;
+    text-align: left;
+  }
+
+  .search-trigger .kbd {
+    display: inline-block;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1319px) {
+  .search-trigger {
+    min-width: var(--touch);
+    justify-content: center;
+    padding: 0.3em;
+  }
+
+  .search-trigger__text,
+  .search-trigger .kbd {
     display: none;
   }
 }
 
 @media (min-width: 1024px) {
-  .primary { display: flex; }
-  .primary a { padding-inline: 0.45rem; }
-  /* Held back until there is room, so the bar never wraps. Each one also lives
-     in the footer and the drawer, so nothing becomes unreachable. */
+  .primary { display: flex; align-items: center; }
+  .more { display: block; }
   .primary a.wide { display: none; }
   .menu { display: none; }
 }
 
 @media (min-width: 1500px) {
-  .primary a { padding-inline: 0.6rem; }
+  .primary > a { padding-inline: 0.72rem; }
   .primary a.wide { display: block; }
+  .more { display: none; }
 }
 
 @media (max-width: 480px) {
-  .bar { padding-inline: var(--space-4); gap: var(--space-2); }
+  .bar { gap: var(--space-2); }
+  .brand__text { display: none; }
   .hide-sm { display: none; }
 }
 

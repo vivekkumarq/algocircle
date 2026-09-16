@@ -106,10 +106,17 @@
   --line-height: 1.6;
 
   /* Layout */
-  --header-h: 60px;
+  --header-bar: 56px;
+  --header-h: calc(var(--header-bar) + env(safe-area-inset-top, 0px));
   --sidebar-w: 268px;
-  --content-max: 1240px;
+  --content-max: 1280px;
   --prose-max: 74ch;
+  --gutter: clamp(16px, 4.2vw, 32px);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --touch: 44px;
 
   /* Motion */
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
@@ -120,6 +127,19 @@
   --z-header: 60;
   --z-sidebar: 50;
   --z-overlay: 90;
+}
+
+@media (min-width: 700px) {
+  :root {
+    --header-bar: 60px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --header-bar: 64px;
+    --sidebar-w: 280px;
+  }
 }
 
 /* ---------- Warm light ---------- */

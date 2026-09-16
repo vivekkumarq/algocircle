@@ -14,8 +14,8 @@
   z-index: calc(var(--z-overlay) + 1);
   display: flex;
   flex-direction: column;
-  width: min(680px, calc(100vw - 2 * var(--space-4)));
-  max-height: 76vh;
+  width: min(680px, calc(100vw - 2 * var(--gutter) - var(--safe-l) - var(--safe-r)));
+  max-height: min(76vh, calc(100dvh - var(--safe-t) - var(--safe-b) - 2rem));
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-xl);
   background: var(--bg-elevated);
@@ -96,7 +96,8 @@
   display: grid;
   gap: 0.1rem;
   width: 100%;
-  padding: 0.5rem var(--space-5);
+  min-height: var(--touch);
+  padding: 0.65rem var(--space-5);
   border: 0;
   background: none;
   text-align: left;
@@ -146,11 +147,26 @@
 
 @media (max-width: 600px) {
   .panel {
-    top: var(--space-4);
-    max-height: calc(100dvh - 2 * var(--space-4));
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: min(88dvh, calc(100dvh - var(--safe-t)));
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    transform: none;
+    padding-bottom: var(--safe-b);
+    animation-name: sheet;
   }
 
   .footer {
     display: none;
+  }
+}
+
+@keyframes sheet {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
   }
 }

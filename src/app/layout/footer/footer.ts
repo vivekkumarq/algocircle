@@ -2,12 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TOPIC_GROUPS } from '../../data/navigation.data';
 import { Logo } from '../../shared/components/logo/logo';
-import { Icon } from '../../shared/components/icon/icon';
 
 @Component({
   selector: 'app-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Logo, Icon],
+  imports: [RouterLink, Logo],
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })

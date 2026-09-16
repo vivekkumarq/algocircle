@@ -82,10 +82,17 @@
     transform var(--dur) var(--ease);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .topic:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-sm);
+    transform: translateX(3px);
+  }
+}
+
 .topic:hover {
   border-color: var(--accent);
   box-shadow: var(--shadow-sm);
-  transform: translateX(3px);
 }
 
 .topic__order {
@@ -141,6 +148,7 @@
 @media (max-width: 640px) {
   .topic {
     grid-template-columns: auto minmax(0, 1fr);
+    padding: var(--space-4);
   }
 
   .topic__go {

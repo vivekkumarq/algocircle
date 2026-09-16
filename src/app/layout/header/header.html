@@ -16,6 +16,27 @@
     <a routerLink="/course" routerLinkActive="is-active">Course</a>
     <a class="wide" routerLink="/interview" routerLinkActive="is-active">Interview Q&amp;A</a>
     <a class="wide" routerLink="/guide" routerLinkActive="is-active">How to Learn</a>
+
+    <div class="more" [class.is-open]="moreOpen()">
+      <button
+        type="button"
+        class="more__trigger"
+        (click)="toggleMore()"
+        [attr.aria-expanded]="moreOpen()"
+        aria-haspopup="menu"
+        aria-controls="header-more"
+      >
+        More
+        <app-icon name="chevron-down" [size]="14" />
+      </button>
+      @if (moreOpen()) {
+        <div id="header-more" class="more__panel" role="menu" aria-label="More sections">
+          <a role="menuitem" routerLink="/algorithms" routerLinkActive="is-active" (click)="closeMore()">Algorithms</a>
+          <a role="menuitem" routerLink="/interview" routerLinkActive="is-active" (click)="closeMore()">Interview Q&amp;A</a>
+          <a role="menuitem" routerLink="/guide" routerLinkActive="is-active" (click)="closeMore()">How to Learn</a>
+        </div>
+      }
+    </div>
   </nav>
 
   <div class="actions">

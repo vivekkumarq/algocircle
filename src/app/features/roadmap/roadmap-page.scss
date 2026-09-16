@@ -19,7 +19,7 @@
 
 .surface {
   position: relative;
-  height: min(84vh, 880px);
+  height: min(84dvh, 880px);
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
@@ -282,7 +282,8 @@
 
 @media (max-width: 720px) {
   .surface {
-    height: 70vh;
+    height: min(72dvh, 640px);
+    border-radius: var(--radius-lg);
   }
 
   .legend {

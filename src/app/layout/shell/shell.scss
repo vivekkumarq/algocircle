@@ -11,15 +11,16 @@
 
 .page {
   min-width: 0;
-  padding: var(--space-6) var(--space-5) var(--space-8);
+  padding: var(--space-6) max(var(--gutter), var(--safe-l)) var(--space-8)
+    max(var(--gutter), var(--safe-r));
 }
 
 @media (min-width: 1024px) {
   :host {
     display: grid;
-    grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
-    gap: var(--space-6);
-    padding-inline: var(--space-5);
+    grid-template-columns: minmax(220px, var(--sidebar-w)) minmax(0, 1fr);
+    gap: clamp(var(--space-4), 2.4vw, var(--space-6));
+    padding-inline: max(var(--gutter), var(--safe-l)) max(var(--gutter), var(--safe-r));
   }
 
   .rail {
@@ -30,12 +31,20 @@
   .rail__inner {
     position: sticky;
     top: var(--header-h);
-    max-height: calc(100dvh - var(--header-h));
+    max-height: calc(100dvh - var(--header-h) - var(--safe-b));
     overflow-y: auto;
+    overscroll-behavior: contain;
     padding-right: var(--space-3);
   }
 
   .page {
     padding-inline: 0;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  :host {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: var(--space-4);
   }
 }

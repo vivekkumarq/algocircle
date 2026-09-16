@@ -1,6 +1,7 @@
 :host {
   display: block;
   margin-top: var(--space-9);
+  padding-bottom: var(--safe-b);
   border-top: 1px solid var(--border);
   background: var(--bg-subtle);
 }
@@ -8,7 +9,7 @@
 .inner {
   display: grid;
   gap: var(--space-7);
-  padding-block: var(--space-7) var(--space-6);
+  padding-block: var(--space-8) var(--space-6);
 }
 
 .brand {
@@ -24,31 +25,24 @@
 .accent { color: var(--accent-text); }
 
 .about__text {
-  max-width: 46ch;
-  font-size: 0.88rem;
+  max-width: 42ch;
+  margin: 0;
+  font-size: 0.9rem;
 }
 
-.repo {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 32px;
-  padding-right: var(--space-2);
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-}
-
-.repo:hover { color: var(--accent-text); }
-
-.columns {
+.explore {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: var(--space-5);
 }
 
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  gap: var(--space-5);
+}
+
 .column {
-  /* Every page carries the whole topic list down here; skip it until it is
-     scrolled into view. */
   content-visibility: auto;
   contain-intrinsic-size: auto 260px;
 }
@@ -69,7 +63,7 @@
   list-style: none;
 }
 
-.column li { margin-bottom: 0.4rem; }
+.column li { margin-bottom: 0.35rem; }
 
 .column a {
   color: var(--text-secondary);
@@ -78,12 +72,11 @@
 
 .column a:hover { color: var(--accent-text); }
 
-/* On a phone these are thumb targets rather than cursor targets. */
 @media (max-width: 760px) {
   .column a {
     display: inline-flex;
     align-items: center;
-    min-height: 30px;
+    min-height: var(--touch);
   }
 }
 
@@ -105,6 +98,22 @@
 
 .baseline__note { max-width: 62ch; }
 
-@media (min-width: 900px) {
-  .inner { grid-template-columns: minmax(260px, 1fr) 2fr; }
+@media (min-width: 720px) {
+  .inner {
+    grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.4fr);
+  }
+
+  .columns {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1100px) {
+  .inner {
+    grid-template-columns: minmax(240px, 0.85fr) minmax(280px, 1fr) minmax(0, 1.4fr);
+  }
+
+  .columns {
+    grid-column: auto;
+  }
 }

@@ -65,6 +65,7 @@
   align-items: center;
   gap: var(--space-2);
   max-width: 380px;
+  min-height: var(--touch);
   margin-bottom: var(--space-3);
   padding: 0.4rem 0.7rem;
   border: 1px solid var(--border);
@@ -246,6 +247,7 @@
 
 .example {
   padding: var(--space-4);
+  overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-subtle);
@@ -450,6 +452,18 @@
   .filters {
     position: static;
     backdrop-filter: none;
+  }
+
+  .chips--topics {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-height: none;
+    padding-bottom: 6px;
+    overscroll-behavior-x: contain;
+  }
+
+  .chips--topics .chip {
+    flex: none;
   }
 
   .problem {
