@@ -321,6 +321,180 @@
   --wash-light: 28%;
 }
 
+/* ---------- Cool professional light ---------- */
+
+[data-theme='slate'] {
+  color-scheme: light;
+
+  --bg-main: #f3f5f8;
+  --bg-subtle: #e8ecf2;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-inset: #e2e7ee;
+  --bg-code: #eef1f6;
+  --bg-overlay: rgb(15 23 42 / 46%);
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+
+  --border: #d5dbe6;
+  --border-strong: #b8c2d1;
+  --border-focus: #1d4ed8;
+
+  --accent: #1d4ed8;
+  --accent-hover: #1e40af;
+  --accent-soft: #e8eefe;
+  --accent-text: #1e3a8a;
+  --accent-contrast: #ffffff;
+
+  --easy: #047857;
+  --easy-soft: #dcfce7;
+  --medium: #b45309;
+  --medium-soft: #fef3c7;
+  --hard: #be123c;
+  --hard-soft: #ffe4e6;
+  --info: #0369a1;
+  --info-soft: #e0f2fe;
+
+  --grid-line: rgb(15 23 42 / 5%);
+  --wash-opacity: 0.48;
+}
+
+/* ---------- Soft mint light ---------- */
+
+[data-theme='aurora'] {
+  color-scheme: light;
+
+  --bg-main: #f4fbf8;
+  --bg-subtle: #e7f4ef;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-inset: #dceee6;
+  --bg-code: #eef8f3;
+  --bg-overlay: rgb(6 40 32 / 42%);
+
+  --text-primary: #0b1f1a;
+  --text-secondary: #35564c;
+  --text-muted: #5e7d73;
+
+  --border: #c9e0d6;
+  --border-strong: #a8cbbd;
+  --border-focus: #0f766e;
+
+  --accent: #0f766e;
+  --accent-hover: #115e59;
+  --accent-soft: #ccfbf1;
+  --accent-text: #115e59;
+  --accent-contrast: #f8fffc;
+
+  --easy: #15803d;
+  --easy-soft: #dcfce7;
+  --medium: #a16207;
+  --medium-soft: #fef9c3;
+  --hard: #be123c;
+  --hard-soft: #ffe4e6;
+  --info: #0369a1;
+  --info-soft: #e0f2fe;
+
+  --grid-line: rgb(15 80 64 / 6%);
+  --wash-opacity: 0.5;
+}
+
+/* ---------- Deep sea dark ---------- */
+
+[data-theme='ocean'] {
+  color-scheme: dark;
+
+  --bg-main: #061018;
+  --bg-subtle: #0a1824;
+  --bg-card: #0e2130;
+  --bg-elevated: #123044;
+  --bg-inset: #102838;
+  --bg-code: #07141e;
+  --bg-overlay: rgb(2 8 14 / 72%);
+
+  --text-primary: #e6f3fb;
+  --text-secondary: #9dc0d4;
+  --text-muted: #6d91a6;
+  --text-inverse: #061018;
+
+  --border: #1b3a50;
+  --border-strong: #2a5470;
+  --border-focus: #38bdf8;
+
+  --accent: #38bdf8;
+  --accent-hover: #7dd3fc;
+  --accent-soft: #0c2a3d;
+  --accent-text: #7dd3fc;
+  --accent-contrast: #04202e;
+
+  --easy: #34d399;
+  --easy-soft: #0c2a22;
+  --medium: #fbbf24;
+  --medium-soft: #2a210e;
+  --hard: #fb7185;
+  --hard-soft: #2c1520;
+  --info: #7dd3fc;
+  --info-soft: #0c2434;
+
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 44%);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 50%), 0 1px 2px rgb(0 0 0 / 32%);
+  --shadow-md: 0 8px 20px rgb(0 0 0 / 50%), 0 2px 6px rgb(0 0 0 / 32%);
+  --shadow-lg: 0 22px 50px rgb(0 0 0 / 60%), 0 6px 14px rgb(0 0 0 / 38%);
+  --grid-line: rgb(125 211 252 / 6%);
+
+  --wash-opacity: 0.58;
+  --wash-light: 28%;
+}
+
+/* ---------- Warm ember dark ---------- */
+
+[data-theme='ember'] {
+  color-scheme: dark;
+
+  --bg-main: #140c0a;
+  --bg-subtle: #1c1210;
+  --bg-card: #241714;
+  --bg-elevated: #2e1d18;
+  --bg-inset: #2a1a16;
+  --bg-code: #160e0c;
+  --bg-overlay: rgb(10 4 2 / 72%);
+
+  --text-primary: #f6ebe4;
+  --text-secondary: #cbb3a6;
+  --text-muted: #9a7f72;
+  --text-inverse: #140c0a;
+
+  --border: #3d261f;
+  --border-strong: #5a382e;
+  --border-focus: #fb923c;
+
+  --accent: #fb923c;
+  --accent-hover: #fdba74;
+  --accent-soft: #3a1d12;
+  --accent-text: #fdba74;
+  --accent-contrast: #1a0c08;
+
+  --easy: #4ade80;
+  --easy-soft: #12291c;
+  --medium: #fbbf24;
+  --medium-soft: #2a210e;
+  --hard: #fb7185;
+  --hard-soft: #2c1520;
+  --info: #7dd3fc;
+  --info-soft: #102433;
+
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 44%);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 50%), 0 1px 2px rgb(0 0 0 / 32%);
+  --shadow-md: 0 8px 20px rgb(0 0 0 / 50%), 0 2px 6px rgb(0 0 0 / 32%);
+  --shadow-lg: 0 22px 50px rgb(0 0 0 / 60%), 0 6px 14px rgb(0 0 0 / 38%);
+  --grid-line: rgb(251 146 60 / 7%);
+
+  --wash-opacity: 0.58;
+  --wash-light: 30%;
+}
+
 /* ---------- High contrast ---------- */
 
 [data-theme='contrast'] {
@@ -442,7 +616,9 @@
    a dark ground disappears long before it does on a light one. */
 [data-theme='dark'],
 [data-theme='midnight'],
-[data-theme='forest'] {
+[data-theme='forest'],
+[data-theme='ocean'],
+[data-theme='ember'] {
   --watermark-opacity: 0.075;
 }
 

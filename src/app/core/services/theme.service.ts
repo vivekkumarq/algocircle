@@ -1,7 +1,18 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { StorageService } from './storage.service';
 
-export type ThemeMode = 'system' | 'light' | 'paper' | 'dark' | 'midnight' | 'forest' | 'contrast';
+export type ThemeMode =
+  | 'system'
+  | 'light'
+  | 'paper'
+  | 'slate'
+  | 'aurora'
+  | 'dark'
+  | 'midnight'
+  | 'forest'
+  | 'ocean'
+  | 'ember'
+  | 'contrast';
 export type ResolvedTheme = Exclude<ThemeMode, 'system'>;
 export type FontChoice = 'sans' | 'serif' | 'rounded' | 'script' | 'marker' | 'mono';
 export type SizeChoice = 'small' | 'normal' | 'large';
@@ -19,9 +30,13 @@ export const THEME_OPTIONS: ThemeOption[] = [
   { id: 'system', label: 'System', hint: 'Follow the operating system', swatch: ['#ffffff', '#0b0d12', '#3b6cf6'], dark: false },
   { id: 'light', label: 'Light', hint: 'Clean white', swatch: ['#ffffff', '#f1f3f6', '#3b6cf6'], dark: false },
   { id: 'paper', label: 'Paper', hint: 'Warm and easy on the eyes', swatch: ['#fbf8f3', '#efe8dc', '#a2662a'], dark: false },
+  { id: 'slate', label: 'Slate', hint: 'Cool professional light', swatch: ['#f3f5f8', '#e2e7ee', '#1d4ed8'], dark: false },
+  { id: 'aurora', label: 'Aurora', hint: 'Soft mint light', swatch: ['#f4fbf8', '#dceee6', '#0f766e'], dark: false },
   { id: 'dark', label: 'Dark', hint: 'Neutral dark', swatch: ['#0b0d12', '#161b24', '#6f95ff'], dark: true },
   { id: 'midnight', label: 'Midnight', hint: 'Deep indigo', swatch: ['#0a0a18', '#191934', '#a78bfa'], dark: true },
   { id: 'forest', label: 'Forest', hint: 'Muted green', swatch: ['#0a1210', '#142320', '#4fd1a5'], dark: true },
+  { id: 'ocean', label: 'Ocean', hint: 'Deep sea blue', swatch: ['#061018', '#102838', '#38bdf8'], dark: true },
+  { id: 'ember', label: 'Ember', hint: 'Warm charcoal', swatch: ['#140c0a', '#2a1a16', '#fb923c'], dark: true },
   { id: 'contrast', label: 'Contrast', hint: 'Maximum legibility', swatch: ['#000000', '#161616', '#ffd400'], dark: true },
 ];
 
@@ -47,9 +62,13 @@ const KEY_SIZE = 'size';
 const THEME_COLOR: Record<ResolvedTheme, string> = {
   light: '#ffffff',
   paper: '#fbf8f3',
+  slate: '#f3f5f8',
+  aurora: '#f4fbf8',
   dark: '#0b0d12',
   midnight: '#0a0a18',
   forest: '#0a1210',
+  ocean: '#061018',
+  ember: '#140c0a',
   contrast: '#000000',
 };
 

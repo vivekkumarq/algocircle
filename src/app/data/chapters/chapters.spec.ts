@@ -68,4 +68,12 @@ describe('chapters', () => {
     expect(chapterBySlug('graphs')?.title).toBe('Graphs');
     expect(chapterBySlug('nope')).toBeUndefined();
   });
+
+  it('ends every topic with real-world products', () => {
+    for (const chapter of CHAPTERS) {
+      const last = chapter.sections.at(-1);
+      expect(last?.id).toBe('in-the-wild');
+      expect(last?.blocks.some((block) => block.kind === 'table')).toBe(true);
+    }
+  });
 });

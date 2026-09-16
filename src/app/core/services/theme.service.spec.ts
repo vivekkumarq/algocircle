@@ -21,6 +21,8 @@ describe('ThemeService', () => {
 
     expect(theme.themes.length).toBe(THEME_OPTIONS.length);
     expect(theme.themes.map((option) => option.id)).toContain('midnight');
+    expect(theme.themes.map((option) => option.id)).toContain('ocean');
+    expect(theme.themes.map((option) => option.id)).toContain('slate');
     expect(new Set(theme.themes.map((option) => option.id)).size).toBe(theme.themes.length);
   });
 

@@ -29,8 +29,8 @@
   top: calc(100% + 8px);
   right: 0;
   z-index: calc(var(--z-header) + 10);
-  width: 280px;
-  max-height: min(70dvh, 520px);
+  width: min(360px, calc(100vw - 2 * var(--gutter)));
+  max-height: min(78dvh, 640px);
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: var(--space-4);
