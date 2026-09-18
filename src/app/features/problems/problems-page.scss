@@ -160,7 +160,7 @@
 
 .problems {
   display: grid;
-  gap: var(--space-2);
+  gap: 6px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -172,48 +172,79 @@
 
 .problem {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  /* Fixed columns, so the pills and the pattern names line up down the page
+     instead of each row sizing itself. */
+  grid-template-columns: 76px minmax(0, 1fr) 180px;
   gap: var(--space-4);
-  align-items: start;
-  padding: var(--space-4);
+  align-items: baseline;
+  padding: 0.7rem var(--space-4);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   background: var(--bg-card);
   color: inherit;
-  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  transition: border-color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
 }
 
 .problem:hover {
-  border-color: var(--accent);
-  box-shadow: var(--shadow-sm);
+  border-color: var(--ring-strong);
+  background: var(--bg-subtle);
+}
+
+.problem .level {
+  justify-self: start;
 }
 
 .problem__body {
   display: grid;
-  gap: 0.25rem;
+  gap: 0.15rem;
   min-width: 0;
 }
 
 .problem__title {
-  font-size: 0.96rem;
+  font-size: 0.94rem;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+.problem:hover .problem__title {
+  color: var(--accent-text);
 }
 
 .problem__statement {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  font-size: 0.84rem;
-  color: var(--text-secondary);
+  -webkit-line-clamp: 1;
+  font-size: 0.82rem;
+  color: var(--text-muted);
 }
 
 .problem__pattern {
+  justify-self: end;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg-subtle);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: var(--text-muted);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+@media (max-width: 760px) {
+  .problem {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    row-gap: 0.3rem;
+  }
+
+  .problem__pattern {
+    grid-column: 2;
+    justify-self: start;
+  }
 }
 
 /* ---- Detail ---- */
