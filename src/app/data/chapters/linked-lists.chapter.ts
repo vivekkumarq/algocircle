@@ -8,6 +8,11 @@ export const LINKED_LISTS: Chapter = {
   order: 13,
   stage: 'linked-lists',
   readingMinutes: 26,
+  definition: {
+    heading: 'What a linked list is',
+    text:
+      'A **linked list** is a chain of nodes, each holding a value and a reference to the next node. Nothing is contiguous, so there is no index arithmetic: reaching position `k` means walking `k` links, which is `O(n)`. In exchange, inserting or removing a node costs `O(1)` once you hold the node before it — the opposite trade to an array.',
+  },
   summary:
     'Pointer surgery: reversing, finding the middle, detecting cycles and rebuilding lists without losing a reference. The clearest test of whether you can reason precisely about references.',
   objectives: [

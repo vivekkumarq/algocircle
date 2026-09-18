@@ -8,6 +8,11 @@ export const BINARY_SEARCH: Chapter = {
   order: 10,
   stage: 'binary-search',
   readingMinutes: 26,
+  definition: {
+    heading: 'What binary search is',
+    text:
+      '**Binary search** repeatedly halves a range that is known to contain the answer, discarding the half that cannot hold it, until one candidate is left — `O(log n)` instead of `O(n)`. It needs a **monotone** predicate: something that is false, false, false, then true, true, true across the range. That range is often a sorted array, but just as often it is the range of possible answers.',
+  },
   summary:
     'Halving a monotonic search space — first over a sorted array, then over the answer itself, which is what turns many "minimise the maximum" problems from impossible into routine.',
   objectives: [

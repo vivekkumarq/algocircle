@@ -8,6 +8,11 @@ export const HASHING: Chapter = {
   order: 7,
   stage: 'hashing',
   readingMinutes: 24,
+  definition: {
+    heading: 'What a hash table is',
+    text:
+      'A **hash table** stores key-value pairs in an array of buckets, using a **hash function** to compute which bucket a key belongs in. Instead of searching for a key it calculates where the key must be and looks straight there, which makes insert, lookup and delete `O(1)` on average. A **collision** is two keys landing in the same bucket, and how a table resolves collisions is what decides its worst case.',
+  },
   summary:
     'How a hash table turns a search into a single memory access, what collisions really cost, and the handful of patterns — complement lookup, grouping, prefix hashing — that collapse quadratic solutions to linear.',
   objectives: [

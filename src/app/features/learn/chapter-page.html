@@ -39,6 +39,11 @@
       </details>
 
       <div class="body">
+        <section class="definition surface">
+          <h2><app-icon name="book" [size]="16" /> {{ ch.definition.heading }}</h2>
+          <app-content-blocks [blocks]="definitionBlocks()" />
+        </section>
+
         <section class="objectives surface">
           <h2><app-icon name="target" [size]="16" /> By the end of this topic you can</h2>
           <ul>

@@ -8,6 +8,11 @@ export const SORTING: Chapter = {
   order: 11,
   stage: 'sorting',
   readingMinutes: 28,
+  definition: {
+    heading: 'What sorting is, and what it buys you',
+    text:
+      '**Sorting** arranges elements into an order defined by a comparison. The comparison-based limit is `O(n log n)`; counting and radix sorts beat it by not comparing at all. Sorting is rarely the answer on its own — it is the `O(n log n)` step you pay once so that a two-pointer scan, a binary search or a greedy sweep becomes possible afterwards.',
+  },
   summary:
     'How each classic sort works and what it costs, why comparison sorting cannot beat `n log n`, when counting beats comparing, and how to select the kth element without sorting at all.',
   objectives: [

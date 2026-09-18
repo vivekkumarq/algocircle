@@ -52,12 +52,8 @@
 /* ---- Filters ---- */
 
 .filters {
-  position: sticky;
-  top: var(--header-h);
-  z-index: 2;
   padding-block: var(--space-4);
-  background: color-mix(in srgb, var(--bg-main) 92%, transparent);
-  backdrop-filter: blur(8px);
+  background: var(--bg-main);
 }
 
 .search {

@@ -8,6 +8,11 @@ export const GRAPHS: Chapter = {
   order: 17,
   stage: 'graphs',
   readingMinutes: 38,
+  definition: {
+    heading: 'What a graph is',
+    text:
+      'A **graph** is a set of nodes and the edges between them — the general structure that arrays, lists and trees are all special cases of. Edges may be **directed** or not and **weighted** or not, and those two choices decide which algorithm applies. Almost every graph problem reduces to a traversal: **BFS** explores in rings of increasing distance, **DFS** follows one path to its end before backing up.',
+  },
   summary:
     'Modelling relationships and traversing them: BFS and DFS, cycles and components, topological order, shortest paths, minimum spanning trees and disjoint sets. Many hard-looking problems are ordinary graph problems in disguise.',
   objectives: [

@@ -38,6 +38,8 @@ export interface Chapter {
   level: Level;
   order: number;
   summary: string;
+  /** Plain "what this actually is", shown before anything else on the page. */
+  definition: { heading: string; text: string };
   readingMinutes: number;
   /** What the reader can do afterwards, phrased as outcomes. */
   objectives: string[];

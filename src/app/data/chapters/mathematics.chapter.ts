@@ -8,6 +8,11 @@ export const MATHEMATICS: Chapter = {
   order: 4,
   stage: 'mathematics',
   readingMinutes: 26,
+  definition: {
+    heading: 'What maths you actually need',
+    text:
+      'Not a maths course — four small tools that keep reappearing: **counting** (how many arrangements exist), **modular arithmetic** (remainders, for hashing and for keeping numbers from overflowing), **prime factorisation and GCD** (the arithmetic behind divisibility questions), and **logarithms** (the reason halving something repeatedly is fast). Everything here exists because an algorithm elsewhere in the course needs it.',
+  },
   summary:
     'The number theory, combinatorics and bit tricks that turn brute-force problems into one-line formulas: GCD, primes, modular arithmetic, counting and XOR.',
   objectives: [

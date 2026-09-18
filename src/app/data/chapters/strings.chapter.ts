@@ -8,6 +8,11 @@ export const STRINGS: Chapter = {
   order: 6,
   stage: 'strings',
   readingMinutes: 28,
+  definition: {
+    heading: 'What a string is',
+    text:
+      'A **string** is an array of characters, usually over a fixed alphabet and, in many languages, immutable — so every apparent edit builds a new string. Treating it as an array is what unlocks the techniques: the same two-pointer, window and frequency-count moves you use on numbers work on characters, plus a few tricks that only make sense when the alphabet is small.',
+  },
   summary:
     'Character-level reasoning first — frequency, anagrams, palindromes — then the matching algorithms that beat the naive scan: rolling hash, KMP, Z and Manacher.',
   objectives: [

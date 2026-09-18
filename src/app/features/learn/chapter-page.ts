@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CHAPTERS, chapterBySlug } from '../../data/chapters';
+import { Block } from '../../core/models/chapter.models';
 import { SeoService } from '../../core/services/seo.service';
 import { LayoutService } from '../../core/services/layout.service';
 import { Icon } from '../../shared/components/icon/icon';
@@ -29,6 +30,12 @@ export class ChapterPage {
       previous: index > 0 ? CHAPTERS[index - 1] : undefined,
       next: index < CHAPTERS.length - 1 ? CHAPTERS[index + 1] : undefined,
     };
+  });
+
+  /** The definition rendered through the normal block renderer, for `code` and **bold**. */
+  protected readonly definitionBlocks = computed<Block[]>(() => {
+    const text = this.chapter()?.definition.text;
+    return text ? [{ kind: 'para', text }] : [];
   });
 
   protected readonly prerequisites = computed(() =>

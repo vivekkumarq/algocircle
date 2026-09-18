@@ -8,6 +8,11 @@ export const DYNAMIC_PROGRAMMING: Chapter = {
   order: 19,
   stage: 'dynamic-programming',
   readingMinutes: 40,
+  definition: {
+    heading: 'What dynamic programming is',
+    text:
+      '**Dynamic programming** solves a problem by breaking it into overlapping subproblems, solving each one once and reusing the answer. Two things must hold: **optimal substructure** (the best answer is built from best answers to smaller pieces) and **overlapping subproblems** (the same piece is needed again and again). Write it top-down with **memoisation** or bottom-up as a **table** — both compute the same thing.',
+  },
   summary:
     'Recursion with memory. Define the state, write the transition, then trade the call stack for a table. Every classic DP — knapsack, LCS, edit distance, LIS — is that same three-step recipe with a different state.',
   objectives: [

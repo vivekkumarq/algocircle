@@ -8,6 +8,11 @@ export const GREEDY: Chapter = {
   order: 18,
   stage: 'greedy',
   readingMinutes: 24,
+  definition: {
+    heading: 'What a greedy algorithm is',
+    text:
+      'A **greedy algorithm** builds an answer one decision at a time, always taking what looks best right now and never reconsidering. It produces the shortest code you will write and the easiest solutions to get subtly wrong — so a greedy solution is only finished when you can say **why** the locally best choice is also globally safe.',
+  },
   summary:
     'Making the locally best choice — and, more importantly, proving the local choice is safe. Greedy is short to write and easy to get wrong; the exchange argument is what separates the two.',
   objectives: [

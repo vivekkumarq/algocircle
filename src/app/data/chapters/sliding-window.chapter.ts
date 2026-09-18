@@ -8,6 +8,11 @@ export const SLIDING_WINDOW: Chapter = {
   order: 9,
   stage: 'sliding-window',
   readingMinutes: 24,
+  definition: {
+    heading: 'What a sliding window is',
+    text:
+      'A **sliding window** is a contiguous range `[left, right]` over a sequence, maintained incrementally: the right edge takes in one element, the left edge gives one up, and the answer for the new range is computed from the old one rather than from scratch. Neither edge ever moves backwards, which is why a loop that looks nested is still linear.',
+  },
   summary:
     'One window over a contiguous range, maintained incrementally. Almost every "longest", "shortest" or "at most K" question about a contiguous run is this single idea.',
   objectives: [

@@ -8,6 +8,11 @@ export const TWO_POINTERS: Chapter = {
   order: 8,
   stage: 'two-pointers',
   readingMinutes: 22,
+  definition: {
+    heading: 'What the two-pointer technique is',
+    text:
+      '**Two pointers** is a scan that keeps two indices into the same sequence and moves each one forward at most once, so a search that looks like it needs every pair finishes in a single pass. It works only when moving a pointer changes the quantity you are testing in a predictable direction — usually created by sorting the data first.',
+  },
   summary:
     'Two indices moving under a rule that never rewinds. The cheapest way to turn a nested loop into a single pass — and the foundation the sliding window is built on.',
   objectives: [

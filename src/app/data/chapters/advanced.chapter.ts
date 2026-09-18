@@ -8,6 +8,11 @@ export const ADVANCED: Chapter = {
   order: 20,
   stage: 'advanced',
   readingMinutes: 30,
+  definition: {
+    heading: 'What this topic covers',
+    text:
+      'The structures that answer a question no plain array can answer cheaply: a **trie** stores words by sharing their prefixes, **union-find** tracks which items are connected as connections arrive, a **segment tree** and a **Fenwick tree** answer range queries while the data keeps changing, and a **bitmask** packs a set of up to 64 items into a single integer. Each one exists because some specific operation was too slow without it.',
+  },
   summary:
     'What to reach for when the core toolkit runs out of speed: tries for prefixes, Fenwick and segment trees for range queries, sparse tables for immutable ranges, and the specialised structures behind real systems.',
   objectives: [

@@ -8,6 +8,11 @@ export const HEAPS: Chapter = {
   order: 16,
   stage: 'heaps',
   readingMinutes: 24,
+  definition: {
+    heading: 'What a heap is',
+    text:
+      'A **heap** is a complete binary tree stored in an array, where every parent compares favourably with its children — smallest on top in a min-heap, largest on top in a max-heap. It promises one thing only: constant-time access to the extreme element, with `O(log n)` to insert one or remove it. It does **not** keep the rest sorted, and that is exactly why it is cheaper than a sorted structure.',
+  },
   summary:
     'A partial order that hands you the extreme element in constant time and restores itself in logarithmic time. Top-K, k-way merges, streaming medians and scheduling all reduce to picking the right heap.',
   objectives: [

@@ -8,6 +8,11 @@ export const ARRAYS: Chapter = {
   order: 5,
   stage: 'arrays',
   readingMinutes: 30,
+  definition: {
+    heading: 'What an array is',
+    text:
+      'An **array** is a fixed-size row of equally sized slots laid next to each other in memory, numbered from zero. Because the slots are equal and adjacent, the machine computes the address of any element with one multiplication — so reading `a[i]` costs the same whether `i` is 0 or a million. That single property is what every array technique in this topic trades on.',
+  },
   summary:
     'The structure everything else is built on: index arithmetic, in-place work, and the prefix, difference and running-best techniques that collapse nested loops into a single pass.',
   objectives: [

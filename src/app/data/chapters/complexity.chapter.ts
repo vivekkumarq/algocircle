@@ -8,6 +8,11 @@ export const COMPLEXITY: Chapter = {
   order: 3,
   stage: 'complexity',
   readingMinutes: 28,
+  definition: {
+    heading: 'What complexity analysis is',
+    text:
+      '**Complexity analysis** describes how the work an algorithm does grows as its input grows, ignoring constants and machine speed. **Big-O** is the notation for it: `O(n)` means the work grows in proportion to the input, `O(n^2)` means doubling the input quadruples the work. It is the one tool that lets you predict whether code will finish before you run it.',
+  },
   summary:
     'How to predict the cost of code before running it: Big-O and its siblings, the four rules that cover most analysis, amortised cost, recurrences, and reading the constraints to decide what you are allowed to write.',
   objectives: [

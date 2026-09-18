@@ -8,6 +8,11 @@ export const RECURSION: Chapter = {
   order: 12,
   stage: 'recursion',
   readingMinutes: 28,
+  definition: {
+    heading: 'What recursion is',
+    text:
+      '**Recursion** is a function that solves a problem by calling itself on a smaller version of the same problem, with a **base case** that stops the descent; the call stack does the bookkeeping. **Backtracking** is recursion that makes a choice, explores, then undoes the choice before trying the next one — which is how you search every arrangement without ever writing the arrangements down.',
+  },
   summary:
     'Defining a problem in terms of itself, drawing the recursion tree to see the cost, and pruning a search that would otherwise explode. Trees, graphs and dynamic programming are all this chapter with extra bookkeeping.',
   objectives: [

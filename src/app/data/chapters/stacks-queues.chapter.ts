@@ -8,6 +8,11 @@ export const STACKS_QUEUES: Chapter = {
   order: 14,
   stage: 'stacks-queues',
   readingMinutes: 26,
+  definition: {
+    heading: 'What stacks and queues are',
+    text:
+      'A **stack** is last-in-first-out: you push and pop at the same end, like a pile of plates. A **queue** is first-in-first-out: you push at one end and pop from the other, like a line of people. Both restrict where you may add and remove, and that restriction is the point — it makes the order of processing a property of the structure rather than something you have to manage.',
+  },
   summary:
     'Two containers defined by the order they give things back, and the monotonic variants that answer "next greater element" style questions in a single pass instead of a nested loop.',
   objectives: [

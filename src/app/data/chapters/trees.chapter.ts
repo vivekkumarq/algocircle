@@ -8,6 +8,11 @@ export const TREES: Chapter = {
   order: 15,
   stage: 'trees',
   readingMinutes: 32,
+  definition: {
+    heading: 'What a tree is',
+    text:
+      'A **tree** is a connected graph with no cycles: `n` nodes and exactly `n - 1` edges, with one node named the root and every other node reachable from it by exactly one path. A **binary tree** gives each node at most two children; a **binary search tree** additionally keeps everything smaller on the left and everything larger on the right, which is what turns a lookup into a descent instead of a search.',
+  },
   summary:
     'Hierarchies, the four traversal orders, and the habit of returning an answer up from the children that solves most tree problems. Then binary search trees, where the ordering does the work.',
   objectives: [

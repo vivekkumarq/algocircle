@@ -8,6 +8,11 @@ export const FOUNDATIONS: Chapter = {
   order: 2,
   stage: 'foundations',
   readingMinutes: 26,
+  definition: {
+    heading: 'What the machinery underneath is',
+    text:
+      'Every algorithm is built from four things: **variables** (named boxes of memory), **references** (a box holding the address of another box rather than a copy), **functions** (a named block of work you can call), and the **call stack** (the pile of paused functions waiting for the one on top to return). Knowing exactly what each one costs is what lets you reason about an algorithm instead of guessing.',
+  },
   summary:
     'The machinery every algorithm is written with: how values live in memory, what a reference really is, why an array is fast, and what the call stack is doing while your recursion runs.',
   objectives: [

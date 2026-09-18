@@ -8,6 +8,11 @@ export const WHY_DSA: Chapter = {
   order: 1,
   stage: 'why-dsa',
   readingMinutes: 18,
+  definition: {
+    heading: 'What data structures and algorithms actually are',
+    text:
+      'A **data structure** is a way of arranging data in memory so that certain questions about it become cheap to answer. An **algorithm** is a finite, unambiguous procedure that turns an input into the answer you want. Together they decide how much work your program does — and that amount, not the speed of your laptop, is what separates a program that answers instantly from one that never finishes.',
+  },
   summary:
     'Before any code: what data structures and algorithms actually are, why a slow program stays slow no matter how fast your laptop is, and what changes once you can reason about cost.',
   objectives: [

@@ -85,4 +85,11 @@ describe('chapters', () => {
       expect(table?.kind === 'table' && table.rows.length).toBeGreaterThanOrEqual(4);
     }
   });
+
+  it('opens every topic with a plain definition of what it is', () => {
+    for (const chapter of CHAPTERS) {
+      expect(chapter.definition.heading.length, chapter.slug).toBeGreaterThan(8);
+      expect(chapter.definition.text.length, chapter.slug).toBeGreaterThan(180);
+    }
+  });
 });
