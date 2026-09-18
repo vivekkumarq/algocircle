@@ -63,6 +63,23 @@ while (lo <= hi) {
 return -1;`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `lo, hi = 0, len(a) - 1
+
+while lo <= hi:
+    mid = (lo + hi) // 2           # Python ints never overflow, so this is safe
+    if a[mid] == target:
+        return mid
+
+    if a[mid] < target:
+        lo = mid + 1               # target is strictly right
+    else:
+        hi = mid - 1               # target is strictly left
+
+return -1`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           title: 'Three bugs that account for almost all failures',
@@ -98,6 +115,22 @@ while (lo < hi) {
     else                   lo = mid + 1;
 }
 return lo;                             // first index where the condition is true`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `lo, hi = 0, len(a)                 # hi is exclusive
+
+while lo < hi:
+    mid = (lo + hi) // 2
+    if condition(a[mid]):
+        hi = mid                   # mid might be the answer - keep it
+    else:
+        lo = mid + 1
+
+return lo                          # first index where the condition is true
+
+# the standard library has both halves: bisect_left and bisect_right`,
         },
         {
           kind: 'callout',
@@ -165,6 +198,29 @@ while (lo <= hi) {
 return -1;`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `lo, hi = 0, len(a) - 1
+
+while lo <= hi:
+    mid = (lo + hi) // 2
+    if a[mid] == target:
+        return mid
+
+    if a[lo] <= a[mid]:                                  # left half is sorted
+        if a[lo] <= target < a[mid]:
+            hi = mid - 1
+        else:
+            lo = mid + 1
+    else:                                                # right half is sorted
+        if a[mid] < target <= a[hi]:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+
+return -1`,
+        },
+        {
           kind: 'diagram',
           art: `[4][5][6][7][0][1][2]
              ^mid
@@ -228,6 +284,33 @@ boolean feasible(int[] a, int m, int limit) {
     }
     return parts <= m;                    // fits within m parts
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def split_array(a: list[int], m: int) -> int:
+    lo, hi = max(a), sum(a)            # any valid answer lies here
+
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if feasible(a, m, mid):
+            hi = mid
+        else:
+            lo = mid + 1
+
+    return lo
+
+
+def feasible(a: list[int], m: int, limit: int) -> bool:
+    parts, running = 1, 0
+
+    for value in a:
+        if running + value > limit:
+            parts += 1
+            running = 0
+        running += value
+
+    return parts <= m                  # fits within m parts`,
         },
         {
           kind: 'callout',

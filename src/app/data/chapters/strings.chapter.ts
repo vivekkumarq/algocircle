@@ -87,6 +87,19 @@ for (int c : count) if (c != 0) return false;
 return true;`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `if len(s) != len(t):
+    return False
+
+count = [0] * 26
+for cs, ct in zip(s, t):
+    count[ord(cs) - ord('a')] += 1
+    count[ord(ct) - ord('a')] -= 1
+
+return all(c == 0 for c in count)`,
+        },
+        {
           kind: 'para',
           text: 'To **group** anagrams you need a canonical form — one representative string that every anagram maps to. Sorted characters work, and so does the count vector rendered as a key, which avoids the sort entirely.',
         },
@@ -101,6 +114,20 @@ for (String word : words) {
     String key = Arrays.toString(count);
     groups.computeIfAbsent(key, k -> new ArrayList<>()).add(word);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import defaultdict
+
+groups = defaultdict(list)
+
+for word in words:
+    count = [0] * 26
+    for c in word:
+        count[ord(c) - ord('a')] += 1
+
+    groups[tuple(count)].append(word)   # a tuple is hashable; a list is not`,
         },
         {
           kind: 'callout',
@@ -138,6 +165,26 @@ void expand(int lo, int hi) {
     int length = hi - lo - 1;     // the loop overshot by one on each side
     if (length > best) { best = length; start = lo + 1; }
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `best, start = 0, 0
+
+def expand(lo: int, hi: int) -> None:
+    global best, start
+
+    while lo >= 0 and hi < len(s) and s[lo] == s[hi]:
+        lo -= 1
+        hi += 1
+
+    length = hi - lo - 1               # the loop overshot by one on each side
+    if length > best:
+        best, start = length, lo + 1
+
+for centre in range(len(s)):
+    expand(centre, centre)             # odd length,  aba
+    expand(centre, centre + 1)         # even length, abba`,
         },
         {
           kind: 'diagram',
@@ -211,6 +258,15 @@ hash = (hash * b + s.charAt(i + m)) % mod;   // append the new one
 if (hash < 0) hash += mod;`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `# hash of s[i..i+m-1] = s[i]*b^(m-1) + s[i+1]*b^(m-2) + ... + s[i+m-1]
+hash = (hash - ord(s[i]) * power) % mod       # drop the leading character
+hash = (hash * b + ord(s[i + m])) % mod       # append the new one
+
+# Python's % already returns a non-negative result, so no fix-up is needed`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           title: 'Hashes can collide',
@@ -243,6 +299,24 @@ for (int i = 1; i < m; ) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `lps = [0] * m
+length = 0
+i = 1
+
+while i < m:
+    if p[i] == p[length]:
+        length += 1
+        lps[i] = length
+        i += 1
+    elif length > 0:
+        length = lps[length - 1]      # fall back, do not restart
+    else:
+        lps[i] = 0
+        i += 1`,
+        },
+        {
           kind: 'diagram',
           caption: 'For "ababaca", lps[i] is the longest prefix that is also a suffix of p[0..i].',
           art: `pattern:  a  b  a  b  a  c  a
@@ -264,6 +338,25 @@ while (i < n) {
         else i++;
     }
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `i = j = 0
+
+while i < len(t):
+    if t[i] == p[j]:
+        i += 1
+        j += 1
+
+    if j == m:
+        report(i - j)
+        j = lps[j - 1]
+    elif i < len(t) and t[i] != p[j]:
+        if j > 0:
+            j = lps[j - 1]
+        else:
+            i += 1`,
         },
         {
           kind: 'callout',

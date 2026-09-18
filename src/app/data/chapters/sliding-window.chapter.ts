@@ -83,6 +83,16 @@ for (int right = k; right < n; right++) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `window = sum(a[:k])          # first window
+best = window
+
+for right in range(k, len(a)):
+    window += a[right] - a[right - k]    # add one, drop one
+    best = max(best, window)`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           text: 'The element leaving is at `right - k`, not `right - k + 1`. Write out the indices for `k = 3` on paper once and this stops being a guess.',
@@ -160,6 +170,23 @@ for (int right = 0; right < s.length(); right++) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import defaultdict
+
+count = defaultdict(int)
+left = best = 0
+
+for right, c in enumerate(s):
+    count[c] += 1
+
+    while count[c] > 1:                  # only the duplicate can break it
+        count[s[left]] -= 1
+        left += 1
+
+    best = max(best, right - left + 1)`,
+        },
+        {
           kind: 'diagram',
           caption: 'On "abcabcbb": the window slides past each repeat rather than restarting.',
           art: `a b c a b c b b
@@ -193,6 +220,12 @@ L---R                 "abc"      best = 3
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `def exactly(a: list[int], k: int) -> int:
+    return at_most(a, k) - at_most(a, k - 1)`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'The reusable half: counting subarrays with at most k distinct values',
           source: `int atMost(int[] a, int k) {
@@ -211,6 +244,30 @@ L---R                 "abc"      best = 3
     }
     return total;
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import defaultdict
+
+
+def at_most(a: list[int], k: int) -> int:
+    count: dict[int, int] = defaultdict(int)
+    left = total = 0
+
+    for right, value in enumerate(a):
+        count[value] += 1
+
+        while len(count) > k:
+            leaving = a[left]
+            count[leaving] -= 1
+            if count[leaving] == 0:
+                del count[leaving]
+            left += 1
+
+        total += right - left + 1     # every window ending at right is valid
+
+    return total`,
         },
         {
           kind: 'callout',
@@ -241,6 +298,23 @@ for (int right = 0; right < n; right++) {
     if (deque.peekFirst() <= right - k) deque.pollFirst();   // it slid out
     if (right >= k - 1) report(a[deque.peekFirst()]);        // front is the max
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import deque
+
+window = deque()                   # holds indices, values decreasing
+
+for right, value in enumerate(a):
+    while window and a[window[-1]] <= value:
+        window.pop()
+    window.append(right)
+
+    if window[0] <= right - k:
+        window.popleft()           # it slid out
+    if right >= k - 1:
+        report(a[window[0]])       # front is the max`,
         },
         {
           kind: 'callout',

@@ -1,4 +1,4 @@
-@for (block of blocks(); track $index) {
+@for (block of items(); track $index) {
   @switch (block.kind) {
     @case ('para') {
       <p [innerHTML]="rich(block.text)"></p>
@@ -24,25 +24,45 @@
       }
     }
 
-    @case ('code') {
+    @case ('code-group') {
+      @let tab = shown(block.tabs);
+
       <figure class="code">
         <figcaption>
-          <span class="code__lang">{{ block.language }}</span>
-          @if (block.caption) {
-            <span class="code__caption">{{ block.caption }}</span>
+          @if (block.tabs.length > 1) {
+            <span class="code__langs" role="tablist" aria-label="Language">
+              @for (option of block.tabs; track option.language) {
+                <button
+                  type="button"
+                  role="tab"
+                  [class.is-active]="option.language === tab.language"
+                  [attr.aria-selected]="option.language === tab.language"
+                  (click)="choose(option.language)"
+                >
+                  {{ option.language }}
+                </button>
+              }
+            </span>
+          } @else {
+            <span class="code__lang">{{ tab.language }}</span>
           }
+
+          @if (tab.caption) {
+            <span class="code__caption">{{ tab.caption }}</span>
+          }
+
           <button
             type="button"
             class="code__copy"
-            [class.is-done]="copied() === block.source"
-            (click)="copy(block.source)"
-            [attr.aria-label]="copied() === block.source ? 'Copied' : 'Copy this code'"
+            [class.is-done]="copied() === tab.source"
+            (click)="copy(tab.source)"
+            [attr.aria-label]="copied() === tab.source ? 'Copied' : 'Copy this code'"
           >
-            <app-icon [name]="copied() === block.source ? 'check' : 'code'" [size]="13" />
-            {{ copied() === block.source ? 'Copied' : 'Copy' }}
+            <app-icon [name]="copied() === tab.source ? 'check' : 'code'" [size]="13" />
+            {{ copied() === tab.source ? 'Copied' : 'Copy' }}
           </button>
         </figcaption>
-        <pre><code>{{ block.source }}</code></pre>
+        <pre><code>{{ tab.source }}</code></pre>
       </figure>
     }
 

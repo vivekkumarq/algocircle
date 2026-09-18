@@ -57,6 +57,16 @@ export const LINKED_LISTS: Chapter = {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `class ListNode:
+    __slots__ = ('val', 'next')
+
+    def __init__(self, val: int, next: 'ListNode | None' = None) -> None:
+        self.val = val
+        self.next = next`,
+        },
+        {
           kind: 'table',
           caption: 'Every difference from an array follows from "no contiguous block".',
           headers: ['Operation', 'Array', 'Linked list'],
@@ -90,6 +100,14 @@ export const LINKED_LISTS: Chapter = {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `node = head
+while node:
+    visit(node.val)
+    node = node.next`,
+        },
+        {
           kind: 'callout',
           tone: 'key',
           title: 'Never lose the rest of the list',
@@ -107,6 +125,18 @@ node = node.next;          // this now walks backwards
 ListNode ahead = node.next;
 node.next = previous;
 node = ahead;`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `# WRONG: the rest of the list is gone the moment next is overwritten
+node.next = previous
+node = node.next            # this now walks backwards
+
+# RIGHT: save first
+ahead = node.next
+node.next = previous
+node = ahead`,
         },
       ],
     },
@@ -138,6 +168,19 @@ while (current != null) {
 return previous;                     // the old tail is the new head`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `previous, current = None, head
+
+while current:
+    ahead = current.next        # save
+    current.next = previous     # flip
+    previous = current          # advance both
+    current = ahead
+
+return previous                 # the old tail is the new head`,
+        },
+        {
           kind: 'diagram',
           caption: 'One link flips per iteration; previous trails behind current.',
           art: `start:   null   1 -> 2 -> 3 -> null
@@ -163,6 +206,18 @@ end:     null <- 1 <- 2 <- 3
     head.next = null;                        // and cut the old forward link
     return newHead;
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def reverse(head: ListNode | None) -> ListNode | None:
+    if head is None or head.next is None:
+        return head
+
+    new_head = reverse(head.next)   # trust: the rest is reversed
+    head.next.next = head           # make the next node point back
+    head.next = None                # and cut the old forward link
+    return new_head`,
         },
         {
           kind: 'callout',
@@ -192,6 +247,17 @@ return slow;   // for even length this is the second middle`,
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `slow = fast = head
+
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+
+return slow      # for even length this is the second middle`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'Nth node from the end - open a gap of n, then move together',
           source: `ListNode lead = head;
@@ -200,6 +266,20 @@ for (int i = 0; i < n; i++) lead = lead.next;
 ListNode trail = head;
 while (lead != null) { lead = lead.next; trail = trail.next; }
 return trail;`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `lead = head
+for _ in range(n):
+    lead = lead.next
+
+trail = head
+while lead:
+    lead = lead.next
+    trail = trail.next
+
+return trail`,
         },
         {
           kind: 'callout',
@@ -230,12 +310,36 @@ return false;`,
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `slow = fast = head
+
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+    if slow is fast:
+        return True
+
+return False`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'Finding the entry point of the cycle',
           source: `// after they meet:
 ListNode probe = head;
 while (probe != slow) { probe = probe.next; slow = slow.next; }
 return probe;   // the first node of the cycle`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `# after they meet:
+probe = head
+while probe is not slow:
+    probe = probe.next
+    slow = slow.next
+
+return probe     # the first node of the cycle`,
         },
         {
           kind: 'callout',
@@ -276,6 +380,20 @@ while (previous.next != null) {
 return dummy.next;   // correct even if the original head was removed`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `dummy = ListNode(0, head)
+
+previous = dummy
+while previous.next:
+    if previous.next.val == target:
+        previous.next = previous.next.next
+    else:
+        previous = previous.next
+
+return dummy.next   # correct even if the original head was removed`,
+        },
+        {
           kind: 'callout',
           tone: 'key',
           text: 'Any time a problem involves deleting, inserting or merging at the front, start with a dummy node. It removes a branch, an edge case, and a class of null-pointer bugs — and it costs one allocation.',
@@ -292,6 +410,22 @@ while (a != null && b != null) {
 }
 tail.next = (a != null) ? a : b;   // attach whatever remains
 return dummy.next;`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `dummy = ListNode(0)
+tail = dummy
+
+while a and b:
+    if a.val <= b.val:
+        tail.next, a = a, a.next
+    else:
+        tail.next, b = b, b.next
+    tail = tail.next
+
+tail.next = a or b      # attach whatever remains
+return dummy.next`,
         },
       ],
     },
@@ -318,6 +452,23 @@ return dummy.next;`,
 
     return merge(sort(head), sort(second));
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def sort(head: ListNode | None) -> ListNode | None:
+    if head is None or head.next is None:
+        return head
+
+    slow, fast = head, head.next          # note: fast starts ahead
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    second = slow.next
+    slow.next = None                      # cut into two lists
+
+    return merge(sort(head), sort(second))`,
         },
         {
           kind: 'callout',

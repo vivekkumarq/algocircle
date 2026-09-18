@@ -109,6 +109,16 @@ for (int i = n - 1; i >= 0; i--) {
     maxRight = Math.max(maxRight, price[i]);     // then include today
 }`,
         },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `best = 0
+max_right = float('-inf')
+
+for price in reversed(prices):
+    best = max(best, max_right - price)   # sell at the best future price
+    max_right = max(max_right, price)     # then include today`,
+        },
       ],
     },
     {
@@ -128,6 +138,17 @@ for (int read = 0; read < n; read++) {
     if (a[read] != 0) a[write++] = a[read];
 }
 // a[0 .. write-1] is the compacted result; write is the new length`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `write = 0
+for read in range(len(a)):
+    if a[read] != 0:
+        a[write] = a[read]
+        write += 1
+
+# a[:write] is the compacted result; write is the new length`,
         },
         {
           kind: 'callout',
@@ -171,6 +192,16 @@ for (int i = 0; i < n; i++) prefix[i + 1] = prefix[i] + a[i];
 long sum = prefix[r + 1] - prefix[l];`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `prefix = [0] * (len(a) + 1)
+for i, value in enumerate(a):
+    prefix[i + 1] = prefix[i] + value
+
+# sum of a[l..r], inclusive:
+total = prefix[r + 1] - prefix[l]`,
+        },
+        {
           kind: 'diagram',
           caption: 'The shaded range is the difference of two prefixes.',
           art: `a:        [ 3 ][ 1 ][ 4 ][ 1 ][ 5 ][ 9 ]
@@ -209,6 +240,20 @@ for (int i = 0; i < n; i++) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import defaultdict
+
+seen = defaultdict(int)
+seen[0] = 1                       # the empty prefix
+
+running = count = 0
+for value in a:
+    running += value
+    count += seen[running - k]
+    seen[running] += 1`,
+        },
+        {
           kind: 'callout',
           tone: 'key',
           text: 'Remember the shape, not the code: **a range condition becomes a lookup condition on prefixes**. The same move handles subarrays divisible by `k` (store `running % k`) and equal counts of two values (store a running difference).',
@@ -239,6 +284,21 @@ for (int i = 0; i < n; i++) {
     running += diff[i];
     a[i] += running;
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `diff = [0] * (len(a) + 1)
+
+# add v to a[l..r]
+diff[l] += v
+diff[r + 1] -= v
+
+# after all updates, rebuild the array
+running = 0
+for i in range(len(a)):
+    running += diff[i]
+    a[i] += running`,
         },
         {
           kind: 'diagram',
@@ -290,6 +350,17 @@ for (int i = 1; i < n; i++) {
 return best;`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `ending_here = best = a[0]
+
+for value in a[1:]:
+    ending_here = max(value, ending_here + value)
+    best = max(best, ending_here)
+
+return best`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           title: 'All-negative input',
@@ -319,6 +390,20 @@ for (char c : s.toCharArray()) count[c - 'a']++;
 for (char c : t.toCharArray()) count[c - 'a']--;
 for (int c : count) if (c != 0) return false;
 return true;`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `count = [0] * 26
+
+for c in s:
+    count[ord(c) - ord('a')] += 1
+for c in t:
+    count[ord(c) - ord('a')] -= 1
+
+return all(c == 0 for c in count)
+
+# or, with the standard library: Counter(s) == Counter(t)`,
         },
         {
           kind: 'para',
@@ -382,6 +467,14 @@ reverse(a, k, n - 1);      // reverse the rest
 reverse(a, 0, n - 1);      // reverse the whole thing`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `k %= n
+a[:k] = reversed(a[:k])        # reverse the first part
+a[k:] = reversed(a[k:])        # reverse the rest
+a.reverse()                    # reverse the whole thing`,
+        },
+        {
           kind: 'diagram',
           art: `original      [1][2][3][4][5][6][7]   k = 3
 reverse 0..2  [3][2][1][4][5][6][7]
@@ -438,6 +531,13 @@ for d in 0 .. 3:
           source: `P[r + 1][c + 1] = grid[r][c] + P[r][c + 1] + P[r + 1][c] - P[r][c];
 
 long sum = P[r2 + 1][c2 + 1] - P[r1][c2 + 1] - P[r2 + 1][c1] + P[r1][c1];`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `P[r + 1][c + 1] = grid[r][c] + P[r][c + 1] + P[r + 1][c] - P[r][c]
+
+total = P[r2 + 1][c2 + 1] - P[r1][c2 + 1] - P[r2 + 1][c1] + P[r1][c1]`,
         },
         {
           kind: 'diagram',

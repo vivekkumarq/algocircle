@@ -69,6 +69,16 @@ export const RECURSION: Chapter = {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `def count(node: Node | None) -> int:
+    """Returns the number of nodes in this subtree."""
+    if node is None:
+        return 0                                  # base case
+
+    return 1 + count(node.left) + count(node.right)   # trust the children`,
+        },
+        {
           kind: 'callout',
           tone: 'key',
           text: 'If you can state the contract in one sentence, the body usually writes itself in three lines. If you cannot, no amount of tracing will help — the contract is the missing piece.',
@@ -133,6 +143,17 @@ export const RECURSION: Chapter = {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `def fib(n: int) -> int:
+    if n <= 1:
+        return n
+    return fib(n - 1) + fib(n - 2)
+
+# One decorator turns the exponential tree into a linear walk:
+# @lru_cache(maxsize=None)`,
+        },
+        {
           kind: 'diagram',
           caption: 'fib(4) computes fib(2) twice and fib(1) three times. The repetition is the cost.',
           art: `                fib(4)
@@ -185,6 +206,20 @@ fib(1) fib(0)`,
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `def subsets(i: int, current: list[int]) -> None:
+    if i == len(a):
+        output.append(current[:])      # copy: current keeps changing
+        return
+
+    subsets(i + 1, current)            # exclude a[i]
+
+    current.append(a[i])               # include a[i]
+    subsets(i + 1, current)
+    current.pop()                      # undo, so the caller is unaffected`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           title: 'Copy the list when you record it',
@@ -201,6 +236,16 @@ fib(1) fib(0)`,
           source: `for (int mask = 0; mask < (1 << n); mask++)
     for (int i = 0; i < n; i++)
         if ((mask >> i & 1) == 1) use(a[i]);`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `for mask in range(1 << n):
+    for i in range(n):
+        if mask >> i & 1:
+            use(a[i])
+
+# the standard library also has it: itertools.combinations`,
         },
       ],
     },
@@ -244,6 +289,28 @@ fib(1) fib(0)`,
         current.remove(current.size() - 1); used[i] = false;
     }
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def permute(current: list[int], used: list[bool]) -> None:
+    if len(current) == len(a):
+        output.append(current[:])
+        return
+
+    for i, value in enumerate(a):
+        if used[i]:
+            continue
+
+        used[i] = True
+        current.append(value)
+
+        permute(current, used)
+
+        current.pop()
+        used[i] = False
+
+# the standard library also has it: itertools.permutations`,
         },
         {
           kind: 'table',
@@ -295,6 +362,27 @@ void search(int start, int remaining, List<Integer> current) {
         current.remove(current.size() - 1);
     }
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `candidates.sort()
+
+
+def search(start: int, remaining: int, current: list[int]) -> None:
+    if remaining == 0:
+        output.append(current[:])
+        return
+
+    for i in range(start, len(candidates)):
+        if candidates[i] > remaining:
+            break                                       # sorted: all later ones too big
+        if i > start and candidates[i] == candidates[i - 1]:
+            continue                                    # skip duplicates
+
+        current.append(candidates[i])
+        search(i + 1, remaining - candidates[i], current)
+        current.pop()`,
         },
         {
           kind: 'callout',
@@ -352,6 +440,30 @@ void dfsIterative(TreeNode root) {         // explicit stack
         if (node.left  != null) stack.push(node.left);   // so left pops first
     }
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def dfs(node: Node | None) -> None:            # recursive
+    if node is None:
+        return
+
+    visit(node)
+    dfs(node.left)
+    dfs(node.right)
+
+
+def dfs_iterative(root: Node | None) -> None:  # explicit stack
+    stack = [root] if root else []
+
+    while stack:
+        node = stack.pop()
+        visit(node)
+
+        if node.right:
+            stack.append(node.right)           # right first,
+        if node.left:
+            stack.append(node.left)            # so left pops first`,
         },
         {
           kind: 'check',

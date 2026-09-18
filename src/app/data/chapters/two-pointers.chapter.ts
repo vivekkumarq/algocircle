@@ -90,6 +90,21 @@ while (lo < hi) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `lo, hi = 0, len(a) - 1
+
+while lo < hi:
+    total = a[lo] + a[hi]
+    if total == target:
+        return [lo, hi]
+
+    if total < target:
+        lo += 1        # need a bigger sum
+    else:
+        hi -= 1        # need a smaller sum`,
+        },
+        {
           kind: 'callout',
           tone: 'why',
           title: 'Why moving a pointer is safe',
@@ -143,6 +158,32 @@ for (int i = 0; i < n - 2; i++) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `a.sort()
+
+for i in range(len(a) - 2):
+    if i and a[i] == a[i - 1]:
+        continue                                  # skip duplicate anchors
+
+    lo, hi = i + 1, len(a) - 1
+    while lo < hi:
+        total = a[i] + a[lo] + a[hi]
+
+        if total == 0:
+            report(a[i], a[lo], a[hi])
+            while lo < hi and a[lo] == a[lo + 1]:  # skip duplicate pairs
+                lo += 1
+            while lo < hi and a[hi] == a[hi - 1]:
+                hi -= 1
+            lo += 1
+            hi -= 1
+        elif total < 0:
+            lo += 1
+        else:
+            hi -= 1`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           title: 'Duplicates are the whole difficulty',
@@ -167,6 +208,18 @@ for (int read = 1; read < n; read++) {
     if (a[read] != a[write - 1]) a[write++] = a[read];
 }
 return write;   // new length`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `write = 1
+
+for read in range(1, len(a)):
+    if a[read] != a[write - 1]:
+        a[write] = a[read]
+        write += 1
+
+return write   # new length`,
         },
         {
           kind: 'diagram',
@@ -204,6 +257,23 @@ while (mid <= high) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `low = mid = 0
+high = len(a) - 1
+
+while mid <= high:
+    if a[mid] == 0:
+        a[low], a[mid] = a[mid], a[low]
+        low += 1
+        mid += 1
+    elif a[mid] == 1:
+        mid += 1
+    else:
+        a[mid], a[high] = a[high], a[mid]
+        high -= 1                          # do NOT advance mid`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           title: 'Why `mid` does not advance on a 2',
@@ -226,6 +296,25 @@ while (mid <= high) {
 while (i < n && j < m) out[k++] = (a[i] <= b[j]) ? a[i++] : b[j++];
 while (i < n) out[k++] = a[i++];
 while (j < m) out[k++] = b[j++];`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `i = j = 0
+out = []
+
+while i < len(a) and j < len(b):
+    if a[i] <= b[j]:
+        out.append(a[i])
+        i += 1
+    else:
+        out.append(b[j])
+        j += 1
+
+out.extend(a[i:])
+out.extend(b[j:])
+
+# the standard library does exactly this: heapq.merge(a, b)`,
         },
         {
           kind: 'callout',
@@ -254,6 +343,20 @@ while (fast != null && fast.next != null) {
     if (slow == fast) return true;    // they met, so there is a cycle
 }
 return false;`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `slow = fast = head
+
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+
+    if slow is fast:
+        return True        # they met, so there is a cycle
+
+return False`,
         },
         {
           kind: 'callout',

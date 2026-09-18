@@ -378,3 +378,36 @@ tbody tr:last-child td {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   }
 }
+
+/* Language tabs, when a snippet exists in more than one language. */
+.code__langs {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+}
+
+.code__langs button {
+  padding: 0.1rem 0.55rem;
+  border: 0;
+  border-radius: 3px;
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.code__langs button:hover {
+  color: var(--text-primary);
+}
+
+.code__langs button.is-active {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-weight: 600;
+}

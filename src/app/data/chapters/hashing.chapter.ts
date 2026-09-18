@@ -152,6 +152,18 @@ for (int i = 0; i < n; i++) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `seen = {}                          # value -> index
+
+for i, value in enumerate(a):
+    need = target - value
+    if need in seen:
+        return [seen[need], i]
+
+    seen[value] = i                # insert after checking, or a[i] matches itself`,
+        },
+        {
           kind: 'callout',
           tone: 'why',
           title: 'Why the order of the two lines matters',
@@ -180,6 +192,18 @@ for (int value : a) count.merge(value, 1, Integer::sum);
 
 // or
 count.put(value, count.getOrDefault(value, 0) + 1);`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import Counter, defaultdict
+
+count = Counter(a)                 # the whole loop, in one call
+
+# or, when you want to build it yourself:
+count = defaultdict(int)
+for value in a:
+    count[value] += 1`,
         },
         {
           kind: 'table',
@@ -242,6 +266,20 @@ for (int value : a) {
     count += seen.getOrDefault(running - k, 0);
     seen.merge(running, 1, Integer::sum);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import defaultdict
+
+seen = defaultdict(int)
+seen[0] = 1                        # the empty prefix
+
+running = count = 0
+for value in a:
+    running += value
+    count += seen[running - k]
+    seen[running] += 1`,
         },
         {
           kind: 'table',

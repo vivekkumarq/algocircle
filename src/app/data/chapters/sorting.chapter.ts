@@ -75,6 +75,19 @@ export const SORTING: Chapter = {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `for i in range(1, len(a)):
+    key = a[i]
+    j = i - 1
+
+    while j >= 0 and a[j] > key:
+        a[j + 1] = a[j]            # shift right
+        j -= 1
+
+    a[j + 1] = key`,
+        },
+        {
           kind: 'callout',
           tone: 'note',
           text: 'Real library sorts switch to insertion sort for small subarrays — typically under about 16 elements — because its constant factor beats the recursion overhead of the clever sorts.',
@@ -109,6 +122,33 @@ export const SORTING: Chapter = {
     while (j < hi)  buffer[k++] = a[j++];
     System.arraycopy(buffer, lo, a, lo, hi - lo);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def sort(a: list[int], lo: int, hi: int) -> None:
+    """Sorts the half-open range [lo, hi)."""
+    if hi - lo <= 1:
+        return
+
+    mid = (lo + hi) // 2
+    sort(a, lo, mid)
+    sort(a, mid, hi)
+
+    merged = []
+    i, j = lo, mid
+
+    while i < mid and j < hi:
+        if a[i] <= a[j]:
+            merged.append(a[i])
+            i += 1
+        else:
+            merged.append(a[j])
+            j += 1
+
+    merged.extend(a[i:mid])
+    merged.extend(a[j:hi])
+    a[lo:hi] = merged`,
         },
         {
           kind: 'diagram',
@@ -151,6 +191,22 @@ export const SORTING: Chapter = {
     swap(a, i, hi);
     return i;                              // pivot's final position
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def partition(a: list[int], lo: int, hi: int) -> int:
+    """hi is the pivot index; returns the pivot's final position."""
+    pivot = a[hi]
+    i = lo
+
+    for j in range(lo, hi):
+        if a[j] < pivot:
+            a[i], a[j] = a[j], a[i]
+            i += 1
+
+    a[i], a[hi] = a[hi], a[i]
+    return i`,
         },
         {
           kind: 'callout',
@@ -218,6 +274,19 @@ for (int value = 0; value < k; value++)
     while (count[value]-- > 0) a[index++] = value;`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `count = [0] * k
+for value in a:
+    count[value] += 1
+
+index = 0
+for value in range(k):
+    for _ in range(count[value]):
+        a[index] = value
+        index += 1`,
+        },
+        {
           kind: 'table',
           headers: ['Sort', 'Cost', 'Requires', 'Use when'],
           rows: [
@@ -282,6 +351,20 @@ unstable: (Cy, A)  (Bob, B)  (Ann, B)   <- also "sorted", different answer`,
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `def quickselect(a: list[int], lo: int, hi: int, k: int) -> int:
+    while True:
+        p = partition(a, lo, hi)
+
+        if p == k:
+            return a[p]
+        if p < k:
+            lo = p + 1
+        else:
+            hi = p - 1`,
+        },
+        {
           kind: 'callout',
           tone: 'why',
           title: 'Why discarding a side gives linear time',
@@ -315,6 +398,14 @@ unstable: (Cy, A)  (Bob, B)  (Ann, B)   <- also "sorted", different answer`,
 
 // safer for large values, which can overflow the subtraction:
 Arrays.sort(intervals, Comparator.<int[]>comparingInt(x -> x[0]).thenComparingInt(x -> x[1]));`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `intervals.sort(key=lambda x: (x[0], x[1]))
+
+# Python compares tuples element by element, so there is no comparator to write
+# and nothing to overflow.`,
         },
         {
           kind: 'callout',
