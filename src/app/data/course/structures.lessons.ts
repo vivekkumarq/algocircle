@@ -75,6 +75,20 @@ step 3  fast.next is null -> stop, slow is the middle`,
     return false;
 }`,
     },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `def has_cycle(head: Node | None) -> bool:
+    slow = fast = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow is fast:
+            return True
+
+    return False`,
+    },
     { kind: 'heading', text: 'Finding where the cycle starts' },
     {
       kind: 'para',
@@ -308,6 +322,21 @@ class Trie:
     }
     return false;
 }`,
+    },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `def search_with_dots(node: TrieNode | None, word: str, i: int) -> bool:
+    if node is None:
+        return False
+    if i == len(word):
+        return node.is_word
+
+    char = word[i]
+    if char != '.':
+        return search_with_dots(node.children.get(char), word, i + 1)
+
+    return any(search_with_dots(child, word, i + 1) for child in node.children.values())`,
     },
     {
       kind: 'callout',
@@ -689,6 +718,24 @@ export const ITERATIVE_DFS: CourseLesson = {
 
     return out;
 }`,
+    },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `def preorder(root: Node | None) -> list[int]:
+    out: list[int] = []
+    stack = [root] if root else []
+
+    while stack:
+        node = stack.pop()
+        out.append(node.val)
+
+        if node.right:
+            stack.append(node.right)     # right first...
+        if node.left:
+            stack.append(node.left)      # ...so left pops first
+
+    return out`,
     },
     { kind: 'heading', text: 'Inorder: walk left, then record' },
     {

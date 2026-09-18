@@ -103,6 +103,21 @@ for (char c : s.toCharArray()) {
 return stack.isEmpty();   // anything left open means invalid`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `pairs = {')': '(', ']': '[', '}': '{'}
+stack = []
+
+for c in s:
+    if c in pairs.values():
+        stack.append(c)
+    elif c in pairs:
+        if not stack or stack.pop() != pairs[c]:
+            return False
+
+return not stack     # anything left open means invalid`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           text: 'Two checks are easy to forget: popping from an empty stack when a closer arrives first, and a non-empty stack at the end. `"("` and `")("` both fail only if you test both.',
@@ -140,6 +155,21 @@ for (String token : tokens) {
 return stack.pop();`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `stack = []
+
+for token in tokens:
+    if is_operator(token):
+        b = stack.pop()          # note the order
+        a = stack.pop()
+        stack.append(apply(token, a, b))
+    else:
+        stack.append(int(token))
+
+return stack.pop()`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           text: 'The second value popped is the **left** operand. Getting this backwards passes tests for `+` and `*` and silently fails for `-` and `/`.',
@@ -168,6 +198,17 @@ for (int i = 0; i < n; i++) {
     }
     stack.push(i);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `answer = [-1] * len(a)
+stack = []                       # indices, values decreasing
+
+for i, value in enumerate(a):
+    while stack and a[stack[-1]] < value:
+        answer[stack.pop()] = value   # value is the next greater for that index
+    stack.append(i)`,
         },
         {
           kind: 'diagram',
@@ -228,6 +269,23 @@ for (int i = 0; i <= n; i++) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `stack = []                       # increasing heights
+best = 0
+
+for i in range(len(h) + 1):
+    height = 0 if i == len(h) else h[i]     # sentinel flushes the stack
+
+    while stack and h[stack[-1]] >= height:
+        top = stack.pop()
+        left = stack[-1] if stack else -1
+        width = i - left - 1
+        best = max(best, h[top] * width)
+
+    stack.append(i)`,
+        },
+        {
           kind: 'diagram',
           art: `heights: [2, 1, 5, 6, 2, 3]
 
@@ -276,6 +334,21 @@ int dequeue() {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `def enqueue(self, value: int) -> None:
+    self.buffer[self.tail] = value
+    self.tail = (self.tail + 1) % self.capacity
+    self.size += 1
+
+
+def dequeue(self) -> int:
+    value = self.buffer[self.head]
+    self.head = (self.head + 1) % self.capacity
+    self.size -= 1
+    return value`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           text: 'With only head and tail, a full buffer and an empty one look identical. Track the size explicitly, or leave one slot unused — pick one and say which.',
@@ -307,6 +380,23 @@ for (int i = 0; i < n; i++) {
     if (deque.peekFirst() <= i - k) deque.pollFirst();   // slid out of the window
     if (i >= k - 1) report(a[deque.peekFirst()]);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import deque
+
+window = deque()                 # indices, values decreasing
+
+for i, value in enumerate(a):
+    while window and a[window[-1]] <= value:
+        window.pop()
+    window.append(i)
+
+    if window[0] <= i - k:
+        window.popleft()         # slid out of the window
+    if i >= k - 1:
+        report(a[window[0]])`,
         },
         {
           kind: 'callout',
@@ -342,6 +432,20 @@ void push(int value) {
 }
 
 int getMin() { return stack.peek()[1]; }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `stack: list[tuple[int, int]] = []     # (value, minimum so far)
+
+
+def push(value: int) -> None:
+    smallest = value if not stack else min(value, stack[-1][1])
+    stack.append((value, smallest))
+
+
+def get_min() -> int:
+    return stack[-1][1]`,
         },
         {
           kind: 'check',

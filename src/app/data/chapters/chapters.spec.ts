@@ -92,4 +92,20 @@ describe('chapters', () => {
       expect(chapter.definition.text.length, chapter.slug).toBeGreaterThan(180);
     }
   });
+
+  it('shows every Java snippet with a Python one beside it', () => {
+    for (const chapter of CHAPTERS) {
+      for (const section of chapter.sections) {
+        section.blocks.forEach((block, i) => {
+          if (block.kind !== 'code' || block.language !== 'java') return;
+
+          const next = section.blocks[i + 1];
+          expect(
+            next?.kind === 'code' && next.language === 'python',
+            `${chapter.slug}/${section.id}: a Java block has no Python beside it`,
+          ).toBe(true);
+        });
+      }
+    }
+  });
 });

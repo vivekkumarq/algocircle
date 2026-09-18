@@ -87,6 +87,15 @@ for (int[] edge : edges) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `adjacency: list[list[int]] = [[] for _ in range(v)]
+
+for u, w in edges:
+    adjacency[u].append(w)
+    adjacency[w].append(u)        # omit this line for a directed graph`,
+        },
+        {
           kind: 'callout',
           tone: 'note',
           text: 'A grid is an implicit graph: do not build an adjacency list for it. The neighbours of `(r, c)` are computed on the fly with a direction array, which saves both memory and code.',
@@ -126,6 +135,25 @@ while (!queue.isEmpty()) {
         queue.add(next);
     }
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import deque
+
+dist = [-1] * v
+dist[source] = 0
+queue = deque([source])
+
+while queue:
+    node = queue.popleft()
+
+    for nxt in adjacency[node]:
+        if dist[nxt] != -1:
+            continue              # already reached, and reached sooner
+
+        dist[nxt] = dist[node] + 1
+        queue.append(nxt)`,
         },
         {
           kind: 'diagram',
@@ -173,6 +201,21 @@ void dfs(int node) {
     for (int next : adjacency.get(node))
         if (!visited[next]) dfs(next);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `visited = [False] * v
+
+
+def dfs(node: int) -> None:
+    visited[node] = True
+
+    for nxt in adjacency[node]:
+        if not visited[nxt]:
+            dfs(nxt)
+
+# Python's recursion limit is about 1000 frames — use an explicit stack on deep graphs.`,
         },
         {
           kind: 'compare',
@@ -230,6 +273,28 @@ void sink(int r, int c) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+islands = 0
+
+
+def sink(r: int, c: int) -> None:
+    if not (0 <= r < rows and 0 <= c < cols) or grid[r][c] != '1':
+        return
+
+    grid[r][c] = '0'              # mark visited in place
+    for dr, dc in DIRECTIONS:
+        sink(r + dr, c + dc)
+
+
+for r in range(rows):
+    for c in range(cols):
+        if grid[r][c] == '1':
+            islands += 1
+            sink(r, c)`,
+        },
+        {
           kind: 'callout',
           tone: 'key',
           text: 'Grid problems are graph problems where the adjacency is implied. Once you see that, islands, flood fill, maze shortest paths and rotting-oranges spread are all traversals you already know.',
@@ -259,6 +324,21 @@ void sink(int r, int c) {
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `def has_cycle(node: int, parent: int) -> bool:
+    visited[node] = True
+
+    for nxt in adjacency[node]:
+        if not visited[nxt]:
+            if has_cycle(nxt, node):
+                return True
+        elif nxt != parent:
+            return True           # a back edge
+
+    return False`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'Directed: a cycle needs a vertex still on the current recursion path',
           source: `boolean hasCycle(int node) {
@@ -270,6 +350,24 @@ void sink(int r, int c) {
     state[node] = DONE;
     return false;
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `UNVISITED, IN_PROGRESS, DONE = 0, 1, 2
+
+
+def has_cycle(node: int) -> bool:
+    state[node] = IN_PROGRESS
+
+    for nxt in adjacency[node]:
+        if state[nxt] == IN_PROGRESS:
+            return True           # back edge to the current path
+        if state[nxt] == UNVISITED and has_cycle(nxt):
+            return True
+
+    state[node] = DONE
+    return False`,
         },
         {
           kind: 'callout',
@@ -310,6 +408,32 @@ for (int start = 0; start < v; start++) {
 return true;`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import deque
+
+colour = [-1] * v
+
+for start in range(v):
+    if colour[start] != -1:
+        continue
+
+    colour[start] = 0
+    queue = deque([start])
+
+    while queue:
+        node = queue.popleft()
+
+        for nxt in adjacency[node]:
+            if colour[nxt] == -1:
+                colour[nxt] = 1 - colour[node]
+                queue.append(nxt)
+            elif colour[nxt] == colour[node]:
+                return False      # odd cycle
+
+return True`,
+        },
+        {
           kind: 'callout',
           tone: 'note',
           text: 'The outer loop matters: a graph can be disconnected, and a bipartite answer must hold for every component. Forgetting it is a common near-miss.',
@@ -344,6 +468,31 @@ while (!ready.isEmpty()) {
 }
 
 if (order.size() != v) return null;   // fewer than v means a cycle exists`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import deque
+
+in_degree = [0] * v
+for u in range(v):
+    for nxt in adjacency[u]:
+        in_degree[nxt] += 1
+
+ready = deque(u for u in range(v) if in_degree[u] == 0)
+order: list[int] = []
+
+while ready:
+    node = ready.popleft()
+    order.append(node)
+
+    for nxt in adjacency[node]:
+        in_degree[nxt] -= 1
+        if in_degree[nxt] == 0:
+            ready.append(nxt)
+
+if len(order) != v:
+    return None                   # fewer than v means a cycle exists`,
         },
         {
           kind: 'diagram',
@@ -408,6 +557,28 @@ while (!heap.isEmpty()) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `import heapq
+
+dist = [float('inf')] * v
+dist[source] = 0
+
+heap = [(0, source)]              # (distance, node) — the tuple orders itself
+
+while heap:
+    d, node = heapq.heappop(heap)
+    if d > dist[node]:
+        continue                  # a stale entry
+
+    for neighbour, weight in adjacency[node]:
+        candidate = d + weight
+
+        if candidate < dist[neighbour]:
+            dist[neighbour] = candidate
+            heapq.heappush(heap, (candidate, neighbour))`,
+        },
+        {
           kind: 'callout',
           tone: 'why',
           title: 'Why Dijkstra breaks on negative edges',
@@ -428,6 +599,18 @@ for (int[] e : edges)                       // one more improvement means
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `for _ in range(v - 1):
+    for u, w, weight in edges:
+        if dist[u] != INF and dist[u] + weight < dist[w]:
+            dist[w] = dist[u] + weight
+
+for u, w, weight in edges:              # one more improvement means
+    if dist[u] != INF and dist[u] + weight < dist[w]:
+        return 'negative cycle'         # there is no shortest path`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'Floyd-Warshall - k must be the outermost loop',
           source: `for (int k = 0; k < v; k++)
@@ -435,6 +618,15 @@ for (int[] e : edges)                       // one more improvement means
         for (int j = 0; j < v; j++)
             if (d[i][k] + d[k][j] < d[i][j])
                 d[i][j] = d[i][k] + d[k][j];`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `for k in range(v):                      # k must be the outermost loop
+    for i in range(v):
+        for j in range(v):
+            if d[i][k] + d[k][j] < d[i][j]:
+                d[i][j] = d[i][k] + d[k][j]`,
         },
         {
           kind: 'callout',
@@ -473,6 +665,32 @@ boolean union(int a, int b) {
     size[ra] += size[rb];
     return true;
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `parent = list(range(n))
+size = [1] * n
+
+
+def find(x: int) -> int:
+    while parent[x] != x:
+        parent[x] = parent[parent[x]]   # path compression, halving
+        x = parent[x]
+    return x
+
+
+def union(a: int, b: int) -> bool:
+    ra, rb = find(a), find(b)
+    if ra == rb:
+        return False                    # already together — this edge closes a cycle
+
+    if size[ra] < size[rb]:
+        ra, rb = rb, ra
+
+    parent[rb] = ra
+    size[ra] += size[rb]
+    return True`,
         },
         {
           kind: 'callout',
@@ -527,6 +745,19 @@ for (int[] e : edges) {
     if (union(e[0], e[1])) { total += e[2]; used++; }
     if (used == v - 1) break;
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `edges.sort(key=lambda e: e[2])
+
+total = used = 0
+for u, w, weight in edges:
+    if union(u, w):
+        total += weight
+        used += 1
+    if used == v - 1:
+        break`,
         },
         {
           kind: 'callout',

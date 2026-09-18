@@ -64,6 +64,23 @@ answer 9 = items 2 and 3 (weights 3 + 4, values 4 + 5)`,
     return best[n][capacity];
 }`,
     },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `def knapsack(weights: list[int], values: list[int], capacity: int) -> int:
+    n = len(weights)
+    best = [[0] * (capacity + 1) for _ in range(n + 1)]
+
+    for i in range(1, n + 1):
+        for c in range(capacity + 1):
+            best[i][c] = best[i - 1][c]                    # skip item i-1
+
+            if weights[i - 1] <= c:
+                take = values[i - 1] + best[i - 1][c - weights[i - 1]]
+                best[i][c] = max(best[i][c], take)
+
+    return best[n][capacity]`,
+    },
     { kind: 'heading', text: 'Squeezing it to one row' },
     {
       kind: 'para',
@@ -158,6 +175,21 @@ answer 9 = items 2 and 3 (weights 3 + 4, values 4 + 5)`,
 }`,
     },
     {
+      kind: 'code',
+      language: 'python',
+      source: `def chosen_items(best: list[list[int]], weights: list[int], capacity: int) -> list[int]:
+    chosen = []
+    c = capacity
+
+    for i in range(len(best) - 1, 0, -1):
+        if best[i][c] != best[i - 1][c]:      # this item made the difference
+            chosen.append(i - 1)
+            c -= weights[i - 1]
+
+    chosen.reverse()
+    return chosen`,
+    },
+    {
       kind: 'callout',
       tone: 'trap',
       title: 'Where people go wrong',
@@ -207,6 +239,19 @@ const KNAPSACK_UNBOUNDED: CourseLesson = {
 
     return best[capacity];
 }`,
+    },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `def unbounded_knapsack(weights: list[int], values: list[int], capacity: int) -> int:
+    best = [0] * (capacity + 1)
+
+    for c in range(1, capacity + 1):
+        for weight, value in zip(weights, values):
+            if weight <= c:
+                best[c] = max(best[c], value + best[c - weight])
+
+    return best[capacity]`,
     },
     { kind: 'heading', text: 'Coin change: fewest coins' },
     {
@@ -432,6 +477,30 @@ diagonal moves are matches; the path is the answer`,
 }`,
     },
     {
+      kind: 'code',
+      language: 'python',
+      source: `def edit_distance(a: str, b: str) -> int:
+    cost = [[0] * (len(b) + 1) for _ in range(len(a) + 1)]
+
+    for i in range(len(a) + 1):
+        cost[i][0] = i                       # delete everything
+    for j in range(len(b) + 1):
+        cost[0][j] = j                       # insert everything
+
+    for i in range(1, len(a) + 1):
+        for j in range(1, len(b) + 1):
+            if a[i - 1] == b[j - 1]:
+                cost[i][j] = cost[i - 1][j - 1]           # free
+            else:
+                cost[i][j] = 1 + min(
+                    cost[i - 1][j - 1],                   # replace
+                    cost[i - 1][j],                       # delete
+                    cost[i][j - 1],                       # insert
+                )
+
+    return cost[len(a)][len(b)]`,
+    },
+    {
       kind: 'table',
       caption: 'One grid, many questions.',
       headers: ['Problem', 'Change to the recurrence'],
@@ -594,6 +663,24 @@ const PALINDROMES: CourseLesson = {
 
     return isPalindrome;
 }`,
+    },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `def palindrome_table(s: str) -> list[list[bool]]:
+    n = len(s)
+    is_palindrome = [[False] * n for _ in range(n)]
+
+    for i in range(n):
+        is_palindrome[i][i] = True
+
+    for length in range(2, n + 1):
+        for i in range(n - length + 1):
+            j = i + length - 1
+            ends_match = s[i] == s[j]
+            is_palindrome[i][j] = ends_match and (length == 2 or is_palindrome[i + 1][j - 1])
+
+    return is_palindrome`,
     },
     {
       kind: 'callout',

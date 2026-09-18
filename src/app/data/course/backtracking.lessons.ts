@@ -54,6 +54,27 @@ void walk(int[] nums, int i, List<Integer> current, List<List<Integer>> out) {
 }`,
     },
     {
+      kind: 'code',
+      language: 'python',
+      source: `def subsets(nums: list[int]) -> list[list[int]]:
+    out: list[list[int]] = []
+    current: list[int] = []
+
+    def walk(i: int) -> None:
+        if i == len(nums):
+            out.append(current[:])
+            return
+
+        current.append(nums[i])      # take it
+        walk(i + 1)
+        current.pop()                # undo — this is the backtrack
+
+        walk(i + 1)                  # skip it
+
+    walk(0)
+    return out`,
+    },
+    {
       kind: 'callout',
       tone: 'key',
       text: '`out.add(new ArrayList<>(current))` copies. Adding `current` itself stores a reference to a list you are about to mutate, so every entry in the answer ends up empty — the most common backtracking bug there is.',
@@ -102,6 +123,21 @@ void walk(int[] nums, int start, List<Integer> current, List<List<Integer>> out)
     }
 }`,
     },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `# nums sorted beforehand
+def walk(start: int, current: list[int], out: list[list[int]]) -> None:
+    out.append(current[:])
+
+    for i in range(start, len(nums)):
+        if i > start and nums[i] == nums[i - 1]:
+            continue                 # same choice, same depth
+
+        current.append(nums[i])
+        walk(i + 1, current, out)
+        current.pop()`,
+    },
     { kind: 'heading', text: 'The bitmask alternative' },
     {
       kind: 'para',
@@ -124,6 +160,18 @@ void walk(int[] nums, int start, List<Integer> current, List<List<Integer>> out)
 
     return out;
 }`,
+    },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `def subsets_by_mask(nums: list[int]) -> list[list[int]]:
+    n = len(nums)
+    out = []
+
+    for mask in range(1 << n):
+        out.append([nums[j] for j in range(n) if mask & (1 << j)])
+
+    return out`,
     },
     {
       kind: 'table',
@@ -194,6 +242,30 @@ void walk(int start, int n, int k, List<Integer> current, List<List<Integer>> ou
 }`,
     },
     {
+      kind: 'code',
+      language: 'python',
+      source: `def combine(n: int, k: int) -> list[list[int]]:
+    out: list[list[int]] = []
+    current: list[int] = []
+
+    def walk(start: int) -> None:
+        if len(current) == k:
+            out.append(current[:])
+            return
+
+        # Pruning: stop once too few numbers remain to finish the combination.
+        need = k - len(current)
+        for i in range(start, n - need + 2):
+            current.append(i)
+            walk(i + 1)
+            current.pop()
+
+    walk(1)
+    return out
+
+# the standard library also has it: itertools.combinations(range(1, n + 1), k)`,
+    },
+    {
       kind: 'callout',
       tone: 'key',
       text: 'The bound `i <= n - need + 1` is the difference between a fast solution and a slow one. Without it the search explores branches that can never reach length `k` and then throws them away at the bottom.',
@@ -250,6 +322,31 @@ void walk(int[] candidates, int start, int remaining,
         current.remove(current.size() - 1);
     }
 }`,
+    },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `def combination_sum(candidates: list[int], target: int) -> list[list[int]]:
+    candidates.sort()
+    out: list[list[int]] = []
+    current: list[int] = []
+
+    def walk(start: int, remaining: int) -> None:
+        if remaining == 0:
+            out.append(current[:])
+            return
+
+        for i in range(start, len(candidates)):
+            value = candidates[i]
+            if value > remaining:
+                break
+
+            current.append(value)
+            walk(i, remaining - value)
+            current.pop()
+
+    walk(0, target)
+    return out`,
     },
     { kind: 'heading', text: 'The four variants, side by side' },
     {
@@ -387,6 +484,19 @@ void walk(int[] nums, boolean[] used, List<Integer> current, List<List<Integer>>
 }`,
     },
     {
+      kind: 'code',
+      language: 'python',
+      source: `def permute_in_place(nums: list[int], k: int, out: list[list[int]]) -> None:
+    if k == len(nums):
+        out.append(nums[:])
+        return
+
+    for i in range(k, len(nums)):
+        nums[k], nums[i] = nums[i], nums[k]
+        permute_in_place(nums, k + 1, out)
+        nums[k], nums[i] = nums[i], nums[k]   # restore, or later branches see a shuffle`,
+    },
+    {
       kind: 'callout',
       tone: 'key',
       text: 'The swap version is elegant but loses the input order, so it does **not** handle duplicates with the usual sorted skip. If duplicates are in play, use the `used` array version with a sorted input.',
@@ -407,6 +517,22 @@ void walk(int[] nums, boolean[] used, List<Integer> current, List<List<Integer>>
     current.remove(current.size() - 1);
     used[i] = false;
 }`,
+    },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `for i, value in enumerate(nums):
+    if used[i]:
+        continue
+    # Use a duplicate only if its twin to the left has already been placed.
+    if i and value == nums[i - 1] and not used[i - 1]:
+        continue
+
+    used[i] = True
+    current.append(value)
+    walk(current, used)
+    current.pop()
+    used[i] = False`,
     },
     {
       kind: 'para',

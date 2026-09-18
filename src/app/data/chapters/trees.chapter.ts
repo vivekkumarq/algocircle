@@ -102,6 +102,32 @@ void postorder(TreeNode node) {                // left, right, node
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `def preorder(node: TreeNode | None) -> None:      # node, left, right
+    if node is None:
+        return
+    visit(node)
+    preorder(node.left)
+    preorder(node.right)
+
+
+def inorder(node: TreeNode | None) -> None:       # left, node, right
+    if node is None:
+        return
+    inorder(node.left)
+    visit(node)
+    inorder(node.right)
+
+
+def postorder(node: TreeNode | None) -> None:     # left, right, node
+    if node is None:
+        return
+    postorder(node.left)
+    postorder(node.right)
+    visit(node)`,
+        },
+        {
           kind: 'diagram',
           caption: 'The same tree, four orders.',
           art: `          1
@@ -146,6 +172,27 @@ while (!queue.isEmpty()) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import deque
+
+queue = deque([root] if root else [])
+
+while queue:
+    level_size = len(queue)                # snapshot before adding children
+
+    for _ in range(level_size):
+        node = queue.popleft()
+        visit(node)
+
+        if node.left:
+            queue.append(node.left)
+        if node.right:
+            queue.append(node.right)
+
+    end_of_level()`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           text: 'Taking `queue.size()` **before** the inner loop is what keeps levels separate. Reading it inside the loop mixes the next level in and quietly breaks every per-level answer.',
@@ -171,6 +218,14 @@ while (!queue.isEmpty()) {
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `def height(node: TreeNode | None) -> int:
+    if node is None:
+        return -1                          # an empty tree has height -1
+    return 1 + max(height(node.left), height(node.right))`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'Diameter - return the height, but record the best path found so far',
           source: `int best = 0;
@@ -182,6 +237,23 @@ int height(TreeNode node) {
     best = Math.max(best, left + right + 2);   // path through this node
     return 1 + Math.max(left, right);          // what the parent needs
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `best = 0
+
+
+def height(node: TreeNode | None) -> int:
+    global best
+
+    if node is None:
+        return -1
+
+    left, right = height(node.left), height(node.right)
+
+    best = max(best, left + right + 2)     # path through this node
+    return 1 + max(left, right)            # what the parent needs`,
         },
         {
           kind: 'callout',
@@ -203,6 +275,27 @@ int height(TreeNode node) {
     if (Math.abs(left - right) > 1) return -2;
     return 1 + Math.max(left, right);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def check(node: TreeNode | None) -> int:
+    """Returns the height, or -2 once any subtree is unbalanced."""
+    if node is None:
+        return -1
+
+    left = check(node.left)
+    if left == -2:
+        return -2
+
+    right = check(node.right)
+    if right == -2:
+        return -2
+
+    if abs(left - right) > 1:
+        return -2
+
+    return 1 + max(left, right)`,
         },
         {
           kind: 'callout',
@@ -245,6 +338,26 @@ void walk(TreeNode node, int distance) {
     walk(node.right, distance + 1);
 }`,
         },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from collections import defaultdict
+
+columns = defaultdict(list)
+
+
+def walk(node: TreeNode | None, distance: int) -> None:
+    if node is None:
+        return
+
+    columns[distance].append(node.val)
+    walk(node.left, distance - 1)
+    walk(node.right, distance + 1)
+
+
+# Python dicts keep insertion order, not sorted order — sort the keys at the end:
+ordered = [columns[d] for d in sorted(columns)]`,
+        },
       ],
     },
     {
@@ -268,6 +381,20 @@ void walk(TreeNode node, int distance) {
     if (left != null && right != null) return node;   // found one on each side
     return (left != null) ? left : right;             // pass up whatever was found
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def lca(node: TreeNode | None, p: TreeNode, q: TreeNode) -> TreeNode | None:
+    if node is None or node is p or node is q:
+        return node
+
+    left = lca(node.left, p, q)
+    right = lca(node.right, p, q)
+
+    if left and right:
+        return node          # found one on each side
+    return left or right     # pass up whatever was found`,
         },
         {
           kind: 'callout',
@@ -294,6 +421,24 @@ int down(TreeNode node) {
     return node.val + Math.max(left, right);          // path continuing upward
 }`,
         },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `best = float('-inf')
+
+
+def down(node: TreeNode | None) -> int:
+    global best
+
+    if node is None:
+        return 0
+
+    left = max(0, down(node.left))         # ignore a branch that hurts
+    right = max(0, down(node.right))
+
+    best = max(best, node.val + left + right)   # path turning here
+    return node.val + max(left, right)          # path continuing upward`,
+        },
       ],
     },
     {
@@ -313,6 +458,14 @@ int down(TreeNode node) {
         node = (target < node.val) ? node.left : node.right;
     return node;
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def search(node: TreeNode | None, target: int) -> TreeNode | None:
+    while node and node.val != target:
+        node = node.left if target < node.val else node.right
+    return node`,
         },
         {
           kind: 'table',
@@ -340,6 +493,19 @@ int down(TreeNode node) {
     if (node.val <= min || node.val >= max) return false;
     return valid(node.left, min, node.val) && valid(node.right, node.val, max);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def valid(node: TreeNode | None, low: float, high: float) -> bool:
+    if node is None:
+        return True
+    if not low < node.val < high:
+        return False
+
+    return valid(node.left, low, node.val) and valid(node.right, node.val, high)
+
+# call it with valid(root, float('-inf'), float('inf'))`,
         },
         {
           kind: 'para',
@@ -391,6 +557,18 @@ int down(TreeNode node) {
     write(node.left, out);
     write(node.right, out);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def write(node: TreeNode | None, out: list[str]) -> None:
+    if node is None:
+        out.append('#')          # the nulls are what make the shape unambiguous
+        return
+
+    out.append(str(node.val))
+    write(node.left, out)
+    write(node.right, out)`,
         },
         {
           kind: 'callout',

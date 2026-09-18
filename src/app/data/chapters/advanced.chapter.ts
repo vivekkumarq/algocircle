@@ -111,6 +111,32 @@ boolean startsWith(String prefix) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `class TrieNode:
+    __slots__ = ('children', 'is_word')
+
+    def __init__(self) -> None:
+        self.children: dict[str, TrieNode] = {}
+        self.is_word = False
+
+
+def insert(root: TrieNode, word: str) -> None:
+    node = root
+    for c in word:
+        node = node.children.setdefault(c, TrieNode())
+    node.is_word = True
+
+
+def starts_with(root: TrieNode, prefix: str) -> bool:
+    node = root
+    for c in prefix:
+        node = node.children.get(c)
+        if node is None:
+            return False
+    return True`,
+        },
+        {
           kind: 'compare',
           columns: [
             {
@@ -167,6 +193,31 @@ int prefixSum(int i) {
 int rangeSum(int l, int r) { return prefixSum(r) - prefixSum(l - 1); }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `tree = [0] * (n + 1)          # 1-indexed
+
+
+def update(i: int, delta: int) -> None:
+    i += 1
+    while i < len(tree):
+        tree[i] += delta
+        i += i & -i
+
+
+def prefix_sum(i: int) -> int:
+    total = 0
+    i += 1
+    while i > 0:
+        total += tree[i]
+        i -= i & -i
+    return total
+
+
+def range_sum(l: int, r: int) -> int:
+    return prefix_sum(r) - prefix_sum(l - 1)`,
+        },
+        {
           kind: 'callout',
           tone: 'why',
           title: 'What `i & -i` is doing',
@@ -218,6 +269,22 @@ prefixSum(7) = tree[7] + tree[6] + tree[4]
     return combine(query(2 * node,     lo,  mid, ql, qr),
                    query(2 * node + 1, mid, hi,  ql, qr));
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def query(node: int, lo: int, hi: int, ql: int, qr: int) -> int:
+    """Query on the half-open range [ql, qr)."""
+    if qr <= lo or hi <= ql:
+        return IDENTITY                 # no overlap
+    if ql <= lo and hi <= qr:
+        return tree[node]               # fully inside
+
+    mid = (lo + hi) // 2
+    return combine(
+        query(2 * node, lo, mid, ql, qr),
+        query(2 * node + 1, mid, hi, ql, qr),
+    )`,
         },
         {
           kind: 'compare',
@@ -291,6 +358,20 @@ int query(int l, int r) {                 // inclusive
     int k = log2[r - l + 1];
     return Math.min(table[k][l], table[k][r - (1 << k) + 1]);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `k = 1
+while (1 << k) <= n:
+    for i in range(n - (1 << k) + 1):
+        table[k][i] = min(table[k - 1][i], table[k - 1][i + (1 << (k - 1))])
+    k += 1
+
+
+def query(l: int, r: int) -> int:       # inclusive
+    k = (r - l + 1).bit_length() - 1    # Python computes the log for you
+    return min(table[k][l], table[k][r - (1 << k) + 1])`,
         },
         {
           kind: 'diagram',

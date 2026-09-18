@@ -128,6 +128,26 @@ best   -2    1    1    4    4    5    6    6    6`,
 }`,
     },
     {
+      kind: 'code',
+      language: 'python',
+      source: `def max_subarray_range(nums: list[int]) -> tuple[int, int, int]:
+    running = best = nums[0]
+    start = best_start = best_end = 0
+
+    for i, value in enumerate(nums[1:], start=1):
+        if running + value < value:
+            running = value
+            start = i                  # the old run was not worth keeping
+        else:
+            running += value
+
+        if running > best:
+            best = running
+            best_start, best_end = start, i
+
+    return best_start, best_end, best`,
+    },
+    {
       kind: 'table',
       caption: 'Cost, against the obvious alternatives.',
       headers: ['Approach', 'Time', 'Space', 'Note'],
@@ -587,6 +607,21 @@ const TWO_POINTERS: CourseLesson = {
     return write;     // nums[0 .. write-1] holds the distinct values
 }`,
     },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `def remove_duplicates(nums: list[int]) -> int:
+    if not nums:
+        return 0
+
+    write = 1
+    for read in range(1, len(nums)):
+        if nums[read] != nums[write - 1]:
+            nums[write] = nums[read]
+            write += 1
+
+    return write     # nums[:write] holds the distinct values`,
+    },
     { kind: 'heading', text: 'Three sum: a pointer pair inside a loop' },
     {
       kind: 'para',
@@ -810,6 +845,24 @@ at prefix 14 we want 7   -> seen twice  -> two subarrays end here`,
 
     return out;
 }`,
+    },
+    {
+      kind: 'code',
+      language: 'python',
+      source: `def apply_range_adds(n: int, updates: list[tuple[int, int, int]]) -> list[int]:
+    diff = [0] * (n + 1)
+
+    for start, end, value in updates:
+        diff[start] += value
+        diff[end + 1] -= value
+
+    out = []
+    running = 0
+    for i in range(n):
+        running += diff[i]
+        out.append(running)
+
+    return out`,
     },
     {
       kind: 'callout',

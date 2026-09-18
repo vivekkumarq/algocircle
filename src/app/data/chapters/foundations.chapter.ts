@@ -65,6 +65,16 @@ int b = 2_000_000_000;
 System.out.println(a + b);              // -294967296  (wrapped)
 System.out.println((long) a + b);       // 4000000000  (correct)`,
         },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `a = 2_000_000_000
+b = 2_000_000_000
+print(a + b)              # 4000000000 — Python integers grow as needed
+
+# There is no silent wrap here. The trap moves elsewhere: a value that would
+# have overflowed in Java keeps growing, and arithmetic on it gets slower.`,
+        },
       ],
     },
     {
@@ -141,6 +151,21 @@ int[] a = {1, 2, 3};
 int[] b = a;        // b gets a copy of the ADDRESS, not of the data
 b[0] = 99;
 // a[0] is now 99 as well - there was only ever one array`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `x = 5
+y = x                 # y gets its own copy of 5
+y = 9
+# x is still 5
+
+a = [1, 2, 3]
+b = a                 # b is another name for the SAME list
+b[0] = 99
+# a[0] is now 99 as well — there was only ever one list
+
+c = a[:]              # this is how you ask for a copy`,
         },
         {
           kind: 'diagram',
@@ -231,6 +256,18 @@ for (int i = 0; i < n; i++) sb.append(i);
 String s2 = sb.toString();`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `# O(n^2): each += builds a whole new string
+s = ''
+for i in range(n):
+    s += str(i)
+
+# O(n): collect the pieces, join once at the end
+parts = [str(i) for i in range(n)]
+s = ''.join(parts)`,
+        },
+        {
           kind: 'para',
           text: 'For n = 100,000 the first loop performs billions of character copies and the second performs a few hundred thousand. This is the single most common accidental quadratic in interview code.',
         },
@@ -260,6 +297,14 @@ String s2 = sb.toString();`,
     if (n <= 1) return 1;          // base case
     return n * factorial(n - 1);   // recursive case
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def factorial(n: int) -> int:
+    if n <= 1:
+        return 1               # base case
+    return n * factorial(n - 1)   # recursive case`,
         },
         {
           kind: 'diagram',
@@ -306,6 +351,17 @@ for (int i = 1; i < a.length; i++) {
 // loop ended with i == a.length, so max holds the largest of all`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `largest = a[0]                 # true for the first element
+
+for value in a[1:]:
+    if value > largest:
+        largest = value        # still true after extending by one
+
+# the loop ended having seen every element, so largest holds the largest of all`,
+        },
+        {
           kind: 'para',
           text: 'State the invariant before you write the body and the boundaries stop being guesswork. Most off-by-one errors are an invariant that was true for `a[0..i-1]` being used as though it were true for `a[0..i]`.',
         },
@@ -340,6 +396,21 @@ class TreeNode {
     TreeNode left, right;   // two references instead of one
     TreeNode(int val) { this.val = val; }
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `class ListNode:
+    def __init__(self, val: int) -> None:
+        self.val = val
+        self.next: ListNode | None = None    # reference to the next node
+
+
+class TreeNode:
+    def __init__(self, val: int) -> None:
+        self.val = val
+        self.left: TreeNode | None = None    # two references instead of one
+        self.right: TreeNode | None = None`,
         },
         {
           kind: 'para',

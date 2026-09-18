@@ -140,6 +140,17 @@ for (int[] interval : intervals) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `intervals.sort(key=lambda x: x[1])      # earliest finish first
+
+count, last_end = 0, float('-inf')
+for start, end in intervals:
+    if start >= last_end:
+        count += 1
+        last_end = end`,
+        },
+        {
           kind: 'callout',
           tone: 'why',
           title: 'Why end time and not start time or shortest',
@@ -158,6 +169,18 @@ for (int[] interval : intervals) {
     else
         merged.add(interval);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `intervals.sort(key=lambda x: x[0])      # earliest start first
+
+merged: list[list[int]] = []
+for interval in intervals:
+    if merged and interval[0] <= merged[-1][1]:
+        merged[-1][1] = max(merged[-1][1], interval[1])
+    else:
+        merged.append(list(interval))   # copy, since we mutate the end above`,
         },
       ],
     },
@@ -199,6 +222,22 @@ for (int i = 0; i < n; i++) {
 return total >= 0 ? start : -1;`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `total = tank = start = 0
+
+for i, (have, need) in enumerate(zip(gas, cost)):
+    gain = have - need
+    total += gain
+    tank += gain
+
+    if tank < 0:                # nothing in [start..i] can work
+        start = i + 1
+        tank = 0
+
+return start if total >= 0 else -1`,
+        },
+        {
           kind: 'callout',
           tone: 'why',
           text: 'If the tank goes negative at index `i`, then no station between the old start and `i` can be a valid start either — each of those would begin with even less fuel. That is what licenses skipping them all instead of retrying each one.',
@@ -225,6 +264,20 @@ while (heap.size() > 1) {
     cost += combined;
     heap.offer(combined);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `import heapq
+
+heap = list(ropes)
+heapq.heapify(heap)             # O(n), rather than n pushes
+
+cost = 0
+while len(heap) > 1:
+    combined = heapq.heappop(heap) + heapq.heappop(heap)
+    cost += combined
+    heapq.heappush(heap, combined)`,
         },
         {
           kind: 'table',

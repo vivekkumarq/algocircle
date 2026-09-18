@@ -117,4 +117,18 @@ describe('advanced course', () => {
     expect(neighbours(first.slug).next).toBe(COURSE_LESSONS[1]);
     expect(neighbours(last.slug).next).toBeUndefined();
   });
+
+  it('shows every Java snippet with a Python one beside it', () => {
+    for (const lesson of COURSE_LESSONS) {
+      lesson.blocks.forEach((block, i) => {
+        if (block.kind !== 'code' || block.language !== 'java') return;
+
+        const next = lesson.blocks[i + 1];
+        expect(
+          next?.kind === 'code' && next.language === 'python',
+          `${lesson.slug}: a Java block has no Python beside it`,
+        ).toBe(true);
+      });
+    }
+  });
 });

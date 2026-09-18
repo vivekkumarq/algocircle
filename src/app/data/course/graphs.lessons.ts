@@ -118,6 +118,20 @@ def dijkstra(graph: dict[int, list[tuple[int, int]]], source: int) -> dict[int, 
 }`,
     },
     {
+      kind: 'code',
+      language: 'python',
+      source: `def path_to(parent: list[int], target: int) -> list[int]:
+    path = []
+    at = target
+
+    while at != -1:
+        path.append(at)
+        at = parent[at]
+
+    path.reverse()
+    return path`,
+    },
+    {
       kind: 'table',
       caption: 'V nodes, E edges. Pick the algorithm by the weights, not by habit.',
       headers: ['Situation', 'Algorithm', 'Cost'],

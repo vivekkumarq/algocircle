@@ -55,6 +55,19 @@ for (int d = 1; (long) d * d <= n; d++) {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `divisors = []
+
+d = 1
+while d * d <= n:
+    if n % d == 0:
+        divisors.append(d)
+        if d != n // d:
+            divisors.append(n // d)   # avoid adding sqrt(n) twice
+    d += 1`,
+        },
+        {
           kind: 'callout',
           tone: 'trap',
           text: 'Write the loop condition as `(long) d * d <= n`, not `d <= Math.sqrt(n)`. The square root returns a floating-point value, and rounding at the boundary silently drops a divisor.',
@@ -91,6 +104,15 @@ for (int d = 1; (long) d * d <= n; d++) {
 long lcm(int a, int b) {
     return (long) a / gcd(a, b) * b;   // divide first, or you overflow
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from math import gcd, lcm
+
+# Both ship with Python. Written out, the recursion is two lines:
+def my_gcd(a: int, b: int) -> int:
+    return a if b == 0 else my_gcd(b, a % b)`,
         },
         {
           kind: 'diagram',
@@ -139,6 +161,23 @@ gcd( 6,  0) -> 6`,
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `def is_prime(n: int) -> bool:
+    if n < 2:
+        return False
+    if n % 2 == 0:
+        return n == 2
+
+    d = 3
+    while d * d <= n:
+        if n % d == 0:
+            return False
+        d += 2
+
+    return True`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'Sieve of Eratosthenes - all primes below n in about O(n log log n)',
           source: `boolean[] composite = new boolean[n + 1];
@@ -147,6 +186,18 @@ for (int p = 2; (long) p * p <= n; p++) {
     for (int multiple = p * p; multiple <= n; multiple += p)
         composite[multiple] = true;      // start at p*p; smaller multiples are done
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `composite = [False] * (n + 1)
+
+p = 2
+while p * p <= n:
+    if not composite[p]:
+        for multiple in range(p * p, n + 1, p):   # start at p*p; smaller ones are done
+            composite[multiple] = True
+    p += 1`,
         },
         {
           kind: 'diagram',
@@ -169,6 +220,21 @@ survivors: 2 3 5 7 11 13`,
     while (n % d == 0) { factors.add(d); n /= d; }
 }
 if (n > 1) factors.add(n);   // whatever remains is prime`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `factors = []
+
+d = 2
+while d * d <= n:
+    while n % d == 0:
+        factors.append(d)
+        n //= d
+    d += 1
+
+if n > 1:
+    factors.append(n)      # whatever remains is prime`,
         },
       ],
     },
@@ -226,6 +292,23 @@ if (n > 1) factors.add(n);   // whatever remains is prime`,
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `def power(base: int, exp: int, mod: int) -> int:
+    result = 1
+    base %= mod
+
+    while exp > 0:
+        if exp & 1:
+            result = result * base % mod
+        base = base * base % mod
+        exp >>= 1
+
+    return result
+
+# Python ships this too: pow(base, exp, mod)`,
+        },
+        {
           kind: 'diagram',
           caption: '3^13: the binary form of the exponent picks which squares to multiply.',
           art: `13 = 1101 in binary
@@ -247,6 +330,14 @@ bit 3 (1): multiply by 3^8
           source: `long inverse(long a, long mod) {   // mod must be prime
     return power(a, mod - 2, mod);
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def inverse(a: int, mod: int) -> int:     # mod must be prime
+    return pow(a, mod - 2, mod)
+
+# Python also does it directly: pow(a, -1, mod)`,
         },
       ],
     },
@@ -279,6 +370,18 @@ for (int i = 0; i <= n; i++) {
     for (int j = 1; j <= i; j++)
         c[i][j] = (c[i - 1][j - 1] + c[i - 1][j]) % MOD;
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `c = [[0] * (n + 1) for _ in range(n + 1)]
+
+for i in range(n + 1):
+    c[i][0] = 1
+    for j in range(1, i + 1):
+        c[i][j] = (c[i - 1][j - 1] + c[i - 1][j]) % MOD
+
+# or, exactly and without a table: math.comb(n, k)`,
         },
         {
           kind: 'check',
@@ -367,6 +470,14 @@ for (int i = 0; i <= n; i++) {
           source: `int result = 0;
 for (int value : a) result ^= value;
 return result;   // pairs cancel, the lone value survives`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from functools import reduce
+from operator import xor
+
+return reduce(xor, a, 0)   # pairs cancel, the lone value survives`,
         },
         {
           kind: 'para',

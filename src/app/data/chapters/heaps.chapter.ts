@@ -130,6 +130,21 @@ rightChild(i)  = 2i + 2`,
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `def push(heap: list[int], value: int) -> None:
+    heap.append(value)
+    i = len(heap) - 1
+
+    while i > 0:
+        parent = (i - 1) // 2
+        if heap[parent] <= heap[i]:
+            break                              # property restored
+
+        heap[i], heap[parent] = heap[parent], heap[i]
+        i = parent`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'Remove the minimum: move the last element to the root, then sift down',
           source: `int pop() {
@@ -147,6 +162,33 @@ rightChild(i)  = 2i + 2`,
     }
     return result;
 }`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `def pop(heap: list[int]) -> int:
+    result = heap[0]
+    last = heap.pop()
+
+    if heap:
+        heap[0] = last
+        i = 0
+
+        while True:
+            left, right = 2 * i + 1, 2 * i + 2
+            smallest = i
+
+            if left < len(heap) and heap[left] < heap[smallest]:
+                smallest = left
+            if right < len(heap) and heap[right] < heap[smallest]:
+                smallest = right
+            if smallest == i:
+                break
+
+            heap[i], heap[smallest] = heap[smallest], heap[i]
+            i = smallest
+
+    return result`,
         },
         {
           kind: 'callout',
@@ -168,6 +210,14 @@ rightChild(i)  = 2i + 2`,
           language: 'java',
           caption: 'Start at the last internal node and sift down',
           source: `for (int i = n / 2 - 1; i >= 0; i--) siftDown(i);`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `for i in range(len(a) // 2 - 1, -1, -1):
+    sift_down(a, i)
+
+# the standard library does exactly this, in C: heapq.heapify(a)`,
         },
         {
           kind: 'para',
@@ -203,6 +253,20 @@ PriorityQueue<Integer> max = new PriorityQueue<>(Comparator.reverseOrder());
 PriorityQueue<int[]> byCost = new PriorityQueue<>((a, b) -> a[1] - b[1]);`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `import heapq
+
+heapq.heapify(values)                  # min-heap: the only kind Python has
+
+# max-heap: negate on the way in and on the way out
+heapq.heappush(values, -x)
+largest = -heapq.heappop(values)
+
+# ordering by a field: push a tuple, smallest field first
+heapq.heappush(jobs, (cost, name))`,
+        },
+        {
           kind: 'table',
           headers: ['Language', 'Default', 'Getting the other one'],
           rows: [
@@ -236,6 +300,21 @@ for (int value : a) {
     if (heap.size() > k) heap.poll();    // drop the smallest champion
 }
 // the heap now holds the k largest; its root is the kth largest`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `import heapq
+
+# nlargest is the one-liner, and it uses exactly this algorithm:
+top = heapq.nlargest(k, a)
+
+# written out:
+heap: list[int] = []
+for value in a:
+    heapq.heappush(heap, value)
+    if len(heap) > k:
+        heapq.heappop(heap)            # drop the smallest champion`,
         },
         {
           kind: 'compare',
@@ -289,6 +368,27 @@ while (!heap.isEmpty()) {
 return dummy.next;`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `import heapq
+
+heap = [(head.val, i, head) for i, head in enumerate(lists) if head]
+heapq.heapify(heap)                    # i breaks ties: ListNode is not comparable
+
+dummy = ListNode(0)
+tail = dummy
+
+while heap:
+    _, i, node = heapq.heappop(heap)
+    tail.next = node
+    tail = node
+
+    if node.next:
+        heapq.heappush(heap, (node.next.val, i, node.next))   # refill from the same list
+
+return dummy.next`,
+        },
+        {
           kind: 'callout',
           tone: 'key',
           text: 'The heap never holds more than `k` items — one per list. That invariant is what keeps the log factor at `log k` rather than `log n`, and it is the reason this pattern scales.',
@@ -332,6 +432,25 @@ double median() {
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `import heapq
+
+
+def add(value: int) -> None:
+    heapq.heappush(lower, -value)                      # lower is a max-heap, negated
+    heapq.heappush(upper, -heapq.heappop(lower))       # move its largest up
+
+    if len(upper) > len(lower):
+        heapq.heappush(lower, -heapq.heappop(upper))
+
+
+def median() -> float:
+    if len(lower) > len(upper):
+        return float(-lower[0])
+    return (-lower[0] + upper[0]) / 2`,
+        },
+        {
           kind: 'callout',
           tone: 'why',
           title: 'Why push through the other heap',
@@ -359,6 +478,21 @@ for (int[] interval : intervals) {
     ends.offer(interval[1]);
 }
 return ends.size();   // rooms needed at peak`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `import heapq
+
+intervals.sort(key=lambda x: x[0])
+ends: list[int] = []
+
+for start, end in intervals:
+    if ends and ends[0] <= start:
+        heapq.heappop(ends)            # a room freed up
+    heapq.heappush(ends, end)
+
+return len(ends)                       # rooms needed at peak`,
         },
         {
           kind: 'table',

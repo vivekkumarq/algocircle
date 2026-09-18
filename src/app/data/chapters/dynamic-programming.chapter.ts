@@ -60,6 +60,24 @@ int fib(int n, Integer[] memo) {       // O(n) - one line of difference
 }`,
         },
         {
+          kind: 'code',
+          language: 'python',
+          source: `def fib(n: int) -> int:                  # O(2^n)
+    if n <= 1:
+        return n
+    return fib(n - 1) + fib(n - 2)
+
+
+from functools import lru_cache
+
+
+@lru_cache(maxsize=None)                 # O(n) — one line of difference
+def fib_memo(n: int) -> int:
+    if n <= 1:
+        return n
+    return fib_memo(n - 1) + fib_memo(n - 2)`,
+        },
+        {
           kind: 'diagram',
           caption: 'The tree collapses because every distinct subproblem is computed once.',
           art: `without memo                    with memo
@@ -148,6 +166,15 @@ for (int i = 2; i <= n; i++)
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `dp = [0] * (n + 1)
+dp[0] = dp[1] = 1
+
+for i in range(2, n + 1):
+    dp[i] = dp[i - 1] + dp[i - 2]        # arrive from one step or two below`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'House robber - dp[i] is the best total from the first i houses',
           source: `int take = 0, skip = 0;                 // already space-optimised
@@ -157,6 +184,18 @@ for (int value : houses) {
     take = newTake;
 }
 return Math.max(take, skip);`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `take = skip = 0                          # already space-optimised
+
+for value in houses:
+    new_take = skip + value              # rob this one, so skip the previous
+    skip = max(skip, take)               # do not rob this one
+    take = new_take
+
+return max(take, skip)`,
         },
         {
           kind: 'callout',
@@ -190,12 +229,27 @@ return Math.max(take, skip);`,
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `for r in range(rows):
+    for c in range(cols):
+        dp[r][c] = 1 if r == 0 or c == 0 else dp[r - 1][c] + dp[r][c - 1]`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'Minimum path sum - the same shape with min instead of sum',
           source: `dp[r][c] = grid[r][c] + Math.min(
     r > 0 ? dp[r - 1][c] : INF,
     c > 0 ? dp[r][c - 1] : INF
 );`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `dp[r][c] = grid[r][c] + min(
+    dp[r - 1][c] if r > 0 else INF,
+    dp[r][c - 1] if c > 0 else INF,
+)`,
         },
         {
           kind: 'callout',
@@ -226,11 +280,29 @@ return Math.max(take, skip);`,
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `for i in range(1, n + 1):
+    for c in range(capacity + 1):
+        dp[i][c] = dp[i - 1][c]                                   # skip
+
+        if weight[i - 1] <= c:
+            dp[i][c] = max(dp[i][c],
+                           value[i - 1] + dp[i - 1][c - weight[i - 1]])   # take`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'Space-optimised: one row, iterated backwards',
           source: `for (int i = 0; i < n; i++)
     for (int c = capacity; c >= weight[i]; c--)     // backwards!
         dp[c] = Math.max(dp[c], value[i] + dp[c - weight[i]]);`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `for w, v in zip(weight, value):
+    for c in range(capacity, w - 1, -1):       # backwards!
+        dp[c] = max(dp[c], v + dp[c - w])`,
         },
         {
           kind: 'callout',
@@ -285,6 +357,16 @@ return Math.max(take, skip);`,
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `for i in range(1, n + 1):
+    for j in range(1, m + 1):
+        if a[i - 1] == b[j - 1]:
+            dp[i][j] = dp[i - 1][j - 1] + 1              # characters match
+        else:
+            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])   # drop one side`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'Edit distance - three operations, three predecessors',
           source: `dp[i][j] = (a.charAt(i - 1) == b.charAt(j - 1))
@@ -292,6 +374,18 @@ return Math.max(take, skip);`,
     : 1 + Math.min(dp[i - 1][j - 1],          // replace
              Math.min(dp[i - 1][j],           // delete
                       dp[i][j - 1]));         // insert`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `if a[i - 1] == b[j - 1]:
+    dp[i][j] = dp[i - 1][j - 1]
+else:
+    dp[i][j] = 1 + min(
+        dp[i - 1][j - 1],       # replace
+        dp[i - 1][j],           # delete
+        dp[i][j - 1],           # insert
+    )`,
         },
         {
           kind: 'diagram',
@@ -333,6 +427,16 @@ for (int i = 0; i < n; i++)
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `dp = [1] * n
+
+for i in range(n):
+    for j in range(i):
+        if a[j] < a[i]:
+            dp[i] = max(dp[i], dp[j] + 1)`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'The O(n log n) version - tails[k] is the smallest possible tail of a length-k+1 subsequence',
           source: `List<Integer> tails = new ArrayList<>();
@@ -342,6 +446,23 @@ for (int value : a) {
     else                          tails.set(position, value);
 }
 return tails.size();`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `from bisect import bisect_left
+
+tails: list[int] = []
+
+for value in a:
+    position = bisect_left(tails, value)
+
+    if position == len(tails):
+        tails.append(value)
+    else:
+        tails[position] = value
+
+return len(tails)`,
         },
         {
           kind: 'callout',
@@ -385,6 +506,16 @@ return tails.size();`,
         },
         {
           kind: 'code',
+          language: 'python',
+          source: `for length in range(2, n + 1):           # always iterate by increasing length
+    for i in range(n - length + 1):
+        j = i + length - 1
+
+        for k in range(i, j):
+            dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j] + cost(i, k, j))`,
+        },
+        {
+          kind: 'code',
           language: 'java',
           caption: 'State machine - best profit with at most one holding at a time',
           source: `int cash = 0, hold = Integer.MIN_VALUE;
@@ -393,6 +524,17 @@ for (int price : prices) {
     hold = Math.max(hold, cash - price);    // buy today
 }
 return cash;`,
+        },
+        {
+          kind: 'code',
+          language: 'python',
+          source: `cash, hold = 0, float('-inf')
+
+for price in prices:
+    cash = max(cash, hold + price)       # sell today
+    hold = max(hold, cash - price)       # buy today
+
+return cash`,
         },
         {
           kind: 'callout',
