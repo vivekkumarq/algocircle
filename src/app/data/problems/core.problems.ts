@@ -20,9 +20,13 @@ export const CORE_PROBLEMS: WorkedProblem[] = [
       idea: 'XOR three times. Each step keeps enough information to recover both values, because XOR cancels on repetition.',
       complexity: 'O(1) time, O(1) space',
       language: 'java',
-      code: `a = a ^ b;
-b = a ^ b;   // (a^b)^b == a
-a = a ^ b;   // (a^b)^a == b`,
+      code: `void swap(int[] a, int i, int j) {
+    if (i == j) return;          // XOR-swapping a slot with itself zeroes it
+
+    a[i] = a[i] ^ a[j];
+    a[j] = a[i] ^ a[j];          // (a^b)^b == a
+    a[i] = a[i] ^ a[j];          // (a^b)^a == b
+}`,
     },
     insight: 'It breaks when both sides are the same variable — `a ^ a` is zero, wiping the value. That edge case is the actual point of the question.',
   },
@@ -44,12 +48,17 @@ a = a ^ b;   // (a^b)^a == b`,
       idea: 'Divide by ten until nothing remains, counting the steps. Handle zero explicitly and use a 64-bit value so negating the minimum int does not overflow.',
       complexity: 'O(d) time, O(1) space',
       language: 'java',
-      code: `long value = Math.abs((long) n);
-if (value == 0) return 1;
+      code: `int countDigits(int n) {
+    long value = Math.abs((long) n);   // 64-bit: |Integer.MIN_VALUE| does not fit in an int
+    if (value == 0) return 1;
 
-int digits = 0;
-while (value > 0) { digits++; value /= 10; }
-return digits;`,
+    int digits = 0;
+    while (value > 0) {
+        digits++;
+        value /= 10;
+    }
+    return digits;
+}`,
     },
     insight: 'Two edge cases carry the whole question: zero, and `Integer.MIN_VALUE`, whose absolute value does not fit in an int.',
   },
@@ -71,10 +80,17 @@ return digits;`,
       idea: 'Swap the two ends and move inward. Stopping at the midpoint is enough — a middle element in an odd-length array stays where it is.',
       complexity: 'O(n) time, O(1) space',
       language: 'java',
-      code: `int lo = 0, hi = a.length - 1;
-while (lo < hi) {
-    int temp = a[lo]; a[lo] = a[hi]; a[hi] = temp;
-    lo++; hi--;
+      code: `void reverse(int[] a) {
+    int lo = 0, hi = a.length - 1;
+
+    while (lo < hi) {
+        int temp = a[lo];
+        a[lo] = a[hi];
+        a[hi] = temp;
+
+        lo++;
+        hi--;
+    }
 }`,
     },
     insight: 'Writing `lo < hi` rather than `lo <= hi` avoids a pointless self-swap at the centre, and is the same boundary you will use everywhere else.',
@@ -232,14 +248,24 @@ T(n) = 2T(n-1) + O(1)   -> O(2^n)       naive Fibonacci`,
       idea: 'Fold the array with Euclid. GCD is associative, so combining pairwise left to right gives the GCD of the whole set.',
       complexity: 'O(n log max) time, O(1) space',
       language: 'java',
-      code: `int result = 0;                       // gcd(a, 0) = a
-for (int value : a) {
-    result = gcd(result, value);
-    if (result == 1) break;           // cannot get smaller
-}
-return result;
+      code: `int gcdOfArray(int[] a) {
+    int result = 0;                   // gcd(x, 0) == x, so 0 is the identity
 
-int gcd(int a, int b) { return b == 0 ? a : gcd(b, a % b); }`,
+    for (int value : a) {
+        result = gcd(result, value);
+        if (result == 1) break;       // cannot get smaller
+    }
+    return result;
+}
+
+private int gcd(int a, int b) {
+    while (b != 0) {
+        int next = a % b;
+        a = b;
+        b = next;
+    }
+    return a;
+}`,
     },
     insight: 'Folding with an identity element turns a "whole collection" question into a two-argument one. The same trick works for XOR, min, max and LCM.',
   },
@@ -261,15 +287,21 @@ int gcd(int a, int b) { return b == 0 ? a : gcd(b, a % b); }`,
       idea: 'Sieve of Eratosthenes. Mark multiples of each prime, starting at `p * p` because every smaller multiple already has a smaller prime factor.',
       complexity: 'O(n log log n) time, O(n) space',
       language: 'java',
-      code: `boolean[] composite = new boolean[n];
-int count = 0;
+      code: `int countPrimes(int n) {
+    if (n < 3) return 0;              // no primes below 2
 
-for (int p = 2; p < n; p++) {
-    if (composite[p]) continue;
-    count++;
-    for (long m = (long) p * p; m < n; m += p) composite[(int) m] = true;
-}
-return count;`,
+    boolean[] composite = new boolean[n];
+    int count = 0;
+
+    for (int p = 2; p < n; p++) {
+        if (composite[p]) continue;
+        count++;
+
+        // Anything below p*p already has a smaller prime factor.
+        for (long m = (long) p * p; m < n; m += p) composite[(int) m] = true;
+    }
+    return count;
+}`,
     },
     insight: 'Starting the inner loop at `p * p` rather than `2p` is not a micro-optimisation — it is why the total work collapses to nearly linear.',
   },
@@ -291,14 +323,17 @@ return count;`,
       idea: 'Binary exponentiation: square the base repeatedly and multiply into the result wherever a bit of the exponent is set. That is one step per bit.',
       complexity: 'O(log b) time, O(1) space',
       language: 'java',
-      code: `long result = 1;
-base %= mod;
-while (exp > 0) {
-    if ((exp & 1) == 1) result = result * base % mod;
-    base = base * base % mod;
-    exp >>= 1;
-}
-return result;`,
+      code: `long power(long base, long exp, long mod) {
+    long result = 1;
+    base %= mod;
+
+    while (exp > 0) {
+        if ((exp & 1) == 1) result = result * base % mod;   // this bit is set
+        base = base * base % mod;
+        exp >>= 1;
+    }
+    return result;
+}`,
     },
     insight: 'The same routine gives the modular inverse for a prime modulus: `a^(m-2) mod m` behaves as division by `a`.',
   },
@@ -320,9 +355,14 @@ return result;`,
       idea: 'XOR everything. Because `x ^ x = 0` and XOR is commutative, all pairs cancel regardless of order and only the lone value survives.',
       complexity: 'O(n) time, O(1) space',
       language: 'java',
-      code: `int result = 0;
-for (int value : a) result ^= value;
-return result;`,
+      code: `int singleNumber(int[] a) {
+    int missing = 0;
+
+    // x ^ x == 0 and x ^ 0 == x, so every pair cancels and the loner survives.
+    for (int value : a) missing ^= value;
+
+    return missing;
+}`,
     },
     insight: 'The extension is the real interview question: with two unique values, XOR everything, take any set bit of the result to split the array, and XOR each half separately.',
   },

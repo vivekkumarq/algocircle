@@ -21,13 +21,23 @@ export const STRUCTURE_PROBLEMS: WorkedProblem[] = [
       idea: 'Include-or-exclude recursion at each index, undoing the inclusion on the way back. For small `n` the bitmask loop does the same thing iteratively.',
       complexity: 'O(2ⁿ · n) time, O(n) depth',
       language: 'java',
-      code: `void subsets(int i, List<Integer> current) {
-    if (i == n) { output.add(new ArrayList<>(current)); return; }
+      code: `List<List<Integer>> subsets(int[] a) {
+    List<List<Integer>> out = new ArrayList<>();
+    walk(a, 0, new ArrayList<>(), out);
+    return out;
+}
 
-    subsets(i + 1, current);                  // exclude
-    current.add(a[i]);
-    subsets(i + 1, current);                  // include
-    current.remove(current.size() - 1);       // undo
+private void walk(int[] a, int i, List<Integer> current, List<List<Integer>> out) {
+    if (i == a.length) {
+        out.add(new ArrayList<>(current));     // copy: current keeps changing
+        return;
+    }
+
+    walk(a, i + 1, current, out);              // skip a[i]
+
+    current.add(a[i]);                         // take a[i]
+    walk(a, i + 1, current, out);
+    current.remove(current.size() - 1);        // undo — this is the backtrack
 }`,
     },
     insight: 'Adding `current` instead of a copy makes every entry in the output the same object — and therefore all empty at the end.',
@@ -50,14 +60,28 @@ export const STRUCTURE_PROBLEMS: WorkedProblem[] = [
       idea: 'Choose an unused element for each position, marking it used, recursing, then unmarking. Each path down the tree is one permutation.',
       complexity: 'O(n! · n) time, O(n) depth',
       language: 'java',
-      code: `void permute(List<Integer> current, boolean[] used) {
-    if (current.size() == n) { output.add(new ArrayList<>(current)); return; }
+      code: `List<List<Integer>> permute(int[] a) {
+    List<List<Integer>> out = new ArrayList<>();
+    walk(a, new boolean[a.length], new ArrayList<>(), out);
+    return out;
+}
 
-    for (int i = 0; i < n; i++) {
+private void walk(int[] a, boolean[] used, List<Integer> current, List<List<Integer>> out) {
+    if (current.size() == a.length) {
+        out.add(new ArrayList<>(current));
+        return;
+    }
+
+    for (int i = 0; i < a.length; i++) {       // from 0: order matters here
         if (used[i]) continue;
-        used[i] = true;  current.add(a[i]);
-        permute(current, used);
-        current.remove(current.size() - 1);  used[i] = false;
+
+        used[i] = true;
+        current.add(a[i]);
+
+        walk(a, used, current, out);
+
+        current.remove(current.size() - 1);    // undo both, or siblings inherit the choice
+        used[i] = false;
     }
 }`,
     },
@@ -81,15 +105,25 @@ export const STRUCTURE_PROBLEMS: WorkedProblem[] = [
       idea: 'Backtrack with a start index so combinations are generated in non-decreasing order. Sorting lets you `break` as soon as a candidate exceeds the remaining target.',
       complexity: 'Exponential in the answer count, far less after pruning',
       language: 'java',
-      code: `Arrays.sort(candidates);
+      code: `List<List<Integer>> combinationSum(int[] candidates, int target) {
+    Arrays.sort(candidates);
+    List<List<Integer>> out = new ArrayList<>();
+    walk(candidates, 0, target, new ArrayList<>(), out);
+    return out;
+}
 
-void search(int start, int remaining, List<Integer> current) {
-    if (remaining == 0) { output.add(new ArrayList<>(current)); return; }
+private void walk(int[] candidates, int start, int remaining,
+                  List<Integer> current, List<List<Integer>> out) {
+    if (remaining == 0) {
+        out.add(new ArrayList<>(current));
+        return;
+    }
 
     for (int i = start; i < candidates.length; i++) {
-        if (candidates[i] > remaining) break;      // sorted: all later are bigger
+        if (candidates[i] > remaining) break;                // sorted: the rest are worse
+
         current.add(candidates[i]);
-        search(i, remaining - candidates[i], current);   // i, not i+1: reuse allowed
+        walk(candidates, i, remaining - candidates[i], current, out);   // i: reuse allowed
         current.remove(current.size() - 1);
     }
 }`,
@@ -114,16 +148,25 @@ void search(int start, int remaining, List<Integer> current) {
       idea: 'Place one queen per row and track used columns and both diagonals as sets, making each validity check constant. Pruning removes almost the entire tree.',
       complexity: 'Far below O(n!) after pruning',
       language: 'java',
-      code: `void place(int row) {
-    if (row == n) { count++; return; }
+      code: `int totalNQueens(int n) {
+    return place(0, n, new boolean[n], new boolean[2 * n], new boolean[2 * n]);
+}
+
+private int place(int row, int n, boolean[] cols, boolean[] diag1, boolean[] diag2) {
+    if (row == n) return 1;                    // every row placed: one solution
+
+    int count = 0;
 
     for (int col = 0; col < n; col++) {
-        if (cols[col] || diag1[row + col] || diag2[row - col + n]) continue;
+        int d1 = row + col;                    // "/" diagonal
+        int d2 = row - col + n;                // "\" diagonal, shifted to stay positive
+        if (cols[col] || diag1[d1] || diag2[d2]) continue;
 
-        cols[col] = diag1[row + col] = diag2[row - col + n] = true;
-        place(row + 1);
-        cols[col] = diag1[row + col] = diag2[row - col + n] = false;
+        cols[col] = diag1[d1] = diag2[d2] = true;
+        count += place(row + 1, n, cols, diag1, diag2);
+        cols[col] = diag1[d1] = diag2[d2] = false;
     }
+    return count;
 }`,
     },
     insight: '`row + col` is constant along one diagonal and `row - col` along the other. Offsetting the second by `n` keeps the index non-negative.',
@@ -148,14 +191,18 @@ void search(int start, int remaining, List<Integer> current) {
       idea: 'Walk once with three pointers, flipping one link per step. The trailing pointer ends on the old tail, which is the new head.',
       complexity: 'O(n) time, O(1) space',
       language: 'java',
-      code: `ListNode previous = null, current = head;
-while (current != null) {
-    ListNode ahead = current.next;   // save first
-    current.next = previous;         // flip
-    previous = current;              // advance
-    current = ahead;
-}
-return previous;`,
+      code: `ListNode reverseList(ListNode head) {
+    ListNode previous = null;
+    ListNode current = head;
+
+    while (current != null) {
+        ListNode ahead = current.next;   // save first, or the rest of the list is lost
+        current.next = previous;         // flip
+        previous = current;              // advance
+        current = ahead;
+    }
+    return previous;                     // the old tail is the new head
+}`,
     },
     insight: 'The recursive version is prettier and uses O(n) stack, so it overflows on a very long list. Mention the trade-off rather than presenting it as strictly better.',
   },
@@ -177,17 +224,25 @@ return previous;`,
       idea: "Floyd's algorithm. Slow moves one and fast moves two until they meet, then reset one pointer to the head and advance both one step at a time.",
       complexity: 'O(n) time, O(1) space',
       language: 'java',
-      code: `ListNode slow = head, fast = head;
-while (fast != null && fast.next != null) {
-    slow = slow.next;
-    fast = fast.next.next;
-    if (slow == fast) {
-        ListNode probe = head;
-        while (probe != slow) { probe = probe.next; slow = slow.next; }
-        return probe;                 // cycle entry
+      code: `ListNode detectCycle(ListNode head) {
+    ListNode slow = head, fast = head;
+
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+
+        if (slow == fast) {
+            // Distance from head to the entry == distance from the meeting point to it.
+            ListNode probe = head;
+            while (probe != slow) {
+                probe = probe.next;
+                slow = slow.next;
+            }
+            return probe;
+        }
     }
-}
-return null;`,
+    return null;                         // fast fell off the end: no cycle
+}`,
     },
     insight: 'The second phase works because the distance from head to entry equals the distance from the meeting point to the entry, going forward around the loop.',
   },
@@ -209,16 +264,26 @@ return null;`,
       idea: 'A min-heap holding one candidate per list. Pop the smallest, append it, and push that list’s next node. The heap never exceeds `k`.',
       complexity: 'O(n log k) time, O(k) space',
       language: 'java',
-      code: `PriorityQueue<ListNode> heap = new PriorityQueue<>((x, y) -> x.val - y.val);
-for (ListNode head : lists) if (head != null) heap.offer(head);
+      code: `ListNode mergeKLists(ListNode[] lists) {
+    PriorityQueue<ListNode> heap = new PriorityQueue<>(Comparator.comparingInt(node -> node.val));
+    for (ListNode head : lists) {
+        if (head != null) heap.offer(head);      // one node per list, not every node
+    }
 
-ListNode dummy = new ListNode(0), tail = dummy;
-while (!heap.isEmpty()) {
-    ListNode node = heap.poll();
-    tail.next = node; tail = node;
-    if (node.next != null) heap.offer(node.next);
-}
-return dummy.next;`,
+    ListNode dummy = new ListNode(0);
+    ListNode tail = dummy;
+
+    while (!heap.isEmpty()) {
+        ListNode node = heap.poll();
+        tail.next = node;
+        tail = node;
+
+        if (node.next != null) heap.offer(node.next);
+    }
+
+    tail.next = null;
+    return dummy.next;
+}`,
     },
     insight: 'Merging pairwise in rounds gives the same O(n log k) with no heap at all — worth offering as an alternative.',
   },
@@ -240,15 +305,66 @@ return dummy.next;`,
       idea: 'A hash map from key to node, plus a doubly linked list ordered by recency. The map gives O(1) lookup; the list gives O(1) reordering because you already hold the node.',
       complexity: 'O(1) per operation, O(capacity) space',
       language: 'java',
-      code: `// get: look up the node, unlink it, push it to the front, return its value
-// put: if present, update and move to front
-//      otherwise insert at the front and add to the map
-//      if size > capacity, remove the tail node and delete its key
+      code: `class LRUCache {
+    private static class Node {
+        int key, value;
+        Node prev, next;
+        Node(int key, int value) { this.key = key; this.value = value; }
+    }
 
-Node node = map.get(key);
-unlink(node);
-pushFront(node);
-return node.value;`,
+    private final int capacity;
+    private final Map<Integer, Node> map = new HashMap<>();
+    private final Node head = new Node(0, 0);    // most recent side
+    private final Node tail = new Node(0, 0);    // least recent side
+
+    LRUCache(int capacity) {
+        this.capacity = capacity;
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    int get(int key) {
+        Node node = map.get(key);
+        if (node == null) return -1;
+
+        unlink(node);
+        pushFront(node);
+        return node.value;
+    }
+
+    void put(int key, int value) {
+        Node node = map.get(key);
+
+        if (node != null) {
+            node.value = value;
+            unlink(node);
+            pushFront(node);
+            return;
+        }
+
+        if (map.size() == capacity) {
+            Node oldest = tail.prev;
+            unlink(oldest);
+            map.remove(oldest.key);              // remove the key, not just the node
+        }
+
+        node = new Node(key, value);
+        map.put(key, node);
+        pushFront(node);
+    }
+
+    private void unlink(Node node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    private void pushFront(Node node) {
+        node.next = head.next;
+        node.prev = head;
+        head.next.prev = node;
+        head.next = node;
+    }
+}`,
     },
     insight: 'Singly linked would make unlinking O(n), because you would have to walk from the head to find the predecessor. The second pointer is the whole design.',
   },
@@ -272,14 +388,19 @@ return node.value;`,
       idea: 'Push openers, and on a closer check the top matches. At the end the stack must be empty.',
       complexity: 'O(n) time, O(n) space',
       language: 'java',
-      code: `Deque<Character> stack = new ArrayDeque<>();
-Map<Character, Character> pairs = Map.of(')', '(', ']', '[', '}', '{');
+      code: `boolean isValid(String s) {
+    Deque<Character> stack = new ArrayDeque<>();
+    Map<Character, Character> pairs = Map.of(')', '(', ']', '[', '}', '{');
 
-for (char c : s.toCharArray()) {
-    if (pairs.containsValue(c)) stack.push(c);
-    else if (stack.isEmpty() || stack.pop() != pairs.get(c)) return false;
-}
-return stack.isEmpty();`,
+    for (char c : s.toCharArray()) {
+        if (!pairs.containsKey(c)) {
+            stack.push(c);                                   // an opener
+        } else if (stack.isEmpty() || stack.pop() != pairs.get(c)) {
+            return false;                                    // closes nothing, or the wrong thing
+        }
+    }
+    return stack.isEmpty();                                  // nothing left unclosed
+}`,
     },
     insight: 'Both checks are needed: `")("` fails on the empty-stack test and `"("` fails on the non-empty-at-end test. Each alone accepts an invalid string.',
   },
@@ -301,13 +422,18 @@ return stack.isEmpty();`,
       idea: 'A stack of indices with decreasing temperatures. A warmer day resolves every pending day it beats.',
       complexity: 'O(n) time, O(n) space',
       language: 'java',
-      code: `Deque<Integer> stack = new ArrayDeque<>();
-for (int i = 0; i < n; i++) {
-    while (!stack.isEmpty() && t[stack.peek()] < t[i]) {
-        int day = stack.pop();
-        answer[day] = i - day;
+      code: `int[] dailyTemperatures(int[] t) {
+    int[] answer = new int[t.length];
+    Deque<Integer> stack = new ArrayDeque<>();   // indices, temperatures decreasing
+
+    for (int i = 0; i < t.length; i++) {
+        while (!stack.isEmpty() && t[stack.peek()] < t[i]) {
+            int day = stack.pop();
+            answer[day] = i - day;               // today is that day's warmer future
+        }
+        stack.push(i);
     }
-    stack.push(i);
+    return answer;                               // days still on the stack keep 0
 }`,
     },
     insight: 'Each index is pushed once and popped at most once, so the total work is linear even though the inner loop can be long on a single iteration.',
@@ -331,17 +457,22 @@ for (int i = 0; i < n; i++) {
       idea: 'An increasing monotonic stack. When a shorter bar arrives, pop and compute the area for each popped bar, whose boundaries are the new bar and the new stack top. A sentinel of height 0 flushes the rest.',
       complexity: 'O(n) time, O(n) space',
       language: 'java',
-      code: `Deque<Integer> stack = new ArrayDeque<>();
-int best = 0;
+      code: `int largestRectangleArea(int[] h) {
+    Deque<Integer> stack = new ArrayDeque<>();   // indices, heights increasing
+    int best = 0;
 
-for (int i = 0; i <= n; i++) {
-    int height = (i == n) ? 0 : h[i];              // sentinel
-    while (!stack.isEmpty() && h[stack.peek()] >= height) {
-        int top = stack.pop();
-        int left = stack.isEmpty() ? -1 : stack.peek();
-        best = Math.max(best, h[top] * (i - left - 1));
+    for (int i = 0; i <= h.length; i++) {
+        int height = i == h.length ? 0 : h[i];   // sentinel drains the stack at the end
+
+        while (!stack.isEmpty() && h[stack.peek()] >= height) {
+            int top = stack.pop();
+            int left = stack.isEmpty() ? -1 : stack.peek();
+
+            best = Math.max(best, h[top] * (i - left - 1));
+        }
+        stack.push(i);
     }
-    stack.push(i);
+    return best;
 }`,
     },
     insight: 'The same routine run once per row, over a histogram of consecutive ones above each row, solves maximal-rectangle in a binary matrix.',
@@ -364,14 +495,27 @@ for (int i = 0; i <= n; i++) {
       idea: 'Store the minimum so far alongside each value. Popping restores the previous minimum automatically, because it is recorded in the entry beneath.',
       complexity: 'O(1) per operation',
       language: 'java',
-      code: `Deque<int[]> stack = new ArrayDeque<>();   // {value, min so far}
+      code: `class MinStack {
+    private final Deque<int[]> stack = new ArrayDeque<>();   // { value, min so far }
 
-void push(int value) {
-    int min = stack.isEmpty() ? value : Math.min(value, stack.peek()[1]);
-    stack.push(new int[] { value, min });
-}
+    void push(int value) {
+        int min = stack.isEmpty() ? value : Math.min(value, stack.peek()[1]);
+        stack.push(new int[] { value, min });
+    }
 
-int getMin() { return stack.peek()[1]; }`,
+    void pop() {
+        stack.pop();
+    }
+
+    int top() {
+        return stack.peek()[0];
+    }
+
+    /** The minimum travels with each entry, so this never scans. */
+    int getMin() {
+        return stack.peek()[1];
+    }
+}`,
     },
     insight: 'Carrying a derived value alongside the data is a general design move: it trades a little memory for removing a scan entirely.',
   },
@@ -395,14 +539,23 @@ int getMin() { return stack.peek()[1]; }`,
       idea: 'A single postorder pass returning the height while recording the best `left + right + 2` seen at any node.',
       complexity: 'O(n) time, O(height) space',
       language: 'java',
-      code: `int best = 0;
+      code: `private int best = 0;
 
-int height(TreeNode node) {
+int diameterOfBinaryTree(TreeNode root) {
+    best = 0;
+    height(root);
+    return best;
+}
+
+/** Returns the height below this node, and records the path that turns here. */
+private int height(TreeNode node) {
     if (node == null) return -1;
-    int left = height(node.left), right = height(node.right);
 
-    best = Math.max(best, left + right + 2);   // path turning here
-    return 1 + Math.max(left, right);          // what the parent needs
+    int left = height(node.left);
+    int right = height(node.right);
+
+    best = Math.max(best, left + right + 2);    // edges through this node
+    return 1 + Math.max(left, right);           // what the parent needs
 }`,
     },
     insight: 'Return one value to the parent, record another globally. Maximum path sum and largest-BST-subtree are the same shape.',
@@ -425,9 +578,15 @@ int height(TreeNode node) {
       idea: 'Carry a permitted `(min, max)` range down the recursion, narrowing it at each step. Equivalently, check that an inorder traversal is strictly increasing.',
       complexity: 'O(n) time, O(height) space',
       language: 'java',
-      code: `boolean valid(TreeNode node, long min, long max) {
+      code: `boolean isValidBST(TreeNode root) {
+    return valid(root, Long.MIN_VALUE, Long.MAX_VALUE);
+}
+
+/** Every node must fall inside the range its ancestors allow, not just beat its parent. */
+private boolean valid(TreeNode node, long min, long max) {
     if (node == null) return true;
     if (node.val <= min || node.val >= max) return false;
+
     return valid(node.left, min, node.val)
         && valid(node.right, node.val, max);
 }`,
@@ -452,14 +611,14 @@ int height(TreeNode node) {
       idea: 'Return the node itself if it is a target, otherwise recurse. If both sides return non-null, this node is the meeting point; otherwise pass up whichever side found something.',
       complexity: 'O(n) time, O(height) space',
       language: 'java',
-      code: `TreeNode lca(TreeNode node, TreeNode p, TreeNode q) {
-    if (node == null || node == p || node == q) return node;
+      code: `TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null || root == p || root == q) return root;
 
-    TreeNode left  = lca(node.left,  p, q);
-    TreeNode right = lca(node.right, p, q);
+    TreeNode left = lowestCommonAncestor(root.left, p, q);
+    TreeNode right = lowestCommonAncestor(root.right, p, q);
 
-    if (left != null && right != null) return node;
-    return left != null ? left : right;
+    if (left != null && right != null) return root;   // one target on each side
+    return left != null ? left : right;               // both below one side, or neither
 }`,
     },
     insight: 'In a BST it is simpler still: walk down from the root and the first node that splits the two values is the answer, in O(height) with no recursion.',
@@ -482,17 +641,34 @@ int height(TreeNode node) {
       idea: 'Preorder with explicit null markers is self-describing: read the root, then recursively read the left subtree and the right.',
       complexity: 'O(n) time, O(n) space',
       language: 'java',
-      code: `void write(TreeNode node, StringBuilder out) {
-    if (node == null) { out.append("#,"); return; }
-    out.append(node.val).append(',');
-    write(node.left, out); write(node.right, out);
+      code: `String serialise(TreeNode root) {
+    StringBuilder out = new StringBuilder();
+    write(root, out);
+    return out.toString();
 }
 
-TreeNode read(Iterator<String> tokens) {
-    String token = tokens.next();
-    if (token.equals("#")) return null;
+private void write(TreeNode node, StringBuilder out) {
+    if (node == null) {
+        out.append("#,");                 // the nulls are what make the shape unambiguous
+        return;
+    }
+
+    out.append(node.val).append(',');
+    write(node.left, out);
+    write(node.right, out);
+}
+
+TreeNode deserialise(String data) {
+    return read(new ArrayDeque<>(Arrays.asList(data.split(","))));
+}
+
+private TreeNode read(Deque<String> tokens) {
+    String token = tokens.poll();
+    if (token == null || token.equals("#")) return null;
+
     TreeNode node = new TreeNode(Integer.parseInt(token));
-    node.left = read(tokens); node.right = read(tokens);
+    node.left = read(tokens);
+    node.right = read(tokens);
     return node;
 }`,
     },
@@ -519,16 +695,22 @@ TreeNode read(Iterator<String> tokens) {
       idea: 'A max-heap for the lower half and a min-heap for the upper half, kept within one element of each other. The median is the larger root, or the average of both.',
       complexity: 'O(log n) per insert, O(1) per query',
       language: 'java',
-      code: `void add(int value) {
-    lower.offer(value);                 // max-heap
-    upper.offer(lower.poll());          // push its largest up
-    if (upper.size() > lower.size()) lower.offer(upper.poll());
-}
+      code: `class MedianFinder {
+    private final PriorityQueue<Integer> lower = new PriorityQueue<>(Comparator.reverseOrder());
+    private final PriorityQueue<Integer> upper = new PriorityQueue<>();
 
-double median() {
-    return lower.size() > upper.size()
-        ? lower.peek()
-        : (lower.peek() + upper.peek()) / 2.0;
+    void add(int value) {
+        lower.offer(value);                 // always in on the left...
+        upper.offer(lower.poll());          // ...then hand its largest to the right
+
+        if (upper.size() > lower.size()) lower.offer(upper.poll());   // rebalance
+    }
+
+    double median() {
+        return lower.size() > upper.size()
+            ? lower.peek()
+            : (lower.peek() + upper.peek()) / 2.0;
+    }
 }`,
     },
     insight: 'Always inserting into one heap and pushing through the other avoids comparing against a median that may not exist yet, and removes a whole family of edge cases.',
@@ -551,15 +733,22 @@ double median() {
       idea: 'A max-heap of size `k` keyed on squared distance, evicting the farthest whenever it overflows. Quickselect gives expected linear time if the data is in memory.',
       complexity: 'O(n log k) time, O(k) space',
       language: 'java',
-      code: `PriorityQueue<int[]> heap =
-    new PriorityQueue<>((p, q) -> dist(q) - dist(p));   // max-heap
+      code: `int[][] kClosest(int[][] points, int k) {
+    // Max-heap of size k: the farthest of the keepers sits on top, ready to be dropped.
+    PriorityQueue<int[]> heap = new PriorityQueue<>((p, q) -> distance(q) - distance(p));
 
-for (int[] point : points) {
-    heap.offer(point);
-    if (heap.size() > k) heap.poll();                   // drop the farthest
+    for (int[] point : points) {
+        heap.offer(point);
+        if (heap.size() > k) heap.poll();
+    }
+
+    return heap.toArray(new int[0][]);
 }
 
-int dist(int[] p) { return p[0] * p[0] + p[1] * p[1]; }  // no sqrt needed`,
+/** Squared distance — the ordering is the same, and it avoids a sqrt. */
+private int distance(int[] p) {
+    return p[0] * p[0] + p[1] * p[1];
+}`,
     },
     insight: 'For the k *nearest* you want a max-heap, and for the k *largest* a min-heap. The root must always be the one you are prepared to throw away.',
   },
@@ -581,16 +770,29 @@ int dist(int[] p) { return p[0] * p[0] + p[1] * p[1]; }  // no sqrt needed`,
       idea: 'A max-heap by remaining count. Each round take up to `n+1` distinct tasks, then push back whatever still has work. Greedily running the most frequent task keeps the gaps filled.',
       complexity: 'O(total log types)',
       language: 'java',
-      code: `PriorityQueue<Integer> heap = new PriorityQueue<>(Comparator.reverseOrder());
-heap.addAll(counts);
+      code: `int leastInterval(char[] tasks, int n) {
+    int[] counts = new int[26];
+    for (char task : tasks) counts[task - 'A']++;
 
-int time = 0;
-while (!heap.isEmpty()) {
-    List<Integer> taken = new ArrayList<>();
-    for (int i = 0; i <= n && !heap.isEmpty(); i++) taken.add(heap.poll() - 1);
+    PriorityQueue<Integer> heap = new PriorityQueue<>(Comparator.reverseOrder());
+    for (int count : counts) {
+        if (count > 0) heap.offer(count);
+    }
 
-    for (int remaining : taken) if (remaining > 0) heap.offer(remaining);
-    time += heap.isEmpty() ? taken.size() : n + 1;
+    int time = 0;
+
+    while (!heap.isEmpty()) {
+        // One cooldown window: run the n + 1 most frequent tasks still left.
+        List<Integer> taken = new ArrayList<>();
+        for (int i = 0; i <= n && !heap.isEmpty(); i++) taken.add(heap.poll() - 1);
+
+        for (int remaining : taken) {
+            if (remaining > 0) heap.offer(remaining);
+        }
+
+        time += heap.isEmpty() ? taken.size() : n + 1;   // no idling on the final window
+    }
+    return time;
 }`,
     },
     insight: 'There is a closed form too — the answer is driven entirely by the most frequent task and how many types tie with it. Worth mentioning as a follow-up.',
@@ -613,14 +815,18 @@ while (!heap.isEmpty()) {
       idea: 'Sort by start and keep a min-heap of end times. If the earliest end is at or before the next start, reuse that room by popping. The heap size at the end is the answer.',
       complexity: 'O(n log n) time, O(n) space',
       language: 'java',
-      code: `Arrays.sort(meetings, (x, y) -> x[0] - y[0]);
-PriorityQueue<Integer> ends = new PriorityQueue<>();
+      code: `int minMeetingRooms(int[][] meetings) {
+    Arrays.sort(meetings, Comparator.comparingInt(m -> m[0]));
 
-for (int[] meeting : meetings) {
-    if (!ends.isEmpty() && ends.peek() <= meeting[0]) ends.poll();
-    ends.offer(meeting[1]);
-}
-return ends.size();`,
+    // Every entry is a room in use; the heap keeps the one that frees up soonest on top.
+    PriorityQueue<Integer> ends = new PriorityQueue<>();
+
+    for (int[] meeting : meetings) {
+        if (!ends.isEmpty() && ends.peek() <= meeting[0]) ends.poll();   // reuse that room
+        ends.offer(meeting[1]);
+    }
+    return ends.size();
+}`,
     },
     insight: 'Sort by start, heap on end is the standard interval-scheduling pair. The alternative is a sweep over separate start and end arrays with two pointers.',
   },

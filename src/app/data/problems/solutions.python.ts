@@ -7,11 +7,15 @@
  */
 export const PYTHON_SOLUTIONS: Record<string, string> = {
   // ---------------------------------------------------------------- foundations
-  'swap-without-temp': `a = a ^ b
-b = a ^ b          # (a^b)^b == a
-a = a ^ b          # (a^b)^a == b
+  'swap-without-temp': `def swap(a: list[int], i: int, j: int) -> None:
+    if i == j:
+        return                     # XOR-swapping a slot with itself zeroes it
 
-# Python makes the point moot: a, b = b, a`,
+    a[i] = a[i] ^ a[j]
+    a[j] = a[i] ^ a[j]             # (a^b)^b == a
+    a[i] = a[i] ^ a[j]             # (a^b)^a == b
+
+# Python makes the point moot: a[i], a[j] = a[j], a[i]`,
 
   'count-digits': `def count_digits(n: int) -> int:
     value = abs(n)
@@ -27,11 +31,13 @@ a = a ^ b          # (a^b)^a == b
 # Python integers are unbounded, so abs() is always safe here —
 # the overflow trap is a Java and C++ concern.`,
 
-  'reverse-array-in-place': `lo, hi = 0, len(a) - 1
-while lo < hi:
-    a[lo], a[hi] = a[hi], a[lo]
-    lo += 1
-    hi -= 1`,
+  'reverse-array-in-place': `def reverse(a: list[int]) -> None:
+    lo, hi = 0, len(a) - 1
+
+    while lo < hi:
+        a[lo], a[hi] = a[hi], a[lo]
+        lo += 1
+        hi -= 1`,
 
   'fizz-trace': `# inner loop runs n - i times for each i
 total = sum(n - i for i in range(n))   # == n * (n + 1) // 2`,
@@ -69,17 +75,16 @@ for x in range(n):
 
   // --------------------------------------------------------------- mathematics
   'gcd-of-array': `from math import gcd
-from functools import reduce
 
-def array_gcd(a: list[int]) -> int:
-    result = 0                      # gcd(x, 0) == x
+
+def gcd_of_array(a: list[int]) -> int:
+    result = 0                     # gcd(x, 0) == x, so 0 is the identity
+
     for value in a:
         result = gcd(result, value)
         if result == 1:
-            break                   # cannot get smaller
-    return result
-
-# or simply: reduce(gcd, a, 0)`,
+            break                  # cannot get smaller
+    return result`,
 
   'count-primes': `def count_primes(n: int) -> int:
     if n < 3:

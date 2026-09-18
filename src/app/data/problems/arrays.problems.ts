@@ -21,12 +21,17 @@ export const ARRAY_PROBLEMS: WorkedProblem[] = [
       idea: "Kadane's algorithm. At each index choose between extending the previous run and restarting, then keep the best value ever seen.",
       complexity: 'O(n) time, O(1) space',
       language: 'java',
-      code: `int endingHere = a[0], best = a[0];
-for (int i = 1; i < a.length; i++) {
-    endingHere = Math.max(a[i], endingHere + a[i]);
-    best = Math.max(best, endingHere);
-}
-return best;`,
+      code: `int maxSubarraySum(int[] a) {
+    int endingHere = a[0];
+    int best = a[0];
+
+    for (int i = 1; i < a.length; i++) {
+        // Extend the run, or start a new one here — whichever is larger.
+        endingHere = Math.max(a[i], endingHere + a[i]);
+        best = Math.max(best, endingHere);
+    }
+    return best;
+}`,
     },
     insight: 'Starting `best` at 0 silently returns 0 for an all-negative array. Starting both variables at `a[0]` handles it without a special case.',
   },
@@ -49,16 +54,20 @@ return best;`,
       idea: 'Scan keeping the running sum and a map of how often each running sum has occurred. A subarray ending here sums to `k` whenever `running - k` has been seen.',
       complexity: 'O(n) time, O(n) space',
       language: 'java',
-      code: `Map<Long, Integer> seen = new HashMap<>();
-seen.put(0L, 1);                       // the empty prefix
-long running = 0; int count = 0;
+      code: `int subarraySumK(int[] a, int k) {
+    Map<Long, Integer> seen = new HashMap<>();
+    seen.put(0L, 1);                     // the empty prefix, so whole prefixes count
 
-for (int value : a) {
-    running += value;
-    count += seen.getOrDefault(running - k, 0);
-    seen.merge(running, 1, Integer::sum);
-}
-return count;`,
+    long running = 0;
+    int count = 0;
+
+    for (int value : a) {
+        running += value;
+        count += seen.getOrDefault(running - k, 0);
+        seen.merge(running, 1, Integer::sum);
+    }
+    return count;
+}`,
     },
     insight: 'Seeding the map with `{0: 1}` is what makes subarrays starting at index 0 count. Forgetting it is the standard bug in this whole family.',
   },
@@ -80,16 +89,20 @@ return count;`,
       idea: 'One left-to-right pass writes the prefix product into the output, then a right-to-left pass multiplies by a running suffix product held in a single variable.',
       complexity: 'O(n) time, O(1) extra space',
       language: 'java',
-      code: `int[] out = new int[n];
-out[0] = 1;
-for (int i = 1; i < n; i++) out[i] = out[i - 1] * a[i - 1];
+      code: `int[] productExceptSelf(int[] a) {
+    int n = a.length;
+    int[] out = new int[n];
 
-int suffix = 1;
-for (int i = n - 1; i >= 0; i--) {
-    out[i] *= suffix;
-    suffix *= a[i];
-}
-return out;`,
+    out[0] = 1;
+    for (int i = 1; i < n; i++) out[i] = out[i - 1] * a[i - 1];   // product of everything left
+
+    int suffix = 1;
+    for (int i = n - 1; i >= 0; i--) {
+        out[i] *= suffix;                                          // times everything right
+        suffix *= a[i];
+    }
+    return out;
+}`,
     },
     insight: 'Division is banned for a reason: one zero makes it undefined everywhere, and two zeroes make the whole answer zero. The prefix-suffix version needs no special case.',
   },
@@ -111,10 +124,23 @@ return out;`,
       idea: 'Reverse the whole array, then reverse the first `k` and the remaining `n - k`. Three linear reversals give the rotation in place.',
       complexity: 'O(n) time, O(1) space',
       language: 'java',
-      code: `k %= n;                       // essential
-reverse(a, 0, n - 1);
-reverse(a, 0, k - 1);
-reverse(a, k, n - 1);`,
+      code: `void rotate(int[] a, int k) {
+    int n = a.length;
+    k %= n;                       // essential: k can exceed n
+    if (k < 0) k += n;
+
+    reverse(a, 0, n - 1);
+    reverse(a, 0, k - 1);
+    reverse(a, k, n - 1);
+}
+
+private void reverse(int[] a, int lo, int hi) {
+    while (lo < hi) {
+        int temp = a[lo];
+        a[lo++] = a[hi];
+        a[hi--] = temp;
+    }
+}`,
     },
     insight: 'Take `k %= n` first. Skipping it is the quickest way to an index-out-of-bounds on a hidden test where `k > n`.',
   },
@@ -139,16 +165,20 @@ reverse(a, k, n - 1);`,
       idea: 'A window with a character count. Extend right; while the entering character appears twice, remove from the left. Record the length once the window is valid again.',
       complexity: 'O(n) time, O(alphabet) space',
       language: 'java',
-      code: `int[] count = new int[128];
-int left = 0, best = 0;
+      code: `int longestUniqueSubstring(String s) {
+    int[] count = new int[128];        // ASCII; use a HashMap for a wider alphabet
+    int left = 0, best = 0;
 
-for (int right = 0; right < s.length(); right++) {
-    char c = s.charAt(right);
-    count[c]++;
-    while (count[c] > 1) count[s.charAt(left++)]--;
-    best = Math.max(best, right - left + 1);
-}
-return best;`,
+    for (int right = 0; right < s.length(); right++) {
+        char c = s.charAt(right);
+        count[c]++;
+
+        while (count[c] > 1) count[s.charAt(left++)]--;   // shrink until c is unique again
+
+        best = Math.max(best, right - left + 1);
+    }
+    return best;
+}`,
     },
     insight: 'For "longest", record after restoring the invariant. For "shortest", record before shrinking past it. Getting that backwards is the classic window bug.',
   },
@@ -170,15 +200,18 @@ return best;`,
       idea: 'Map each word to a canonical key and group by it in a hash map. The 26-slot count vector avoids the sort entirely.',
       complexity: 'O(n · k) time, O(n · k) space',
       language: 'java',
-      code: `Map<String, List<String>> groups = new HashMap<>();
+      code: `List<List<String>> groupAnagrams(String[] words) {
+    Map<String, List<String>> groups = new HashMap<>();
 
-for (String word : words) {
-    int[] count = new int[26];
-    for (char c : word.toCharArray()) count[c - 'a']++;
-    String key = Arrays.toString(count);
-    groups.computeIfAbsent(key, k -> new ArrayList<>()).add(word);
-}
-return new ArrayList<>(groups.values());`,
+    for (String word : words) {
+        int[] count = new int[26];
+        for (char c : word.toCharArray()) count[c - 'a']++;
+
+        String key = Arrays.toString(count);              // counts, not the sorted word
+        groups.computeIfAbsent(key, ignored -> new ArrayList<>()).add(word);
+    }
+    return new ArrayList<>(groups.values());
+}`,
     },
     insight: 'Canonical form is a reusable move, not a string trick: define the equivalence, find a key every member produces, then let the map do the grouping.',
   },
@@ -200,15 +233,28 @@ return new ArrayList<>(groups.values());`,
       idea: 'Try all `2n - 1` centres and expand outward while the characters match, keeping the widest result.',
       complexity: 'O(n²) time, O(1) space',
       language: 'java',
-      code: `for (int centre = 0; centre < n; centre++) {
-    expand(centre, centre);       // odd length
-    expand(centre, centre + 1);   // even length
-}
+      code: `String longestPalindrome(String s) {
+    if (s.isEmpty()) return "";
 
-void expand(int lo, int hi) {
-    while (lo >= 0 && hi < n && s.charAt(lo) == s.charAt(hi)) { lo--; hi++; }
-    int length = hi - lo - 1;     // the loop overshot by one each side
-    if (length > best) { best = length; start = lo + 1; }
+    int start = 0, length = 1;
+
+    for (int centre = 0; centre < s.length(); centre++) {
+        for (int offset = 0; offset <= 1; offset++) {     // odd centre, then even
+            int lo = centre, hi = centre + offset;
+
+            while (lo >= 0 && hi < s.length() && s.charAt(lo) == s.charAt(hi)) {
+                lo--;
+                hi++;
+            }
+
+            int span = hi - lo - 1;                       // the loop overshot one each side
+            if (span > length) {
+                length = span;
+                start = lo + 1;
+            }
+        }
+    }
+    return s.substring(start, start + length);
 }`,
     },
     insight: 'Forgetting the even-length centres returns "bb" for "abba". Manacher gets this to O(n), but knowing that it exists is usually enough.',
@@ -231,13 +277,26 @@ void expand(int lo, int hi) {
       idea: 'Two pointers until a mismatch, then test whether skipping the left character or skipping the right one leaves a palindrome. Only one mismatch is allowed, so only one branch point exists.',
       complexity: 'O(n) time, O(1) space',
       language: 'java',
-      code: `int lo = 0, hi = s.length() - 1;
-while (lo < hi) {
-    if (s.charAt(lo) != s.charAt(hi))
-        return isPalindrome(s, lo + 1, hi) || isPalindrome(s, lo, hi - 1);
-    lo++; hi--;
+      code: `boolean validPalindrome(String s) {
+    int lo = 0, hi = s.length() - 1;
+
+    while (lo < hi) {
+        if (s.charAt(lo) != s.charAt(hi)) {
+            // Spend the one deletion on the left character or the right one.
+            return isPalindrome(s, lo + 1, hi) || isPalindrome(s, lo, hi - 1);
+        }
+        lo++;
+        hi--;
+    }
+    return true;
 }
-return true;`,
+
+private boolean isPalindrome(String s, int lo, int hi) {
+    while (lo < hi) {
+        if (s.charAt(lo++) != s.charAt(hi--)) return false;
+    }
+    return true;
+}`,
     },
     insight: 'The branch happens at most once, so the two extra checks are linear in total — not quadratic as they first appear.',
   },
@@ -261,11 +320,16 @@ return true;`,
       idea: 'One pass with a map from value to index. For each element compute the complement and look it up before inserting the current value.',
       complexity: 'O(n) time, O(n) space',
       language: 'java',
-      code: `Map<Integer, Integer> seen = new HashMap<>();
-for (int i = 0; i < n; i++) {
-    int need = target - a[i];
-    if (seen.containsKey(need)) return new int[] { seen.get(need), i };
-    seen.put(a[i], i);   // insert after checking
+      code: `int[] twoSum(int[] a, int target) {
+    Map<Integer, Integer> seen = new HashMap<>();   // value -> index
+
+    for (int i = 0; i < a.length; i++) {
+        int need = target - a[i];
+        if (seen.containsKey(need)) return new int[] { seen.get(need), i };
+
+        seen.put(a[i], i);                          // insert only after checking
+    }
+    return new int[] { -1, -1 };                    // the statement says this cannot happen
 }`,
     },
     insight: 'Inserting before checking lets an element pair with itself when `target == 2·a[i]`. That is a wrong answer, not a crash, which makes it worse.',
@@ -288,16 +352,22 @@ for (int i = 0; i < n; i++) {
       idea: 'A hash set plus a guard: only start walking upward from a value whose predecessor is absent. Every run is then walked exactly once.',
       complexity: 'O(n) time, O(n) space',
       language: 'java',
-      code: `Set<Integer> set = new HashSet<>(list);
-int best = 0;
+      code: `int longestConsecutive(int[] a) {
+    Set<Integer> set = new HashSet<>();
+    for (int value : a) set.add(value);
 
-for (int value : set) {
-    if (set.contains(value - 1)) continue;   // not the start of a run
-    int length = 1;
-    while (set.contains(value + length)) length++;
-    best = Math.max(best, length);
-}
-return best;`,
+    int best = 0;
+
+    for (int value : set) {
+        if (set.contains(value - 1)) continue;      // only start counting at a run's head
+
+        int length = 1;
+        while (set.contains(value + length)) length++;
+
+        best = Math.max(best, length);
+    }
+    return best;
+}`,
     },
     insight: 'The `value - 1` guard is what keeps it linear. Without it the inner loop re-walks every run from every member, making it quadratic.',
   },
@@ -319,18 +389,26 @@ return best;`,
       idea: 'Count, then bucket by frequency. Since no frequency exceeds `n`, an array of lists indexed by count can be read from the back for a linear answer. A size-k min-heap gives `O(n log k)` and works on streams.',
       complexity: 'O(n) time with bucketing, O(n) space',
       language: 'java',
-      code: `Map<Integer, Integer> count = new HashMap<>();
-for (int value : a) count.merge(value, 1, Integer::sum);
+      code: `int[] topKFrequent(int[] a, int k) {
+    Map<Integer, Integer> count = new HashMap<>();
+    for (int value : a) count.merge(value, 1, Integer::sum);
 
-List<Integer>[] buckets = new List[a.length + 1];
-count.forEach((value, freq) -> {
-    if (buckets[freq] == null) buckets[freq] = new ArrayList<>();
-    buckets[freq].add(value);
-});
+    // Bucket by frequency: a value can appear at most a.length times.
+    List<List<Integer>> buckets = new ArrayList<>();
+    for (int i = 0; i <= a.length; i++) buckets.add(new ArrayList<>());
+    count.forEach((value, freq) -> buckets.get(freq).add(value));
 
-List<Integer> out = new ArrayList<>();
-for (int f = a.length; f >= 1 && out.size() < k; f--)
-    if (buckets[f] != null) out.addAll(buckets[f]);`,
+    int[] out = new int[k];
+    int filled = 0;
+
+    for (int freq = a.length; freq >= 1 && filled < k; freq--) {
+        for (int value : buckets.get(freq)) {
+            if (filled == k) break;
+            out[filled++] = value;
+        }
+    }
+    return out;
+}`,
     },
     insight: 'Whenever the key you would sort by is bounded by `n`, bucketing replaces the sort and removes the log factor entirely.',
   },
@@ -352,16 +430,30 @@ for (int f = a.length; f >= 1 && out.size() < k; f--)
       idea: 'One pass, three arrays of sets. The box index is `(row / 3) * 3 + col / 3`, which is the only non-obvious line.',
       complexity: 'O(1) for a 9×9 board — O(n²) in general',
       language: 'java',
-      code: `Set<Character>[] rows = new Set[9], cols = new Set[9], boxes = new Set[9];
+      code: `boolean isValidSudoku(char[][] board) {
+    Set<Character>[] rows = new HashSet[9];
+    Set<Character>[] cols = new HashSet[9];
+    Set<Character>[] boxes = new HashSet[9];
 
-for (int r = 0; r < 9; r++)
-    for (int c = 0; c < 9; c++) {
-        char v = board[r][c];
-        if (v == '.') continue;
-        int b = (r / 3) * 3 + c / 3;
-        if (!rows[r].add(v) || !cols[c].add(v) || !boxes[b].add(v)) return false;
+    for (int i = 0; i < 9; i++) {
+        rows[i] = new HashSet<>();
+        cols[i] = new HashSet<>();
+        boxes[i] = new HashSet<>();
     }
-return true;`,
+
+    for (int r = 0; r < 9; r++) {
+        for (int c = 0; c < 9; c++) {
+            char v = board[r][c];
+            if (v == '.') continue;
+
+            int b = (r / 3) * 3 + c / 3;              // which 3x3 box this cell is in
+
+            // add() returns false when the digit was already there.
+            if (!rows[r].add(v) || !cols[c].add(v) || !boxes[b].add(v)) return false;
+        }
+    }
+    return true;
+}`,
     },
     insight: '`add` returning false on a duplicate lets three checks collapse into one condition. Recognising that three constraints share a shape is what keeps the code short.',
   },
