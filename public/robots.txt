@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vivekkumarq.github.io/algocircle/sitemap.xml
+Sitemap: https://algocircle.duckdns.org/sitemap.xml

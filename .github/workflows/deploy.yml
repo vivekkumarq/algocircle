@@ -30,7 +30,7 @@ jobs:
       - run: npm test
 
       - name: Build for GitHub Pages
-        run: npm run build -- --base-href /algocircle/
+        run: npm run build -- --base-href /
 
       - name: Prepare static output
         run: |
