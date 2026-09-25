@@ -387,3 +387,40 @@
 .definition :last-child {
   margin-bottom: 0;
 }
+
+/* The contents list follows the reader. */
+.toc a.is-current {
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.toc a {
+  position: relative;
+  padding-left: 10px;
+}
+
+.toc a::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 2px;
+  height: 0;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  transform: translateY(-50%);
+  transition: height var(--dur) var(--ease);
+}
+
+.toc a.is-current::before {
+  height: 68%;
+}
+
+/* Numbered headings, so a long topic reads as a sequence rather than a wall. */
+.section__num {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent-text);
+  opacity: 0.75;
+}

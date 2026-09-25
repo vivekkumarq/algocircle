@@ -157,6 +157,9 @@
 
 [data-theme='paper'] {
   color-scheme: light;
+  --text-inverse: #fbf8f3;
+  --info: #2f6f9e;
+  --info-soft: #e7f1f8;
 
   --shadow-xs: 0 1px 2px rgb(74 55 35 / 8%);
   --shadow-sm: 0 1px 3px rgb(74 55 35 / 10%), 0 1px 2px rgb(74 55 35 / 6%);
@@ -372,6 +375,7 @@
 
 [data-theme='slate'] {
   color-scheme: light;
+  --text-inverse: #f3f5f8;
 
   --bg-main: #f3f5f8;
   --bg-subtle: #e8ecf2;
@@ -412,6 +416,7 @@
 
 [data-theme='aurora'] {
   color-scheme: light;
+  --text-inverse: #f4fbf8;
 
   --bg-main: #f4fbf8;
   --bg-subtle: #e7f4ef;

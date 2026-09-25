@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CHAPTERS, chapterBySlug } from '../../data/chapters';
 import { Block } from '../../core/models/chapter.models';
@@ -44,6 +53,42 @@ export class ChapterPage {
       .filter((chapter) => chapter !== undefined),
   );
 
+  private readonly host = inject(ElementRef);
+
+  /**
+   * Which section is being read, so the contents list can follow along. An
+   * observer rather than a scroll handler: the browser reports when a heading
+   * crosses the line, and nothing runs while the page is still.
+   */
+  protected readonly reading = signal('');
+
+  private watchSections(onCleanup: (fn: () => void) => void): void {
+    if (typeof IntersectionObserver === 'undefined') return;
+
+    const element = this.host.nativeElement as HTMLElement;
+    const sections = [...element.querySelectorAll<HTMLElement>('section.section[id]')];
+    if (!sections.length) return;
+
+    const visible = new Set<string>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        }
+
+        // The first section still on screen, in document order.
+        const current = sections.find((section) => visible.has(section.id));
+        if (current) this.reading.set(current.id);
+      },
+      { rootMargin: '-72px 0px -55% 0px' },
+    );
+
+    for (const section of sections) observer.observe(section);
+    onCleanup(() => observer.disconnect());
+  }
+
   /**
    * A stable hue per topic, so each chapter gets its own background wash and
    * you can tell at a glance that the page changed.
@@ -58,6 +103,16 @@ export class ChapterPage {
   }
 
   constructor() {
+    // Re-observe whenever the topic changes: the component is reused across
+    // slugs, so the previous chapter's sections are gone by then.
+    effect((onCleanup) => {
+      this.chapter();
+      this.reading.set('');
+
+      const frame = requestAnimationFrame(() => this.watchSections(onCleanup));
+      onCleanup(() => cancelAnimationFrame(frame));
+    });
+
     // Chapter metadata lives with the chapter, so the route stays lazy and the
     // content is never pulled into the main bundle.
     effect(() => {

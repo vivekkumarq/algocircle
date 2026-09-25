@@ -32,7 +32,11 @@
         <summary class="toc__label">On this page</summary>
         <ol>
           @for (section of ch.sections; track section.id) {
-            <li><a [href]="'#' + section.id">{{ section.title }}</a></li>
+            <li>
+              <a [href]="'#' + section.id" [class.is-current]="reading() === section.id">
+                {{ section.title }}
+              </a>
+            </li>
           }
           <li><a href="#takeaways">Key takeaways</a></li>
         </ol>
@@ -53,9 +57,10 @@
           </ul>
         </section>
 
-        @for (section of ch.sections; track section.id) {
+        @for (section of ch.sections; track section.id; let i = $index) {
           <section class="section" [id]="section.id">
             <h2>
+              <span class="section__num">{{ pad(i + 1) }}</span>
               {{ section.title }}
               <a class="anchor" [href]="'#' + section.id" [attr.aria-label]="'Link to ' + section.title">#</a>
             </h2>

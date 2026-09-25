@@ -27,6 +27,7 @@ jobs:
 
       - run: npm ci
 
+      - run: npm run check:themes
       - run: npm test
 
       - name: Build for GitHub Pages

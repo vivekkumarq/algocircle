@@ -108,4 +108,25 @@ describe('chapters', () => {
       }
     }
   });
+
+  it('draws figures with the shared classes and nothing script-shaped', () => {
+    const figures = CHAPTERS.flatMap((chapter) =>
+      chapter.sections.flatMap((section) =>
+        section.blocks.filter((block) => block.kind === 'figure'),
+      ),
+    );
+
+    expect(figures.length).toBeGreaterThan(30);
+
+    for (const figure of figures) {
+      // The body is rendered as trusted markup, so it must stay inert.
+      expect(/<script|javascript:|\son\w+\s*=/i.test(figure.body), figure.label).toBe(false);
+
+      // Nothing may name a colour: a drawing has to work in every palette.
+      expect(/#[0-9a-f]{3,6}|rgb\(|hsl\(/i.test(figure.body), figure.label).toBe(false);
+
+      expect(figure.label.length, 'every figure needs an alt text').toBeGreaterThan(12);
+      expect(figure.height).toBeGreaterThan(40);
+    }
+  });
 });
