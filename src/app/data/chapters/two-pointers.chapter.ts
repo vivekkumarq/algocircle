@@ -138,6 +138,39 @@ target = 13
           text: 'Finding three values summing to a target is the standard extension: sort, fix the first element with an outer loop, and two-point the remaining suffix. That is `O(n^2)` overall, down from `O(n^3)`.',
         },
         {
+          kind: 'figure',
+          height: 190,
+          label: 'A sorted array with one fixed anchor and two pointers closing in',
+          caption: 'Every harder variant is this: fix what you must, two-point the rest.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Sort first, then fix one value and two-point the rest</text>
+<rect x="70" y="34" width="68" height="40" rx="4" class="dg-fill2" />
+<text x="104" y="58.5" class="dg-on" text-anchor="middle">-4</text>
+<rect x="146" y="34" width="68" height="40" rx="4" class="dg-box" />
+<text x="180" y="58.5" class="dg-t" text-anchor="middle">-1</text>
+<rect x="222" y="34" width="68" height="40" rx="4" class="dg-fill" />
+<text x="256" y="58.5" class="dg-t" text-anchor="middle">-1</text>
+<rect x="298" y="34" width="68" height="40" rx="4" class="dg-box" />
+<text x="332" y="58.5" class="dg-t" text-anchor="middle">0</text>
+<rect x="374" y="34" width="68" height="40" rx="4" class="dg-box" />
+<text x="408" y="58.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="450" y="34" width="68" height="40" rx="4" class="dg-fill" />
+<text x="484" y="58.5" class="dg-t" text-anchor="middle">2</text>
+<text x="104" y="96" class="dg-m" text-anchor="middle">fixed</text>
+<text x="256" y="96" class="dg-m" text-anchor="middle">lo</text>
+<text x="560" y="96" class="dg-m" text-anchor="middle">hi</text>
+<path class="dg-line" marker-end="url(#ah)" d="M104 92 L104 78" />
+<path class="dg-line" marker-end="url(#ah)" d="M256 92 L256 78" />
+<path class="dg-line" marker-end="url(#ah)" d="M560 92 L560 78" />
+<text x="310" y="130" class="dg-s" text-anchor="middle">sum too small → lo moves right</text>
+<text x="310" y="150" class="dg-s" text-anchor="middle">sum too large → hi moves left</text>
+<text x="0" y="178" class="dg-s" text-anchor="start">the outer loop is O(n) and the inner scan is O(n), so the whole thing is O(n squared)</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Triplets summing to zero, duplicates skipped',
@@ -246,6 +279,47 @@ after: [1][2][3] | 2  3   (tail is stale, length = 3)`,
           text: 'Sorting an array of only three distinct values does not need a sort. Three pointers do it in one pass: everything before `low` is the first value, everything after `high` is the third, and the middle is unprocessed.',
         },
         {
+          kind: 'figure',
+          height: 164,
+          label: 'An array split into settled zeroes, settled ones and an unseen tail',
+          caption: 'The invariant is the three regions; every step keeps them true.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Three regions, three pointers, one pass</text>
+<rect x="30" y="34" width="60" height="40" rx="4" class="dg-muted" />
+<text x="60" y="58.5" class="dg-t" text-anchor="middle">2</text>
+<rect x="98" y="34" width="60" height="40" rx="4" class="dg-fill" />
+<text x="128" y="58.5" class="dg-t" text-anchor="middle">0</text>
+<rect x="166" y="34" width="60" height="40" rx="4" class="dg-box" />
+<text x="196" y="58.5" class="dg-t" text-anchor="middle">2</text>
+<rect x="234" y="34" width="60" height="40" rx="4" class="dg-box" />
+<text x="264" y="58.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="302" y="34" width="60" height="40" rx="4" class="dg-box" />
+<text x="332" y="58.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="370" y="34" width="60" height="40" rx="4" class="dg-box" />
+<text x="400" y="58.5" class="dg-t" text-anchor="middle">0</text>
+<rect x="438" y="34" width="60" height="40" rx="4" class="dg-box" />
+<text x="468" y="58.5" class="dg-t" text-anchor="middle">2</text>
+<rect x="506" y="34" width="60" height="40" rx="4" class="dg-box" />
+<text x="536" y="58.5" class="dg-t" text-anchor="middle">0</text>
+<path class="dg-line" d="M30 84 L158 84" />
+<text x="94" y="100" class="dg-s" text-anchor="middle">settled 0s</text>
+<path class="dg-line" d="M166 84 L362 84" />
+<text x="264" y="100" class="dg-s" text-anchor="middle">settled 1s</text>
+<path class="dg-line" d="M370 84 L574 84" />
+<text x="472" y="100" class="dg-s" text-anchor="middle">unseen</text>
+<text x="60" y="126" class="dg-m" text-anchor="middle">low</text>
+<text x="196" y="126" class="dg-m" text-anchor="middle">mid</text>
+<text x="544" y="126" class="dg-m" text-anchor="middle">high</text>
+<path class="dg-line" marker-end="url(#ah)" d="M60 122 L60 106" />
+<path class="dg-line" marker-end="url(#ah)" d="M196 122 L196 106" />
+<path class="dg-line" marker-end="url(#ah)" d="M544 122 L544 106" />
+<text x="0" y="152" class="dg-s" text-anchor="start">swapping a 2 brings back something unseen, so mid must NOT advance</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Sort 0s, 1s and 2s in one pass, O(1) space',
@@ -288,6 +362,50 @@ while mid <= high:
         {
           kind: 'para',
           text: 'Two pointers over two arrays instead of one. This is the merge step of merge sort, and it appears on its own constantly.',
+        },
+        {
+          kind: 'figure',
+          height: 188,
+          label: 'Two sorted rows feeding one merged row',
+          caption: 'The comparison at the two heads decides which one advances.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Two sorted inputs, one output, each element copied once</text>
+<rect x="30" y="30" width="54" height="36" rx="4" class="dg-fill" />
+<text x="57" y="52.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="90" y="30" width="54" height="36" rx="4" class="dg-box" />
+<text x="117" y="52.5" class="dg-t" text-anchor="middle">4</text>
+<rect x="150" y="30" width="54" height="36" rx="4" class="dg-box" />
+<text x="177" y="52.5" class="dg-t" text-anchor="middle">7</text>
+<text x="12" y="54" class="dg-m" text-anchor="end">a</text>
+<rect x="30" y="86" width="54" height="36" rx="4" class="dg-fill" />
+<text x="57" y="108.5" class="dg-t" text-anchor="middle">2</text>
+<rect x="90" y="86" width="54" height="36" rx="4" class="dg-box" />
+<text x="117" y="108.5" class="dg-t" text-anchor="middle">3</text>
+<rect x="150" y="86" width="54" height="36" rx="4" class="dg-box" />
+<text x="177" y="108.5" class="dg-t" text-anchor="middle">9</text>
+<text x="12" y="110" class="dg-m" text-anchor="end">b</text>
+<text x="60" y="152" class="dg-m" text-anchor="middle">i</text>
+<text x="60" y="24" class="dg-m" text-anchor="middle">j</text>
+<path class="dg-line" marker-end="url(#ah)" d="M210 84 L268 84" />
+<text x="239" y="72" class="dg-s" text-anchor="middle">take the smaller</text>
+<rect x="300" y="58" width="46" height="36" rx="4" class="dg-fill2" />
+<text x="323" y="80.5" class="dg-on" text-anchor="middle">1</text>
+<rect x="352" y="58" width="46" height="36" rx="4" class="dg-box" />
+<text x="375" y="80.5" class="dg-t" text-anchor="middle">2</text>
+<rect x="404" y="58" width="46" height="36" rx="4" class="dg-box" />
+<text x="427" y="80.5" class="dg-t" text-anchor="middle">3</text>
+<rect x="456" y="58" width="46" height="36" rx="4" class="dg-box" />
+<text x="479" y="80.5" class="dg-t" text-anchor="middle">4</text>
+<rect x="508" y="58" width="46" height="36" rx="4" class="dg-box" />
+<text x="531" y="80.5" class="dg-t" text-anchor="middle">7</text>
+<rect x="560" y="58" width="46" height="36" rx="4" class="dg-box" />
+<text x="583" y="80.5" class="dg-t" text-anchor="middle">9</text>
+<text x="456" y="120" class="dg-m" text-anchor="middle">merged</text>
+<text x="0" y="176" class="dg-s" text-anchor="start">neither index ever moves back, so the whole merge is O(n + m)</text>`,
         },
         {
           kind: 'code',

@@ -70,6 +70,53 @@ export const SLIDING_WINDOW: Chapter = {
           text: 'The simplest case: the window is always exactly `k` wide. Add the entering element, remove the leaving one, read the answer.',
         },
         {
+          kind: 'figure',
+          height: 212,
+          label: 'The same array with a three-wide window before and after one step',
+          caption: 'Only the two edges change, so each step is constant work.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">The window of size 3 moves one step</text>
+<rect x="40" y="32" width="62" height="40" rx="4" class="dg-fill" />
+<text x="71" y="56.5" class="dg-t" text-anchor="middle">3</text>
+<rect x="108" y="32" width="62" height="40" rx="4" class="dg-fill" />
+<text x="139" y="56.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="176" y="32" width="62" height="40" rx="4" class="dg-fill" />
+<text x="207" y="56.5" class="dg-t" text-anchor="middle">4</text>
+<rect x="244" y="32" width="62" height="40" rx="4" class="dg-box" />
+<text x="275" y="56.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="312" y="32" width="62" height="40" rx="4" class="dg-box" />
+<text x="343" y="56.5" class="dg-t" text-anchor="middle">5</text>
+<rect x="380" y="32" width="62" height="40" rx="4" class="dg-box" />
+<text x="411" y="56.5" class="dg-t" text-anchor="middle">9</text>
+<rect x="448" y="32" width="62" height="40" rx="4" class="dg-box" />
+<text x="479" y="56.5" class="dg-t" text-anchor="middle">2</text>
+<text x="560" y="58" class="dg-m" text-anchor="start">sum 8</text>
+<rect x="40" y="110" width="62" height="40" rx="4" class="dg-box" />
+<text x="71" y="134.5" class="dg-t" text-anchor="middle">3</text>
+<rect x="108" y="110" width="62" height="40" rx="4" class="dg-fill" />
+<text x="139" y="134.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="176" y="110" width="62" height="40" rx="4" class="dg-fill" />
+<text x="207" y="134.5" class="dg-t" text-anchor="middle">4</text>
+<rect x="244" y="110" width="62" height="40" rx="4" class="dg-fill" />
+<text x="275" y="134.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="312" y="110" width="62" height="40" rx="4" class="dg-box" />
+<text x="343" y="134.5" class="dg-t" text-anchor="middle">5</text>
+<rect x="380" y="110" width="62" height="40" rx="4" class="dg-box" />
+<text x="411" y="134.5" class="dg-t" text-anchor="middle">9</text>
+<rect x="448" y="110" width="62" height="40" rx="4" class="dg-box" />
+<text x="479" y="134.5" class="dg-t" text-anchor="middle">2</text>
+<text x="560" y="136" class="dg-m" text-anchor="start">sum 6</text>
+<path class="dg-dash" marker-end="url(#ah)" d="M71 104 L71 82" />
+<text x="71" y="100" class="dg-s" text-anchor="middle"></text>
+<text x="150" y="176" class="dg-s" text-anchor="middle">drop a[0] = 3</text>
+<text x="330" y="176" class="dg-s" text-anchor="middle">add a[3] = 1</text>
+<text x="0" y="200" class="dg-s" text-anchor="start">one subtraction and one addition — never a fresh loop over the window</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Maximum sum of any k consecutive elements',
@@ -106,6 +153,31 @@ for right in range(k, len(a)):
         {
           kind: 'para',
           text: 'Most problems have a rule instead of a size: "at most K distinct", "no repeated character", "sum at least S". The window grows on the right and shrinks on the left only while the rule is violated.',
+        },
+        {
+          kind: 'figure',
+          height: 184,
+          label: 'A valid window with a left and a right edge, both moving forward only',
+          caption: 'Record the answer after shrinking for a longest, inside the shrink for a shortest.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Grow on the right while you can, shrink on the left while you must</text>
+<rect x="40" y="40" width="260" height="44" rx="6" class="dg-fill" />
+<text x="170" y="67" class="dg-t" text-anchor="middle">valid window</text>
+<rect x="300" y="40" width="240" height="44" rx="6" class="dg-muted" />
+<text x="420" y="67" class="dg-s" text-anchor="middle">not looked at yet</text>
+<text x="40" y="104" class="dg-m" text-anchor="middle">left</text>
+<text x="300" y="104" class="dg-m" text-anchor="middle">right</text>
+<path class="dg-line" marker-end="url(#ah)" d="M40 100 L40 88" />
+<path class="dg-line" marker-end="url(#ah)" d="M300 100 L300 88" />
+<path class="dg-line" marker-end="url(#ah)" d="M300 122 L380 122" />
+<text x="340" y="140" class="dg-s" text-anchor="middle">right always advances</text>
+<path class="dg-line" marker-end="url(#ah)" d="M40 122 L120 122" />
+<text x="80" y="140" class="dg-s" text-anchor="middle">left only when invalid</text>
+<text x="0" y="172" class="dg-s" text-anchor="start">neither edge ever goes backwards, so the nested loop is still O(n)</text>`,
         },
         {
           kind: 'code',
@@ -207,6 +279,30 @@ L---R                 "abc"      best = 3
           text: '"At most K" is a natural window rule: the window shrinks while the count exceeds K. "Exactly K" is not — a window can be valid, then invalid, then valid again, so the two pointers cannot both stay monotonic.',
         },
         {
+          kind: 'figure',
+          height: 238,
+          label: 'At most K minus at most K minus one equals exactly K',
+          caption: 'The trick is that "at most" is easy to count and "exactly" is not.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Exactly K is a subtraction of two easier counts</text>
+<rect x="40" y="40" width="230" height="54" rx="6" class="dg-fill" />
+<text x="155" y="71.5" class="dg-t" text-anchor="middle">at most K</text>
+<text x="155" y="112" class="dg-s" text-anchor="middle">windows with K or fewer distinct</text>
+<text x="300" y="74" class="dg-t" text-anchor="middle">−</text>
+<rect x="330" y="40" width="230" height="54" rx="6" class="dg-muted" />
+<text x="445" y="71.5" class="dg-t" text-anchor="middle">at most K − 1</text>
+<text x="445" y="112" class="dg-s" text-anchor="middle">windows with K − 1 or fewer</text>
+<path class="dg-line" marker-end="url(#ah)" d="M155 128 L155 154" />
+<path class="dg-line" marker-end="url(#ah)" d="M445 128 L445 154" />
+<rect x="180" y="156" width="240" height="46" rx="6" class="dg-fill2" />
+<text x="300" y="183.5" class="dg-on" text-anchor="middle">exactly K</text>
+<text x="0" y="226" class="dg-s" text-anchor="start">one function, called twice — there is no separate "exactly" scan to write</text>`,
+        },
+        {
           kind: 'para',
           text: 'The fix is a subtraction. Any window with exactly K distinct values is one with at most K minus one with at most K-1.',
         },
@@ -284,6 +380,34 @@ def at_most(a: list[int], k: int) -> int:
         {
           kind: 'para',
           text: 'Some window questions ask for the maximum or minimum inside the window. Rescanning is `O(n k)`. A deque holding indices in decreasing order of value gives `O(n)`.',
+        },
+        {
+          kind: 'figure',
+          height: 146,
+          label: 'A monotonic deque dropping smaller values when a larger one arrives',
+          caption: 'Anything smaller than the arriving value can never be a maximum again.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">The deque holds indices whose values only decrease</text>
+<rect x="40" y="34" width="70" height="42" rx="4" class="dg-fill2" />
+<text x="75" y="59.5" class="dg-on" text-anchor="middle">9</text>
+<rect x="118" y="34" width="70" height="42" rx="4" class="dg-box" />
+<text x="153" y="59.5" class="dg-t" text-anchor="middle">6</text>
+<rect x="196" y="34" width="70" height="42" rx="4" class="dg-box" />
+<text x="231" y="59.5" class="dg-t" text-anchor="middle">4</text>
+<text x="75" y="92" class="dg-m" text-anchor="middle">front = the answer</text>
+<text x="266" y="60" class="dg-m" text-anchor="start">back</text>
+<path class="dg-line" marker-end="url(#ah)" d="M320 55 L380 55" />
+<text x="350" y="40" class="dg-s" text-anchor="middle">a[i] = 7 arrives</text>
+<rect x="400" y="34" width="70" height="42" rx="4" class="dg-fill2" />
+<text x="435" y="59.5" class="dg-on" text-anchor="middle">9</text>
+<rect x="478" y="34" width="70" height="42" rx="4" class="dg-box" />
+<text x="513" y="59.5" class="dg-t" text-anchor="middle">7</text>
+<text x="470" y="92" class="dg-s" text-anchor="middle">6 and 4 popped: smaller and older</text>
+<text x="0" y="132" class="dg-s" text-anchor="start">each index is pushed once and popped once, so the whole sweep is O(n)</text>`,
         },
         {
           kind: 'code',

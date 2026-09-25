@@ -411,3 +411,117 @@ tbody tr:last-child td {
   color: var(--accent-text);
   font-weight: 600;
 }
+
+/* ---- Figures ----
+
+   One drawing has to be right in seven palettes, so nothing inside a figure
+   names a colour: shapes stroke with currentColor and fill from the accent
+   tokens. `dg-line` sets fill:none, which would hollow out an arrowhead that
+   inherited it, so markers get their own rule. */
+
+.figure {
+  margin: var(--space-5) 0;
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  background-image: var(--sheen);
+  color: var(--text-secondary);
+}
+
+.figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.figure figcaption {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+:host ::ng-deep {
+  .dg-line {
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .dg-thin {
+    fill: none;
+    stroke: var(--border-strong);
+    stroke-width: 1;
+  }
+
+  .dg-dash {
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 1.3;
+    stroke-dasharray: 4 4;
+    opacity: 0.7;
+  }
+
+  .dg-box {
+    fill: var(--bg-subtle);
+    stroke: var(--border-strong);
+    stroke-width: 1.2;
+  }
+
+  .dg-fill {
+    fill: var(--accent-soft);
+    stroke: var(--accent);
+    stroke-width: 1.2;
+  }
+
+  .dg-fill2 {
+    fill: var(--accent);
+    stroke: var(--accent);
+    stroke-width: 1.2;
+  }
+
+  .dg-muted {
+    fill: var(--bg-inset);
+    stroke: var(--border);
+    stroke-width: 1.2;
+  }
+
+  .dg-t {
+    fill: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 13px;
+  }
+
+  .dg-on {
+    fill: var(--accent-contrast);
+    font-family: var(--font-sans);
+    font-size: 13px;
+  }
+
+  .dg-s {
+    fill: var(--text-muted);
+    font-family: var(--font-sans);
+    font-size: 11px;
+  }
+
+  .dg-m {
+    fill: var(--accent-text);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .dg-mid {
+    text-anchor: middle;
+  }
+
+  /* Arrowheads fill; they must not inherit the fill:none above. */
+  .dg-head {
+    fill: currentcolor;
+    stroke: none;
+  }
+}

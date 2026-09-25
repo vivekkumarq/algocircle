@@ -249,6 +249,35 @@ for centre in range(len(s)):
           text: 'Compare a fingerprint instead of the characters. Treat a string as a number in base `b` modulo a large prime; sliding the window one step costs `O(1)` instead of `O(m)`.',
         },
         {
+          kind: 'figure',
+          height: 208,
+          label: 'A window over a string with one character leaving and one arriving',
+          caption: 'The hash is updated, never recomputed — that is what makes it worth it.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Drop the leading character, append the new one</text>
+<rect x="70" y="34" width="64" height="42" rx="4" class="dg-muted" />
+<text x="102" y="59.5" class="dg-t" text-anchor="middle">a</text>
+<rect x="142" y="34" width="64" height="42" rx="4" class="dg-fill" />
+<text x="174" y="59.5" class="dg-t" text-anchor="middle">b</text>
+<rect x="214" y="34" width="64" height="42" rx="4" class="dg-fill" />
+<text x="246" y="59.5" class="dg-t" text-anchor="middle">c</text>
+<rect x="286" y="34" width="64" height="42" rx="4" class="dg-fill2" />
+<text x="318" y="59.5" class="dg-on" text-anchor="middle">d</text>
+<rect x="358" y="34" width="64" height="42" rx="4" class="dg-box" />
+<text x="390" y="59.5" class="dg-t" text-anchor="middle">e</text>
+<text x="102" y="96" class="dg-s" text-anchor="middle">leaves</text>
+<text x="318" y="96" class="dg-s" text-anchor="middle">arrives</text>
+<path class="dg-line" marker-end="url(#ah)" d="M102 92 L102 80" />
+<path class="dg-line" marker-end="url(#ah)" d="M318 92 L318 80" />
+<text x="310" y="136" class="dg-m" text-anchor="middle">hash = (hash − a · b^(m-1)) · b + d</text>
+<text x="310" y="162" class="dg-s" text-anchor="middle">constant work per position, so the scan is O(n)</text>
+<text x="0" y="196" class="dg-s" text-anchor="start">a match on the hash still needs a real comparison — hashes collide</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Rolling the window forward by one character',

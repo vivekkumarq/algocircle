@@ -61,6 +61,17 @@
   --wash-opacity: 0.5;
   --wash-light: 62%;
 
+  /* Recipe for a per-topic accent. A topic supplies only a hue; these decide
+     how light and how saturated it comes out, so contrast stays even across
+     every hue and every palette. See `chapter-page.scss`. */
+  --accent-l: 52%;
+  --accent-c: 0.15;
+  --accent-hover-l: 44%;
+  --accent-text-l: 42%;
+  --accent-soft-l: 95%;
+  --accent-soft-c: 0.045;
+  --accent-contrast-l: 100%;
+
   /* Depth and light. Every one is derived from the palette above with
      color-mix, so a new theme inherits the whole set for free. */
   --watermark-opacity: 0.05;
@@ -147,6 +158,18 @@
 [data-theme='paper'] {
   color-scheme: light;
 
+  --shadow-xs: 0 1px 2px rgb(74 55 35 / 8%);
+  --shadow-sm: 0 1px 3px rgb(74 55 35 / 10%), 0 1px 2px rgb(74 55 35 / 6%);
+  --shadow-md: 0 6px 16px rgb(74 55 35 / 11%), 0 2px 6px rgb(74 55 35 / 6%);
+  --shadow-lg: 0 18px 44px rgb(74 55 35 / 16%), 0 4px 12px rgb(74 55 35 / 9%);
+
+  --accent-l: 48%;
+  --accent-c: 0.11;
+  --accent-hover-l: 41%;
+  --accent-text-l: 38%;
+  --accent-soft-l: 93%;
+  --accent-soft-c: 0.04;
+
   --bg-main: #fbf8f3;
   --bg-subtle: #f4efe6;
   --bg-card: #fffdf9;
@@ -184,6 +207,14 @@
 
 [data-theme='dark'] {
   color-scheme: dark;
+
+  --accent-l: 74%;
+  --accent-c: 0.13;
+  --accent-hover-l: 82%;
+  --accent-text-l: 80%;
+  --accent-soft-l: 26%;
+  --accent-soft-c: 0.05;
+  --accent-contrast-l: 14%;
 
   --bg-main: #0b0d12;
   --bg-subtle: #0f1218;
@@ -232,6 +263,14 @@
 [data-theme='midnight'] {
   color-scheme: dark;
 
+  --accent-l: 74%;
+  --accent-c: 0.13;
+  --accent-hover-l: 82%;
+  --accent-text-l: 80%;
+  --accent-soft-l: 26%;
+  --accent-soft-c: 0.05;
+  --accent-contrast-l: 14%;
+
   --bg-main: #0a0a18;
   --bg-subtle: #0f0f22;
   --bg-card: #14142c;
@@ -278,6 +317,14 @@
 
 [data-theme='forest'] {
   color-scheme: dark;
+
+  --accent-l: 74%;
+  --accent-c: 0.13;
+  --accent-hover-l: 82%;
+  --accent-text-l: 80%;
+  --accent-soft-l: 26%;
+  --accent-soft-c: 0.05;
+  --accent-contrast-l: 14%;
 
   --bg-main: #0a1210;
   --bg-subtle: #0e1815;
@@ -499,6 +546,19 @@
 
 [data-theme='contrast'] {
   color-scheme: dark;
+
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 80%);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 85%), 0 1px 2px rgb(0 0 0 / 60%);
+  --shadow-md: 0 8px 20px rgb(0 0 0 / 85%), 0 2px 6px rgb(0 0 0 / 60%);
+  --shadow-lg: 0 22px 50px rgb(0 0 0 / 90%), 0 6px 14px rgb(0 0 0 / 70%);
+
+  --accent-l: 74%;
+  --accent-c: 0.13;
+  --accent-hover-l: 82%;
+  --accent-text-l: 80%;
+  --accent-soft-l: 26%;
+  --accent-soft-c: 0.05;
+  --accent-contrast-l: 14%;
 
   --bg-main: #000000;
   --bg-subtle: #0a0a0a;

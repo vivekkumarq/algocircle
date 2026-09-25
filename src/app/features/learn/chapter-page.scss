@@ -6,6 +6,21 @@
   position: relative;
 }
 
+/* Every topic carries its own accent, mixed from one hue so the whole page —
+   links, chips, the definition panel, focus rings, the code tabs, the wash —
+   recolours together. oklch keeps the lightness fixed while the hue turns, so
+   contrast does not drift from one topic to the next. Palettes that do not
+   support it simply keep the theme accent. */
+@supports (color: oklch(50% 0.1 200)) {
+  .chapter {
+    --accent: oklch(var(--accent-l) var(--accent-c) var(--hue));
+    --accent-hover: oklch(var(--accent-hover-l) var(--accent-c) var(--hue));
+    --accent-text: oklch(var(--accent-text-l) var(--accent-c) var(--hue));
+    --accent-soft: oklch(var(--accent-soft-l) var(--accent-soft-c) var(--hue));
+    --accent-contrast: oklch(var(--accent-contrast-l) 0 0);
+  }
+}
+
 /* A soft, topic-coloured wash behind the page. Sits under the content and is
    never dark enough to fight with the text. */
 .backdrop {

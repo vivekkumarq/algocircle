@@ -248,6 +248,40 @@ export const SORTING: Chapter = {
           text: 'A sort that only compares elements is a decision tree: each comparison has two outcomes, and every leaf is one possible ordering. With `n` elements there are `n!` orderings, so the tree needs at least `n!` leaves.',
         },
         {
+          kind: 'figure',
+          height: 252,
+          label: 'A decision tree whose leaves are the possible orderings of the input',
+          caption: 'The bound is about information, not cleverness — which is why counting sort escapes it.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Every comparison is one yes/no answer, so a sort is a decision tree</text>
+<circle cx="300" cy="44" r="9" class="dg-fill" />
+<text x="300" y="48.5" class="dg-t" text-anchor="middle"></text>
+<path class="dg-thin" d="M300 53 L180 98" />
+<path class="dg-thin" d="M300 53 L420 98" />
+<circle cx="180" cy="110" r="9" class="dg-box" />
+<text x="180" y="114.5" class="dg-t" text-anchor="middle"></text>
+<circle cx="420" cy="110" r="9" class="dg-box" />
+<text x="420" y="114.5" class="dg-t" text-anchor="middle"></text>
+<path class="dg-thin" d="M180 119 L120 164" />
+<path class="dg-thin" d="M180 119 L240 164" />
+<circle cx="120" cy="176" r="8" class="dg-fill2" />
+<text x="120" y="180.5" class="dg-on" text-anchor="middle"></text>
+<circle cx="240" cy="176" r="8" class="dg-fill2" />
+<text x="240" y="180.5" class="dg-on" text-anchor="middle"></text>
+<path class="dg-thin" d="M420 119 L360 164" />
+<path class="dg-thin" d="M420 119 L480 164" />
+<circle cx="360" cy="176" r="8" class="dg-fill2" />
+<text x="360" y="180.5" class="dg-on" text-anchor="middle"></text>
+<circle cx="480" cy="176" r="8" class="dg-fill2" />
+<text x="480" y="180.5" class="dg-on" text-anchor="middle"></text>
+<text x="300" y="214" class="dg-s" text-anchor="middle">n! possible orderings must all be reachable leaves</text>
+<text x="300" y="238" class="dg-m" text-anchor="middle">a tree of depth d has at most 2^d leaves, so d ≥ log2(n!) ≈ n log n</text>`,
+        },
+        {
           kind: 'para',
           text: 'A binary tree of height `h` has at most `2^h` leaves, so `2^h >= n!`, giving `h >= log2(n!)`, which is `Omega(n log n)`. No cleverness in comparisons escapes it.',
         },
@@ -389,6 +423,41 @@ unstable: (Cy, A)  (Bob, B)  (Ann, B)   <- also "sorted", different answer`,
         {
           kind: 'para',
           text: 'Most sorting in problem solving is sorting **by** something: an interval start, a distance, a frequency, a ratio.',
+        },
+        {
+          kind: 'figure',
+          height: 220,
+          label: 'Pairs sorted by their first field and then by their second',
+          caption: 'Most interval problems are decided entirely by which field you sort on.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Sort by one field, break ties with another</text>
+<rect x="40" y="36" width="92" height="42" rx="4" class="dg-box" />
+<text x="86" y="61.5" class="dg-t" text-anchor="middle">2,9</text>
+<rect x="142" y="36" width="92" height="42" rx="4" class="dg-box" />
+<text x="188" y="61.5" class="dg-t" text-anchor="middle">1,4</text>
+<rect x="244" y="36" width="92" height="42" rx="4" class="dg-box" />
+<text x="290" y="61.5" class="dg-t" text-anchor="middle">2,3</text>
+<rect x="346" y="36" width="92" height="42" rx="4" class="dg-box" />
+<text x="392" y="61.5" class="dg-t" text-anchor="middle">1,7</text>
+<path class="dg-line" marker-end="url(#ah)" d="M300 100 L300 128" />
+<text x="300" y="120" class="dg-s" text-anchor="middle"></text>
+<rect x="40" y="136" width="92" height="42" rx="4" class="dg-fill" />
+<text x="86" y="161.5" class="dg-t" text-anchor="middle">1,4</text>
+<rect x="142" y="136" width="92" height="42" rx="4" class="dg-fill" />
+<text x="188" y="161.5" class="dg-t" text-anchor="middle">1,7</text>
+<rect x="244" y="136" width="92" height="42" rx="4" class="dg-fill2" />
+<text x="290" y="161.5" class="dg-on" text-anchor="middle">2,3</text>
+<rect x="346" y="136" width="92" height="42" rx="4" class="dg-fill2" />
+<text x="392" y="161.5" class="dg-on" text-anchor="middle">2,9</text>
+<text x="460" y="62" class="dg-s" text-anchor="start">first field ascending</text>
+<text x="460" y="86" class="dg-s" text-anchor="start">then second ascending</text>
+<text x="460" y="150" class="dg-m" text-anchor="start">subtracting can overflow</text>
+<text x="460" y="172" class="dg-s" text-anchor="start">compare, do not subtract</text>
+<text x="0" y="208" class="dg-s" text-anchor="start">a comparator must be consistent, or the sort is allowed to do anything</text>`,
         },
         {
           kind: 'code',

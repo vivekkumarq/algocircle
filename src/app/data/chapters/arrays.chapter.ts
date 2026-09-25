@@ -96,6 +96,45 @@ while lo < hi:
     lo += 1; hi -= 1`,
         },
         {
+          kind: 'figure',
+          height: 196,
+          label: 'Forward, backward and two-ended traversals of the same array',
+          caption: 'Choosing the direction is often the whole trick.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Three shapes cover most single-array work</text>
+<text x="10" y="48" class="dg-m" text-anchor="start">forward</text>
+<rect x="120" y="30" width="44" height="28" rx="4" class="dg-fill" />
+<rect x="169" y="30" width="44" height="28" rx="4" class="dg-box" />
+<rect x="218" y="30" width="44" height="28" rx="4" class="dg-box" />
+<rect x="267" y="30" width="44" height="28" rx="4" class="dg-box" />
+<rect x="316" y="30" width="44" height="28" rx="4" class="dg-box" />
+<path class="dg-dash" marker-end="url(#ah)" d="M130 44 L348 44" />
+<text x="10" y="108" class="dg-m" text-anchor="start">backward</text>
+<rect x="120" y="90" width="44" height="28" rx="4" class="dg-box" />
+<rect x="169" y="90" width="44" height="28" rx="4" class="dg-box" />
+<rect x="218" y="90" width="44" height="28" rx="4" class="dg-box" />
+<rect x="267" y="90" width="44" height="28" rx="4" class="dg-box" />
+<rect x="316" y="90" width="44" height="28" rx="4" class="dg-fill" />
+<path class="dg-dash" marker-end="url(#ah)" d="M348 104 L130 104" />
+<text x="10" y="168" class="dg-m" text-anchor="start">both ends</text>
+<rect x="120" y="150" width="44" height="28" rx="4" class="dg-fill" />
+<rect x="169" y="150" width="44" height="28" rx="4" class="dg-box" />
+<rect x="218" y="150" width="44" height="28" rx="4" class="dg-box" />
+<rect x="267" y="150" width="44" height="28" rx="4" class="dg-box" />
+<rect x="316" y="150" width="44" height="28" rx="4" class="dg-fill" />
+<path class="dg-dash" marker-end="url(#ah)" d="M130 164 L224 164" />
+<path class="dg-dash" marker-end="url(#ah)" d="M348 164 L254 164" />
+<text x="420" y="60" class="dg-s" text-anchor="start">backward is the one</text>
+<text x="420" y="80" class="dg-s" text-anchor="start">people forget, and it</text>
+<text x="420" y="100" class="dg-s" text-anchor="start">is what lets you write</text>
+<text x="420" y="120" class="dg-s" text-anchor="start">into the same array</text>
+<text x="420" y="140" class="dg-s" text-anchor="start">you are reading.</text>`,
+        },
+        {
           kind: 'para',
           text: 'Reaching for a backward pass is a genuine technique, not a curiosity. Any question of the form "for each position, something about everything to its right" becomes linear when you sweep from the right and carry a running value.',
         },
@@ -128,6 +167,47 @@ for price in reversed(prices):
         {
           kind: 'para',
           text: 'Many array problems ask for `O(1)` extra space. The standard device is a **write pointer**: read with one index, write with another, and the array in front of the write pointer is always the answer so far.',
+        },
+        {
+          kind: 'figure',
+          height: 258,
+          label: 'A read index scanning while a write index compacts the kept values',
+          caption: 'The in-place filter: write only advances when something is worth keeping.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">One index reads, another marks where the next keeper goes</text>
+<rect x="40" y="34" width="66" height="42" rx="4" class="dg-fill" />
+<text x="73" y="59.5" class="dg-t" text-anchor="middle">3</text>
+<rect x="114" y="34" width="66" height="42" rx="4" class="dg-box" />
+<text x="147" y="59.5" class="dg-t" text-anchor="middle">0</text>
+<rect x="188" y="34" width="66" height="42" rx="4" class="dg-fill" />
+<text x="221" y="59.5" class="dg-t" text-anchor="middle">5</text>
+<rect x="262" y="34" width="66" height="42" rx="4" class="dg-box" />
+<text x="295" y="59.5" class="dg-t" text-anchor="middle">0</text>
+<rect x="336" y="34" width="66" height="42" rx="4" class="dg-fill" />
+<text x="369" y="59.5" class="dg-t" text-anchor="middle">7</text>
+<text x="73" y="98" class="dg-m" text-anchor="middle">write</text>
+<text x="370" y="98" class="dg-m" text-anchor="middle">read</text>
+<path class="dg-line" marker-end="url(#ah)" d="M73 94 L73 82" />
+<path class="dg-line" marker-end="url(#ah)" d="M370 94 L370 82" />
+<path class="dg-line" marker-end="url(#ah)" d="M300 130 L360 130" />
+<text x="330" y="148" class="dg-s" text-anchor="middle"></text>
+<rect x="40" y="152" width="66" height="42" rx="4" class="dg-fill" />
+<text x="73" y="177.5" class="dg-t" text-anchor="middle">3</text>
+<rect x="114" y="152" width="66" height="42" rx="4" class="dg-fill" />
+<text x="147" y="177.5" class="dg-t" text-anchor="middle">5</text>
+<rect x="188" y="152" width="66" height="42" rx="4" class="dg-fill" />
+<text x="221" y="177.5" class="dg-t" text-anchor="middle">7</text>
+<rect x="262" y="152" width="66" height="42" rx="4" class="dg-box" />
+<text x="295" y="177.5" class="dg-t" text-anchor="middle">0</text>
+<rect x="336" y="152" width="66" height="42" rx="4" class="dg-box" />
+<text x="369" y="177.5" class="dg-t" text-anchor="middle">0</text>
+<path class="dg-thin" d="M40 200 q0 6 6 6 H145 q6 0 6 6 q0 -6 6 -6 H256 q6 0 6 -6" />
+<text x="151" y="226" class="dg-m" text-anchor="middle">kept, in order</text>
+<text x="0" y="246" class="dg-s" text-anchor="start">no second array, and the relative order of the keepers survives</text>`,
         },
         {
           kind: 'code',
@@ -380,6 +460,53 @@ return best`,
         {
           kind: 'para',
           text: 'When values come from a small known range — lowercase letters, digits, ages, values up to `10^5` — an array indexed by the value itself beats a hash map on both speed and memory.',
+        },
+        {
+          kind: 'figure',
+          height: 228,
+          label: 'Letters counted into a fixed array indexed by letter',
+          caption: 'Same idea as a hash map, with the hash function replaced by subtraction.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">When the alphabet is small, the index IS the lookup</text>
+<rect x="40" y="34" width="54" height="40" rx="4" class="dg-box" />
+<text x="67" y="58.5" class="dg-t" text-anchor="middle">b</text>
+<rect x="100" y="34" width="54" height="40" rx="4" class="dg-box" />
+<text x="127" y="58.5" class="dg-t" text-anchor="middle">a</text>
+<rect x="160" y="34" width="54" height="40" rx="4" class="dg-box" />
+<text x="187" y="58.5" class="dg-t" text-anchor="middle">n</text>
+<rect x="220" y="34" width="54" height="40" rx="4" class="dg-box" />
+<text x="247" y="58.5" class="dg-t" text-anchor="middle">a</text>
+<rect x="280" y="34" width="54" height="40" rx="4" class="dg-box" />
+<text x="307" y="58.5" class="dg-t" text-anchor="middle">n</text>
+<rect x="340" y="34" width="54" height="40" rx="4" class="dg-box" />
+<text x="367" y="58.5" class="dg-t" text-anchor="middle">a</text>
+<path class="dg-line" marker-end="url(#ah)" d="M196 96 L196 124" />
+<rect x="40" y="132" width="54" height="40" rx="4" class="dg-fill2" />
+<text x="67" y="156.5" class="dg-on" text-anchor="middle">3</text>
+<rect x="100" y="132" width="54" height="40" rx="4" class="dg-box" />
+<text x="127" y="156.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="160" y="132" width="54" height="40" rx="4" class="dg-box" />
+<text x="187" y="156.5" class="dg-t" text-anchor="middle">0</text>
+<rect x="220" y="132" width="54" height="40" rx="4" class="dg-box" />
+<text x="247" y="156.5" class="dg-t" text-anchor="middle">…</text>
+<rect x="280" y="132" width="54" height="40" rx="4" class="dg-fill" />
+<text x="307" y="156.5" class="dg-t" text-anchor="middle">2</text>
+<rect x="340" y="132" width="54" height="40" rx="4" class="dg-box" />
+<text x="367" y="156.5" class="dg-t" text-anchor="middle">0</text>
+<text x="67" y="190" class="dg-s" text-anchor="middle">a</text>
+<text x="127" y="190" class="dg-s" text-anchor="middle">b</text>
+<text x="187" y="190" class="dg-s" text-anchor="middle">c</text>
+<text x="247" y="190" class="dg-s" text-anchor="middle"></text>
+<text x="307" y="190" class="dg-s" text-anchor="middle">n</text>
+<text x="367" y="190" class="dg-s" text-anchor="middle">o</text>
+<text x="420" y="100" class="dg-m" text-anchor="start">count[c - a]++</text>
+<text x="420" y="126" class="dg-s" text-anchor="start">no hashing, no map,</text>
+<text x="420" y="146" class="dg-s" text-anchor="start">no allocation per key</text>
+<text x="0" y="216" class="dg-s" text-anchor="start">a 26-slot array beats a hash map whenever the keys are letters</text>`,
         },
         {
           kind: 'code',

@@ -341,6 +341,34 @@ factorial(4)                     4 * 6  = 24
           text: 'A **loop invariant** is a statement that is true before the loop starts, stays true after every iteration, and therefore is true when the loop ends. It is the closest thing to a proof that you will use daily, and it is what makes tricky loops writable.',
         },
         {
+          kind: 'figure',
+          height: 172,
+          label: 'A partially scanned array with the running maximum marked',
+          caption: 'Naming the invariant is how you know the loop is right without running it.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">An invariant is a sentence that is true every time round</text>
+<rect x="60" y="40" width="62" height="42" rx="4" class="dg-muted" />
+<text x="91" y="65.5" class="dg-t" text-anchor="middle">4</text>
+<rect x="130" y="40" width="62" height="42" rx="4" class="dg-fill2" />
+<text x="161" y="65.5" class="dg-on" text-anchor="middle">9</text>
+<rect x="200" y="40" width="62" height="42" rx="4" class="dg-muted" />
+<text x="231" y="65.5" class="dg-t" text-anchor="middle">2</text>
+<rect x="270" y="40" width="62" height="42" rx="4" class="dg-box" />
+<text x="301" y="65.5" class="dg-t" text-anchor="middle">7</text>
+<rect x="340" y="40" width="62" height="42" rx="4" class="dg-box" />
+<text x="371" y="65.5" class="dg-t" text-anchor="middle">5</text>
+<path class="dg-thin" d="M60 92 q0 6 6 6 H159 q6 0 6 6 q0 -6 6 -6 H264 q6 0 6 -6" />
+<text x="165" y="118" class="dg-m" text-anchor="middle">already seen</text>
+<text x="420" y="66" class="dg-m" text-anchor="start">largest = 9</text>
+<text x="420" y="92" class="dg-s" text-anchor="start">true before the step,</text>
+<text x="420" y="112" class="dg-s" text-anchor="start">true after it</text>
+<text x="0" y="160" class="dg-s" text-anchor="start">true at the start, preserved by one step, so true at the end — that is the proof</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Invariant: max holds the largest value among a[0..i-1]',
@@ -380,6 +408,29 @@ for value in a[1:]:
         {
           kind: 'para',
           text: 'A class groups related data, and sometimes behaviour, under one name. In DSA you use them mainly to define the nodes that structures are built from.',
+        },
+        {
+          kind: 'figure',
+          height: 212,
+          label: 'Two variables pointing at the same array object',
+          caption: 'Most aliasing bugs are this picture, misremembered.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">A reference is an address, not a copy</text>
+<rect x="40" y="40" width="110" height="40" rx="6" class="dg-fill" />
+<text x="95" y="64.5" class="dg-t" text-anchor="middle">a</text>
+<rect x="40" y="100" width="110" height="40" rx="6" class="dg-fill" />
+<text x="95" y="124.5" class="dg-t" text-anchor="middle">b</text>
+<path class="dg-line" marker-end="url(#ah)" d="M150 60 L300 82" />
+<path class="dg-line" marker-end="url(#ah)" d="M150 120 L300 94" />
+<rect x="310" y="62" width="200" height="52" rx="6" class="dg-box" />
+<text x="410" y="92.5" class="dg-t" text-anchor="middle">[1, 2, 3]</text>
+<text x="410" y="134" class="dg-s" text-anchor="middle">one object, two names</text>
+<text x="410" y="172" class="dg-s" text-anchor="middle">b[0] = 99 changes what a sees, because there is only one array</text>
+<text x="0" y="200" class="dg-s" text-anchor="start">primitives copy the value; everything else copies the address</text>`,
         },
         {
           kind: 'code',

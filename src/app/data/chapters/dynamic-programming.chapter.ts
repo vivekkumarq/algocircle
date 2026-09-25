@@ -157,6 +157,44 @@ fib(3) fib(2) ...  ...      fib(3)  [cached]
           text: 'The simplest family. The state is a single position, and the transition looks back a fixed number of steps.',
         },
         {
+          kind: 'figure',
+          height: 172,
+          label: 'A one-dimensional table where each cell sums the two before it',
+          caption: 'One index, a handful of choices, and every earlier answer already computed.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Each cell is decided by a couple of cells behind it</text>
+<rect x="40" y="40" width="68" height="44" rx="4" class="dg-box" />
+<text x="74" y="66.5" class="dg-t" text-anchor="middle">1</text>
+<text x="74" y="98" class="dg-s" text-anchor="middle">0</text>
+<rect x="116" y="40" width="68" height="44" rx="4" class="dg-box" />
+<text x="150" y="66.5" class="dg-t" text-anchor="middle">1</text>
+<text x="150" y="98" class="dg-s" text-anchor="middle">1</text>
+<rect x="192" y="40" width="68" height="44" rx="4" class="dg-box" />
+<text x="226" y="66.5" class="dg-t" text-anchor="middle">2</text>
+<text x="226" y="98" class="dg-s" text-anchor="middle">2</text>
+<rect x="268" y="40" width="68" height="44" rx="4" class="dg-box" />
+<text x="302" y="66.5" class="dg-t" text-anchor="middle">3</text>
+<text x="302" y="98" class="dg-s" text-anchor="middle">3</text>
+<rect x="344" y="40" width="68" height="44" rx="4" class="dg-fill" />
+<text x="378" y="66.5" class="dg-t" text-anchor="middle">5</text>
+<text x="378" y="98" class="dg-s" text-anchor="middle">4</text>
+<rect x="420" y="40" width="68" height="44" rx="4" class="dg-fill" />
+<text x="454" y="66.5" class="dg-t" text-anchor="middle">8</text>
+<text x="454" y="98" class="dg-s" text-anchor="middle">5</text>
+<rect x="496" y="40" width="68" height="44" rx="4" class="dg-fill2" />
+<text x="530" y="66.5" class="dg-on" text-anchor="middle">?</text>
+<text x="530" y="98" class="dg-s" text-anchor="middle">6</text>
+<path class="dg-line" marker-end="url(#ah)" d="M378 40 Q462 10 546 40" />
+<path class="dg-line" marker-end="url(#ah)" d="M452 40 Q499 20 546 40" />
+<text x="460" y="8" class="dg-m" text-anchor="middle">dp[i] = dp[i-1] + dp[i-2]</text>
+<text x="300" y="130" class="dg-s" text-anchor="middle">the whole design is one sentence: what does dp[i] mean?</text>
+<text x="0" y="160" class="dg-s" text-anchor="start">get the meaning right and the recurrence usually writes itself</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Climbing stairs - dp[i] is the number of ways to reach step i',
@@ -434,6 +472,40 @@ for i in range(n):
     for j in range(i):
         if a[j] < a[i]:
             dp[i] = max(dp[i], dp[j] + 1)`,
+        },
+        {
+          kind: 'figure',
+          height: 236,
+          label: 'An input row feeding a tails row that tracks the best ending value per length',
+          caption: 'tails is not the subsequence — it is the best possible ending for each length.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">tails[k] is the smallest value any run of length k + 1 can end on</text>
+<text x="20" y="56" class="dg-m" text-anchor="start">input</text>
+<rect x="90" y="34" width="56" height="38" rx="4" class="dg-box" />
+<text x="118" y="57.5" class="dg-t" text-anchor="middle">3</text>
+<rect x="152" y="34" width="56" height="38" rx="4" class="dg-box" />
+<text x="180" y="57.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="214" y="34" width="56" height="38" rx="4" class="dg-box" />
+<text x="242" y="57.5" class="dg-t" text-anchor="middle">4</text>
+<rect x="276" y="34" width="56" height="38" rx="4" class="dg-box" />
+<text x="304" y="57.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="338" y="34" width="56" height="38" rx="4" class="dg-fill2" />
+<text x="366" y="57.5" class="dg-on" text-anchor="middle">5</text>
+<path class="dg-line" marker-end="url(#ah)" d="M300 96 L300 122" />
+<text x="20" y="152" class="dg-m" text-anchor="start">tails</text>
+<rect x="90" y="130" width="56" height="38" rx="4" class="dg-box" />
+<text x="118" y="153.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="152" y="130" width="56" height="38" rx="4" class="dg-box" />
+<text x="180" y="153.5" class="dg-t" text-anchor="middle">4</text>
+<rect x="214" y="130" width="56" height="38" rx="4" class="dg-fill" />
+<text x="242" y="153.5" class="dg-t" text-anchor="middle">5</text>
+<text x="300" y="156" class="dg-s" text-anchor="start">length of the longest run so far = 3</text>
+<text x="300" y="196" class="dg-s" text-anchor="middle">a smaller tail never shortens the answer, and it leaves more room later</text>
+<text x="0" y="224" class="dg-s" text-anchor="start">binary search for the slot, so the whole scan is O(n log n)</text>`,
         },
         {
           kind: 'code',

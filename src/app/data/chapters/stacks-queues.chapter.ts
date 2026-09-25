@@ -88,6 +88,42 @@ export const STACKS_QUEUES: Chapter = {
           text: 'Anything nested is a stack problem, because the thing you must close first is always the most recently opened one.',
         },
         {
+          kind: 'figure',
+          height: 168,
+          label: 'Nested brackets matched by a stack',
+          caption: 'Nesting is last-in-first-out, which is exactly what a stack is.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Each opener waits on the stack for its partner</text>
+<rect x="40" y="30" width="44" height="38" rx="4" class="dg-box" />
+<text x="62" y="53.5" class="dg-t" text-anchor="middle">(</text>
+<rect x="90" y="30" width="44" height="38" rx="4" class="dg-box" />
+<text x="112" y="53.5" class="dg-t" text-anchor="middle">[</text>
+<rect x="140" y="30" width="44" height="38" rx="4" class="dg-box" />
+<text x="162" y="53.5" class="dg-t" text-anchor="middle">{</text>
+<rect x="190" y="30" width="44" height="38" rx="4" class="dg-fill" />
+<text x="212" y="53.5" class="dg-t" text-anchor="middle">}</text>
+<rect x="240" y="30" width="44" height="38" rx="4" class="dg-fill" />
+<text x="262" y="53.5" class="dg-t" text-anchor="middle">]</text>
+<rect x="290" y="30" width="44" height="38" rx="4" class="dg-fill" />
+<text x="312" y="53.5" class="dg-t" text-anchor="middle">)</text>
+<path class="dg-line" marker-end="url(#ah)" d="M62 30 Q205 0 348 30" />
+<path class="dg-line" marker-end="url(#ah)" d="M112 30 Q205 8 298 30" />
+<path class="dg-line" marker-end="url(#ah)" d="M162 30 Q205 16 248 30" />
+<rect x="430" y="26" width="60" height="34" rx="6" class="dg-fill" />
+<text x="460" y="47.5" class="dg-t" text-anchor="middle">{</text>
+<rect x="430" y="62" width="60" height="34" rx="6" class="dg-box" />
+<text x="460" y="83.5" class="dg-t" text-anchor="middle">[</text>
+<rect x="430" y="98" width="60" height="34" rx="6" class="dg-box" />
+<text x="460" y="119.5" class="dg-t" text-anchor="middle">(</text>
+<text x="460" y="18" class="dg-m" text-anchor="middle">top</text>
+<text x="530" y="80" class="dg-s" text-anchor="start">the stack, just before the first closer</text>
+<text x="0" y="156" class="dg-s" text-anchor="start">a closer must match the top, and the stack must be empty at the end</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Valid parentheses',
@@ -317,6 +353,46 @@ best = 10`,
           text: 'A queue implemented on a plain array by shifting elements is `O(n)` per removal. A **circular buffer** fixes that: keep head and tail indices and wrap them with a modulus, so both ends are `O(1)` and memory is reused.',
         },
         {
+          kind: 'figure',
+          height: 162,
+          label: 'A circular buffer with head and tail indices that wrap around',
+          caption: 'Dequeuing from an array is O(n) if you shift; with a wrap it is O(1).',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">A circular buffer: the array never moves, the two indices wrap</text>
+<rect x="60" y="34" width="58" height="42" rx="4" class="dg-box" />
+<text x="89" y="90" class="dg-s" text-anchor="middle">0</text>
+<rect x="124" y="34" width="58" height="42" rx="4" class="dg-fill" />
+<text x="153" y="59.5" class="dg-t" text-anchor="middle">c</text>
+<text x="153" y="90" class="dg-s" text-anchor="middle">1</text>
+<rect x="188" y="34" width="58" height="42" rx="4" class="dg-fill" />
+<text x="217" y="59.5" class="dg-t" text-anchor="middle">d</text>
+<text x="217" y="90" class="dg-s" text-anchor="middle">2</text>
+<rect x="252" y="34" width="58" height="42" rx="4" class="dg-fill" />
+<text x="281" y="59.5" class="dg-t" text-anchor="middle">e</text>
+<text x="281" y="90" class="dg-s" text-anchor="middle">3</text>
+<rect x="316" y="34" width="58" height="42" rx="4" class="dg-box" />
+<text x="345" y="90" class="dg-s" text-anchor="middle">4</text>
+<rect x="380" y="34" width="58" height="42" rx="4" class="dg-box" />
+<text x="409" y="90" class="dg-s" text-anchor="middle">5</text>
+<rect x="444" y="34" width="58" height="42" rx="4" class="dg-fill" />
+<text x="473" y="59.5" class="dg-t" text-anchor="middle">a</text>
+<text x="473" y="90" class="dg-s" text-anchor="middle">6</text>
+<rect x="508" y="34" width="58" height="42" rx="4" class="dg-fill" />
+<text x="537" y="59.5" class="dg-t" text-anchor="middle">b</text>
+<text x="537" y="90" class="dg-s" text-anchor="middle">7</text>
+<text x="90" y="112" class="dg-m" text-anchor="middle">tail</text>
+<path class="dg-line" marker-end="url(#ah)" d="M90 108 L90 82" />
+<text x="474" y="112" class="dg-m" text-anchor="middle">head</text>
+<path class="dg-line" marker-end="url(#ah)" d="M474 108 L474 82" />
+<path class="dg-dash" marker-end="url(#ah)" d="M560 32 Q318 6 76 32" />
+<text x="318" y="6" class="dg-s" text-anchor="middle">index 7 is followed by index 0</text>
+<text x="0" y="150" class="dg-s" text-anchor="start">head = (head + 1) % capacity — the modulo is the whole idea</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Circular queue - the wrap is the whole idea',
@@ -366,6 +442,37 @@ def dequeue(self) -> int:
         {
           kind: 'para',
           text: 'A monotonic stack answers "nearest bigger element". A monotonic **deque** answers "maximum inside the current window", because it can also discard from the front when an element slides out of range.',
+        },
+        {
+          kind: 'figure',
+          height: 160,
+          label: 'A monotonic stack resolving each element when a larger one appears',
+          caption: 'The stack is the set of questions still waiting for an answer.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Next greater element: each index waits until something taller arrives</text>
+<rect x="60" y="32" width="70" height="42" rx="4" class="dg-box" />
+<text x="95" y="57.5" class="dg-t" text-anchor="middle">2</text>
+<text x="95" y="88" class="dg-s" text-anchor="middle">0</text>
+<rect x="140" y="32" width="70" height="42" rx="4" class="dg-box" />
+<text x="175" y="57.5" class="dg-t" text-anchor="middle">5</text>
+<text x="175" y="88" class="dg-s" text-anchor="middle">1</text>
+<rect x="220" y="32" width="70" height="42" rx="4" class="dg-box" />
+<text x="255" y="57.5" class="dg-t" text-anchor="middle">3</text>
+<text x="255" y="88" class="dg-s" text-anchor="middle">2</text>
+<rect x="300" y="32" width="70" height="42" rx="4" class="dg-fill2" />
+<text x="335" y="57.5" class="dg-on" text-anchor="middle">8</text>
+<text x="335" y="88" class="dg-s" text-anchor="middle">3</text>
+<path class="dg-line" marker-end="url(#ah)" d="M95 32 Q197.5 8 300 32" />
+<text x="198" y="2" class="dg-s" text-anchor="middle">2 waits for 5</text>
+<path class="dg-line" marker-end="url(#ah)" d="M255 74 Q320 100 385 74" />
+<text x="320" y="118" class="dg-s" text-anchor="middle">3 waits for 8</text>
+<text x="420" y="60" class="dg-s" text-anchor="start">stack holds indices,</text>
+<text x="420" y="78" class="dg-s" text-anchor="start">values decreasing</text>
+<text x="0" y="148" class="dg-s" text-anchor="start">every index is pushed once and popped once — O(n), not O(n squared)</text>`,
         },
         {
           kind: 'code',

@@ -108,6 +108,37 @@ while node:
     node = node.next`,
         },
         {
+          kind: 'figure',
+          height: 160,
+          label: 'Four list nodes joined by next pointers, ending at null',
+          caption: 'Nothing is contiguous, so the only way to element k is to walk there.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="20" class="dg-s" text-anchor="start">A list is only reachable one link at a time</text>
+<rect x="40" y="52" width="92" height="44" rx="6" class="dg-fill" />
+<text x="86" y="78.5" class="dg-t" text-anchor="middle">3</text>
+<text x="86" y="112" class="dg-m" text-anchor="middle">head</text>
+<path class="dg-line" marker-end="url(#ah)" d="M132 74 L164 74" />
+<rect x="170" y="52" width="92" height="44" rx="6" class="dg-box" />
+<text x="216" y="78.5" class="dg-t" text-anchor="middle">7</text>
+<text x="216" y="112" class="dg-m" text-anchor="middle"></text>
+<path class="dg-line" marker-end="url(#ah)" d="M262 74 L294 74" />
+<rect x="300" y="52" width="92" height="44" rx="6" class="dg-box" />
+<text x="346" y="78.5" class="dg-t" text-anchor="middle">1</text>
+<text x="346" y="112" class="dg-m" text-anchor="middle"></text>
+<path class="dg-line" marker-end="url(#ah)" d="M392 74 L424 74" />
+<rect x="430" y="52" width="92" height="44" rx="6" class="dg-box" />
+<text x="476" y="78.5" class="dg-t" text-anchor="middle">9</text>
+<text x="476" y="112" class="dg-m" text-anchor="middle"></text>
+<path class="dg-line" marker-end="url(#ah)" d="M522 74 L560 74" />
+<text x="580" y="79" class="dg-s" text-anchor="start">null</text>
+<path class="dg-thin" d="M40 114 q0 6 6 6 H275 q6 0 6 6 q0 -6 6 -6 H516 q6 0 6 -6" />
+<text x="281" y="140" class="dg-m" text-anchor="middle">reaching position k costs k steps — there is no a[k]</text>`,
+        },
+        {
           kind: 'callout',
           tone: 'key',
           title: 'Never lose the rest of the list',
@@ -233,6 +264,46 @@ end:     null <- 1 <- 2 <- 3
         {
           kind: 'para',
           text: 'You usually do not know the length, and computing it costs a whole extra pass. Two pointers at different speeds answer positional questions in one pass.',
+        },
+        {
+          kind: 'figure',
+          height: 165,
+          label: 'A list with a slow pointer at position three and a fast pointer at position six',
+          caption: 'One pointer moves twice as fast; the gap between them is the whole trick.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<rect x="30" y="66" width="56" height="40" rx="6" class="dg-box" />
+<text x="58" y="90.5" class="dg-t" text-anchor="middle">a</text>
+<path class="dg-line" marker-end="url(#ah)" d="M86 86 L96 86" />
+<rect x="100" y="66" width="56" height="40" rx="6" class="dg-box" />
+<text x="128" y="90.5" class="dg-t" text-anchor="middle">b</text>
+<path class="dg-line" marker-end="url(#ah)" d="M156 86 L166 86" />
+<rect x="170" y="66" width="56" height="40" rx="6" class="dg-box" />
+<text x="198" y="90.5" class="dg-t" text-anchor="middle">c</text>
+<path class="dg-line" marker-end="url(#ah)" d="M226 86 L236 86" />
+<rect x="240" y="66" width="56" height="40" rx="6" class="dg-fill" />
+<text x="268" y="90.5" class="dg-t" text-anchor="middle">d</text>
+<path class="dg-line" marker-end="url(#ah)" d="M296 86 L306 86" />
+<rect x="310" y="66" width="56" height="40" rx="6" class="dg-box" />
+<text x="338" y="90.5" class="dg-t" text-anchor="middle">e</text>
+<path class="dg-line" marker-end="url(#ah)" d="M366 86 L376 86" />
+<rect x="380" y="66" width="56" height="40" rx="6" class="dg-box" />
+<text x="408" y="90.5" class="dg-t" text-anchor="middle">f</text>
+<path class="dg-line" marker-end="url(#ah)" d="M436 86 L446 86" />
+<rect x="450" y="66" width="56" height="40" rx="6" class="dg-fill2" />
+<text x="478" y="90.5" class="dg-on" text-anchor="middle">g</text>
+<path class="dg-line" marker-end="url(#ah)" d="M506 86 L516 86" />
+<rect x="520" y="66" width="56" height="40" rx="6" class="dg-box" />
+<text x="548" y="90.5" class="dg-t" text-anchor="middle">h</text>
+<text x="268" y="50" class="dg-m" text-anchor="middle">slow</text>
+<text x="478" y="50" class="dg-m" text-anchor="middle">fast</text>
+<path class="dg-line" marker-end="url(#ah)" d="M268 56 L268 64" />
+<path class="dg-line" marker-end="url(#ah)" d="M478 56 L478 64" />
+<text x="30" y="132" class="dg-s" text-anchor="start">slow has taken 3 steps, fast has taken 6 — twice as many</text>
+<text x="30" y="150" class="dg-s" text-anchor="start">when fast runs off the end, slow is exactly halfway</text>`,
         },
         {
           kind: 'code',
@@ -366,6 +437,44 @@ a = c  (mod cycle length), which is why both walkers arrive together`,
           text: 'Operations at the front of a list need special handling — unless you create a fake node in front of it. Then the real head is just "the node after the dummy", and every case becomes the general case.',
         },
         {
+          kind: 'figure',
+          height: 205,
+          label: 'The same removal with and without a dummy head node',
+          caption: 'The dummy exists so the head is not a special case.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Without a dummy: removing the head is a special case</text>
+<rect x="120" y="30" width="84" height="38" rx="6" class="dg-muted" />
+<text x="162" y="53.5" class="dg-t" text-anchor="middle">7</text>
+<path class="dg-line" marker-end="url(#ah)" d="M204 49 L234 49" />
+<rect x="240" y="30" width="84" height="38" rx="6" class="dg-box" />
+<text x="282" y="53.5" class="dg-t" text-anchor="middle">3</text>
+<path class="dg-line" marker-end="url(#ah)" d="M324 49 L354 49" />
+<rect x="360" y="30" width="84" height="38" rx="6" class="dg-box" />
+<text x="402" y="53.5" class="dg-t" text-anchor="middle">9</text>
+<text x="60" y="54" class="dg-m" text-anchor="start">head</text>
+<path class="dg-line" marker-end="url(#ah)" d="M104 49 L116 49" />
+<text x="162" y="86" class="dg-s" text-anchor="middle">head must move</text>
+<text x="0" y="124" class="dg-s" text-anchor="start">With a dummy: every node has a previous, so there is one rule</text>
+<rect x="24" y="136" width="68" height="38" rx="6" class="dg-fill" />
+<text x="58" y="159.5" class="dg-t" text-anchor="middle">dummy</text>
+<path class="dg-line" marker-end="url(#ah)" d="M92 155 L116 155" />
+<rect x="120" y="136" width="84" height="38" rx="6" class="dg-muted" />
+<text x="162" y="159.5" class="dg-t" text-anchor="middle">7</text>
+<path class="dg-line" marker-end="url(#ah)" d="M204 155 L234 155" />
+<rect x="240" y="136" width="84" height="38" rx="6" class="dg-box" />
+<text x="282" y="159.5" class="dg-t" text-anchor="middle">3</text>
+<path class="dg-line" marker-end="url(#ah)" d="M324 155 L354 155" />
+<rect x="360" y="136" width="84" height="38" rx="6" class="dg-box" />
+<text x="402" y="159.5" class="dg-t" text-anchor="middle">9</text>
+<path class="dg-line" marker-end="url(#ah)" d="M58 136 Q154 102 250 136" />
+<text x="154" y="100" class="dg-s" text-anchor="middle"></text>
+<text x="300" y="192" class="dg-s" text-anchor="middle">return dummy.next — correct even when the first node went</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Remove every node with a given value, with no front special case',
@@ -436,6 +545,36 @@ return dummy.next`,
         {
           kind: 'para',
           text: 'Merge sort is the natural fit. Splitting is `O(1)` once you have the middle, merging is the routine above, and — unlike arrays — no auxiliary array is needed, so the extra space is only the recursion stack.',
+        },
+        {
+          kind: 'figure',
+          height: 262,
+          label: 'A four-node list split in half, each half sorted, then merged',
+          caption: 'Merge sort, because splitting a list is cheap and random access is not.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Split at the middle, sort each half, then merge</text>
+<rect x="210" y="30" width="200" height="34" rx="6" class="dg-fill" />
+<text x="310" y="51.5" class="dg-t" text-anchor="middle">4 → 2 → 1 → 3</text>
+<path class="dg-line" marker-end="url(#ah)" d="M280 64 L190 92" />
+<path class="dg-line" marker-end="url(#ah)" d="M340 64 L430 92" />
+<rect x="110" y="94" width="160" height="34" rx="6" class="dg-box" />
+<text x="190" y="115.5" class="dg-t" text-anchor="middle">4 → 2</text>
+<rect x="350" y="94" width="160" height="34" rx="6" class="dg-box" />
+<text x="430" y="115.5" class="dg-t" text-anchor="middle">1 → 3</text>
+<path class="dg-line" marker-end="url(#ah)" d="M190 128 L190 152" />
+<path class="dg-line" marker-end="url(#ah)" d="M430 128 L430 152" />
+<rect x="110" y="154" width="160" height="34" rx="6" class="dg-box" />
+<text x="190" y="175.5" class="dg-t" text-anchor="middle">2 → 4</text>
+<rect x="350" y="154" width="160" height="34" rx="6" class="dg-box" />
+<text x="430" y="175.5" class="dg-t" text-anchor="middle">1 → 3</text>
+<path class="dg-line" marker-end="url(#ah)" d="M190 188 L280 214" />
+<path class="dg-line" marker-end="url(#ah)" d="M430 188 L340 214" />
+<rect x="210" y="216" width="200" height="34" rx="6" class="dg-fill2" />
+<text x="310" y="237.5" class="dg-on" text-anchor="middle">1 → 2 → 3 → 4</text>`,
         },
         {
           kind: 'code',

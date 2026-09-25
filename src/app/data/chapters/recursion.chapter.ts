@@ -192,6 +192,46 @@ fib(1) fib(0)`,
           text: 'Every element is either in the subset or out of it. That is a binary decision per element, made at depth `i` of the recursion, and it generates all `2^n` subsets.',
         },
         {
+          kind: 'figure',
+          height: 242,
+          label: 'A binary decision tree producing all four subsets of two elements',
+          caption: 'The tree is the algorithm; the code is just a depth-first walk of it.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Every element is one yes/no decision</text>
+<circle cx="310" cy="44" r="9" class="dg-fill" />
+<text x="310" y="48.5" class="dg-t" text-anchor="middle"></text>
+<text x="310" y="26" class="dg-s" text-anchor="middle">{ }</text>
+<path class="dg-thin" d="M310 53 L170 96" />
+<path class="dg-thin" d="M310 53 L450 96" />
+<text x="215" y="76" class="dg-s" text-anchor="middle">take 1</text>
+<text x="405" y="76" class="dg-s" text-anchor="middle">skip 1</text>
+<circle cx="170" cy="108" r="9" class="dg-box" />
+<text x="170" y="112.5" class="dg-t" text-anchor="middle"></text>
+<circle cx="450" cy="108" r="9" class="dg-box" />
+<text x="450" y="112.5" class="dg-t" text-anchor="middle"></text>
+<path class="dg-thin" d="M170 117 L90 160" />
+<path class="dg-thin" d="M170 117 L250 160" />
+<path class="dg-thin" d="M450 117 L370 160" />
+<path class="dg-thin" d="M450 117 L530 160" />
+<circle cx="90" cy="172" r="9" class="dg-fill2" />
+<text x="90" y="176.5" class="dg-on" text-anchor="middle"></text>
+<text x="90" y="200" class="dg-s" text-anchor="middle">1,2</text>
+<circle cx="250" cy="172" r="9" class="dg-fill2" />
+<text x="250" y="176.5" class="dg-on" text-anchor="middle"></text>
+<text x="250" y="200" class="dg-s" text-anchor="middle">1</text>
+<circle cx="370" cy="172" r="9" class="dg-fill2" />
+<text x="370" y="176.5" class="dg-on" text-anchor="middle"></text>
+<text x="370" y="200" class="dg-s" text-anchor="middle">2</text>
+<circle cx="530" cy="172" r="9" class="dg-fill2" />
+<text x="530" y="176.5" class="dg-on" text-anchor="middle"></text>
+<text x="530" y="200" class="dg-s" text-anchor="middle">—</text>
+<text x="0" y="230" class="dg-s" text-anchor="start">2 to the n leaves, and the recursion depth is only n</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'All subsets - O(2^n) results, O(n) depth',
@@ -334,6 +374,47 @@ fib(1) fib(0)`,
         {
           kind: 'para',
           text: 'A raw backtracking search is astronomically large. Pruning cuts branches that provably cannot lead to a solution, and it usually decides whether the program runs in milliseconds or never finishes.',
+        },
+        {
+          kind: 'figure',
+          height: 232,
+          label: 'A search tree with one branch cut before it is explored',
+          caption: 'Sorting the candidates first is what makes the cheap test possible.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">A branch you never enter costs nothing</text>
+<circle cx="300" cy="44" r="9" class="dg-fill" />
+<text x="300" y="48.5" class="dg-t" text-anchor="middle"></text>
+<path class="dg-thin" d="M300 53 L160 100" />
+<path class="dg-thin" d="M300 53 L300 100" />
+<path class="dg-thin" d="M300 53 L440 100" />
+<circle cx="160" cy="112" r="9" class="dg-box" />
+<text x="160" y="116.5" class="dg-t" text-anchor="middle"></text>
+<circle cx="300" cy="112" r="9" class="dg-muted" />
+<text x="300" y="116.5" class="dg-t" text-anchor="middle"></text>
+<circle cx="440" cy="112" r="9" class="dg-box" />
+<text x="440" y="116.5" class="dg-t" text-anchor="middle"></text>
+<text x="300" y="146" class="dg-m" text-anchor="middle">pruned</text>
+<text x="300" y="166" class="dg-s" text-anchor="middle">sum already over target</text>
+<path class="dg-thin" d="M160 121 L110 168" />
+<path class="dg-thin" d="M160 121 L210 168" />
+<circle cx="110" cy="180" r="8" class="dg-box" />
+<text x="110" y="184.5" class="dg-t" text-anchor="middle"></text>
+<circle cx="210" cy="180" r="8" class="dg-box" />
+<text x="210" y="184.5" class="dg-t" text-anchor="middle"></text>
+<path class="dg-thin" d="M440 121 L390 168" />
+<path class="dg-thin" d="M440 121 L490 168" />
+<circle cx="390" cy="180" r="8" class="dg-box" />
+<text x="390" y="184.5" class="dg-t" text-anchor="middle"></text>
+<circle cx="490" cy="180" r="8" class="dg-box" />
+<text x="490" y="184.5" class="dg-t" text-anchor="middle"></text>
+<text x="560" y="120" class="dg-s" text-anchor="middle">one test,</text>
+<text x="560" y="140" class="dg-s" text-anchor="middle">a whole</text>
+<text x="560" y="160" class="dg-s" text-anchor="middle">subtree gone</text>
+<text x="0" y="220" class="dg-s" text-anchor="start">prune before you recurse, not after you return</text>`,
         },
         {
           kind: 'list',

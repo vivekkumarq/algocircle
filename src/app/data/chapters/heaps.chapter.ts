@@ -114,6 +114,50 @@ rightChild(i)  = 2i + 2`,
           text: 'Both operations restore the heap property after one element is out of place, by moving it along a single root-to-leaf path.',
         },
         {
+          kind: 'figure',
+          height: 228,
+          label: 'A value swapping upwards through a heap until its parent is smaller',
+          caption: 'Only one path is touched, which is why insert and remove are logarithmic.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Insert at the end, then swap upwards while the parent is larger</text>
+<circle cx="150" cy="46" r="18" class="dg-box" />
+<text x="150" y="50.5" class="dg-t" text-anchor="middle">4</text>
+<circle cx="90" cy="104" r="18" class="dg-fill" />
+<text x="90" y="108.5" class="dg-t" text-anchor="middle">8</text>
+<circle cx="210" cy="104" r="18" class="dg-box" />
+<text x="210" y="108.5" class="dg-t" text-anchor="middle">6</text>
+<circle cx="50" cy="162" r="18" class="dg-box" />
+<text x="50" y="166.5" class="dg-t" text-anchor="middle">9</text>
+<circle cx="130" cy="162" r="18" class="dg-fill2" />
+<text x="130" y="166.5" class="dg-on" text-anchor="middle">2</text>
+<path class="dg-thin" d="M150 64 L90 86" />
+<path class="dg-thin" d="M150 64 L210 86" />
+<path class="dg-thin" d="M90 122 L50 144" />
+<path class="dg-thin" d="M90 122 L130 144" />
+<text x="130" y="196" class="dg-m" text-anchor="middle">new value</text>
+<path class="dg-line" marker-end="url(#ah)" d="M260 104 L320 104" />
+<text x="290" y="90" class="dg-s" text-anchor="middle">sift up</text>
+<circle cx="450" cy="46" r="18" class="dg-fill2" />
+<text x="450" y="50.5" class="dg-on" text-anchor="middle">2</text>
+<circle cx="390" cy="104" r="18" class="dg-fill" />
+<text x="390" y="108.5" class="dg-t" text-anchor="middle">4</text>
+<circle cx="510" cy="104" r="18" class="dg-box" />
+<text x="510" y="108.5" class="dg-t" text-anchor="middle">6</text>
+<circle cx="350" cy="162" r="18" class="dg-box" />
+<text x="350" y="166.5" class="dg-t" text-anchor="middle">9</text>
+<circle cx="430" cy="162" r="18" class="dg-box" />
+<text x="430" y="166.5" class="dg-t" text-anchor="middle">8</text>
+<path class="dg-thin" d="M450 64 L390 86" />
+<path class="dg-thin" d="M450 64 L510 86" />
+<path class="dg-thin" d="M390 122 L350 144" />
+<path class="dg-thin" d="M390 122 L430 144" />
+<text x="0" y="216" class="dg-s" text-anchor="start">at most one swap per level, so both sift directions cost O(log n)</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Insert: append at the end, then sift up',
@@ -351,6 +395,49 @@ for value in a:
         {
           kind: 'para',
           text: 'Merging `k` sorted lists by scanning all the heads each time is `O(n k)`. A heap holding one candidate per list makes it `O(n log k)`.',
+        },
+        {
+          kind: 'figure',
+          height: 196,
+          label: 'Three sorted lists feeding a heap of three heads',
+          caption: 'The heap only ever holds the current head of each list.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">One node per list in the heap, never every node</text>
+<text x="10" y="58" class="dg-s" text-anchor="start">list 1</text>
+<rect x="70" y="34" width="48" height="34" rx="4" class="dg-fill" />
+<text x="94" y="55.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="124" y="34" width="48" height="34" rx="4" class="dg-box" />
+<text x="148" y="55.5" class="dg-t" text-anchor="middle">4</text>
+<rect x="178" y="34" width="48" height="34" rx="4" class="dg-box" />
+<text x="202" y="55.5" class="dg-t" text-anchor="middle">9</text>
+<text x="10" y="106" class="dg-s" text-anchor="start">list 2</text>
+<rect x="70" y="82" width="48" height="34" rx="4" class="dg-fill" />
+<text x="94" y="103.5" class="dg-t" text-anchor="middle">2</text>
+<rect x="124" y="82" width="48" height="34" rx="4" class="dg-box" />
+<text x="148" y="103.5" class="dg-t" text-anchor="middle">5</text>
+<rect x="178" y="82" width="48" height="34" rx="4" class="dg-box" />
+<text x="202" y="103.5" class="dg-t" text-anchor="middle">7</text>
+<text x="10" y="154" class="dg-s" text-anchor="start">list 3</text>
+<rect x="70" y="130" width="48" height="34" rx="4" class="dg-fill" />
+<text x="94" y="151.5" class="dg-t" text-anchor="middle">3</text>
+<rect x="124" y="130" width="48" height="34" rx="4" class="dg-box" />
+<text x="148" y="151.5" class="dg-t" text-anchor="middle">6</text>
+<rect x="178" y="130" width="48" height="34" rx="4" class="dg-box" />
+<text x="202" y="151.5" class="dg-t" text-anchor="middle">8</text>
+<path class="dg-line" marker-end="url(#ah)" d="M240 82 L300 82" />
+<rect x="310" y="44" width="110" height="78" rx="6" class="dg-muted" />
+<text x="365" y="40" class="dg-m" text-anchor="middle">heap of 3</text>
+<text x="365" y="74" class="dg-t" text-anchor="middle">1  2  3</text>
+<text x="365" y="100" class="dg-s" text-anchor="middle">smallest on top</text>
+<path class="dg-line" marker-end="url(#ah)" d="M430 82 L480 82" />
+<rect x="490" y="62" width="110" height="38" rx="6" class="dg-fill2" />
+<text x="545" y="85.5" class="dg-on" text-anchor="middle">1</text>
+<text x="545" y="116" class="dg-s" text-anchor="middle">then refill from the same list</text>
+<text x="0" y="184" class="dg-s" text-anchor="start">k in the heap instead of n, so the merge is O(n log k)</text>`,
         },
         {
           kind: 'code',

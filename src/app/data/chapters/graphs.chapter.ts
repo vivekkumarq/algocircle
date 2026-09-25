@@ -256,6 +256,38 @@ def dfs(node: int) -> None:
           text: 'Counting connected components is a loop over every vertex, starting a traversal whenever you meet one you have not visited. Each traversal consumes exactly one component.',
         },
         {
+          kind: 'figure',
+          height: 208,
+          label: 'A graph with three disconnected components',
+          caption: 'Counting components is a loop plus a traversal, nothing more.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">One traversal consumes exactly one component</text>
+<circle cx="70" cy="70" r="17" class="dg-fill" />
+<text x="70" y="74.5" class="dg-t" text-anchor="middle">1</text>
+<circle cx="140" cy="44" r="17" class="dg-fill" />
+<text x="140" y="48.5" class="dg-t" text-anchor="middle">2</text>
+<circle cx="140" cy="108" r="17" class="dg-fill" />
+<text x="140" y="112.5" class="dg-t" text-anchor="middle">3</text>
+<path class="dg-thin" d="M88 64 L122 50" />
+<path class="dg-thin" d="M88 78 L122 100" />
+<path class="dg-thin" d="M140 62 L140 90" />
+<circle cx="300" cy="60" r="17" class="dg-fill2" />
+<text x="300" y="64.5" class="dg-on" text-anchor="middle">4</text>
+<circle cx="300" cy="124" r="17" class="dg-fill2" />
+<text x="300" y="128.5" class="dg-on" text-anchor="middle">5</text>
+<path class="dg-thin" d="M300 78 L300 106" />
+<circle cx="470" cy="92" r="17" class="dg-box" />
+<text x="470" y="96.5" class="dg-t" text-anchor="middle">6</text>
+<text x="105" y="160" class="dg-s" text-anchor="middle">component 1</text>
+<text x="300" y="168" class="dg-s" text-anchor="middle">component 2</text>
+<text x="470" y="136" class="dg-s" text-anchor="middle">component 3</text>
+<text x="0" y="196" class="dg-s" text-anchor="start">loop over every vertex; start a traversal only when it is still unvisited</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Number of islands - a grid is just a graph',
@@ -308,6 +340,40 @@ for r in range(rows):
         {
           kind: 'para',
           text: 'Undirected and directed graphs need different methods, and knowing why is worth more than knowing both templates.',
+        },
+        {
+          kind: 'figure',
+          height: 188,
+          label: 'A back edge in an undirected graph and a cycle in a directed one',
+          caption: 'They are different problems, and the same code answers neither.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Undirected: any visited neighbour that is not your parent</text>
+<circle cx="80" cy="76" r="17" class="dg-box" />
+<text x="80" y="80.5" class="dg-t" text-anchor="middle">a</text>
+<circle cx="180" cy="50" r="17" class="dg-box" />
+<text x="180" y="54.5" class="dg-t" text-anchor="middle">b</text>
+<circle cx="180" cy="110" r="17" class="dg-box" />
+<text x="180" y="114.5" class="dg-t" text-anchor="middle">c</text>
+<path class="dg-thin" d="M98 71 L162 56" />
+<path class="dg-thin" d="M98 83 L162 104" />
+<path class="dg-thin" d="M180 68 L180 92" />
+<text x="230" y="84" class="dg-m" text-anchor="start">back edge</text>
+<text x="340" y="18" class="dg-s" text-anchor="start">Directed: a neighbour still on the current path</text>
+<circle cx="400" cy="60" r="17" class="dg-box" />
+<text x="400" y="64.5" class="dg-t" text-anchor="middle">x</text>
+<circle cx="500" cy="60" r="17" class="dg-box" />
+<text x="500" y="64.5" class="dg-t" text-anchor="middle">y</text>
+<circle cx="500" cy="124" r="17" class="dg-box" />
+<text x="500" y="128.5" class="dg-t" text-anchor="middle">z</text>
+<path class="dg-line" marker-end="url(#ah)" d="M418 60 L480 60" />
+<path class="dg-line" marker-end="url(#ah)" d="M500 78 L500 104" />
+<path class="dg-line" marker-end="url(#ah)" d="M482 124 Q441 84 400 78" />
+<text x="430" y="140" class="dg-m" text-anchor="middle">IN PROGRESS</text>
+<text x="0" y="176" class="dg-s" text-anchor="start">the undirected test needs a parent; the directed test needs three states</text>`,
         },
         {
           kind: 'code',
@@ -384,6 +450,40 @@ def has_cycle(node: int) -> bool:
         {
           kind: 'para',
           text: 'A graph is bipartite when its vertices can be split into two groups with every edge crossing between them. Equivalently: it is two-colourable, and equivalently again: it has no odd-length cycle.',
+        },
+        {
+          kind: 'figure',
+          height: 204,
+          label: 'A two-colourable graph beside a triangle that cannot be two-coloured',
+          caption: 'Bipartite means no odd cycle, and BFS finds the clash if one exists.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Colour as you traverse; a clash means an odd cycle</text>
+<circle cx="90" cy="64" r="17" class="dg-fill" />
+<text x="90" y="68.5" class="dg-t" text-anchor="middle">a</text>
+<circle cx="90" cy="150" r="17" class="dg-fill" />
+<text x="90" y="154.5" class="dg-t" text-anchor="middle">b</text>
+<circle cx="250" cy="64" r="17" class="dg-fill2" />
+<text x="250" y="68.5" class="dg-on" text-anchor="middle">c</text>
+<circle cx="250" cy="150" r="17" class="dg-fill2" />
+<text x="250" y="154.5" class="dg-on" text-anchor="middle">d</text>
+<path class="dg-thin" d="M108 64 L232 64" />
+<path class="dg-thin" d="M108 70 L232 144" />
+<path class="dg-thin" d="M108 144 L232 70" />
+<text x="170" y="190" class="dg-s" text-anchor="middle">two colours suffice</text>
+<circle cx="420" cy="60" r="17" class="dg-fill" />
+<text x="420" y="64.5" class="dg-t" text-anchor="middle">x</text>
+<circle cx="370" cy="150" r="17" class="dg-fill2" />
+<text x="370" y="154.5" class="dg-on" text-anchor="middle">y</text>
+<circle cx="470" cy="150" r="17" class="dg-fill2" />
+<text x="470" y="154.5" class="dg-on" text-anchor="middle">z</text>
+<path class="dg-thin" d="M410 76 L380 132" />
+<path class="dg-thin" d="M430 76 L460 132" />
+<path class="dg-thin" d="M388 150 L452 150" />
+<text x="420" y="190" class="dg-s" text-anchor="middle">y and z clash — a triangle is odd</text>`,
         },
         {
           kind: 'code',
@@ -642,6 +742,41 @@ for u, w, weight in edges:              # one more improvement means
         {
           kind: 'para',
           text: 'DSU answers "are these two vertices connected?" and "merge these two groups" in almost constant time. It is the natural structure whenever connectivity changes as you go, which is what makes Kruskal work.',
+        },
+        {
+          kind: 'figure',
+          height: 224,
+          label: 'A chain of parents flattened so every node points at the root',
+          caption: 'The only question it answers is "same group?", and it answers it almost instantly.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Union by size, then path compression flattens what you walked</text>
+<circle cx="70" cy="60" r="17" class="dg-fill" />
+<text x="70" y="64.5" class="dg-t" text-anchor="middle">a</text>
+<circle cx="70" cy="120" r="17" class="dg-box" />
+<text x="70" y="124.5" class="dg-t" text-anchor="middle">b</text>
+<circle cx="70" cy="176" r="17" class="dg-box" />
+<text x="70" y="180.5" class="dg-t" text-anchor="middle">c</text>
+<path class="dg-thin" d="M70 78 L70 102" />
+<path class="dg-thin" d="M70 138 L70 158" />
+<text x="70" y="208" class="dg-s" text-anchor="middle">find(c) walks up</text>
+<path class="dg-line" marker-end="url(#ah)" d="M130 118 L200 118" />
+<text x="165" y="104" class="dg-s" text-anchor="middle">compress</text>
+<circle cx="320" cy="60" r="17" class="dg-fill" />
+<text x="320" y="64.5" class="dg-t" text-anchor="middle">a</text>
+<circle cx="260" cy="140" r="17" class="dg-box" />
+<text x="260" y="144.5" class="dg-t" text-anchor="middle">b</text>
+<circle cx="380" cy="140" r="17" class="dg-box" />
+<text x="380" y="144.5" class="dg-t" text-anchor="middle">c</text>
+<path class="dg-thin" d="M310 76 L268 122" />
+<path class="dg-thin" d="M330 76 L372 122" />
+<text x="320" y="208" class="dg-s" text-anchor="middle">both now point straight at the root</text>
+<text x="470" y="90" class="dg-m" text-anchor="start">connected(x, y)</text>
+<text x="470" y="112" class="dg-s" text-anchor="start">is just</text>
+<text x="470" y="134" class="dg-m" text-anchor="start">find(x) == find(y)</text>`,
         },
         {
           kind: 'code',

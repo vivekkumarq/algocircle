@@ -455,6 +455,51 @@ for i in range(n + 1):
           text: 'XOR returns 1 when exactly one input is 1. Four properties make it a problem-solving tool rather than a curiosity.',
         },
         {
+          kind: 'figure',
+          height: 208,
+          label: 'Two bit rows combined with XOR, producing ones only where they differ',
+          caption: 'Those two identities are the reason the single-number trick works.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">XOR cancels in pairs, which is why the loner survives</text>
+<text x="50" y="60" class="dg-t" text-anchor="middle">a</text>
+<rect x="100" y="34" width="44" height="38" rx="4" class="dg-box" />
+<text x="122" y="57.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="150" y="34" width="44" height="38" rx="4" class="dg-box" />
+<text x="172" y="57.5" class="dg-t" text-anchor="middle">0</text>
+<rect x="200" y="34" width="44" height="38" rx="4" class="dg-box" />
+<text x="222" y="57.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="250" y="34" width="44" height="38" rx="4" class="dg-box" />
+<text x="272" y="57.5" class="dg-t" text-anchor="middle">1</text>
+<text x="50" y="108" class="dg-t" text-anchor="middle">b</text>
+<rect x="100" y="82" width="44" height="38" rx="4" class="dg-box" />
+<text x="122" y="105.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="150" y="82" width="44" height="38" rx="4" class="dg-box" />
+<text x="172" y="105.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="200" y="82" width="44" height="38" rx="4" class="dg-box" />
+<text x="222" y="105.5" class="dg-t" text-anchor="middle">0</text>
+<rect x="250" y="82" width="44" height="38" rx="4" class="dg-box" />
+<text x="272" y="105.5" class="dg-t" text-anchor="middle">1</text>
+<text x="50" y="156" class="dg-m" text-anchor="middle">a ^ b</text>
+<rect x="100" y="130" width="44" height="38" rx="4" class="dg-box" />
+<text x="122" y="153.5" class="dg-t" text-anchor="middle">0</text>
+<rect x="150" y="130" width="44" height="38" rx="4" class="dg-fill" />
+<text x="172" y="153.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="200" y="130" width="44" height="38" rx="4" class="dg-fill" />
+<text x="222" y="153.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="250" y="130" width="44" height="38" rx="4" class="dg-box" />
+<text x="272" y="153.5" class="dg-t" text-anchor="middle">0</text>
+<path class="dg-line" d="M96 126 L300 126" />
+<text x="420" y="60" class="dg-m" text-anchor="start">x ^ x = 0</text>
+<text x="420" y="88" class="dg-m" text-anchor="start">x ^ 0 = x</text>
+<text x="420" y="116" class="dg-s" text-anchor="start">order does not matter</text>
+<text x="420" y="140" class="dg-s" text-anchor="start">so every pair vanishes</text>
+<text x="0" y="196" class="dg-s" text-anchor="start">one differing bit gives a 1 — that is the whole definition</text>`,
+        },
+        {
           kind: 'list',
           items: [
             '`a ^ a = 0` — a value cancels itself.',

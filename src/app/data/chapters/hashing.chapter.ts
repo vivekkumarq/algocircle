@@ -141,6 +141,39 @@ buckets:
           text: 'This is the single most common use of hashing in interviews. Whenever you are searching for a **pair** that satisfies a relation, ask what the second element must be, and look that up instead of scanning for it.',
         },
         {
+          kind: 'figure',
+          height: 162,
+          label: 'The complement of the current value looked up in a map of values seen so far',
+          caption: 'This one move turns a quadratic pair search into a single pass.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Do not search for the partner — compute it, then look it up</text>
+<rect x="40" y="34" width="66" height="42" rx="4" class="dg-box" />
+<text x="73" y="59.5" class="dg-t" text-anchor="middle">2</text>
+<text x="73" y="90" class="dg-s" text-anchor="middle">0</text>
+<rect x="114" y="34" width="66" height="42" rx="4" class="dg-fill2" />
+<text x="147" y="59.5" class="dg-on" text-anchor="middle">7</text>
+<text x="147" y="90" class="dg-s" text-anchor="middle">1</text>
+<rect x="188" y="34" width="66" height="42" rx="4" class="dg-box" />
+<text x="221" y="59.5" class="dg-t" text-anchor="middle">11</text>
+<text x="221" y="90" class="dg-s" text-anchor="middle">2</text>
+<rect x="262" y="34" width="66" height="42" rx="4" class="dg-box" />
+<text x="295" y="59.5" class="dg-t" text-anchor="middle">15</text>
+<text x="295" y="90" class="dg-s" text-anchor="middle">3</text>
+<text x="60" y="106" class="dg-m" text-anchor="start">target = 9</text>
+<text x="300" y="52" class="dg-m" text-anchor="start">9 − 7 = 2</text>
+<path class="dg-line" marker-end="url(#ah)" d="M300 62 L300 86" />
+<text x="300" y="106" class="dg-s" text-anchor="start">seen?</text>
+<rect x="420" y="34" width="170" height="80" rx="6" class="dg-muted" />
+<text x="505" y="58" class="dg-m" text-anchor="middle">seen</text>
+<text x="505" y="84" class="dg-t" text-anchor="middle">2 → index 0</text>
+<path class="dg-line" marker-end="url(#ah)" d="M360 74 L412 74" />
+<text x="0" y="150" class="dg-s" text-anchor="start">insert after checking, or an element pairs with itself</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Two numbers summing to a target - one pass, O(n)',

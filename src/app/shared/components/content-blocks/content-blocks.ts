@@ -75,6 +75,15 @@ export class ContentBlocks {
     this.language.set(language);
   }
 
+  /**
+   * Figure bodies are SVG authored in this repository — constants in the
+   * bundle, never anything a reader supplies — so they are trusted as markup.
+   * `figures.spec.ts` fails the build on anything script-shaped.
+   */
+  protected drawing(body: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(body);
+  }
+
   /** Source of the snippet most recently copied, so one button can confirm. */
   protected readonly copied = signal<string | null>(null);
 

@@ -35,6 +35,27 @@ export const COMPLEXITY: Chapter = {
           text: 'This chapter teaches you to work out, before running anything, whether your code will finish in a second or in three hours. You are not measuring time — you are counting roughly how many steps it takes as the input gets bigger.',
         },
         {
+          kind: 'figure',
+          height: 188,
+          label: 'Seconds compared with a count of steps as a measure of cost',
+          caption: 'This is why the whole subject counts operations instead of timing them.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Seconds describe a machine; growth describes the algorithm</text>
+<rect x="40" y="40" width="240" height="100" rx="6" class="dg-muted" />
+<text x="160" y="68" class="dg-t" text-anchor="middle">measured in seconds</text>
+<text x="160" y="94" class="dg-s" text-anchor="middle">changes with the laptop,</text>
+<text x="160" y="114" class="dg-s" text-anchor="middle">the language, the mood</text>
+<rect x="340" y="40" width="240" height="100" rx="6" class="dg-fill" />
+<text x="460" y="68" class="dg-t" text-anchor="middle">counted in steps</text>
+<text x="460" y="94" class="dg-s" text-anchor="middle">same answer everywhere,</text>
+<text x="460" y="114" class="dg-s" text-anchor="middle">and it predicts</text>
+<text x="0" y="176" class="dg-s" text-anchor="start">a faster machine shifts the line down; a better algorithm changes its shape</text>`,
+        },
+        {
           kind: 'para',
           text: 'Timing a program with a stopwatch tells you about your laptop, your compiler, the current CPU temperature and what else was running. None of that transfers. So instead of seconds we count **elementary operations as a function of the input size**, which is a property of the algorithm itself.',
         },

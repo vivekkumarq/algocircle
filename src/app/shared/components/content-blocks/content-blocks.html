@@ -124,6 +124,20 @@
       </figure>
     }
 
+    @case ('figure') {
+      <figure class="figure">
+        <svg
+          [attr.viewBox]="'0 0 620 ' + block.height"
+          [attr.aria-label]="block.label"
+          role="img"
+          [innerHTML]="drawing(block.body)"
+        ></svg>
+        @if (block.caption) {
+          <figcaption>{{ block.caption }}</figcaption>
+        }
+      </figure>
+    }
+
     @case ('visual') {
       <app-algo-visual [name]="block.name" [caption]="block.caption" />
     }

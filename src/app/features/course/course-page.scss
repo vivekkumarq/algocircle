@@ -6,6 +6,17 @@
   position: relative;
 }
 
+/* Same per-lesson accent as the topic pages; see chapter-page.scss. */
+@supports (color: oklch(50% 0.1 200)) {
+  .lesson {
+    --accent: oklch(var(--accent-l) var(--accent-c) var(--hue));
+    --accent-hover: oklch(var(--accent-hover-l) var(--accent-c) var(--hue));
+    --accent-text: oklch(var(--accent-text-l) var(--accent-c) var(--hue));
+    --accent-soft: oklch(var(--accent-soft-l) var(--accent-soft-c) var(--hue));
+    --accent-contrast: oklch(var(--accent-contrast-l) 0 0);
+  }
+}
+
 /* A soft, lesson-coloured wash, matching how chapter pages tint themselves. */
 .backdrop {
   position: fixed;

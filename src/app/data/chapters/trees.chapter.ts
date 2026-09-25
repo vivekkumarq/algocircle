@@ -208,6 +208,45 @@ while queue:
           text: 'Most tree problems have the same shape: ask each child for a summary, combine the two summaries into your own answer, and return it. Sometimes you also record a global best on the way through.',
         },
         {
+          kind: 'figure',
+          height: 256,
+          label: 'Heights returned from the leaves upward to the root',
+          caption: 'Write the contract first, then trust it for the children.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">Each node answers for itself using only what the children returned</text>
+<circle cx="300" cy="50" r="17" class="dg-fill" />
+<text x="300" y="54.5" class="dg-t" text-anchor="middle">a</text>
+<circle cx="200" cy="124" r="17" class="dg-box" />
+<text x="200" y="128.5" class="dg-t" text-anchor="middle">b</text>
+<circle cx="400" cy="124" r="17" class="dg-box" />
+<text x="400" y="128.5" class="dg-t" text-anchor="middle">c</text>
+<circle cx="140" cy="196" r="17" class="dg-box" />
+<text x="140" y="200.5" class="dg-t" text-anchor="middle">d</text>
+<circle cx="260" cy="196" r="17" class="dg-box" />
+<text x="260" y="200.5" class="dg-t" text-anchor="middle">e</text>
+<path class="dg-thin" d="M288 66 L212 108" />
+<path class="dg-thin" d="M312 66 L388 108" />
+<path class="dg-thin" d="M188 140 L152 180" />
+<path class="dg-thin" d="M212 140 L248 180" />
+<path class="dg-line" marker-end="url(#ah)" d="M146 178 L190 142" />
+<path class="dg-line" marker-end="url(#ah)" d="M254 178 L210 142" />
+<path class="dg-line" marker-end="url(#ah)" d="M206 106 L292 68" />
+<path class="dg-line" marker-end="url(#ah)" d="M394 106 L308 68" />
+<text x="120" y="150" class="dg-m" text-anchor="middle">1</text>
+<text x="285" y="150" class="dg-m" text-anchor="middle">1</text>
+<text x="230" y="84" class="dg-m" text-anchor="middle">2</text>
+<text x="370" y="84" class="dg-m" text-anchor="middle">1</text>
+<text x="300" y="22" class="dg-m" text-anchor="middle">answer = 3</text>
+<text x="470" y="110" class="dg-s" text-anchor="start">the contract:</text>
+<text x="470" y="132" class="dg-s" text-anchor="start">one sentence about</text>
+<text x="470" y="152" class="dg-s" text-anchor="start">what you return</text>
+<text x="0" y="244" class="dg-s" text-anchor="start">answers flow upwards; a node never looks down more than one level</text>`,
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Height - the simplest instance of the pattern',
@@ -367,6 +406,40 @@ ordered = [columns[d] for d in sorted(columns)]`,
         {
           kind: 'para',
           text: 'The LCA of two nodes is the deepest node having both as descendants. In a general binary tree the recursive solution is four lines, and the reasoning is what makes it memorable.',
+        },
+        {
+          kind: 'figure',
+          height: 268,
+          label: 'Two marked nodes whose lowest common ancestor is their shared parent',
+          caption: 'Return the node itself when both children report a find; otherwise pass up whatever came back.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">The first node that sees a target on both sides is the answer</text>
+<circle cx="300" cy="50" r="17" class="dg-box" />
+<text x="300" y="54.5" class="dg-t" text-anchor="middle">r</text>
+<circle cx="200" cy="118" r="17" class="dg-fill2" />
+<text x="200" y="122.5" class="dg-on" text-anchor="middle">x</text>
+<circle cx="400" cy="118" r="17" class="dg-box" />
+<text x="400" y="122.5" class="dg-t" text-anchor="middle">y</text>
+<circle cx="140" cy="190" r="17" class="dg-fill" />
+<text x="140" y="194.5" class="dg-t" text-anchor="middle">p</text>
+<circle cx="260" cy="190" r="17" class="dg-fill" />
+<text x="260" y="194.5" class="dg-t" text-anchor="middle">q</text>
+<circle cx="400" cy="190" r="17" class="dg-box" />
+<text x="400" y="194.5" class="dg-t" text-anchor="middle">z</text>
+<path class="dg-thin" d="M288 64 L212 104" />
+<path class="dg-thin" d="M312 64 L388 104" />
+<path class="dg-thin" d="M188 134 L152 174" />
+<path class="dg-thin" d="M212 134 L248 174" />
+<path class="dg-thin" d="M400 136 L400 172" />
+<path class="dg-line" marker-end="url(#ah)" d="M140 172 L190 132" />
+<path class="dg-line" marker-end="url(#ah)" d="M260 172 L210 132" />
+<text x="200" y="84" class="dg-m" text-anchor="middle">both sides non-null</text>
+<text x="200" y="232" class="dg-s" text-anchor="middle">lowest common ancestor of p and q</text>
+<text x="0" y="256" class="dg-s" text-anchor="start">above x, only one side ever reports back, so x is where the paths join</text>`,
         },
         {
           kind: 'code',
@@ -537,6 +610,43 @@ def down(node: TreeNode | None) -> int:
         {
           kind: 'para',
           text: 'To rebuild a tree from a traversal you need enough information to know where the subtrees end. One traversal alone is not enough — unless it records the nulls.',
+        },
+        {
+          kind: 'figure',
+          height: 202,
+          label: 'A three-node tree written out as preorder tokens with null markers',
+          caption: 'Reconstruction reads the same sequence back, consuming one token per node.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">The nulls are what make the shape unambiguous</text>
+<circle cx="140" cy="56" r="17" class="dg-box" />
+<text x="140" y="60.5" class="dg-t" text-anchor="middle">1</text>
+<circle cx="80" cy="124" r="17" class="dg-box" />
+<text x="80" y="128.5" class="dg-t" text-anchor="middle">2</text>
+<circle cx="200" cy="124" r="17" class="dg-box" />
+<text x="200" y="128.5" class="dg-t" text-anchor="middle">3</text>
+<path class="dg-thin" d="M128 72 L92 108" />
+<path class="dg-thin" d="M152 72 L188 108" />
+<path class="dg-line" marker-end="url(#ah)" d="M250 100 L310 100" />
+<rect x="330" y="80" width="38" height="38" rx="4" class="dg-box" />
+<text x="349" y="103.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="372" y="80" width="38" height="38" rx="4" class="dg-box" />
+<text x="391" y="103.5" class="dg-t" text-anchor="middle">2</text>
+<rect x="414" y="80" width="38" height="38" rx="4" class="dg-muted" />
+<text x="433" y="103.5" class="dg-t" text-anchor="middle">#</text>
+<rect x="456" y="80" width="38" height="38" rx="4" class="dg-muted" />
+<text x="475" y="103.5" class="dg-t" text-anchor="middle">#</text>
+<rect x="498" y="80" width="38" height="38" rx="4" class="dg-box" />
+<text x="517" y="103.5" class="dg-t" text-anchor="middle">3</text>
+<rect x="540" y="80" width="38" height="38" rx="4" class="dg-muted" />
+<text x="559" y="103.5" class="dg-t" text-anchor="middle">#</text>
+<rect x="582" y="80" width="38" height="38" rx="4" class="dg-muted" />
+<text x="601" y="103.5" class="dg-t" text-anchor="middle">#</text>
+<text x="460" y="152" class="dg-s" text-anchor="middle">preorder with null markers</text>
+<text x="0" y="190" class="dg-s" text-anchor="start">without the markers, 1 2 3 could be three different trees</text>`,
         },
         {
           kind: 'list',

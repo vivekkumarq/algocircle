@@ -14,6 +14,13 @@ export type Block =
   | { kind: 'table'; headers: string[]; rows: string[][]; caption?: string }
   | { kind: 'steps'; items: { title: string; text: string }[] }
   | { kind: 'diagram'; art: string; caption?: string }
+  /**
+   * A hand-drawn figure. `body` is the inside of an `<svg>`, authored in this
+   * repository and drawn with the shared `dg-*` classes so one drawing is
+   * correct in every palette. It is trusted content, not user input; a test
+   * rejects anything script-shaped.
+   */
+  | { kind: 'figure'; body: string; label: string; height: number; caption?: string }
   | { kind: 'visual'; name: string; caption?: string }
   | { kind: 'compare'; columns: { title: string; points: string[] }[] }
   | { kind: 'check'; question: string; answer: string };

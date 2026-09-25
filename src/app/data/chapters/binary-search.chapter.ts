@@ -96,6 +96,31 @@ return -1`,
           text: 'Rather than memorising variants, keep one invariant in mind and derive the rest. Using a half-open range `[lo, hi)` — `lo` inclusive, `hi` exclusive — removes most of the arithmetic.',
         },
         {
+          kind: 'figure',
+          height: 198,
+          label: 'A search range with ruled-out regions either side of the live interval',
+          caption: 'Every correct binary search is a sentence about what the range still contains.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">The half-open range: lo is "maybe", hi is "definitely past the end"</text>
+<rect x="40" y="36" width="200" height="44" rx="6" class="dg-muted" />
+<text x="140" y="62.5" class="dg-t" text-anchor="middle">ruled out</text>
+<rect x="240" y="36" width="200" height="44" rx="6" class="dg-fill" />
+<text x="340" y="62.5" class="dg-t" text-anchor="middle">still possible</text>
+<rect x="440" y="36" width="140" height="44" rx="6" class="dg-muted" />
+<text x="510" y="62.5" class="dg-t" text-anchor="middle">ruled out</text>
+<text x="240" y="104" class="dg-m" text-anchor="middle">lo</text>
+<text x="440" y="104" class="dg-m" text-anchor="middle">hi</text>
+<path class="dg-line" marker-end="url(#ah)" d="M240 100 L240 86" />
+<path class="dg-line" marker-end="url(#ah)" d="M440 100 L440 86" />
+<text x="340" y="134" class="dg-s" text-anchor="middle">answer is somewhere in [lo, hi)</text>
+<text x="340" y="156" class="dg-s" text-anchor="middle">loop ends when the range is empty, and lo is the answer</text>
+<text x="0" y="186" class="dg-s" text-anchor="start">pick one convention and the off-by-one questions stop being questions</text>`,
+        },
+        {
           kind: 'list',
           items: [
             'The answer, if it exists, is always inside `[lo, hi)`.',
@@ -350,6 +375,47 @@ def feasible(a: list[int], m: int, limit: int) -> bool:
             '**Unknown length (a stream or an API):** double an index until you overshoot, then binary search inside that range.',
             '**Peak finding:** compare `a[mid]` with `a[mid+1]`; the peak is on the side that goes uphill. It works without any sorting at all.',
           ],
+        },
+        {
+          kind: 'figure',
+          height: 226,
+          label: 'A row of candidate answers where a feasibility test flips from no to yes',
+          caption: 'Searching the answer space is the same algorithm with a different range.',
+          body: `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path class="dg-head" d="M0 0 L10 5 L0 10 z" />
+  </marker>
+</defs>
+<text x="0" y="18" class="dg-s" text-anchor="start">The range does not have to be an array</text>
+<rect x="40" y="36" width="62" height="40" rx="4" class="dg-box" />
+<text x="71" y="60.5" class="dg-t" text-anchor="middle">1</text>
+<rect x="108" y="36" width="62" height="40" rx="4" class="dg-box" />
+<text x="139" y="60.5" class="dg-t" text-anchor="middle">2</text>
+<rect x="176" y="36" width="62" height="40" rx="4" class="dg-box" />
+<text x="207" y="60.5" class="dg-t" text-anchor="middle">3</text>
+<rect x="244" y="36" width="62" height="40" rx="4" class="dg-box" />
+<text x="275" y="60.5" class="dg-t" text-anchor="middle">4</text>
+<rect x="312" y="36" width="62" height="40" rx="4" class="dg-fill2" />
+<text x="343" y="60.5" class="dg-on" text-anchor="middle">5</text>
+<rect x="380" y="36" width="62" height="40" rx="4" class="dg-box" />
+<text x="411" y="60.5" class="dg-t" text-anchor="middle">6</text>
+<rect x="448" y="36" width="62" height="40" rx="4" class="dg-box" />
+<text x="479" y="60.5" class="dg-t" text-anchor="middle">7</text>
+<rect x="516" y="36" width="62" height="40" rx="4" class="dg-box" />
+<text x="547" y="60.5" class="dg-t" text-anchor="middle">8</text>
+<text x="320" y="96" class="dg-s" text-anchor="middle">candidate answers, smallest to largest</text>
+<text x="40" y="132" class="dg-m" text-anchor="start">feasible?</text>
+<text x="71" y="132" class="dg-s" text-anchor="middle">no</text>
+<text x="139" y="132" class="dg-s" text-anchor="middle">no</text>
+<text x="207" y="132" class="dg-s" text-anchor="middle">no</text>
+<text x="275" y="132" class="dg-s" text-anchor="middle">no</text>
+<text x="343" y="132" class="dg-m" text-anchor="middle">yes</text>
+<text x="411" y="132" class="dg-m" text-anchor="middle">yes</text>
+<text x="479" y="132" class="dg-m" text-anchor="middle">yes</text>
+<text x="547" y="132" class="dg-m" text-anchor="middle">yes</text>
+<path class="dg-line" d="M316 148 L316 168" />
+<text x="316" y="186" class="dg-s" text-anchor="middle">the boundary is what you are searching for</text>
+<text x="0" y="214" class="dg-s" text-anchor="start">if the predicate is no-no-no-yes-yes, binary search applies</text>`,
         },
         {
           kind: 'callout',
