@@ -39,6 +39,19 @@ export const SORTING: Chapter = {
           text: 'You will rarely implement a sort at work — but sorting is the most common **preprocessing step** in problem solving, because a sorted array unlocks binary search, two pointers, greedy scans and easy duplicate handling.',
         },
         {
+          kind: 'table',
+          caption: 'What the O(n log n) buys you. Each of these is cheap on sorted data and awkward without it.',
+          headers: ['Once sorted, this becomes', 'Cost after sorting', 'Cost without sorting'],
+          rows: [
+            ['Find a value', 'O(log n) binary search', 'O(n) scan'],
+            ['Find a pair summing to a target', 'O(n) two pointers', 'O(n) with a hash map, O(n^2) without'],
+            ['Remove duplicates', 'O(n), they are adjacent', 'O(n) with a set, plus the memory'],
+            ['Find the k largest', 'O(1) — read the tail', 'O(n log k) with a heap'],
+            ['Merge overlapping intervals', 'O(n) single sweep', 'not really possible'],
+            ['Group equal items', 'O(n), they are adjacent', 'O(n) with a map of lists'],
+          ],
+        },
+        {
           kind: 'callout',
           tone: 'key',
           text: 'The useful question is not "how do I write quick sort" but "does sorting first make this problem easy, and can I afford the `n log n`?". Very often the answer to both is yes.',
