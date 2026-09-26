@@ -87,7 +87,7 @@
   margin: 0;
 }
 
-.group a {
+.topic__row > a {
   position: relative;
   display: flex;
   gap: var(--space-3);
@@ -99,7 +99,7 @@
   transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
 
-.group a::before {
+.topic__row > a::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -112,11 +112,11 @@
   transition: height var(--dur) var(--ease);
 }
 
-.group a.is-active::before {
+.topic__row > a.is-active::before {
   height: 60%;
 }
 
-.group a:hover {
+.topic__row > a:hover {
   background: var(--bg-inset);
   color: var(--text-primary);
 }
@@ -128,14 +128,99 @@
   color: var(--text-muted);
 }
 
-.group a.is-active {
+.topic__row > a.is-active {
   background: var(--accent-soft);
   color: var(--accent-text);
   font-weight: 550;
 }
 
-.group a.is-active .num {
+.topic__row > a.is-active .num {
   color: var(--accent-text);
+}
+
+/* A topic row is the link plus a disclosure. The link keeps the whole width it
+   had; the chevron sits on top of its right edge so nothing reflows when the
+   outline opens. */
+.topic__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.topic__row > a {
+  flex: 1;
+  min-width: 0;
+  padding-right: 2rem;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topic__toggle {
+  position: absolute;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.topic__toggle:hover {
+  background: var(--bg-inset);
+  color: var(--text-primary);
+}
+
+.is-open .topic__toggle {
+  color: var(--accent-text);
+  transform: rotate(180deg);
+}
+
+/* The sections of one topic. Indented under the number column and hung off a
+   hairline so the nesting reads at a glance. */
+/* `.group ul` zeroes the padding for the topic list, and it out-specifies a
+   lone class, so these rules are written against the group too. */
+.group .outline {
+  margin: 2px 0 var(--space-3) calc(var(--space-3) + 7px);
+  padding-left: var(--space-4);
+  border-left: 1px solid var(--border);
+  animation: outline-in var(--dur) var(--ease) both;
+}
+
+.outline a {
+  display: block;
+  padding: 0.3rem var(--space-3) 0.3rem 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.35;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.outline a:hover {
+  color: var(--accent-text);
+}
+
+@keyframes outline-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group .outline {
+    animation: none;
+  }
 }
 
 /* Below the rail breakpoint this list is the off-canvas drawer, driven by a
@@ -154,8 +239,22 @@
     padding-block: 0.62rem;
   }
 
-  .group a {
+  .topic__row > a {
     padding-block: 0.55rem;
+  }
+
+  /* Thumbs, not cursors: the chevron and the section rows get a real target. */
+  .topic__toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .topic__row > a {
+    padding-right: 2.6rem;
+  }
+
+  .outline a {
+    padding-block: 0.5rem;
   }
 
   .group__label {

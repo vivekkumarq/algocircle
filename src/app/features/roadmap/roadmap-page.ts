@@ -62,7 +62,7 @@ export class RoadmapPage {
       level: topic.level,
       summary: topic.summary,
       minutes: topic.minutes,
-      sections: topic.sections,
+      sections: topic.sections.length,
       problems: PROBLEMS.filter((problem) => problem.topic === topic.slug).length,
       x,
       y: GRAPH_LAYOUT.padding + position.row * GRAPH_LAYOUT.rowPitch,

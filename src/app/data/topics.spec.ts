@@ -23,13 +23,15 @@ describe('topic metadata', () => {
       expect(topic.level).toBe(chapter.level);
       expect(topic.order).toBe(chapter.order);
       expect(topic.minutes).toBe(chapter.readingMinutes);
-      expect(topic.sections).toBe(chapter.sections.length);
+      expect(topic.sections).toEqual(
+        chapter.sections.map((section) => ({ id: section.id, title: section.title })),
+      );
       expect(topic.summary).toBe(chapter.summary);
     }
   });
 
   it('totals are derived from the entries', () => {
-    expect(TOTAL_TOPIC_SECTIONS).toBe(TOPICS.reduce((n, t) => n + t.sections, 0));
+    expect(TOTAL_TOPIC_SECTIONS).toBe(TOPICS.reduce((n, t) => n + t.sections.length, 0));
     expect(TOTAL_TOPIC_MINUTES).toBe(TOPICS.reduce((n, t) => n + t.minutes, 0));
   });
 

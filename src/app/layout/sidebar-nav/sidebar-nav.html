@@ -32,15 +32,45 @@
     <h2 class="group__label">{{ group.level }}</h2>
     <ul>
       @for (topic of group.topics; track topic.slug) {
-        <li>
-          <a
-            [routerLink]="['/learn', topic.slug]"
-            routerLinkActive="is-active"
-            (click)="onNavigate()"
-          >
-            <span class="num">{{ pad(topic.order) }}</span>
-            <span class="label">{{ topic.label }}</span>
-          </a>
+        <li class="topic" [class.is-open]="isOpen(topic.slug)">
+          <div class="topic__row">
+            <a
+              [routerLink]="['/learn', topic.slug]"
+              routerLinkActive="is-active"
+              (click)="onNavigate()"
+            >
+              <span class="num">{{ pad(topic.order) }}</span>
+              <span class="label">{{ topic.label }}</span>
+            </a>
+            <button
+              type="button"
+              class="topic__toggle"
+              [attr.aria-expanded]="isOpen(topic.slug)"
+              [attr.aria-controls]="'outline-' + topic.slug"
+              [attr.aria-label]="
+                (isOpen(topic.slug) ? 'Hide' : 'Show') + ' the sections of ' + topic.label
+              "
+              (click)="toggle(topic.slug)"
+            >
+              <app-icon name="chevron-down" [size]="14" />
+            </button>
+          </div>
+
+          @if (isOpen(topic.slug)) {
+            <ul class="outline" [id]="'outline-' + topic.slug">
+              @for (section of topic.sections; track section.id) {
+                <li>
+                  <a
+                    [routerLink]="['/learn', topic.slug]"
+                    [fragment]="section.id"
+                    (click)="onNavigate()"
+                  >
+                    {{ section.title }}
+                  </a>
+                </li>
+              }
+            </ul>
+          }
         </li>
       }
     </ul>

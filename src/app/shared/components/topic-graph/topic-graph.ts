@@ -58,7 +58,7 @@ export class TopicGraph {
       order: topic.order,
       level: topic.level,
       minutes: topic.minutes,
-      sections: topic.sections,
+      sections: topic.sections.length,
       summary: topic.summary,
       x,
       y,
