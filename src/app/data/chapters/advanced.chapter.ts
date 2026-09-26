@@ -441,6 +441,11 @@ def query(l: int, r: int) -> int:       # inclusive
       title: 'Choosing under pressure',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Knowing these structures is one thing; recognising which one a problem is asking for, under time pressure, is another. The mapping is more mechanical than it feels — the operation you need repeatedly usually names the structure by itself.',
+        },
+        {
           kind: 'steps',
           items: [
             { title: 'Does the data change?', text: 'No — prefix sums or a sparse table. Yes — a Fenwick or segment tree.' },
@@ -450,6 +455,11 @@ def query(l: int, r: int) -> int:       # inclusive
             { title: 'Is it connectivity that only ever merges?', text: 'Disjoint set union.' },
             { title: 'Do you need order and range queries on keys?', text: 'A balanced tree map.' },
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'If nothing in the list matches, that is information too. Most problems do not need a specialised structure, and reaching for a segment tree when a prefix sum would do costs you time you do not have. Ask what has to stay fast while the data changes; if nothing changes, an array and a sort are almost always enough.',
         },
         {
           kind: 'callout',

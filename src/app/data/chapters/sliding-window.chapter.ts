@@ -218,6 +218,11 @@ for right in 0 .. n-1:
       title: 'Worked example: longest substring without repeats',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'The template is easier to trust once you have seen it run. Take the longest substring with no repeated character in `abcabcbb`: the window grows while the characters stay distinct, and the moment one repeats, the left edge jumps past the earlier copy rather than stepping one at a time.',
+        },
+        {
           kind: 'steps',
           items: [
             { title: 'State the invariant', text: 'The window contains no repeated character.' },
@@ -225,6 +230,11 @@ for right in 0 .. n-1:
             { title: 'Restore', text: 'While that character now appears twice, remove from the left.' },
             { title: 'Record', text: 'The window is valid again, so its length is a candidate.' },
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'Watch which quantity each step maintains. The count of each character inside the window is updated as the edges move, so the validity test is a single lookup rather than a rescan. That is the whole reason the window is linear: every element enters once, leaves once, and is never examined again.',
         },
         {
           kind: 'code',
@@ -452,6 +462,11 @@ for right, value in enumerate(a):
       title: 'Recognition signals',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Recognising a window problem is mostly about spotting two things in the statement together: a **contiguous** range — a substring or a subarray, never a subsequence — and a question about the best or the count of such ranges. If the elements are allowed to be non-adjacent, a window cannot help and you are looking at a different technique.',
+        },
+        {
           kind: 'table',
           headers: ['Phrase in the problem', 'What it means'],
           rows: [
@@ -469,6 +484,11 @@ for right, value in enumerate(a):
           tone: 'trap',
           title: 'When a window does not work',
           text: 'Sliding windows need the rule to be **monotone**: extending can only make the window worse, and shrinking can only make it better. With negative numbers and a "sum at least S" rule that fails — adding an element can help — so prefix sums with a map or a deque is the correct tool instead.',
+        },
+        {
+          kind: 'para',
+          text:
+            'One condition matters more than any keyword: growing the window must move the quantity you are testing in one direction. Adding a positive number always increases a sum, so a window works. Add negative numbers and it does not, because a longer window may have a smaller sum — that problem wants prefix sums with a hash map instead, and this is the single most common way a window is misapplied.',
         },
         {
           kind: 'check',

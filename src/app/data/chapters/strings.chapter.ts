@@ -438,6 +438,11 @@ z = _ 1 0 3 1 0
       title: 'A checklist for string problems',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Strings are arrays with a small alphabet and, in most languages, immutability — so the questions worth asking are about those two facts. How large is the alphabet, and is anything being copied that need not be?',
+        },
+        {
           kind: 'list',
           ordered: true,
           items: [

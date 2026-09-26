@@ -118,6 +118,11 @@ total = 2n + 2`,
       title: 'The growth rates you will actually meet',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'There are only about seven growth rates you will meet in practice, and the gaps between them are far larger than they look written down. Doubling the input barely touches a logarithmic algorithm, doubles a linear one, quadruples a quadratic one, and squares the running time of an exponential one.',
+        },
+        {
           kind: 'table',
           caption: 'Ordered from best to worst. Almost everything you write will be in the first six rows.',
           headers: ['Complexity', 'Name', 'A typical cause'],
@@ -131,6 +136,11 @@ total = 2n + 2`,
             ['`O(2^n)`', 'exponential', 'enumerate every subset'],
             ['`O(n!)`', 'factorial', 'enumerate every permutation'],
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'The practical lesson is that constant factors almost never decide anything. An `O(n log n)` algorithm written carelessly in a slow language will beat a beautifully tuned `O(n^2)` one long before the input gets interesting. Choose the class first; optimise the constant only when the class is already right.',
         },
         {
           kind: 'visual',
@@ -165,6 +175,11 @@ total = 2n + 2`,
       id: 'rules',
       title: 'Four rules that cover most analysis',
       blocks: [
+        {
+          kind: 'para',
+          text:
+            'Analysing code sounds mathematical, but in practice four habits cover nearly everything you will meet. Work from the inside out: find the operation that runs most often, count how many times it runs as a function of the input, and discard everything that grows more slowly.',
+        },
         {
           kind: 'steps',
           items: [
@@ -205,6 +220,11 @@ total = 2n + 2`,
           source: `for i in 0 .. n-1:
     for j in i+1 .. n-1:
         work()`,
+        },
+        {
+          kind: 'para',
+          text:
+            'Nested loops are the one place people rush. Two loops are only `O(n^2)` when the inner one runs a number of times proportional to `n` for every outer step. If the inner loop starts at the outer index, it runs `n`, then `n - 1`, then `n - 2` — which still sums to about `n^2 / 2`, so the class is unchanged. But if the inner loop runs a fixed number of times, or halves each round, the answer is completely different.',
         },
         {
           kind: 'code',
@@ -421,6 +441,11 @@ log(n) levels  x  n per level  =  O(n log n)`,
       title: 'Mistakes people make in analysis',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Nearly every analysis error is one of the following, and all of them come from counting the wrong thing rather than from arithmetic.',
+        },
+        {
           kind: 'list',
           items: [
             '**Forgetting the cost of library calls.** `contains` on a list, `substring`, `insert(0, ...)` and set-to-list conversions are not free.',
@@ -435,6 +460,11 @@ log(n) levels  x  n per level  =  O(n log n)`,
           kind: 'callout',
           tone: 'key',
           text: 'A complete answer names both costs and the reason: "linear time because each element is pushed and popped at most once, and linear space for the stack in the worst case". Say it that way and the analysis question is finished.',
+        },
+        {
+          kind: 'para',
+          text:
+            'The subtlest is hidden cost inside a library call. `substring`, `contains` on a list, concatenating strings in a loop, or copying a collection all look like one step and are not. If you are unsure what an operation costs, that uncertainty is itself the finding — look it up before trusting the analysis.',
         },
       ],
     },

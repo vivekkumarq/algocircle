@@ -87,6 +87,11 @@ buckets:
       title: 'What it actually costs',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Hash tables are advertised as `O(1)`, and that is true on average but not always. Understanding where the average comes from is what stops you being surprised by the one problem where it does not hold.',
+        },
+        {
           kind: 'table',
           headers: ['Operation', 'Average', 'Worst', 'Why the worst case happens'],
           rows: [
@@ -95,6 +100,11 @@ buckets:
             ['Delete', '`O(1)`', '`O(n)`', 'same'],
             ['Iterate all', '`O(n)`', '`O(n)`', 'order is not guaranteed'],
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'A lookup does three things: compute the hash, jump to that bucket, and compare against whatever is already there. The first two are genuinely constant. The third is only constant if buckets stay short, which holds when the hash spreads keys evenly and the table grows as it fills. Break either assumption — a poor hash, or adversarial keys chosen to collide — and every key lands in one bucket, turning the lookup back into a linear scan.',
         },
         {
           kind: 'callout',
@@ -129,6 +139,11 @@ buckets:
           kind: 'callout',
           tone: 'note',
           text: 'If the value range is small and dense — letters, digits, ages, numbers up to a million — an array indexed by the value is faster and simpler than any hash map.',
+        },
+        {
+          kind: 'para',
+          text:
+            'Two costs are easy to forget because they do not show up in the complexity. Hashing a long string reads the whole string, so the constant is proportional to key length rather than truly fixed. And a table that grows has to rehash everything into a bigger array — amortised away over many inserts, but a single insert can be slow, which matters if you care about latency rather than throughput.',
         },
       ],
     },
@@ -362,6 +377,11 @@ for value in a:
       title: 'When hashing is the wrong tool',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'A hash map is the right answer often enough that reaching for it becomes a reflex, and that reflex is worth interrupting. A hash destroys order: it can tell you whether a key is present, but never what is nearest, what comes next, or what falls in a range. Any question phrased in those terms wants a sorted structure or a tree instead.',
+        },
+        {
           kind: 'list',
           items: [
             'You need **sorted order** or range queries — use a tree map or sort.',
@@ -376,6 +396,11 @@ for value in a:
           kind: 'callout',
           tone: 'key',
           text: 'The instinct worth building: when you catch yourself writing a nested loop to find something, stop and ask what key would let you look it up instead. That question turns `O(n^2)` into `O(n)` more often than any other in this course.',
+        },
+        {
+          kind: 'para',
+          text:
+            'The other case is when a plain array would do. If the keys are small integers or letters from a fixed alphabet, an array indexed directly by the key is faster, uses less memory and never collides — the subtraction `c - a` is a perfect hash function that costs nothing.',
         },
       ],
     },

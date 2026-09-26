@@ -504,6 +504,11 @@ return False`,
       title: 'Recognising a two-pointer problem',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Two pointers is a technique you spot rather than derive, and the tells are consistent. Look for a sorted input, a question about a pair or a triple, a phrase like "from both ends", or any problem where the obvious solution examines every pair and you need to do better.',
+        },
+        {
           kind: 'list',
           items: [
             'The input is **sorted**, or sorting it does not break the question.',
@@ -519,6 +524,11 @@ return False`,
           tone: 'trap',
           title: 'When it does not apply',
           text: 'Two pointers need a monotonic relation. With negative numbers and a product target, or when sorting destroys required index order, the elimination argument fails — and a hash map or a different structure is the right answer.',
+        },
+        {
+          kind: 'para',
+          text:
+            'The condition that actually has to hold is monotonicity: moving a pointer must change what you are measuring in a predictable direction, so that discarding one end can never throw away the answer. When the input is not sorted and nothing else is monotone, the technique does not apply — and sorting first, at `O(n log n)`, is often what makes it apply.',
         },
         {
           kind: 'check',

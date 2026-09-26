@@ -92,6 +92,11 @@ export const LINKED_LISTS: Chapter = {
       title: 'Traversal and the golden rule',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Walking a list is the loop everything else is built from, and it has exactly one hazard: you are standing on the only thing holding the rest of the chain. An array lets you revisit `a[i - 1]` whenever you like; a list does not. Once you overwrite a `next` pointer, whatever it referred to is unreachable unless you saved it first.',
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'The loop you will write a hundred times',
@@ -137,6 +142,11 @@ while node:
 <text x="580" y="79" class="dg-s" text-anchor="start">null</text>
 <path class="dg-thin" d="M40 114 q0 6 6 6 H275 q6 0 6 6 q0 -6 6 -6 H516 q6 0 6 -6" />
 <text x="281" y="140" class="dg-m" text-anchor="middle">reaching position k costs k steps — there is no a[k]</text>`,
+        },
+        {
+          kind: 'para',
+          text:
+            'This is why list code looks so repetitive — save, rewire, advance, in that order every time. The discipline is not stylistic. Swapping the first two lines is the single most common way to lose half a list, and because the program keeps running and simply produces a shorter list, it is easy to miss.',
         },
         {
           kind: 'callout',
@@ -672,6 +682,11 @@ return dummy.next`,
       id: 'checklist',
       title: 'Checklist',
       blocks: [
+        {
+          kind: 'para',
+          text:
+            'Linked-list bugs cluster in the same few places: the empty list, a list of one, the head itself, and the moment a pointer is overwritten. Before you call one finished, walk it through a two-node example by hand — most of these questions answer themselves on a drawing.',
+        },
         {
           kind: 'list',
           ordered: true,

@@ -29,6 +29,11 @@ export const STACKS_QUEUES: Chapter = {
       title: 'Two containers, two orders',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Both structures restrict where you may add and remove, and that restriction is the entire point. By giving up the freedom to touch the middle, you get an ordering guarantee for free — and that guarantee is usually the thing the problem was really about.',
+        },
+        {
           kind: 'callout',
           tone: 'note',
           title: 'In plain words',
@@ -517,6 +522,11 @@ for i, value in enumerate(a):
       title: 'Design questions built on these',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'A recurring interview genre asks you to build one structure out of another, or to add an operation without losing the existing guarantees. They look like puzzles, but each has the same resolution: store a little extra alongside each element so the new operation becomes a lookup rather than a scan.',
+        },
+        {
           kind: 'table',
           headers: ['Asked to build', 'Approach'],
           rows: [
@@ -526,6 +536,11 @@ for i, value in enumerate(a):
             ['Browser back and forward', 'two stacks, moving entries between them'],
             ['Hit counter over a time window', 'a queue holding timestamps; drop from the front while they are too old'],
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'A minimum-tracking stack is the clearest example. Scanning for the smallest element would be linear, so instead each entry carries the smallest value seen at or below it. Push computes it once from the entry underneath, and the minimum is then always sitting on top — constant time, at the cost of one extra number per element.',
         },
         {
           kind: 'code',

@@ -90,6 +90,11 @@ export const RECURSION: Chapter = {
       title: 'What every recursion needs',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'A recursive function is not a loop written oddly; it is a bargain. You promise to solve the problem for a smaller input, and in exchange you may assume that promise already holds for every smaller input. Three conditions make the bargain safe, and skipping any of them is what produces a stack overflow or a wrong answer.',
+        },
+        {
           kind: 'list',
           items: [
             '**A base case** that returns without recursing.',
@@ -103,6 +108,11 @@ export const RECURSION: Chapter = {
           tone: 'trap',
           title: 'The two failure modes',
           text: 'No base case, or a call that does not shrink the input, gives infinite recursion and a stack overflow. Depth proportional to `n` on an input of a million overflows even when the logic is perfect — that is when you convert to iteration.',
+        },
+        {
+          kind: 'para',
+          text:
+            'The one people break most often is the second: the input must get strictly smaller on every call, along a measure that cannot go on shrinking forever. "Smaller" usually means a shorter range, a lower index or fewer remaining items. If you cannot name the quantity that decreases, the function has no reason to stop, and the crash will come from the stack rather than from your logic.',
         },
         {
           kind: 'diagram',
@@ -557,6 +567,11 @@ def dfs_iterative(root: Node | None) -> None:  # explicit stack
       id: 'checklist',
       title: 'Checklist',
       blocks: [
+        {
+          kind: 'para',
+          text:
+            'When a recursive solution misbehaves, the fault is nearly always one of four things: a base case that is missing or wrong, an input that does not actually shrink, state that was changed and never undone, or a depth that the stack cannot hold. Check them in that order — the first two produce wrong answers, the last two produce crashes.',
+        },
         {
           kind: 'list',
           ordered: true,

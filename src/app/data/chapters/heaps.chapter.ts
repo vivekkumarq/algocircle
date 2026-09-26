@@ -289,6 +289,11 @@ rightChild(i)  = 2i + 2`,
       title: 'Priority queues in practice',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'You will rarely implement a heap. What you will do constantly is reach for the one your language provides, and the practical knowledge is about its interface rather than its internals: how to get a maximum out of a structure that gives minimums, and how to order by something other than the value itself.',
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Min-heap, max-heap, and ordering by a field',
@@ -318,6 +323,11 @@ heapq.heappush(jobs, (cost, name))`,
             ['C++', 'max-heap (`priority_queue`)', '`greater<int>` as the comparator'],
             ['Python', 'min-heap (`heapq`)', 'push negated values, or use a tuple key'],
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'One detail causes more trouble than the rest. A heap is not sorted — iterating it gives you no useful order, and only the element at the top is guaranteed to be the extreme. If you need everything in order, you have to pop repeatedly, which is exactly heapsort and costs `O(n log n)`.',
         },
         {
           kind: 'callout',

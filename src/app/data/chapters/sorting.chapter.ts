@@ -63,6 +63,11 @@ export const SORTING: Chapter = {
       title: 'The quadratic sorts, and what each one teaches',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Nobody ships bubble sort, so the reason to know these is not to use them. Each one embodies an idea that reappears in algorithms you will use: selection sort is repeated minimum-finding, insertion sort is maintaining a sorted prefix, and bubble sort is local swapping until nothing is out of order.',
+        },
+        {
           kind: 'table',
           headers: ['Sort', 'Idea', 'Best', 'Worst', 'Stable', 'Worth knowing because'],
           rows: [
@@ -70,6 +75,11 @@ export const SORTING: Chapter = {
             ['Selection', 'repeatedly take the minimum', '`O(n^2)`', '`O(n^2)`', 'no', 'it makes the fewest writes'],
             ['Insertion', 'insert each element into the sorted prefix', '`O(n)`', '`O(n^2)`', 'yes', 'it is genuinely fast on small or nearly sorted input'],
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'Insertion sort is the exception that earns its place in production. It is genuinely fast on small or nearly-sorted inputs — linear when the data is almost in order — which is why real library sorts switch to it for small partitions rather than recursing all the way down.',
         },
         {
           kind: 'visual',
@@ -310,6 +320,11 @@ export const SORTING: Chapter = {
       title: 'Counting, radix and bucket sort',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'The `n log n` barrier applies to sorts that work by comparing elements. Escape the comparison and the barrier goes with it: if you can use a value directly as an array index, you can sort by counting instead of comparing, and counting is linear.',
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'Counting sort - O(n + k) for values in [0, k)',
@@ -341,6 +356,11 @@ for value in range(k):
             ['Radix', '`O(d * (n + b))`', 'fixed-width keys', 'large integers, fixed-length strings'],
             ['Bucket', '`O(n)` expected', 'roughly uniform values', 'floats spread evenly over a range'],
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'The catch is the range. Counting sort needs an array the size of the value range, so sorting a handful of values spread over billions would allocate an absurd amount of memory for almost no data. These sorts win when the values are integers packed into a known, modest range — ages, scores, bytes — and lose everywhere else.',
         },
         {
           kind: 'callout',

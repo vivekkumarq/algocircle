@@ -189,6 +189,11 @@ for interval in intervals:
       title: 'Classic greedy algorithms',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'The algorithms below are worth knowing individually, but the reason they are grouped is that each one is a sort followed by a single scan. The whole difficulty is in the sort key — once the right ordering is chosen, the scan never reconsiders anything.',
+        },
+        {
           kind: 'table',
           headers: ['Problem', 'Greedy rule', 'Why it is safe'],
           rows: [
@@ -201,6 +206,11 @@ for interval in intervals:
             ['Kruskal MST', 'add the cheapest edge that joins two components', 'the cut property'],
             ['Dijkstra', 'settle the nearest unvisited vertex', 'non-negative weights mean it cannot improve later'],
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'Notice how much the key matters. Sorting intervals by finishing time gives you the maximum number of non-overlapping intervals; sorting the same intervals by starting time gives you a merge. Same data, same loop, different question, decided entirely by one comparator.',
         },
         {
           kind: 'visual',
@@ -336,6 +346,11 @@ optimal: 5 + 5 + 5        -> 2 coins`,
       title: 'A method for greedy problems',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'A greedy solution is quick to write and easy to get quietly wrong, so the method is mostly about proving the choice before trusting it. The steps below put the proof first for that reason.',
+        },
+        {
           kind: 'steps',
           items: [
             {
@@ -355,6 +370,11 @@ optimal: 5 + 5 + 5        -> 2 coins`,
               text: 'It will be a sort plus a scan, or a heap plus a loop.',
             },
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'The fastest way to test a greedy idea is to try to break it. Construct a small input where the locally best choice leads somewhere bad; if you cannot after a genuine attempt, the rule is probably safe. If you find one in thirty seconds — as you will with coin change on denominations like one, three and four — you have saved yourself a wrong submission and learned that the problem wants dynamic programming.',
         },
         {
           kind: 'callout',

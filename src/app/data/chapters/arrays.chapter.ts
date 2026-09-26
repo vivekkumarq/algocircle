@@ -690,6 +690,11 @@ target = whole - (A+B) - (A+C) + A`,
       title: 'A checklist for array problems',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Most array problems yield to a short interrogation before any code. Run these questions in order; the first one that gets a useful answer usually determines the technique.',
+        },
+        {
           kind: 'list',
           ordered: true,
           items: [

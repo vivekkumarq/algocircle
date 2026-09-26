@@ -329,6 +329,11 @@ return "not found"`,
       title: 'What DSA is not',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Before going further it is worth clearing away the things people believe about this subject that are not true, because each one quietly changes how you study. Believe that it is about memorising problems and you will grind lists instead of learning shapes. Believe it is only for interviews and you will drop it the moment you are hired.',
+        },
+        {
           kind: 'compare',
           columns: [
             {

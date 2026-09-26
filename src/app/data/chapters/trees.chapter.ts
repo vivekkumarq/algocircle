@@ -692,6 +692,11 @@ def down(node: TreeNode | None) -> int:
       title: 'Checklist',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Tree problems are unusually uniform: almost all of them are one traversal with a small amount of bookkeeping. These questions are about deciding which traversal and what to carry.',
+        },
+        {
           kind: 'list',
           ordered: true,
           items: [
