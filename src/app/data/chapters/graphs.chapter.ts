@@ -66,6 +66,11 @@ export const GRAPHS: Chapter = {
       title: 'Representations',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Before any algorithm, you have to decide how the graph is stored, and the choice is dictated by density. An **adjacency list** keeps, for each node, the list of its neighbours; an **adjacency matrix** keeps a grid of every possible pair. The list costs memory proportional to the edges that exist, the matrix to the edges that could exist.',
+        },
+        {
           kind: 'table',
           headers: ['Representation', 'Space', 'Is `u-v` an edge?', 'Iterate neighbours', 'Use when'],
           rows: [
@@ -73,6 +78,11 @@ export const GRAPHS: Chapter = {
             ['Adjacency matrix', '`O(V^2)`', '`O(1)`', '`O(V)`', 'dense, or Floyd-Warshall'],
             ['Edge list', '`O(E)`', '`O(E)`', 'n/a', 'Kruskal, Bellman-Ford'],
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'In practice the list wins almost every time, because real graphs are sparse: a road network, a dependency graph or a social graph has far fewer edges than the square of its nodes. Reach for the matrix only when the graph is small and dense, or when you need to answer "is there an edge between these two?" in constant time.',
         },
         {
           kind: 'code',
@@ -619,6 +629,11 @@ valid order: intro, discrete maths, data structures, algorithms`,
       title: 'Shortest paths',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'There is no single shortest-path algorithm, and picking the wrong one is the most common mistake in this topic. The weights decide. If every edge costs the same, BFS already gives shortest paths and anything fancier is wasted work. If weights differ but are never negative, Dijkstra applies. If a weight can be negative, Dijkstra is not merely slow — it is wrong, and you need Bellman-Ford.',
+        },
+        {
           kind: 'table',
           caption: 'Pick by the weights, not by familiarity.',
           headers: ['Algorithm', 'Handles', 'Cost', 'Use when'],
@@ -630,6 +645,11 @@ valid order: intro, discrete maths, data structures, algorithms`,
             ['Floyd-Warshall', 'all pairs', '`O(V^3)`', 'small dense graphs, `V` up to a few hundred'],
             ['DAG relaxation', 'any weights, no cycles', '`O(V + E)`', 'the graph is acyclic'],
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'The reason Dijkstra breaks on negative edges is worth holding onto, because it explains the whole algorithm. Dijkstra works by settling the nearest unfinished node and declaring its distance final, which is only safe if no later detour can come back cheaper. Add an edge with a negative weight and exactly that can happen, so a node gets settled at a distance it will later beat.',
         },
         {
           kind: 'code',
@@ -708,6 +728,11 @@ for (int[] e : edges)                       // one more improvement means
 for u, w, weight in edges:              # one more improvement means
     if dist[u] != INF and dist[u] + weight < dist[w]:
         return 'negative cycle'         # there is no shortest path`,
+        },
+        {
+          kind: 'para',
+          text:
+            'Two variations look like new algorithms but are the same code with one line changed. A path whose cost is the *largest* edge rather than the sum — the minimum-effort path — replaces addition with a maximum. A path that multiplies probabilities replaces the sum with a product and the min-heap with a max-heap. Only the way two costs combine ever changes.',
         },
         {
           kind: 'code',
@@ -907,6 +932,11 @@ for u, w, weight in edges:
       title: 'Beyond the core set',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'The topics below are where graph theory stops being general-purpose. None of them appear often, but each solves a question the core traversals cannot answer, and knowing the name is usually enough to find the algorithm when you need it.',
+        },
+        {
           kind: 'table',
           headers: ['Topic', 'What it answers', 'Cost'],
           rows: [
@@ -919,6 +949,11 @@ for u, w, weight in edges:
           ],
         },
         {
+          kind: 'para',
+          text:
+            'If you are working through this chapter for the first time, skip the table. BFS, DFS, topological sort, Dijkstra and union-find cover the overwhelming majority of graph problems you will actually meet; the rest is worth reading only once those are automatic.',
+        },
+        {
           kind: 'callout',
           tone: 'note',
           text: 'These are rare below senior level. Knowing what each one answers, and recognising when a problem calls for it, is worth more in an interview than being able to code Tarjan from memory.',
@@ -929,6 +964,11 @@ for u, w, weight in edges:
       id: 'checklist',
       title: 'Checklist',
       blocks: [
+        {
+          kind: 'para',
+          text:
+            'Most graph bugs are not in the algorithm — they are in the modelling. Before writing any traversal, be able to say out loud what a node is, what an edge means, whether it has a direction and whether it carries a weight. Three quarters of the difficulty of a graph problem is recognising that it is one.',
+        },
         {
           kind: 'list',
           ordered: true,

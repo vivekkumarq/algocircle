@@ -169,6 +169,11 @@ return lo                          # first index where the condition is true
       title: 'Lower bound, upper bound, and counting',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Once duplicates are allowed, "find the target" stops being a single question. Is the caller after the first copy, the last one, how many there are, or where a new one would go? All four are answered by the same loop with one comparison changed, which is why it is worth learning them as a set rather than reinventing the boundary each time.',
+        },
+        {
           kind: 'table',
           headers: ['Function', 'Condition', 'Returns'],
           rows: [
@@ -179,6 +184,11 @@ return lo                          # first index where the condition is true
             ['count of target', 'both', '`upper - lower`'],
             ['insertion point', 'lower bound', 'where the value would go to keep order'],
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'The two names are less confusing than they look. **Lower bound** finds the first position whose value is not below the target — the leftmost place the target could sit. **Upper bound** finds the first position whose value is strictly above it — one past the rightmost copy. Everything in the table is built from those two: the count is the gap between them, and the last occurrence is one before the upper bound.',
         },
         {
           kind: 'diagram',
@@ -192,6 +202,11 @@ target 3:  lower = 4, upper = 4, count = 0  (absent)`,
           kind: 'callout',
           tone: 'note',
           text: 'These exist in the standard libraries — `Arrays.binarySearch` with adjustments in Java, `lower_bound`/`upper_bound` in C++, and `bisect_left`/`bisect_right` in Python. Know the names, and still be able to write them.',
+        },
+        {
+          kind: 'para',
+          text:
+            'Both return a position even when the target is absent, and that is deliberate rather than a quirk. The position they return is exactly where the value would have to be inserted to keep the array sorted, which is why the same function answers "where does this go?" without any extra work.',
         },
       ],
     },
@@ -367,6 +382,11 @@ def feasible(a: list[int], m: int, limit: int) -> bool:
       title: 'Searching other spaces',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Nothing in the method requires an array. Binary search needs one thing only: a range of candidates, and a test that is false for a while and then true for the rest. When those exist, halving applies — and the candidates are often answers rather than elements.',
+        },
+        {
           kind: 'list',
           items: [
             '**2D matrix, rows sorted and each row starting after the previous ends:** treat it as one flat array of length `rows * cols` and map `mid` back with `/` and `%`.',
@@ -418,6 +438,11 @@ def feasible(a: list[int], m: int, limit: int) -> bool:
 <text x="0" y="214" class="dg-s" text-anchor="start">if the predicate is no-no-no-yes-yes, binary search applies</text>`,
         },
         {
+          kind: 'para',
+          text:
+            'The giveaway in a problem statement is a superlative plus a feasibility question: the *smallest* capacity that still finishes in time, the *largest* minimum distance, the *fewest* days. Rephrase it as "is X good enough?", check that a yes at X implies a yes at anything larger, and you have a monotone predicate to search over.',
+        },
+        {
           kind: 'callout',
           tone: 'key',
           text: 'Peak finding is the clearest proof that binary search is about monotonic decisions, not sorted data. Nothing is sorted, yet each comparison still eliminates half the space.',
@@ -428,6 +453,11 @@ def feasible(a: list[int], m: int, limit: int) -> bool:
       id: 'checklist',
       title: 'Checklist',
       blocks: [
+        {
+          kind: 'para',
+          text:
+            'Almost every broken binary search fails for one of four reasons: the range convention was never decided, the midpoint overflowed, a branch failed to shrink the range, or the loop exited without checking whether the survivor actually matches. Run through these before you reach for a debugger.',
+        },
         {
           kind: 'list',
           ordered: true,

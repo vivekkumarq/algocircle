@@ -101,6 +101,16 @@ fib(3) fib(2) ...  ...      fib(3)  [cached]
       title: 'The three-step recipe',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'When people say a DP problem is hard, they almost always mean they could not find the state. Once the state is right, the transition is usually a line of arithmetic and the code writes itself. So spend your time on the first question below, not the last.',
+        },
+        {
+          kind: 'para',
+          text:
+            'Two words do all the work in this chapter, so it is worth pinning them down before anything else. The **state** is the smallest description of a situation that is enough to decide what to do next — usually an index, sometimes an index and a budget. The **transition** is the rule that builds the answer for one state out of answers to smaller ones. Everything else is bookkeeping.',
+        },
+        {
           kind: 'steps',
           items: [
             {
@@ -146,6 +156,11 @@ fib(3) fib(2) ...  ...      fib(3)  [cached]
             },
           ],
         },
+        {
+          kind: 'para',
+          text:
+            'Notice what this recipe does not include: any mention of arrays, loops or memoisation. Those are how you store the answers, and you can decide that last. The design is finished the moment you can say what `dp[i]` means in a sentence and how it is built from earlier entries.',
+        },
       ],
     },
     {
@@ -155,6 +170,11 @@ fib(3) fib(2) ...  ...      fib(3)  [cached]
         {
           kind: 'para',
           text: 'The simplest family. The state is a single position, and the transition looks back a fixed number of steps.',
+        },
+        {
+          kind: 'para',
+          text:
+            'Concretely: to count the ways to climb `n` stairs taking one or two at a time, ask what the last move was. It was either a single step from `n - 1` or a double step from `n - 2`, and those two groups share nothing, so the totals add. That sentence — "the last move was either this or that" — is the transition, and writing it down is the whole design.',
         },
         {
           kind: 'figure',
@@ -193,6 +213,11 @@ fib(3) fib(2) ...  ...      fib(3)  [cached]
 <text x="460" y="8" class="dg-m" text-anchor="middle">dp[i] = dp[i-1] + dp[i-2]</text>
 <text x="300" y="130" class="dg-s" text-anchor="middle">the whole design is one sentence: what does dp[i] mean?</text>
 <text x="0" y="160" class="dg-s" text-anchor="start">get the meaning right and the recurrence usually writes itself</text>`,
+        },
+        {
+          kind: 'para',
+          text:
+            'The reason this is fast is worth seeing plainly. Solving it by recursion recomputes the same stair count over and over, an exponential amount of repeated work. The table computes each entry once and reads it back in constant time afterwards, which turns the same idea into a single pass.',
         },
         {
           kind: 'code',
@@ -241,6 +266,11 @@ return max(take, skip)`,
           title: 'Why two variables suffice',
           text: 'The transition only reads `dp[i-1]` and `dp[i-2]`. Anything older can be discarded, so an array of `n` becomes two integers. Ask this question of every DP: how far back does the transition actually look?',
         },
+        {
+          kind: 'para',
+          text:
+            'Once you recognise the shape, a surprising number of problems are the same table with a different question at each cell: maximum instead of count, "can I reach this" instead of "how many ways", a decision recorded alongside the value. The loop never changes.',
+        },
       ],
     },
     {
@@ -252,10 +282,20 @@ return max(take, skip)`,
           text: 'When the state needs two coordinates — a position in a grid, or an index into each of two sequences — the table becomes two-dimensional and the transition reads its neighbours.',
         },
         {
+          kind: 'para',
+          text:
+            'A second index appears when one number is no longer enough to describe where you are. Walking a grid, you need both the row and the column. Comparing two strings, you need how far you have read into each. The test is simple: if you can imagine two different situations that share the same value of your index but need different answers, the state is missing something.',
+        },
+        {
           kind: 'visual',
           name: 'dp-table',
           caption:
             'The table filling in, one cell at a time. Amber cells are the ones the current cell reads from.',
+        },
+        {
+          kind: 'para',
+          text:
+            'The cost follows directly from the shape. One index over `n` values with a constant amount of work per cell is `O(n)`; two indices is `O(n · m)` cells, and if the transition itself has to scan, multiply again. This is why adding a dimension is never free, and why so much of the craft is finding the smallest state that still works.',
         },
         {
           kind: 'code',
@@ -305,6 +345,11 @@ return max(take, skip)`,
           text: 'A huge number of problems are a knapsack wearing different clothes. The state is "index, capacity" and the transition is "take it or skip it".',
         },
         {
+          kind: 'para',
+          text:
+            'Here is the reasoning in full, because every knapsack variant repeats it. Consider the last item. Either you leave it, and the best you can do is whatever you could manage with the earlier items and the same capacity; or you take it, which costs its weight and leaves you the best you could manage with the earlier items and a smaller capacity. Those are the only two possibilities, so the answer is the better of them.',
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: '0/1 knapsack - each item used at most once',
@@ -326,6 +371,11 @@ return max(take, skip)`,
         if weight[i - 1] <= c:
             dp[i][c] = max(dp[i][c],
                            value[i - 1] + dp[i - 1][c - weight[i - 1]])   # take`,
+        },
+        {
+          kind: 'para',
+          text:
+            'Both branches refer to *earlier items*, which is exactly why the table has a row per item: each row is allowed to look only at the row above it. That restriction is what makes the whole thing terminate.',
         },
         {
           kind: 'code',
@@ -367,6 +417,11 @@ return max(take, skip)`,
           title: 'Counting versus optimising',
           text: 'For **ways**, loop coins on the outside and amounts inside — otherwise permutations are counted as distinct combinations. For **minimum coins**, either order works. Getting this wrong is the classic coin-change bug.',
         },
+        {
+          kind: 'para',
+          text:
+            'The variants below look different mainly because they hide the capacity. "Can this set be split into two equal halves" is a knapsack where the capacity is half the total and the value of every item is its weight. "How many subsets sum to a target" is the same table with addition instead of a maximum. Once you spot the capacity, you have spotted the problem.',
+        },
       ],
     },
     {
@@ -378,10 +433,20 @@ return max(take, skip)`,
           text: 'Two strings, two indices, and a transition that asks whether the current characters match. Almost every string DP is this.',
         },
         {
+          kind: 'para',
+          text:
+            'Two strings mean a grid, and the grid has a natural meaning: the cell at row `i`, column `j` is the answer for the first `i` characters of one string against the first `j` characters of the other. Filling it left to right, top to bottom guarantees that whenever you look at a neighbouring cell, it has already been computed.',
+        },
+        {
           kind: 'visual',
           name: 'dp-table',
           caption:
             'Switch to the LCS mode and watch how only the transition changes, not the shape.',
+        },
+        {
+          kind: 'para',
+          text:
+            'Every problem in this family turns on one comparison. When the two current characters match, the answer usually comes straight from the diagonal — the pair is consumed and you fall back to the smaller problem behind it. When they differ, you consider dropping a character from one side or the other, which is the cell above and the cell to the left. Match reads diagonally, mismatch reads sideways; that is the entire pattern.',
         },
         {
           kind: 'code',
@@ -455,6 +520,11 @@ edit distance("ros", "horse") = 3`,
       title: 'Longest increasing subsequence',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'The longest increasing subsequence is the standard example of a problem with two different DP solutions, and the gap between them is instructive. The obvious one asks, for each position, what is the longest increasing run that ends here — which means looking back at every earlier element to see which ones you could have extended. That is `O(n^2)`, and for a few thousand elements it is perfectly fine.',
+        },
+        {
           kind: 'code',
           language: 'java',
           caption: 'The O(n^2) version - dp[i] is the best subsequence ending at i',
@@ -472,6 +542,11 @@ for i in range(n):
     for j in range(i):
         if a[j] < a[i]:
             dp[i] = max(dp[i], dp[j] + 1)`,
+        },
+        {
+          kind: 'para',
+          text:
+            'The faster one changes the question. Instead of tracking the best run ending at each position, track the smallest value that any run of a given length could end on. That list is always sorted, which means a new value can find its place by binary search rather than by scanning, and the whole thing drops to `O(n log n)`.',
         },
         {
           kind: 'figure',
@@ -542,6 +617,11 @@ return len(tails)`,
           text: '`tails` is **not** a valid increasing subsequence — only its length is meaningful. Reconstructing the actual subsequence needs an extra array of predecessor indices.',
         },
         {
+          kind: 'para',
+          text:
+            'One warning that catches everyone: the `tails` array is not the answer. Its length is correct, but its contents are usually not an actual increasing subsequence from the input. If a problem asks you to print the subsequence and not merely measure it, keep a parent pointer per element and walk it back at the end.',
+        },
+        {
           kind: 'callout',
           tone: 'why',
           text: 'Keeping the smallest possible tail for each length leaves the most room for future elements — the same reasoning as "earliest finish" in greedy interval scheduling. Binary search then finds where each value belongs.',
@@ -552,6 +632,11 @@ return len(tails)`,
       id: 'families',
       title: 'The advanced families',
       blocks: [
+        {
+          kind: 'para',
+          text:
+            'Beyond the two shapes above, the named families are mostly variations on what the state holds. They look intimidating in a list, so read the table as one question repeated: what is the smallest thing I must remember, and in what order can I fill it so that everything I read is already finished?',
+        },
         {
           kind: 'table',
           headers: ['Family', 'State', 'Typical problems'],
@@ -564,6 +649,11 @@ return len(tails)`,
             ['DP on a DAG', 'topological order', 'longest path, counting paths'],
             ['DP with binary search', 'monotone state', 'LIS, job scheduling with weights'],
           ],
+        },
+        {
+          kind: 'para',
+          text:
+            'Two of them carry a rule that is easy to get wrong. Interval DP must be filled by increasing length, because a range of length five is built from shorter ranges inside it — iterating by starting index instead will read cells that are still empty. Bitmask DP is only viable while `2^n` is small, which in practice means `n` no more than about twenty; past that the table stops fitting in memory long before it stops fitting in time.',
         },
         {
           kind: 'code',
@@ -620,6 +710,11 @@ return cash`,
       title: 'Reducing the space',
       blocks: [
         {
+          kind: 'para',
+          text:
+            'Most DP tables are far larger than they need to be. If the transition only ever reads the previous row, there is no reason to keep every earlier row alive — two rows will do, and often a single row that you overwrite as you go. That turns `O(n · m)` memory into `O(m)` without changing the answer or the running time.',
+        },
+        {
           kind: 'steps',
           items: [
             {
@@ -637,6 +732,11 @@ return cash`,
           ],
         },
         {
+          kind: 'para',
+          text:
+            'The catch is direction, and it is the most common bug in this chapter. Overwriting a row in place means some of the values you read have already been updated this round. For a 0/1 knapsack that is wrong — an item would be used twice — so the capacity loop runs backwards. For an unbounded knapsack reusing the item is exactly what you want, so the same loop runs forwards. One character, two different problems.',
+        },
+        {
           kind: 'table',
           headers: ['Original', 'Reduced', 'Condition'],
           rows: [
@@ -650,12 +750,22 @@ return cash`,
           tone: 'trap',
           text: 'Space optimisation destroys the information needed to **reconstruct** the answer. If the problem asks for the actual subsequence or path rather than its length, keep the full table or store predecessors.',
         },
+        {
+          kind: 'para',
+          text:
+            'Do this last, and only when memory actually matters. A compressed table is harder to debug and impossible to trace back through, so if you also need to recover which choices were made, keep the full grid.',
+        },
       ],
     },
     {
       id: 'method',
       title: 'A method, and how to talk about it',
       blocks: [
+        {
+          kind: 'para',
+          text:
+            'When a DP problem will not open up, the fault is nearly always that you are trying to write the loop before you have decided what a cell means. The order below is deliberately slow at the start: it spends four steps on the design and only then reaches for code.',
+        },
         {
           kind: 'steps',
           items: [
@@ -667,9 +777,19 @@ return cash`,
           ],
         },
         {
+          kind: 'para',
+          text:
+            'Write the recursion first, even if you never ship it. A plain recursive function with no table is usually easy to get right, because it only has to express the decision. Once it produces correct answers on a small input, adding memoisation is mechanical, and converting that to a bottom-up table is mechanical again. Going straight to the table is what makes people stare at a blank screen.',
+        },
+        {
           kind: 'callout',
           tone: 'key',
           text: 'In an interview, say the state out loud before writing code: "`dp[i][j]` is the edit distance between the first `i` characters of A and the first `j` of B". Interviewers are assessing whether you can define the state — the loops are mechanical afterwards.',
+        },
+        {
+          kind: 'para',
+          text:
+            'If you are stuck, the fastest diagnostic is to compute a tiny case by hand — four or five elements — and write down the table as you fill it. Either you will see the rule, or you will discover that two different situations landed in the same cell, which means the state is missing a dimension.',
         },
         {
           kind: 'check',
