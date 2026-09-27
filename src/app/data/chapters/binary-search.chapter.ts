@@ -208,6 +208,12 @@ target 3:  lower = 4, upper = 4, count = 0  (absent)`,
           text:
             'Both return a position even when the target is absent, and that is deliberate rather than a quirk. The position they return is exactly where the value would have to be inserted to keep the array sorted, which is why the same function answers "where does this go?" without any extra work.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'An e-commerce "price between ₹500 and ₹2,000" filter over a price-sorted index is two bound searches: lower bound for 500, upper bound for 2,000, and everything between them is the result — along with its count, for free.',
+        },
       ],
     },
     {
@@ -272,6 +278,12 @@ target 1 is not inside [4, 7)  ->  discard the left half`,
           kind: 'callout',
           tone: 'trap',
           text: 'With duplicates, `a[lo] == a[mid] == a[hi]` tells you nothing about which side is sorted. The fallback is to shrink `lo` by one and accept `O(n)` in that degenerate case — mention it rather than pretending the log bound still holds.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Log files that wrap around — a circular buffer where the oldest entry is somewhere in the middle — are rotated sorted arrays by timestamp. Finding "the first entry after 10:00" in one uses exactly the "one half is still sorted" argument.',
         },
       ],
     },
@@ -375,6 +387,12 @@ def feasible(a: list[int], m: int, limit: int) -> bool:
           question: 'The problem says "minimise the maximum" or "maximise the minimum". What should you try first?',
           answer: 'Binary search on the answer. That phrasing is the strongest signal in the whole subject — it almost always means a monotonic feasibility check exists.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Choosing the smallest server capacity that still handles peak traffic, or the lowest bitrate at which a video still looks acceptable, is binary search on the answer: test a candidate, and the result tells you which half of the range to keep.',
+        },
       ],
     },
     {
@@ -446,6 +464,12 @@ def feasible(a: list[int], m: int, limit: int) -> bool:
           kind: 'callout',
           tone: 'key',
           text: 'Peak finding is the clearest proof that binary search is about monotonic decisions, not sorted data. Nothing is sorted, yet each comparison still eliminates half the space.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            '`git bisect` is binary search over commit history. You mark one commit good and one bad, and git checks out the midpoint for you to test; in about 10 steps it pins down the exact change that broke something among a thousand commits.',
         },
       ],
     },

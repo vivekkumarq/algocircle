@@ -56,6 +56,12 @@ export const STRINGS: Chapter = {
           title: 'The accidental quadratic',
           text: 'Building a string with `+=` inside a loop copies everything built so far on every iteration. Use `StringBuilder` in Java, `join` in Python, or `+=` on a `std::string` in C++ where it is genuinely mutable.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Spell checkers and "anagram" word games lean on the small alphabet: a 26-slot count array per word makes comparing letter content instant, with no hashing and no sorting.',
+        },
       ],
     },
     {
@@ -203,6 +209,12 @@ for centre in range(len(s)):
           kind: 'para',
           text: 'Manacher\'s algorithm reduces this to `O(n)` by reusing the mirror of previously computed palindromes. It is rarely required in interviews, but knowing that `O(n)` exists is worth a sentence when you present the `O(n^2)` solution.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Palindrome-finding is a toy in interviews and a real tool in biology: short palindromic DNA sequences mark the sites where restriction enzymes cut, and finding them in a genome is the expand-around-centre idea run over a four-letter alphabet.',
+        },
       ],
     },
     {
@@ -237,6 +249,12 @@ for centre in range(len(s)):
           tone: 'why',
           title: 'What is being wasted',
           text: 'After a mismatch the naive scan throws away everything it just learned and restarts one character later. Every fast algorithm below is a different way of keeping that information.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Java\'s `String.indexOf` is essentially this naive scan, and on ordinary text it is fast because mismatches happen early. The worst case matters when the input is adversarial: a public search box can be fed text built to trigger it, which is why systems that match untrusted input use algorithms with a linear guarantee.',
         },
       ],
     },
@@ -304,6 +322,12 @@ hash = (hash * b + ord(s[i + m])) % mod       # append the new one
         {
           kind: 'para',
           text: 'Expected cost is `O(n + m)`. The same rolling idea answers "is this substring repeated", "longest duplicate substring" (with binary search on the length) and fast substring comparison.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Plagiarism checkers break documents into overlapping windows of words and compare rolling-hash fingerprints rather than the text itself. rsync uses a rolling checksum in the same way to find which blocks of a file have changed, so it only sends the differences across the network.',
         },
       ],
     },
@@ -392,6 +416,12 @@ while i < len(t):
           tone: 'key',
           text: 'The prefix function is useful on its own: it answers "shortest string to append to make this a palindrome", "smallest repeating unit of a string", and periodicity questions.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Linear-time matching matters when the text is a live stream you cannot rewind. Intrusion-detection systems scan network traffic for thousands of attack signatures with Aho-Corasick, the multi-pattern generalisation of KMP, precisely because it never moves backwards: each byte is examined once and can then be discarded.',
+        },
       ],
     },
     {
@@ -430,6 +460,12 @@ z = _ 1 0 3 1 0
               ],
             },
           ],
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Finding every place a short DNA marker occurs in a long sequence, or every occurrence of a search term in a document, is exactly the pattern-plus-separator-plus-text construction above. Z is popular in competitive programming and teaching because the same array also answers period and repetition questions without a second algorithm.',
         },
       ],
     },

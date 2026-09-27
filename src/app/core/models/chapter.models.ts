@@ -27,8 +27,11 @@ export type Block =
 
 export type CodeLanguage = 'java' | 'cpp' | 'python' | 'typescript' | 'pseudocode' | 'text';
 
-/** `key` = remember this, `note` = aside, `trap` = the mistake people make. */
-export type CalloutTone = 'key' | 'note' | 'trap' | 'why';
+/**
+ * `key` = remember this, `note` = aside, `trap` = the mistake people make,
+ * `real` = the same idea running in something the reader has used.
+ */
+export type CalloutTone = 'key' | 'note' | 'trap' | 'why' | 'real';
 
 export interface ChapterSection {
   /** Anchor id, also used by the in-page table of contents. */

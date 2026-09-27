@@ -11,18 +11,20 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Block, CodeLanguage } from '../../../core/models/chapter.models';
 import { Icon } from '../icon/icon';
 import { AlgoVisual } from '../../visuals/algo-visual';
+import { richText } from '../../pipes/rich.pipe';
 
 type CodeBlock = Extract<Block, { kind: 'code' }>;
 
 /** A block, or a run of code blocks collapsed into one language switcher. */
 type Item = Exclude<Block, { kind: 'code' }> | { kind: 'code-group'; tabs: CodeBlock[] };
 
-const CALLOUT_ICON = { key: 'zap', note: 'book', trap: 'shield', why: 'compass' } as const;
+const CALLOUT_ICON = { key: 'zap', note: 'book', trap: 'shield', why: 'compass', real: 'briefcase' } as const;
 const CALLOUT_LABEL = {
   key: 'Key idea',
   note: 'Note',
   trap: 'Common trap',
   why: 'Why it works',
+  real: 'In real life',
 } as const;
 
 /** Renders a chapter's typed blocks. The only place lesson markup is defined. */
@@ -113,17 +115,7 @@ export class ContentBlocks {
    * Escapes the authored text first, then re-introduces only `code` and
    * **bold**, so lesson prose can never inject markup.
    */
-  protected rich(text: string): SafeHtml {
-    const escaped = text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-
-    const marked = escaped
-      .replace(/`([^`]+)`/g, '<code>$1</code>')
-      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-
-    return this.sanitizer.bypassSecurityTrustHtml(marked);
+  protected rich(text: string | undefined): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(richText(text));
   }
 }

@@ -83,6 +83,12 @@ export const RECURSION: Chapter = {
           tone: 'key',
           text: 'If you can state the contract in one sentence, the body usually writes itself in three lines. If you cannot, no amount of tracing will help — the contract is the missing piece.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Calculating the total size of a folder is a contract in one sentence: "size of a folder = size of its files + size of each subfolder". Trust that the call works for the subfolders and the function is three lines, however deep the directory tree goes.',
+        },
       ],
     },
     {
@@ -126,6 +132,12 @@ export const RECURSION: Chapter = {
     ...
   = 3
 = 5`,
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Stack overflows in production usually come from breaking the "smaller every time" rule on data nobody expected: a comment thread that refers back to itself, or a folder symlink that points to its own parent. A recursion with no visited-check walks that loop until the stack runs out.',
         },
       ],
     },
@@ -481,6 +493,12 @@ def search(start: int, remaining: int, current: list[int]) -> None:
           title: 'Why `i > start` and not `i > 0`',
           text: 'The condition must skip a duplicate **at the same depth**, not a legitimate reuse deeper in the tree. `i > start` compares against the first candidate considered at this level, which is exactly the right scope.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Sudoku solvers, timetable generators and route planners are backtracking searches that would never finish without pruning. The moment a partial timetable puts one teacher in two rooms at once, every schedule built on it is abandoned — that single cut removes billions of branches.',
+        },
       ],
     },
     {
@@ -560,6 +578,12 @@ def dfs_iterative(root: Node | None) -> None:  # explicit stack
           kind: 'check',
           question: 'Why is the right child pushed before the left one?',
           answer: 'A stack is last-in first-out, so the last thing pushed is processed first. Pushing right then left makes the left subtree pop first, matching the recursive preorder.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Many JSON and XML parsers handle nesting with an explicit stack, or cap the nesting depth, so that a deliberately deep document cannot overflow the call stack and crash the server that is reading it.',
         },
       ],
     },

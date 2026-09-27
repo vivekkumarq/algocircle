@@ -16,11 +16,12 @@ import { LayoutService } from '../../core/services/layout.service';
 import { Icon } from '../../shared/components/icon/icon';
 import { ContentBlocks } from '../../shared/components/content-blocks/content-blocks';
 import { RailHandle } from '../../shared/components/rail-handle/rail-handle';
+import { RichPipe } from '../../shared/pipes/rich.pipe';
 
 @Component({
   selector: 'app-chapter-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, ContentBlocks, RailHandle],
+  imports: [RouterLink, Icon, ContentBlocks, RailHandle, RichPipe],
   templateUrl: './chapter-page.html',
   styleUrl: './chapter-page.scss',
 })

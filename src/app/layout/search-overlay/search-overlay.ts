@@ -11,6 +11,7 @@ import {
 import { Router } from '@angular/router';
 import { SearchResult, SearchService } from '../../core/services/search.service';
 import { Icon } from '../../shared/components/icon/icon';
+import { RichPipe } from '../../shared/pipes/rich.pipe';
 
 /**
  * Site-wide search. Opens on `/` or Ctrl+K from anywhere except a text field,
@@ -19,7 +20,7 @@ import { Icon } from '../../shared/components/icon/icon';
 @Component({
   selector: 'app-search-overlay',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon],
+  imports: [Icon, RichPipe],
   templateUrl: './search-overlay.html',
   styleUrl: './search-overlay.scss',
 })

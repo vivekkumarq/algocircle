@@ -167,6 +167,23 @@
   color: var(--accent);
 }
 
+/* Same tone as the lessons' "In real life" callouts, so the two read as one idea. */
+.block--real {
+  padding: var(--space-5);
+  border: 1px solid color-mix(in srgb, var(--info) 30%, var(--border));
+  border-left: 3px solid var(--info);
+  border-radius: var(--radius-lg);
+  background: var(--info-soft);
+}
+
+.block--real h2 {
+  color: var(--info);
+}
+
+.block--real p {
+  margin: 0;
+}
+
 .hint {
   margin-bottom: var(--space-3);
   font-size: 0.84rem;

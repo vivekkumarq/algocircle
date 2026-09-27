@@ -14,6 +14,8 @@ export class SeoService {
   private readonly meta = inject(Meta);
 
   update(pageTitle: string | undefined, description = DEFAULT_DESCRIPTION, path = ''): void {
+    // Authored summaries carry `code` and **bold** markers; previews show plain text.
+    description = description.replace(/`|\*\*/g, '');
     const fullTitle = pageTitle ? `${pageTitle} · ${SITE_NAME}` : `${SITE_NAME} — Master DSA`;
     const url = SITE_URL.replace(/\/$/, '') + path;
 

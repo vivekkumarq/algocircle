@@ -16,13 +16,13 @@
 
     <section class="block">
       <h2>The problem</h2>
-      <p class="statement">{{ p.statement }}</p>
+      <p class="statement" [innerHTML]="p.statement | rich"></p>
 
       <div class="example">
         <p><b>Input</b> <code>{{ p.example.input }}</code></p>
         <p><b>Output</b> <code>{{ p.example.output }}</code></p>
         @if (p.example.note) {
-          <p class="example__note">{{ p.example.note }}</p>
+          <p class="example__note" [innerHTML]="p.example.note | rich"></p>
         }
       </div>
     </section>
@@ -36,7 +36,7 @@
 
       <ol class="hints">
         @for (hint of p.hints.slice(0, hintsShown()); track hint) {
-          <li>{{ hint }}</li>
+          <li [innerHTML]="hint | rich"></li>
         }
       </ol>
 
@@ -53,11 +53,11 @@
     @if (approachShown()) {
       <section class="block">
         <h2>Brute force</h2>
-        <p>{{ p.bruteForce.idea }}</p>
+        <p [innerHTML]="p.bruteForce.idea | rich"></p>
         <p class="cost">{{ p.bruteForce.complexity }}</p>
 
         <h2>The better approach</h2>
-        <p>{{ p.optimal.idea }}</p>
+        <p [innerHTML]="p.optimal.idea | rich"></p>
         <p class="cost">{{ p.optimal.complexity }}</p>
       </section>
 
@@ -101,7 +101,7 @@
 
       <section class="block block--insight">
         <h2><app-icon name="zap" [size]="16" /> Worth remembering</h2>
-        <p>{{ p.insight }}</p>
+        <p [innerHTML]="p.insight | rich"></p>
       </section>
     } @else {
       <section class="block block--gate">
@@ -211,7 +211,7 @@
                 </span>
                 <span class="problem__body">
                   <span class="problem__title">{{ item.title }}</span>
-                  <span class="problem__statement">{{ item.statement }}</span>
+                  <span class="problem__statement" [innerHTML]="item.statement | rich"></span>
                 </span>
                 <span class="problem__pattern">{{ patternName(item.pattern) }}</span>
               </a>

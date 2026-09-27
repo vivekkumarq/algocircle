@@ -7,6 +7,8 @@ export interface Pattern {
   signals: string[];
   /** Why it works, in two or three sentences. */
   idea: string;
+  /** Where the same shape runs in software people actually use. */
+  realWorld: string;
   template: string;
   variations: string[];
   mistakes: string[];
@@ -28,6 +30,8 @@ export const PATTERNS: Pattern[] = [
     tagline: 'Two indices moving under a rule that never rewinds.',
     signals: ['sorted input', 'pair or triplet with a target', 'compare from both ends', 'in-place removal or partition'],
     idea: 'Each move must eliminate candidates permanently. On sorted data, if the sum at the two ends is too small, the left value cannot pair with anything smaller — so it is discarded forever, and one pass suffices.',
+    realWorld:
+      'Merging two already-sorted lists — contacts from your phone and your email, or two sorted database index scans in a merge join — walks one pointer down each and always advances the smaller. Neither pointer ever goes back.',
     template: `lo, hi = 0, n - 1
 while lo < hi:
     s = a[lo] + a[hi]
@@ -46,6 +50,8 @@ while lo < hi:
     tagline: 'A window over a contiguous range, maintained incrementally.',
     signals: ['longest or shortest substring', 'subarray or substring', 'at most K distinct', 'window of fixed size K', 'contiguous'],
     idea: 'Keep a window and a property of its contents. Extend from the right; while the property is violated, shrink from the left. Both pointers only move forward, so every element enters and leaves once.',
+    realWorld:
+      'API rate limiters ("at most 100 requests per minute"), moving averages on stock and fitness charts, and "peak CPU in the last hour" on monitoring dashboards are all windows sliding over a stream, updated as values enter and leave.',
     template: `left = 0
 for right in 0 .. n-1:
     add(a[right])
@@ -64,6 +70,8 @@ for right in 0 .. n-1:
     tagline: 'Pay once so every range query is a subtraction.',
     signals: ['many range sum queries', 'subarray sums', 'immutable array', 'count subarrays with property'],
     idea: 'Precompute running totals with `prefix[0] = 0`. A range is then the difference of two prefixes. Paired with a hash map it also counts subarrays matching a condition in one pass.',
+    realWorld:
+      'Banking apps answer "how much did I spend between two dates" from running daily totals, and image-processing libraries use summed-area tables — prefix sums in 2D — to blur or detect faces with a constant cost per region.',
     template: `prefix[0] = 0
 for i in 0 .. n-1: prefix[i+1] = prefix[i] + a[i]
 
@@ -80,6 +88,8 @@ sum(l, r) = prefix[r+1] - prefix[l]`,
     tagline: 'Many range updates, applied once at the end.',
     signals: ['add v to everything between l and r', 'many updates then one read', 'booking or reservation counts'],
     idea: 'Record the change only at the two boundaries, then rebuild the array with one running sum. Each update is constant time and the materialisation is linear, no matter how many updates there were.',
+    realWorld:
+      'Booking systems count how many seats, rooms or cars are in use on each day after thousands of multi-day reservations by marking +1 at each start and −1 after each end, then taking one running sum.',
     template: `# add v to a[l..r]
 diff[l] += v
 diff[r + 1] -= v
@@ -100,6 +110,8 @@ for i in 0 .. n-1:
     tagline: 'Compute where a value must be instead of searching for it.',
     signals: ['find a pair with a relation', 'have I seen this before', 'count occurrences', 'group things that belong together'],
     idea: 'Whenever a nested loop is searching for one specific value, that search can be a lookup. Storing what you have already seen converts a quadratic scan into a single pass.',
+    realWorld:
+      'Every cache (browser, CDN, Redis), every database index on an exact key, and the "has this username been taken?" check at sign-up is a hash lookup: compute where the answer must be instead of searching for it.',
     template: `seen = {}
 for i in 0 .. n-1:
     need = target - a[i]
@@ -117,6 +129,8 @@ for i in 0 .. n-1:
     tagline: 'Count first, then the question becomes easy.',
     signals: ['anagram', 'most or least frequent', 'appears more than n/2 times', 'small fixed alphabet'],
     idea: 'One pass builds the counts; a second answers the question. When the value range is small and known, an array indexed by the value beats a hash map on every axis.',
+    realWorld:
+      'Word clouds, "trending now" lists, spam filters that weigh how often certain words appear, and a shop\'s "best sellers" page all start by counting occurrences before asking anything else.',
     template: `count = [0] * 26
 for c in s: count[c - 'a'] += 1
 # now compare, rank, or scan for the first with count == 1`,
@@ -132,6 +146,8 @@ for c in s: count[c - 'a'] += 1
     tagline: 'Halve a monotonic search space.',
     signals: ['sorted array', 'find first or last occurrence', 'insertion point', 'rotated sorted array'],
     idea: 'The requirement is monotonicity, not sortedness: the answer to "left or right?" must be consistent everywhere. One half-open template finds the boundary between false and true; every variant is a different condition.',
+    realWorld:
+      '`git bisect` finds the commit that introduced a bug in about ten tests among a thousand commits, and database B-tree indexes find a row among millions in a handful of steps — both by halving.',
     template: `lo, hi = 0, n            # hi exclusive
 while lo < hi:
     mid = lo + (hi - lo) // 2
@@ -150,6 +166,8 @@ return lo                    # first index where condition holds`,
     tagline: 'Search the answer itself, not the array.',
     signals: ['minimise the maximum', 'maximise the minimum', 'smallest capacity, speed or number of days', 'can it be done within X'],
     idea: 'When the answer is a number in a known range and feasibility is monotone — if X works then X+1 works — binary search the boundary. The feasibility check is usually a simple greedy scan.',
+    realWorld:
+      'Capacity planning — the smallest number of servers, or the lowest video bitrate, that still meets a target — is often found by testing a candidate and halving the range, because "good enough at X" implies "good enough at anything larger".',
     template: `lo, hi = smallest_possible, largest_possible
 while lo < hi:
     mid = lo + (hi - lo) // 2
@@ -168,6 +186,8 @@ return lo`,
     tagline: 'Two walkers at different speeds.',
     signals: ['linked list cycle', 'find the middle', 'nth node from the end', 'happy number'],
     idea: 'Inside a cycle the gap between a one-step and a two-step walker changes by exactly one each round, so it cannot skip zero — they must meet. Resetting one to the head then finds the cycle entry.',
+    realWorld:
+      'Floyd\'s tortoise-and-hare detects loops in any "follow the next pointer" process without extra memory; Pollard\'s rho factorisation uses it to find repeats in a pseudo-random number sequence.',
     template: `slow = fast = head
 while fast and fast.next:
     slow = slow.next
@@ -186,6 +206,8 @@ return False`,
     tagline: 'Flip links or elements without extra memory.',
     signals: ['reverse a list or a section of it', 'reorder in place', 'rotate by k', 'O(1) space required'],
     idea: 'Three pointers — what came before, where you are, what comes next — move in lockstep, flipping one link per step. On arrays, three reversals achieve a rotation.',
+    realWorld:
+      'Garbage collectors walk deep object graphs without a stack by reversing pointers on the way down and restoring them on the way up (the Deutsch-Schorr-Waite technique) — in-place reversal applied to live memory.',
     template: `previous, current = None, head
 while current:
     ahead = current.next
@@ -204,6 +226,8 @@ return previous`,
     tagline: 'A stack whose values stay sorted.',
     signals: ['next greater element', 'previous smaller element', 'span or waiting days', 'largest rectangle', 'trapping water'],
     idea: 'An arriving element resolves every pending element it dominates. Each index is pushed once and popped at most once, so despite the inner loop the whole scan is linear.',
+    realWorld:
+      'A trading app\'s "days since the price was last this high" for every day in a price history, and the largest free rectangle in a grid of booked seats, both come from one pass with a stack that stays sorted.',
     template: `stack = []
 for i in 0 .. n-1:
     while stack and a[stack[-1]] < a[i]:
@@ -221,6 +245,8 @@ for i in 0 .. n-1:
     tagline: 'The maximum of every window, in linear total time.',
     signals: ['maximum in each window of size K', 'sliding window extremes', 'shortest subarray with sum at least K'],
     idea: 'Keep indices in decreasing order of value. A smaller, older value can never be the maximum again while a larger, newer one is in the window, so it is dropped forever. The front is always the answer.',
+    realWorld:
+      'A smartwatch showing your highest heart rate over the last ten minutes, updated every second, needs a sliding-window maximum that costs almost nothing per update — exactly what the monotonic deque provides.',
     template: `deque = []
 for i in 0 .. n-1:
     while deque and a[deque[-1]] <= a[i]: deque.pop()
@@ -239,6 +265,8 @@ for i in 0 .. n-1:
     tagline: 'Sort by an endpoint, then sweep once.',
     signals: ['overlapping intervals', 'meeting rooms', 'insert into sorted intervals', 'minimum arrows or platforms'],
     idea: 'Choosing the sort key is the algorithm. Sort by start to merge or sweep; sort by end to select the most non-overlapping intervals, because finishing earliest leaves the most room.',
+    realWorld:
+      'Calendar apps merge your overlapping meetings to show free time, and meeting-room booking tools sort by end time to fit the most bookings into one room. Same intervals, different sort key.',
     template: `intervals.sort(key=start)
 for interval in intervals:
     if merged and interval.start <= merged[-1].end:
@@ -257,6 +285,8 @@ for interval in intervals:
     tagline: 'Keep only the k candidates that still matter.',
     signals: ['top K', 'kth largest or smallest', 'k closest', 'merge k sorted', 'median of a stream'],
     idea: 'For the k largest, use a min-heap of size k: its root is the weakest current champion, exactly the element to evict. The heap never grows past k, which is why the log factor is log k rather than log n.',
+    realWorld:
+      '"Top 10 trending" lists over a stream of millions of posts keep a min-heap of the current ten and evict the weakest when something stronger arrives. Timers in JavaScript runtimes and game engines sit in a heap ordered by due time.',
     template: `heap = MinHeap()
 for value in stream:
     heap.push(value)
@@ -274,6 +304,8 @@ for value in stream:
     tagline: 'Explore in rings of increasing distance.',
     signals: ['shortest path, unweighted', 'fewest steps or moves', 'level by level', 'spreading from several sources'],
     idea: 'The first time BFS reaches a vertex it has used the fewest possible edges. That is only true when every edge costs the same — with weights, Dijkstra replaces it.',
+    realWorld:
+      '"2nd- and 3rd-degree connections" on LinkedIn are BFS distances from you, and a GPS on a grid of equal-cost streets, a game character finding the shortest path on a tile map, and web crawlers all explore breadth-first.',
     template: `queue = [start]; dist[start] = 0
 while queue:
     node = queue.popleft()
@@ -293,6 +325,8 @@ while queue:
     tagline: 'Follow one path as far as it goes, then back up.',
     signals: ['connected components', 'cycle detection', 'flood fill', 'all paths', 'islands'],
     idea: 'DFS gives structure rather than distance. Entry and exit times, back edges and low-link values all come from the order in which it descends and returns.',
+    realWorld:
+      'The paint-bucket fill in an image editor, a maze solver, and a garbage collector marking every object still reachable from the program all go deep first and back up at dead ends.',
     template: `def dfs(node):
     visited.add(node)
     for nb in neighbours(node):
@@ -310,6 +344,8 @@ while queue:
     tagline: 'Order a DAG so every edge points forward.',
     signals: ['prerequisites', 'build or task order', 'can all be finished', 'dependency resolution'],
     idea: 'Repeatedly take a vertex with no remaining incoming edges. If fewer than V vertices come out, the leftovers are stuck in a cycle — so the algorithm is also the cycle detector.',
+    realWorld:
+      'Package managers install dependencies before the packages that need them, build tools like Make compile files in dependency order, and spreadsheets recalculate cells in topological order — reporting a "circular reference" when there is none.',
     template: `queue = [v for v in vertices if indegree[v] == 0]
 while queue:
     node = queue.popleft(); order.append(node)
@@ -330,6 +366,8 @@ if len(order) != V: raise CycleError`,
     tagline: 'Connectivity that only ever merges.',
     signals: ['are these connected', 'number of components', 'redundant connection', 'minimum spanning tree'],
     idea: 'Path compression flattens the tree during lookups and union by size keeps it shallow. Together they make both operations effectively constant, which is what turns Kruskal into six lines.',
+    realWorld:
+      'Kruskal\'s algorithm uses it to build the cheapest network of cables or pipes, image-segmentation tools use it to group connected pixels, and social or payment systems use it to cluster accounts that are linked to one another.',
     template: `def find(x):
     while parent[x] != x:
         parent[x] = parent[parent[x]]   # path compression
@@ -354,6 +392,8 @@ def union(a, b):
     tagline: 'Choose, explore, un-choose.',
     signals: ['all combinations or permutations', 'generate every valid arrangement', 'N-Queens, Sudoku, word search', 'small n with an exponential answer'],
     idea: 'Recursion over partial solutions. Making a choice, recursing, then undoing it keeps one mutable state for the whole search. Pruning is what decides whether it finishes.',
+    realWorld:
+      'Sudoku solvers, timetable and exam schedulers, and puzzle generators try a choice, go deeper, and undo it the moment a constraint breaks — the pruning is what makes them finish.',
     template: `def backtrack(state):
     if complete(state): record(copy(state)); return
     for choice in candidates(state):
@@ -373,6 +413,8 @@ def union(a, b):
     tagline: 'Recursion that remembers.',
     signals: ['count the number of ways', 'minimum or maximum over choices', 'the same subproblem recurs', 'take it or skip it'],
     idea: 'Name the state, write the transition, fix the order. Memoisation caches the recursion; tabulation replays it in dependency order without the call stack. Most failures are a state that carries too little information.',
+    realWorld:
+      'Spell-check suggestions rank words by edit distance, `git diff` is built on the longest common subsequence of two files\' lines, and DNA aligners score matches between genetic sequences — all tables of sub-answers reused many times.',
     template: `def solve(i, cap):
     if i == n or cap == 0: return 0
     if (i, cap) in memo: return memo[(i, cap)]
@@ -392,6 +434,8 @@ def union(a, b):
     tagline: 'Take the locally best choice — and prove it is safe.',
     signals: ['maximum number of non-overlapping things', 'minimum removals', 'fractions or divisible items allowed', 'schedule or assign'],
     idea: 'Greedy needs the greedy choice property: some optimal solution contains the choice you are making. The exchange argument proves it — swap your choice into any optimal solution and show it is no worse.',
+    realWorld:
+      'Huffman coding in ZIP, JPEG and MP3 repeatedly merges the two rarest symbols and is provably optimal; a cashier giving change takes the largest coin that fits. Both work only because the problem has the greedy-choice property.',
     template: `items.sort(key=the_right_key)
 for item in items:
     if compatible(item, state):
@@ -408,6 +452,8 @@ for item in items:
     tagline: 'Split, solve both halves, combine.',
     signals: ['sort or merge', 'count inversions', 'closest pair', 'the answer combines two halves'],
     idea: 'The work is in the combine step. Merge sort divides for free and pays on the merge; quick sort pays on the partition and combines for free. The recurrence tells you the cost.',
+    realWorld:
+      'Merge sort inside Python\'s and Java\'s object sorts, the Fast Fourier Transform behind audio processing and fast multiplication of huge numbers, and MapReduce-style data jobs all split the work, solve the parts, and combine.',
     template: `def solve(lo, hi):
     if hi - lo <= 1: return base_case
     mid = (lo + hi) // 2
@@ -426,6 +472,8 @@ for item in items:
     tagline: 'Treat the number as a row of switches.',
     signals: ['appears twice except one', 'subsets with n at most 20', 'power of two', 'XOR of a range', 'flags or a small set'],
     idea: 'XOR cancels duplicates and ignores order. `n & (n-1)` clears the lowest set bit and `n & -n` isolates it. An n-bit integer is exactly one subset, which is what makes bitmask enumeration work.',
+    realWorld:
+      'Unix file permissions (`chmod 755`), network subnet masks, feature flags packed into one integer, and the parity blocks that let RAID rebuild a failed disk with XOR are all bit manipulation.',
     template: `# test / set / clear / toggle bit i
 (n >> i) & 1
 n | (1 << i)
@@ -446,6 +494,8 @@ for mask in 0 .. (1 << n) - 1: ...`,
     tagline: 'Index strings by their prefixes.',
     signals: ['autocomplete', 'starts with', 'dictionary of words', 'word search in a grid', 'maximum XOR pair'],
     idea: 'One node per prefix means lookup costs the length of the query, not the number of stored words. Words sharing a prefix share a path, which is both the speed and the memory saving.',
+    realWorld:
+      'Search-box autocomplete, phone contact lookup as you type, and IP routing tables that pick the longest matching address prefix are all prefix trees under the hood.',
     template: `class Node: children = {}; isWord = False
 
 def insert(word):

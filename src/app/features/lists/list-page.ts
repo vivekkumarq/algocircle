@@ -13,6 +13,7 @@ import { PROBLEMS } from '../../data/problems';
 import { PATTERNS } from '../../data/patterns/patterns.data';
 import { SeoService } from '../../core/services/seo.service';
 import { Icon } from '../../shared/components/icon/icon';
+import { RichPipe } from '../../shared/pipes/rich.pipe';
 
 type Level = 'All' | 'Easy' | 'Medium' | 'Hard';
 
@@ -24,7 +25,7 @@ type Level = 'All' | 'Easy' | 'Medium' | 'Hard';
 @Component({
   selector: 'app-list-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon],
+  imports: [RouterLink, Icon, RichPipe],
   templateUrl: './list-page.html',
   styleUrl: './list-page.scss',
 })

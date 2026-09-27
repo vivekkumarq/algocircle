@@ -11,7 +11,7 @@
         {{ pad(number()) }}
       </p>
       <h1>{{ item.title }}</h1>
-      <p class="lead">{{ item.tagline }}</p>
+      <p class="lead" [innerHTML]="item.tagline | rich"></p>
 
       <div class="head__meta">
         <span class="tag"><app-icon name="clock" [size]="12" /> {{ item.minutes }} min</span>
@@ -111,7 +111,7 @@
   <header class="head head--index">
     <p class="eyebrow"><app-icon name="layers" [size]="14" /> Course</p>
     <h1>{{ course.name }}</h1>
-    <p class="lead">{{ course.description }}</p>
+    <p class="lead" [innerHTML]="course.description | rich"></p>
 
     <dl class="stats">
       <div>
@@ -146,7 +146,7 @@
       <section class="group">
         <header class="group__head">
           <h2>{{ group.name }}</h2>
-          <p>{{ group.blurb }}</p>
+          <p [innerHTML]="group.blurb | rich"></p>
           <span class="group__meta">
             {{ group.lessons.length }} lessons · {{ minutesOf(group.name) }} min
           </span>
@@ -159,7 +159,7 @@
                 <span class="card__num">{{ pad(orderIn(entry.slug)) }}</span>
                 <span class="card__text">
                   <span class="card__title">{{ entry.title }}</span>
-                  <span class="card__tagline">{{ entry.tagline }}</span>
+                  <span class="card__tagline" [innerHTML]="entry.tagline | rich"></span>
                 </span>
                 <span class="card__minutes">{{ entry.minutes }} min</span>
               </a>

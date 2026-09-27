@@ -245,6 +245,12 @@ for read in range(len(a)):
           question: 'Why does the write-pointer pattern require a single pass and no temporary array?',
           answer: 'Because the region `a[0..write-1]` is finished and the region `a[read..n-1]` is untouched. The gap between them holds values already copied forward, so overwriting it destroys nothing you still need.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Removing blocked users from a list held in memory on a phone, or filtering out bad readings from a sensor buffer on a small device, is done in place with a write pointer for the same reason: there is no room for a second copy, and the filtered data can safely overwrite what has already been read.',
+        },
       ],
     },
     {
@@ -338,6 +344,12 @@ for value in a:
           tone: 'key',
           text: 'Remember the shape, not the code: **a range condition becomes a lookup condition on prefixes**. The same move handles subarrays divisible by `k` (store `running % k`) and equal counts of two values (store a running difference).',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A banking app that shows "total spent between two dates" does not add up every transaction on each request. It keeps a running balance per day, so any date range is one subtraction. Analytics dashboards and the summed-area tables used in image processing work on the same principle.',
+        },
       ],
     },
     {
@@ -390,6 +402,12 @@ applied:  -   +5   +5   +5    -    -`,
         {
           kind: 'para',
           text: 'Total cost for `q` updates is `O(n + q)` instead of `O(n * q)`. This is the standard answer to problems about booking intervals, counting overlapping ranges, or applying a batch of flight or seat reservations.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A cinema or airline booking system that needs "how many seats are taken on each day" after thousands of multi-day bookings records +1 at each booking\'s start and −1 just after its end, then takes one running sum. The same trick drives calendar heatmaps and "peak concurrent users" charts.',
         },
       ],
     },
@@ -450,6 +468,12 @@ return best`,
           kind: 'callout',
           tone: 'why',
           text: 'This is your first dynamic programming algorithm, though nobody calls it that yet. The state is "best sum ending at i", the transition is one `max`, and the space is optimised to a single variable. Recognising that shape now makes the DP chapter far easier later.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Given a stock\'s daily price changes, Kadane\'s scan finds the stretch of days with the largest total gain in one pass. The same idea finds the brightest contiguous region in a row of pixel values or the best-performing run in a series of daily profits.',
         },
       ],
     },
@@ -574,6 +598,12 @@ not a subarray because 1 and 3 are not adjacent`,
           tone: 'key',
           text: 'The word "contiguous" in a problem statement is the strongest single hint in array questions. It means a window or a prefix technique applies, and it rules out the exponential subsequence space.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A "longest streak of daily logins" is a subarray question — the days must be consecutive. "Longest sequence of steadily improving scores" is a subsequence — gaps are allowed. "Which items fit in the budget" is a subset. Product analytics asks all three, and each needs a different technique.',
+        },
       ],
     },
     {
@@ -612,6 +642,12 @@ reverse all   [4][5][6][7][1][2][3]   rotated left by 3`,
           kind: 'callout',
           tone: 'trap',
           text: 'Take `k %= n` first. A rotation by exactly `n` is the identity, and skipping the modulo is the fastest way to an index-out-of-bounds on the very first hidden test.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A circular log buffer, a rotating banner of adverts, or a round-robin list of servers are all rotations. Load balancers usually avoid moving any data at all by keeping an index that wraps with `% n` — rotation in `O(1)` by never physically rotating.',
         },
       ],
     },
@@ -682,6 +718,12 @@ target = whole - (A+B) - (A+C) + A`,
           tone: 'note',
           title: 'Rotating a matrix in place',
           text: 'Transpose, then reverse each row, and you have rotated 90 degrees clockwise with no extra matrix. Reversing each column instead rotates anticlockwise.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A photo is a matrix of pixels, and a filter like "blur" visits each pixel\'s neighbours using exactly the direction-array idiom above. Spreadsheets, game boards and the tiles of a map are matrices too, addressed by row and column.',
         },
       ],
     },

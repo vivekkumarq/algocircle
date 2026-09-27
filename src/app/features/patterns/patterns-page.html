@@ -3,7 +3,7 @@
     <header class="head">
       <p class="eyebrow"><a routerLink="/patterns">Patterns</a> / {{ p.frequency }} frequency</p>
       <h1>{{ p.name }}</h1>
-      <p class="lead">{{ p.tagline }}</p>
+      <p class="lead" [innerHTML]="p.tagline | rich"></p>
       <div class="head__meta">
         <span class="tag">{{ p.complexity }}</span>
         <a class="tag" [routerLink]="['/learn', p.topic]">Taught in {{ topicLabel() }}</a>
@@ -16,14 +16,19 @@
       <p class="hint">If a problem statement says any of these, try this pattern first.</p>
       <ul class="signals">
         @for (signal of p.signals; track signal) {
-          <li><app-icon name="check" [size]="14" /> {{ signal }}</li>
+          <li><app-icon name="check" [size]="14" /> <span [innerHTML]="signal | rich"></span></li>
         }
       </ul>
     </section>
 
     <section class="block">
       <h2>Why it works</h2>
-      <p>{{ p.idea }}</p>
+      <p [innerHTML]="p.idea | rich"></p>
+    </section>
+
+    <section class="block block--real">
+      <h2><app-icon name="briefcase" [size]="16" /> In real life</h2>
+      <p [innerHTML]="p.realWorld | rich"></p>
     </section>
 
     <section class="block">
@@ -39,7 +44,7 @@
         <h2>Variations</h2>
         <ul>
           @for (item of p.variations; track item) {
-            <li>{{ item }}</li>
+            <li [innerHTML]="item | rich"></li>
           }
         </ul>
       </div>
@@ -47,7 +52,7 @@
         <h2>Common mistakes</h2>
         <ul class="mistakes">
           @for (item of p.mistakes; track item) {
-            <li>{{ item }}</li>
+            <li [innerHTML]="item | rich"></li>
           }
         </ul>
       </div>
@@ -65,7 +70,7 @@
                 </span>
                 <span class="problem__body">
                   <span class="problem__title">{{ problem.title }}</span>
-                  <span class="problem__statement">{{ problem.statement }}</span>
+                  <span class="problem__statement" [innerHTML]="problem.statement | rich"></span>
                 </span>
                 <app-icon name="arrow-right" [size]="14" />
               </a>
@@ -126,7 +131,7 @@
             <td>
               <span class="index__signals">
                 @for (signal of row.signals.slice(0, 3); track signal) {
-                  <span class="signal">{{ signal }}</span>
+                  <span class="signal" [innerHTML]="signal | rich"></span>
                 }
               </span>
             </td>

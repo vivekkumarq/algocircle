@@ -89,6 +89,8 @@ const PAIRS = [
   ['--accent-text', '--bg-main', 4.5, 'links'],
   ['--accent-text', '--accent-soft', 4.5, 'text on an accent panel'],
   ['--accent-contrast', '--accent', 4.5, 'text on a primary button'],
+  ['--info', '--info-soft', 4.5, 'the "In real life" label'],
+  ['--text-secondary', '--info-soft', 4.5, 'text in an "In real life" panel'],
 ];
 
 for (const [name, tokens] of [['root', root], ...themed]) {

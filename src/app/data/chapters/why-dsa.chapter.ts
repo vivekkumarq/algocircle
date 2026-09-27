@@ -292,6 +292,12 @@ return "not found"`,
           tone: 'note',
           text: 'This is why real answers sound like "linear time, but it needs a second array of size n — if memory is tight I would use the in-place version and pay an extra log factor". Trade-offs, not trophies.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A phone keyboard\'s next-word suggestions have to fit in a few megabytes and answer before your thumb lifts, so memory matters as much as time. A payments service cares about something different again: the same request replayed twice must not charge the card twice. Speed is one cost among several, and the right structure is the one that fits the budget you actually have.',
+        },
       ],
     },
     {

@@ -7,11 +7,12 @@ import {
 } from '../../data/algorithms.data';
 import { TOPICS } from '../../data/topics.data';
 import { Icon } from '../../shared/components/icon/icon';
+import { RichPipe } from '../../shared/pipes/rich.pipe';
 
 @Component({
   selector: 'app-algorithms-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon],
+  imports: [RouterLink, Icon, RichPipe],
   templateUrl: './algorithms-page.html',
   styleUrl: './algorithms-page.scss',
 })

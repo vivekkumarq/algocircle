@@ -146,6 +146,11 @@
   color: var(--text-primary);
 }
 
+.callout__head code {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
 .callout__body {
   margin: 0;
   font-size: 0.92rem;
@@ -179,6 +184,16 @@
 
 .callout--why .callout__head {
   color: var(--easy);
+}
+
+.callout--real {
+  border-left-color: var(--info);
+  background: var(--info-soft);
+  color: var(--info);
+}
+
+.callout--real .callout__head {
+  color: var(--info);
 }
 
 /* ---- Tables ---- */

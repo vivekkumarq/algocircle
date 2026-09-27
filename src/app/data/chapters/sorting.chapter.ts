@@ -56,6 +56,12 @@ export const SORTING: Chapter = {
           tone: 'key',
           text: 'The useful question is not "how do I write quick sort" but "does sorting first make this problem easy, and can I afford the `n log n`?". Very often the answer to both is yes.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Finding duplicate customer records in a CRM is usually done by sorting on a normalised name or email and scanning neighbours: once sorted, duplicates sit next to each other and one pass finds them all.',
+        },
       ],
     },
     {
@@ -192,6 +198,12 @@ export const SORTING: Chapter = {
           kind: 'para',
           text: 'Merge sort guarantees `O(n log n)` in every case and is the natural choice for linked lists, where splitting is cheap and no extra array is needed. Its cost is `O(n)` auxiliary memory for arrays.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Databases sort tables larger than memory with an external merge sort: sort chunks that fit in RAM, write them to disk, then merge the sorted chunks in one streaming pass. Merge sort\'s sequential access is exactly what disks and network storage are good at.',
+        },
       ],
     },
     {
@@ -313,6 +325,12 @@ export const SORTING: Chapter = {
           tone: 'key',
           text: 'The escape route is to stop comparing. Counting sort and radix sort use the values as indices, which is why they can be linear — they are not comparison sorts, and they need assumptions about the value range.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'This bound is why database and library authors do not keep hunting for a faster general comparison sort — it cannot exist. Real speedups come from escaping comparisons entirely (radix sort on fixed-width keys) or from exploiting existing order, which is what Timsort does with runs that are already sorted.',
+        },
       ],
     },
     {
@@ -367,6 +385,12 @@ for value in range(k):
           tone: 'trap',
           text: 'Counting sort with a huge or unknown value range allocates an enormous array. `k` appears in the complexity for a reason — check it against the constraints before choosing this.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Punched-card sorting machines, used from the 1890 US census onward, sorted a deck by one digit column per pass — least significant first, then the next. That is radix sort, decades before computers. Today the same idea sorts IP addresses, fixed-length IDs and scores out of 100, where the keys are small integers and counting beats comparing.',
+        },
       ],
     },
     {
@@ -393,6 +417,12 @@ unstable: (Cy, A)  (Bob, B)  (Ann, B)   <- also "sorted", different answer`,
           kind: 'callout',
           tone: 'note',
           text: 'Java sorts objects with a stable merge sort and primitives with an unstable dual-pivot quick sort. C++ `sort` is unstable and `stable_sort` is not. Python `sorted` is always stable.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Click "sort by date" and then "sort by sender" in an email client, and within each sender the messages stay in date order — because the sort is stable. Spreadsheets rely on the same property when you sort by one column and then another.',
         },
       ],
     },
@@ -446,6 +476,12 @@ unstable: (Cy, A)  (Bob, B)  (Ann, B)   <- also "sorted", different answer`,
             ['Top K frequent', 'count, then bucket by frequency', '`O(n)`'],
             ['Full order needed', 'sort', '`O(n log n)`'],
           ],
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Latency dashboards report the 95th and 99th percentile response times. Finding the p99 of a million samples does not need them fully sorted; quickselect finds the value at that position in linear expected time.',
         },
       ],
     },

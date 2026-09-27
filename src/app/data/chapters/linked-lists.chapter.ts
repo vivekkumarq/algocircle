@@ -179,6 +179,12 @@ ahead = node.next
 node.next = previous
 node = ahead`,
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A music player\'s "next track" button follows a pointer from the current song to the next one. It never needs the playlist\'s length or an index — just where it is now and what comes after.',
+        },
       ],
     },
     {
@@ -264,6 +270,12 @@ end:     null <- 1 <- 2 <- 3
           kind: 'callout',
           tone: 'trap',
           text: 'The recursive version uses `O(n)` stack space, so it overflows on a list of a million nodes. Mention that trade-off rather than presenting it as strictly better because it is shorter.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Mark-and-sweep garbage collectors use pointer reversal (the Deutsch-Schorr-Waite algorithm) to walk very deep object graphs without a stack: each pointer is flipped to point back at its parent on the way down and flipped back on the way up — list reversal, applied to memory itself.',
         },
       ],
     },
@@ -367,6 +379,12 @@ return trail`,
           tone: 'note',
           text: 'For even-length lists, `slow` ends on the second of the two middles. If you need the first, start `fast` at `head.next`, or stop when `fast.next.next` is null. Decide which you want before writing the loop.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Sorting a linked list with merge sort needs its middle, and nothing tells you the length. Fast and slow pointers find the split point in one pass, which is why this trick sits inside most linked-list sort implementations.',
+        },
       ],
     },
     {
@@ -435,6 +453,12 @@ return probe     # the first node of the cycle`,
                 +------ c -----+
 
 a = c  (mod cycle length), which is why both walkers arrive together`,
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Tortoise-and-hare cycle detection (Floyd\'s algorithm) is used well beyond lists: Pollard\'s rho integer factorisation finds a repeating value in a pseudo-random sequence with exactly this trick, and it is a standard way to detect loops in any "follow the next pointer" data.',
         },
       ],
     },
@@ -546,6 +570,12 @@ while a and b:
 tail.next = a or b      # attach whatever remains
 return dummy.next`,
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'The Linux kernel\'s linked lists are circular with a sentinel head node, for exactly the reason given here: inserting and deleting at the front or the back need no special cases, which matters in code that runs millions of times a second.',
+        },
       ],
     },
     {
@@ -623,6 +653,12 @@ return dummy.next`,
           kind: 'callout',
           tone: 'trap',
           text: 'Starting `fast` at `head.next` matters here: it makes `slow` stop on the **first** middle, so a two-node list splits into one and one. Starting both at `head` splits it into zero and two, and the recursion never terminates.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Sorting a large file of records that you can only read front to back — a tape backup historically, or a log on disk today — is merge sort on a list: split, sort the halves, merge by walking both in order.',
         },
       ],
     },

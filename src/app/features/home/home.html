@@ -136,7 +136,7 @@
       <h4>Recognition signals</h4>
       <ul class="signals">
         @for (signal of pattern().signals; track signal) {
-          <li><app-icon name="check" [size]="14" /> {{ signal }}</li>
+          <li><app-icon name="check" [size]="14" /> <span [innerHTML]="signal | rich"></span></li>
         }
       </ul>
 

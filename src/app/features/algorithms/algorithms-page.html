@@ -63,7 +63,7 @@
             </div>
 
             <p class="entry__what">{{ entry.what }}</p>
-            <p class="entry__how"><b>How.</b> {{ entry.how }}</p>
+            <p class="entry__how"><b>How.</b> <span [innerHTML]="entry.how | rich"></span></p>
             <p class="entry__when"><b>Use when.</b> {{ entry.useWhen }}</p>
 
             <a class="entry__link" [routerLink]="['/learn', entry.topic]">

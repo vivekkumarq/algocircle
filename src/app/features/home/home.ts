@@ -6,11 +6,12 @@ import { TOPIC_GROUPS } from '../../data/navigation.data';
 import { TOPICS, TOTAL_TOPIC_MINUTES, TOTAL_TOPIC_SECTIONS } from '../../data/topics.data';
 import { PATTERN_PREVIEWS } from '../../data/patterns/pattern-preview.data';
 import { SITE_STATS } from '../../data/site-stats.data';
+import { RichPipe } from '../../shared/pipes/rich.pipe';
 
 @Component({
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, TopicGraph],
+  imports: [RouterLink, Icon, TopicGraph, RichPipe],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

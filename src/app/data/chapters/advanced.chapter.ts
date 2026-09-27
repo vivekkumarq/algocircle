@@ -57,6 +57,12 @@ export const ADVANCED: Chapter = {
           tone: 'key',
           text: 'These rarely decide an SDE-1 interview. They decide competitive rounds, senior system-heavy questions, and the follow-up "now the array changes between queries" — which is precisely the question a prefix-sum array cannot survive.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A live leaderboard where scores change every second and players ask "what is my rank?" is exactly this situation: many updates, many range queries. Rescanning every player on each request stops working long before the leaderboard gets large.',
+        },
       ],
     },
     {
@@ -236,6 +242,12 @@ prefixSum(7) = tree[7] + tree[6] + tree[4]
           tone: 'trap',
           text: 'Fenwick trees are 1-indexed by construction. Mixing 0-indexed input with the internal indexing is the standard bug — convert at the boundary, as the `i++` above does, and never in the middle.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A Fenwick tree is the compact way to maintain "how many players scored at most X" while scores keep changing, which answers "what is my rank" in logarithmic time. Its inventor, Peter Fenwick, introduced it in 1994 for maintaining cumulative frequency tables in data compression.',
+        },
       ],
     },
     {
@@ -312,6 +324,12 @@ prefixSum(7) = tree[7] + tree[6] + tree[4]
           tone: 'key',
           text: 'Rule of thumb: if the query is a sum and updates are point updates, use a Fenwick tree. If the query is a minimum, a maximum, or anything custom — or updates cover ranges — use a segment tree.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A monitoring tool that answers "what was the peak memory use between 14:05 and 14:20?" over a day of per-second samples, while new samples keep arriving, is a range-maximum query with updates — the job segment trees were built for.',
+        },
       ],
     },
     {
@@ -335,6 +353,12 @@ prefixSum(7) = tree[7] + tree[6] + tree[4]
           kind: 'callout',
           tone: 'why',
           text: 'The invariant is: a node\'s stored aggregate is already correct, but its children may not yet reflect a pending update. Every operation that needs to see inside a node must push first — get that wrong and the answers are subtly stale rather than obviously broken.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Applying "10% off every product in this price range" or "add one day to every booking in this block" touches thousands of entries if done eagerly. Lazy propagation records the change once at the covering nodes and applies it only where someone later looks.',
         },
       ],
     },
@@ -387,6 +411,12 @@ def query(l: int, r: int) -> int:       # inclusive
           tone: 'trap',
           text: 'Sparse tables do **not** work for sums, because the overlap would be counted twice. Idempotence is the requirement, not associativity.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Tools that answer "what was the lowest price in any period" over a fixed historical dataset — a year of closing prices that will never change again — precompute a sparse table once and answer each query instantly. The same structure speeds up lowest-common-ancestor queries on fixed trees.',
+        },
       ],
     },
     {
@@ -433,6 +463,12 @@ def query(l: int, r: int) -> int:       # inclusive
         {
           kind: 'para',
           text: 'A suffix array plus its LCP array answers "longest repeated substring", "number of distinct substrings" and "longest common substring of two strings". Aho-Corasick is a trie with KMP-style failure links, which is what makes multi-pattern search linear rather than one pass per pattern.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Suffix arrays and their relatives (the FM-index) power the read aligners used in genome sequencing, matching billions of short DNA reads against a reference. Aho-Corasick was the engine of the original Unix `fgrep` for searching many keywords at once, and it still drives signature matching in network intrusion detection.',
         },
       ],
     },

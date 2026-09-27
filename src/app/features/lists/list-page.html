@@ -83,7 +83,7 @@
               <tr>
                 <td>
                   <a class="row__title" [routerLink]="['/problems', row.slug]">{{ row.title }}</a>
-                  <span class="row__statement">{{ row.statement }}</span>
+                  <span class="row__statement" [innerHTML]="row.statement | rich"></span>
                 </td>
                 <td>
                   <a class="row__pattern" [routerLink]="['/patterns', row.patternSlug]">

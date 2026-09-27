@@ -5,7 +5,7 @@
     }
 
     @case ('heading') {
-      <h3>{{ block.text }}</h3>
+      <h3 [innerHTML]="rich(block.text)"></h3>
     }
 
     @case ('list') {
@@ -48,7 +48,7 @@
           }
 
           @if (tab.caption) {
-            <span class="code__caption">{{ tab.caption }}</span>
+            <span class="code__caption" [innerHTML]="rich(tab.caption)"></span>
           }
 
           <button
@@ -70,7 +70,7 @@
       <aside class="callout" [class]="'callout--' + block.tone">
         <p class="callout__head">
           <app-icon [name]="calloutIcon[block.tone]" [size]="15" />
-          {{ block.title ?? calloutLabel[block.tone] }}
+          <span [innerHTML]="rich(block.title ?? calloutLabel[block.tone])"></span>
         </p>
         <p class="callout__body" [innerHTML]="rich(block.text)"></p>
       </aside>
@@ -83,7 +83,7 @@
             <thead>
               <tr>
                 @for (header of block.headers; track header) {
-                  <th scope="col">{{ header }}</th>
+                  <th scope="col" [innerHTML]="rich(header)"></th>
                 }
               </tr>
             </thead>
@@ -99,7 +99,7 @@
           </table>
         </div>
         @if (block.caption) {
-          <figcaption>{{ block.caption }}</figcaption>
+          <figcaption [innerHTML]="rich(block.caption)"></figcaption>
         }
       </figure>
     }
@@ -108,7 +108,7 @@
       <ol class="steps">
         @for (item of block.items; track item.title) {
           <li>
-            <span class="steps__title">{{ item.title }}</span>
+            <span class="steps__title" [innerHTML]="rich(item.title)"></span>
             <span class="steps__text" [innerHTML]="rich(item.text)"></span>
           </li>
         }
@@ -119,7 +119,7 @@
       <figure class="diagram">
         <pre>{{ block.art }}</pre>
         @if (block.caption) {
-          <figcaption>{{ block.caption }}</figcaption>
+          <figcaption [innerHTML]="rich(block.caption)"></figcaption>
         }
       </figure>
     }
@@ -133,7 +133,7 @@
           [innerHTML]="drawing(block.body)"
         ></svg>
         @if (block.caption) {
-          <figcaption>{{ block.caption }}</figcaption>
+          <figcaption [innerHTML]="rich(block.caption)"></figcaption>
         }
       </figure>
     }
@@ -146,7 +146,7 @@
       <div class="compare">
         @for (column of block.columns; track column.title) {
           <div class="compare__col">
-            <h4>{{ column.title }}</h4>
+            <h4 [innerHTML]="rich(column.title)"></h4>
             <ul>
               @for (point of column.points; track point) {
                 <li [innerHTML]="rich(point)"></li>
@@ -161,7 +161,7 @@
       <details class="check">
         <summary>
           <app-icon name="target" [size]="15" />
-          {{ block.question }}
+          <span [innerHTML]="rich(block.question)"></span>
         </summary>
         <p [innerHTML]="rich(block.answer)"></p>
       </details>

@@ -61,6 +61,12 @@ export const TWO_POINTERS: Chapter = {
             },
           ],
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Merging two sorted lists — your contacts from phone and email, say, each already alphabetical — is two pointers: take the smaller front item, advance that list, never look back. Every "merge" step in databases and sorting libraries is built on the same one-way movement.',
+        },
       ],
     },
     {
@@ -126,6 +132,12 @@ target = 13
         {
           kind: 'para',
           text: 'When the array is unsorted and you only need **values**, a hash map does it in one pass without sorting. Two pointers win when the array is already sorted, when you need `O(1)` space, or when the problem asks for triplets.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A gift-card checkout that suggests "two items that together use up your balance" from a price-sorted catalogue can walk in from the cheapest and the most expensive items at once, moving whichever end makes the total closer to the balance.',
         },
       ],
     },
@@ -222,6 +234,12 @@ for i in range(len(a) - 2):
           title: 'Duplicates are the whole difficulty',
           text: 'The two-pointer part is easy; producing each distinct triplet exactly once is where solutions break. Skip repeated values at the anchor **and** after recording a hit, and only after the hit — skipping before it drops valid triplets.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Picking three items that together hit a delivery-fee threshold, or three weights that balance a load, is the same fix-one-then-two-point search. Recommendation "bundle" features face exactly this shape, usually with a price-sorted list.',
+        },
       ],
     },
     {
@@ -267,6 +285,12 @@ after: [1][2][3] | 2  3   (tail is stale, length = 3)`,
         {
           kind: 'para',
           text: 'The same skeleton, with a different keep-condition, gives you: remove a value, move zeroes to the end, compact a filtered list, and partition around a pivot.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A chat app removing deleted messages from the list already on screen, or a spreadsheet\'s "remove empty rows", keeps the survivors in order by copying each one forward over the gaps: a read pointer and a write pointer, no second list.',
         },
       ],
     },
@@ -352,6 +376,12 @@ while mid <= high:
           tone: 'trap',
           title: 'Why `mid` does not advance on a 2',
           text: 'The value swapped in from the right has not been examined yet. Advancing past it skips an element and produces a wrong order — this is the single most common bug in this algorithm.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Quicksort — used for primitive arrays in Java\'s `Arrays.sort` and in C++\'s `std::sort` — rests on partitioning. The three-way version shown here is what stops it slowing to a crawl on data full of duplicates, like a column of order statuses with only three possible values.',
         },
       ],
     },
@@ -496,6 +526,12 @@ return False`,
             ['Happy number', 'apply the transformation once vs. twice'],
             ['Palindrome list', 'find the middle, reverse the second half, compare'],
           ],
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Garbage collectors, dependency resolvers and web crawlers all have to notice when following links brings them back to somewhere they have already been. When memory is tight, the fast-and-slow trick detects that loop without storing every visited node.',
         },
       ],
     },

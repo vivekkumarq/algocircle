@@ -271,6 +271,12 @@ return max(take, skip)`,
           text:
             'Once you recognise the shape, a surprising number of problems are the same table with a different question at each cell: maximum instead of count, "can I reach this" instead of "how many ways", a decision recorded alongside the value. The loop never changes.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Deciding which days to take on freelance work when you cannot work two days in a row is the "house robber" 1D DP. So is planning which stops a delivery driver should skip to maximise earnings under a no-back-to-back rule.',
+        },
       ],
     },
     {
@@ -333,6 +339,12 @@ return max(take, skip)`,
           kind: 'callout',
           tone: 'note',
           text: 'A grid DP that reads only the row above can be reduced to a single row, updated in place. That is the standard `O(n * m)` time, `O(m)` space optimisation.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Counting the routes a delivery robot can take across a warehouse grid, avoiding blocked shelves, is a 2D DP where each cell adds the ways from above and from the left. Seam carving — content-aware image resizing — finds the cheapest top-to-bottom path through a grid of pixel energies the same way.',
         },
       ],
     },
@@ -513,6 +525,12 @@ edit distance("ros", "horse") = 3`,
             ['Wildcard and regex matching', 'the same grid with pattern-specific transitions'],
           ],
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'The "did you mean…?" suggestion in a search box and the spell-checker in your phone rank candidate words by edit distance. `git diff` and the diff view in every code review tool are built on the longest common subsequence of the two files\' lines.',
+        },
       ],
     },
     {
@@ -625,6 +643,12 @@ return len(tails)`,
           kind: 'callout',
           tone: 'why',
           text: 'Keeping the smallest possible tail for each length leaves the most room for future elements — the same reasoning as "earliest finish" in greedy interval scheduling. Binary search then finds where each value belongs.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Patience sorting — the card-game strategy of dealing into piles where each card goes on the leftmost pile whose top is larger — is the `O(n log n)` LIS algorithm, and the number of piles is the answer. Diff tools such as patience diff use it to line up unique matching lines between two files.',
         },
       ],
     },
@@ -754,6 +778,12 @@ return cash`,
           kind: 'para',
           text:
             'Do this last, and only when memory actually matters. A compressed table is harder to debug and impossible to trace back through, so if you also need to recover which choices were made, keep the full grid.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Aligning two DNA sequences millions of characters long with a full table would need terabytes. Hirschberg\'s algorithm keeps only a couple of rows at a time and still recovers the alignment, which is what makes such comparisons possible at all.',
         },
       ],
     },

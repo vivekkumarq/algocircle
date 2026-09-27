@@ -38,7 +38,7 @@
                   (mouseenter)="active.set(indexOf(result))"
                 >
                   <span class="result__title">{{ result.title }}</span>
-                  <span class="result__detail">{{ result.detail }}</span>
+                  <span class="result__detail" [innerHTML]="result.detail | rich"></span>
                 </button>
               </li>
             }

@@ -11,7 +11,7 @@
         <a routerLink="/learn">DSA Topics</a> / {{ ch.level }} / Topic {{ pad(ch.order) }}
       </p>
       <h1>{{ ch.title }}</h1>
-      <p class="lead">{{ ch.summary }}</p>
+      <p class="lead" [innerHTML]="ch.summary | rich"></p>
 
       <div class="head__meta">
         <span class="tag"><app-icon name="clock" [size]="12" /> {{ ch.readingMinutes }} min read</span>
@@ -64,7 +64,7 @@
           <h2><app-icon name="target" [size]="16" /> By the end of this topic you can</h2>
           <ul>
             @for (objective of ch.objectives; track objective) {
-              <li>{{ objective }}</li>
+              <li [innerHTML]="objective | rich"></li>
             }
           </ul>
         </section>
@@ -84,7 +84,7 @@
           <h2><app-icon name="zap" [size]="16" /> Key takeaways</h2>
           <ul>
             @for (takeaway of ch.keyTakeaways; track takeaway) {
-              <li>{{ takeaway }}</li>
+              <li [innerHTML]="takeaway | rich"></li>
             }
           </ul>
         </section>

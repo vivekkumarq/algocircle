@@ -311,6 +311,12 @@ while i < n:
           title: 'Recursion is not free',
           text: 'A recursive solution with no allocations still uses `O(depth)` stack space. Saying "constant space" about a recursive DFS on a skewed tree is wrong, and it is a favourite follow-up question.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A photo editor that keeps a full copy of the image for every undo step runs out of memory after a few dozen edits on a large photo. Storing only what changed at each step keeps the same undo history in a fraction of the space. Same feature, different space complexity.',
+        },
       ],
     },
     {
@@ -343,6 +349,12 @@ average per append = O(1)`,
         {
           kind: 'para',
           text: 'The same reasoning explains why the monotonic stack pattern is linear: a single iteration might pop many elements, but each element is pushed once and popped at most once across the whole run, so the total is `O(n)`.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Python\'s `list.append`, Java\'s `ArrayList.add` and Go\'s `append` all grow their backing array geometrically rather than one slot at a time. That is why you can append a million items to a list in a web request without thinking about it: the occasional copy is real, but spread over every append it costs a constant.',
         },
       ],
     },
@@ -398,6 +410,12 @@ log(n) levels  x  n per level  =  O(n log n)`,
           tone: 'note',
           title: 'Master theorem, informally',
           text: 'For `T(n) = a*T(n/b) + f(n)`, compare `f(n)` against `n^(log_b a)`. If the recursive work dominates, that term is the answer; if `f(n)` dominates, `f(n)` is; if they match, multiply by `log n`. Recognising the seven rows above covers nearly every interview case without the formalism.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Merge sort\'s `n log n` recurrence is not just a textbook result. Timsort — the sort behind Python\'s `sorted` and Java\'s `Arrays.sort` for objects — is built from merge steps, and its guarantee on large inputs comes from exactly this halving-and-merging analysis.',
         },
       ],
     },

@@ -66,6 +66,12 @@ root is the minimum; no ordering between 8 and 4`,
             ['Heap sort', '`O(n log n)`', 'build once, extract `n` times'],
           ],
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A hospital emergency department sees patients by urgency, not arrival time, and only ever needs "who is most urgent right now". Operating-system schedulers, print queues with priorities and ride-hailing dispatch all need the same single answer, which is why a heap is enough.',
+        },
       ],
     },
     {
@@ -239,6 +245,12 @@ rightChild(i)  = 2i + 2`,
           tone: 'trap',
           text: 'Sifting down must compare against the **smaller of the two children**. Swapping with the left child unconditionally breaks the property on the right, and the bug only shows on specific inputs.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Every time a timer is added to a game engine or a JavaScript runtime, it is pushed into a priority queue ordered by due time and sifted up to its place; when the earliest one fires, the last element is moved to the root and sifted down. Both are the single-path operations shown here.',
+        },
       ],
     },
     {
@@ -396,6 +408,12 @@ for value in a:
           question: 'Why not use a max-heap of size k for the k largest elements?',
           answer: 'The root of a max-heap is the largest, but the element you need to evict is the smallest of the k kept so far — and a max-heap cannot give you that in `O(log k)`. The min-heap puts the eviction candidate exactly where you can reach it.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A "top 10 trending hashtags" feature over a firehose of posts cannot sort everything. It keeps a min-heap of the current ten and evicts the weakest whenever a stronger one arrives — memory fixed at ten entries, however many posts flow past.',
+        },
       ],
     },
     {
@@ -494,6 +512,12 @@ return dummy.next`,
           kind: 'para',
           text: 'The same shape solves "smallest range covering all lists", "kth smallest in a sorted matrix" and merging sorted files that do not fit in memory.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Search engines and log systems merge many sorted lists all the time: results from several index shards, or log lines from many servers each already in time order. A heap holding the head of each list produces the combined, ordered stream.',
+        },
       ],
     },
     {
@@ -552,6 +576,12 @@ def median() -> float:
           tone: 'why',
           title: 'Why push through the other heap',
           text: 'Adding to `lower` and immediately moving its maximum to `upper` guarantees the two halves stay correctly partitioned without comparing against the current median. It is one extra `O(log n)` move that removes a whole family of edge cases.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A ride-hailing app showing the median fare in your area as trips complete, or a monitoring dashboard showing median response time live, needs the middle of a stream that never stops. Two heaps keep that median ready after every new value.',
         },
       ],
     },

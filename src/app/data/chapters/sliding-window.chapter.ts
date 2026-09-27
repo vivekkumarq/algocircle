@@ -59,6 +59,12 @@ export const SLIDING_WINDOW: Chapter = {
           title: 'Why it is linear',
           text: 'Both pointers only ever move forward, and neither passes the end. So across the whole run there are at most `n` additions and `n` removals — `O(n)` total, even though the inner `while` looks nested.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'An API rate limiter that allows "at most 100 requests in any 60 seconds" is a sliding window: as time advances, requests older than a minute leave the window and new ones enter, and the count is updated incrementally rather than recounted.',
+        },
       ],
     },
     {
@@ -144,6 +150,12 @@ for right in range(k, len(a)):
           tone: 'trap',
           text: 'The element leaving is at `right - k`, not `right - k + 1`. Write out the indices for `k = 3` on paper once and this stops being a guess.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'The "7-day average" line on a COVID case chart, a stock\'s 50-day moving average, and a fitness app\'s weekly step average are all fixed-size windows: add today, drop the day that fell out, divide by seven.',
+        },
       ],
     },
     {
@@ -211,6 +223,12 @@ for right in 0 .. n-1:
           tone: 'key',
           text: 'The two templates differ in one place: **where you record the answer**. For longest, record after restoring validity. For shortest, record while the window is still valid, before shrinking past it. Getting this backwards is the most common sliding-window bug.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A monitoring system asking "what is the longest period in which the error count stayed under five?" grows the window while the rule holds and shrinks it from the left the moment a burst of errors breaks it — one pass over the log, however long.',
+        },
       ],
     },
     {
@@ -277,6 +295,12 @@ L---R                 "abc"      best = 3
     L---R             "cab"      best = 3
             L R       "b"
               L R     "b"        best stays 3`,
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'The "longest stretch with no repeats" question appears directly in product analytics: the longest run of listening sessions in a music app without a repeated song, or the longest browsing session without revisiting a page.',
         },
       ],
     },
@@ -381,6 +405,12 @@ def at_most(a: list[int], k: int) -> int:
           title: 'Why `right - left + 1` counts subarrays',
           text: 'Once the window is valid, every subarray ending at `right` and starting anywhere in `[left, right]` is also valid — shorter windows can only have fewer distinct values. There are exactly `right - left + 1` of them.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Marketing analytics asks questions like "how many runs of consecutive visits touched exactly three distinct campaigns?" Counting "at most three" minus "at most two" turns that awkward exact condition into two easy windows.',
+        },
       ],
     },
     {
@@ -454,6 +484,12 @@ for right, value in enumerate(a):
           kind: 'callout',
           tone: 'why',
           text: 'A smaller value that arrives later can never be the maximum again while the larger, newer value is still in the window — so it is safe to drop it forever. Each index is pushed once and popped once, which is why the total is linear.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A trading dashboard showing the highest price in the last five minutes, or a server monitor showing peak CPU over the last hour, needs a running maximum over a moving window. The monotonic deque gives it in constant time per update, however long the window.',
         },
       ],
     },

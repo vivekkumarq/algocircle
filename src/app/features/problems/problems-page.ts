@@ -16,6 +16,7 @@ import { PATTERNS, patternBySlug } from '../../data/patterns/patterns.data';
 import { TOPICS } from '../../data/topics.data';
 import { SeoService } from '../../core/services/seo.service';
 import { Icon } from '../../shared/components/icon/icon';
+import { RichPipe } from '../../shared/pipes/rich.pipe';
 
 type LevelFilter = ProblemDifficulty | 'All';
 
@@ -27,7 +28,7 @@ type LevelFilter = ProblemDifficulty | 'All';
 @Component({
   selector: 'app-problems-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon],
+  imports: [RouterLink, Icon, RichPipe],
   templateUrl: './problems-page.html',
   styleUrl: './problems-page.scss',
 })

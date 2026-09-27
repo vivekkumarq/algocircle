@@ -83,10 +83,10 @@
                 <span class="qa__level" [class]="'qa__level--' + item.level.toLowerCase()">
                   {{ item.level }}
                 </span>
-                <span class="qa__q">{{ item.q }}</span>
+                <span class="qa__q" [innerHTML]="item.q | rich"></span>
                 <app-icon name="chevron-down" [size]="15" />
               </summary>
-              <p class="qa__a">{{ item.a }}</p>
+              <p class="qa__a" [innerHTML]="item.a | rich"></p>
             </details>
           </li>
         }

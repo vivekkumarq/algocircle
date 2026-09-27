@@ -83,6 +83,12 @@ while d * d <= n:
   4  x  9
   6  x  6      <- the pivot; every pair below is a mirror of one above`,
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Grid layouts are a divisibility problem. Splitting 24 product cards into equal rows means finding the divisors of 24 — rows of 2, 3, 4, 6, 8 or 12 — which is why so many design grids use 12 or 24 columns: those numbers divide in many ways.',
+        },
       ],
     },
     {
@@ -136,6 +142,12 @@ gcd( 6,  0) -> 6`,
             'GCD of a whole array: fold it — `g = gcd(g, x)` for each element.',
             'Two numbers are **coprime** when their GCD is 1.',
           ],
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Two buses that leave a stop every 12 and every 18 minutes next leave together after `lcm(12, 18) = 36` minutes. The same calculation tells a scheduler when two periodic jobs will collide, and screen-resolution tools use the GCD to reduce 1920×1080 to its 16:9 aspect ratio.',
         },
       ],
     },
@@ -236,6 +248,12 @@ while d * d <= n:
 if n > 1:
     factors.append(n)      # whatever remains is prime`,
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'The RSA keys that protect HTTPS connections are built from two very large primes. The security rests on the fact that multiplying them is instant while factoring the product back apart is, as far as anyone knows, infeasible at that size.',
+        },
       ],
     },
     {
@@ -265,6 +283,12 @@ if n > 1:
         {
           kind: 'para',
           text: '`10^9 + 7` is chosen because it is prime and because the product of two values below it still fits in a signed 64-bit integer.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A clock is arithmetic modulo 12: nine hours after 7 o\'clock is 4 o\'clock. Hash tables use the same operation to turn a huge hash value into a bucket index with `hash % capacity`, and check digits on ISBNs and credit card numbers are modular sums designed to catch a mistyped digit.',
         },
       ],
     },
@@ -339,6 +363,12 @@ bit 3 (1): multiply by 3^8
 
 # Python also does it directly: pow(a, -1, mod)`,
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Every HTTPS handshake that uses RSA or Diffie-Hellman raises numbers hundreds of digits long to powers hundreds of digits long, modulo another such number. Multiplying one step at a time would never finish; square-and-multiply does it in a few thousand multiplications.',
+        },
       ],
     },
     {
@@ -388,6 +418,12 @@ for i in range(n + 1):
           question: 'Why does `2^n` count subsets?',
           answer: 'Each of the `n` elements is independently either in the subset or out of it, giving two choices per element and `2 * 2 * ... * 2 = 2^n` combinations. This is also why bitmasks and subsets go together: an `n`-bit number is exactly one subset.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A 4-digit PIN has `10^4 = 10,000` possibilities, which is why banks lock the card after a few wrong guesses. A 6-number lottery drawn from 49 has `C(49, 6)` — nearly 14 million — combinations, and that one binomial coefficient is the entire reason the odds are so bad.',
+        },
       ],
     },
     {
@@ -412,6 +448,12 @@ for i in range(n + 1):
           kind: 'callout',
           tone: 'note',
           text: 'The base is irrelevant in Big-O, because changing base only multiplies by a constant. `log2 n`, `log10 n` and `ln n` are all `O(log n)`.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Doubling your user base from one million to two million adds just one more step to a binary search or one more level to a balanced index. That is why well-indexed databases stay fast as they grow, and the decibel and Richter scales use logs for the same reason: to make enormous ranges manageable.',
         },
       ],
     },
@@ -443,6 +485,12 @@ for i in range(n + 1):
           tone: 'why',
           title: 'Why `n & (n - 1)` clears the lowest set bit',
           text: 'Subtracting one flips the lowest set bit to 0 and turns every zero below it into 1. Anding the two keeps only the bits above, so counting set bits becomes a loop that runs once per set bit rather than once per bit.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Linux file permissions are bits: `chmod 755` is read-write-execute for the owner (`111`), read-execute for everyone else (`101`). Feature flags, network subnet masks and the permission sets in many apps are stored the same way — one integer, one bit per yes-or-no.',
         },
       ],
     },
@@ -532,6 +580,12 @@ return reduce(xor, a, 0)   # pairs cancel, the lone value survives`,
           kind: 'check',
           question: 'Every value appears twice except two. How do you find both in linear time and constant space?',
           answer: 'XOR everything: the result is `x ^ y` for the two unique values. Any set bit in it is a bit where `x` and `y` differ, so take the lowest set bit with `d = r & -r`, split the array into elements with that bit set and not set, and XOR each group separately.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'RAID 5 storage keeps a parity block that is the XOR of the data blocks beside it. When one disk dies, XOR-ing the survivors with the parity rebuilds the missing data exactly — the same cancellation that finds the one missing number in an array.',
         },
       ],
     },

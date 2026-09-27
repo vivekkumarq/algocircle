@@ -75,6 +75,12 @@ print(a + b)              # 4000000000 — Python integers grow as needed
 # There is no silent wrap here. The trap moves elsewhere: a value that would
 # have overflowed in Java keeps growing, and arithmetic on it gets slower.`,
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'The Ariane 5 rocket was lost in 1996 because a 64-bit floating-point value was converted into a 16-bit integer that could not hold it. The same class of bug still turns up whenever a counter, a timestamp or an amount of money is stored in a type too small for the largest value it will ever reach — which is why money is stored as whole paise or cents in a 64-bit integer, never as a float.',
+        },
       ],
     },
     {
@@ -127,6 +133,12 @@ print(a + b)              # 4000000000 — Python integers grow as needed
           kind: 'callout',
           tone: 'key',
           text: 'A local variable holding an object does not contain the object. It contains the **address** of the object on the heap. That single sentence explains almost every surprise in the next section.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'When a Java or Node service falls over with an out-of-memory error, the question the on-call engineer asks first is whether the heap filled up (too many objects kept alive) or the stack overflowed (recursion too deep). They are different regions with different limits, and the fix for one does nothing for the other.',
         },
       ],
     },
@@ -189,6 +201,12 @@ c = a[:]              # this is how you ask for a copy`,
           kind: 'check',
           question: 'A function receives an array and does `arr = new int[5]` inside. Does the caller see a new array?',
           answer: 'No. The function reassigned its own local copy of the reference, which points somewhere new only inside the function. The caller still points at the original array. Mutating `arr[0]` would have been visible; reassigning `arr` is not.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A shopping cart page that shows one list of items but lets you edit a copy before checkout is a value-versus-reference decision. Hand the edit form a reference to the real cart and every half-finished change leaks into the order; hand it a copy and "Cancel" works. Frameworks such as React insist on new objects rather than mutated ones for the same reason — a changed reference is how they notice that something changed at all.',
         },
       ],
     },
@@ -280,6 +298,12 @@ s = ''.join(parts)`,
             ['Python', 'collect into a list, then `"".join(parts)`'],
           ],
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Building a large CSV or HTML report by concatenating strings in a loop is a classic cause of an export button that works in testing and times out in production. Every language\'s builder type — `StringBuilder` in Java, `"".join()` in Python — exists to turn that quadratic copying back into a single linear pass.',
+        },
       ],
     },
     {
@@ -329,6 +353,12 @@ factorial(4)                     4 * 6  = 24
           kind: 'check',
           question: 'Why does a recursive solution sometimes crash where an iterative one with the same complexity does not?',
           answer: 'The stack is only a few megabytes. Each frame costs tens of bytes, so depth in the hundreds of thousands exhausts it. The iterative version keeps its state on the heap, which is orders of magnitude larger.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Every stack trace you have read in a crash report is a printout of the call stack at the moment things failed: one line per frame, newest first. Reading it top to bottom is literally walking the frames that were pushed to get there.',
         },
       ],
     },
@@ -398,6 +428,12 @@ for value in a[1:]:
           tone: 'trap',
           title: 'Half-open ranges',
           text: 'Prefer `[lo, hi)` — inclusive start, exclusive end. The length is simply `hi - lo`, an empty range is `lo == hi`, and splitting at `mid` gives `[lo, mid)` and `[mid, hi)` with no gaps or overlaps. Most fence-post bugs disappear with this convention.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A bank\'s end-of-day reconciliation loop keeps one invariant: the money processed so far equals the sum of the transactions processed so far. If it ever stops holding, the loop halts and flags the exact transaction where it broke — which is far more useful than discovering a mismatch in the final total with no idea where it came from.',
         },
       ],
     },
@@ -472,6 +508,12 @@ class TreeNode:
           tone: 'note',
           text: 'When you store your own objects in a hash set or use them as map keys, you must define equality and hashing consistently (`equals`/`hashCode` in Java, `__eq__`/`__hash__` in Python, a hash functor in C++). Skipping this gives lookups that silently never match.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A file explorer is a tree of objects: each folder node holds a name and a list of references to its children. The browser\'s DOM is the same shape — every element is an object pointing to its child elements — and "Inspect element" is a tree traversal you drive with the mouse.',
+        },
       ],
     },
     {
@@ -490,6 +532,12 @@ class TreeNode:
             ['C++', '`cin` with sync enabled', '`ios_base::sync_with_stdio(false); cin.tie(nullptr);`'],
             ['Python', '`input()` in a loop', '`sys.stdin.readline`, or `sys.stdin.read().split()` once'],
           ],
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Log shippers and database import tools read and write in large buffered chunks rather than one line at a time for exactly this reason. Loading a million-row CSV line by line with unbuffered reads can take minutes; the same data through a buffered reader takes seconds, with no change to the logic.',
         },
       ],
     },

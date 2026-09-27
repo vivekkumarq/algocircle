@@ -190,6 +190,12 @@ while queue:
             '**0-1 BFS:** with weights of only 0 and 1, use a deque — push 0-weight edges to the front and 1-weight edges to the back. That gives Dijkstra behaviour in `O(V + E)`.',
           ],
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'LinkedIn\'s "1st, 2nd, 3rd-degree connection" labels are BFS distances from you in the connection graph. Web crawlers also explore breadth-first from seed pages, so pages close to well-known sites are found early.',
+        },
       ],
     },
     {
@@ -254,6 +260,12 @@ def dfs(node: int) -> None:
           kind: 'callout',
           tone: 'trap',
           text: 'Recursive DFS on a graph with a hundred thousand vertices in a single chain overflows the stack. Convert to an explicit stack when depth can be large — the shape of the input decides, not taste.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Solving a maze by always taking the first unexplored turn and backing up at dead ends is DFS. Build tools use the same traversal to walk a project\'s dependencies, and garbage collectors use it to mark every object still reachable from the program.',
         },
       ],
     },
@@ -340,6 +352,12 @@ for r in range(rows):
           kind: 'callout',
           tone: 'key',
           text: 'Grid problems are graph problems where the adjacency is implied. Once you see that, islands, flood fill, maze shortest paths and rotting-oranges spread are all traversals you already know.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'The paint-bucket tool in an image editor is flood fill: it spreads from the pixel you click to every connected pixel of the same colour and stops at the boundary. Counting islands on a map, or clusters of friends in a social network, is the same traversal repeated.',
         },
       ],
     },
@@ -451,6 +469,12 @@ def has_cycle(node: int) -> bool:
           title: 'Why the parent check is not enough when directed',
           text: 'In a directed graph you can reach an already-finished vertex without any cycle existing — two paths can converge. Only an edge back to a vertex that is still **on the current path** proves a cycle, which is why three states are needed rather than a boolean.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Deadlock detection in databases is directed cycle detection: if transaction A waits for B, B waits for C and C waits for A, the "waits-for" graph has a cycle and one transaction must be aborted. Spreadsheet programs report a "circular reference" for the same reason.',
+        },
       ],
     },
     {
@@ -548,6 +572,12 @@ return True`,
           tone: 'note',
           text: 'The outer loop matters: a graph can be disconnected, and a bipartite answer must hold for every component. Forgetting it is a common near-miss.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Splitting exams into two sessions so that no student sits two papers at once is two-colouring a conflict graph: each exam is a vertex, and an edge joins two exams that share a student. If the graph has an odd cycle, no two-session timetable exists — and the traversal tells you which exams form it.',
+        },
       ],
     },
     {
@@ -621,6 +651,12 @@ valid order: intro, discrete maths, data structures, algorithms`,
         {
           kind: 'para',
           text: 'The DFS variant produces the same thing: run DFS and prepend each vertex to the output when it finishes. Kahn is easier to reason about and detects the cycle without extra state.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Package managers such as npm and pip install dependencies in topological order, and build systems like Make compile files only after the files they depend on. A university course planner that respects prerequisites is the same sort — and a cycle in any of these is reported as an error.',
         },
       ],
     },
@@ -757,6 +793,12 @@ for u, w, weight in edges:              # one more improvement means
           kind: 'callout',
           tone: 'trap',
           text: 'In Floyd-Warshall, `k` is the intermediate vertex and **must** be the outer loop. Any other order computes something that is not the shortest path, and the code still runs and still looks plausible.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Navigation apps find routes with shortest-path algorithms over road graphs weighted by travel time, heavily accelerated by precomputation for continent-sized maps. Internet routers run Dijkstra too: the OSPF protocol computes shortest paths across a network\'s links to decide where to forward each packet.',
         },
       ],
     },
@@ -925,6 +967,12 @@ for u, w, weight in edges:
           title: 'Why the greedy choice is safe',
           text: 'The cut property: for any split of the vertices into two sides, the cheapest edge crossing it belongs to some MST. Both algorithms only ever add such an edge, which is what makes a purely local choice globally optimal.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Laying the cheapest network of cables, pipes or roads that still connects every site is a minimum spanning tree. Borůvka designed the first MST algorithm in 1926 to plan an efficient electricity network for Moravia.',
+        },
       ],
     },
     {
@@ -957,6 +1005,12 @@ for u, w, weight in edges:
           kind: 'callout',
           tone: 'note',
           text: 'These are rare below senior level. Knowing what each one answers, and recognising when a problem calls for it, is worth more in an interview than being able to code Tarjan from memory.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Maximum flow decides how much traffic a network or a supply chain can carry. Matching assigns one side of a bipartite graph to the other: a stable-matching algorithm places medical graduates into hospital residencies through the US National Resident Matching Program every year. These are rare in interviews and common in operations research.',
         },
       ],
     },

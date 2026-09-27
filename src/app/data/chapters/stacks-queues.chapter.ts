@@ -163,6 +163,12 @@ return not stack     # anything left open means invalid`,
           tone: 'trap',
           text: 'Two checks are easy to forget: popping from an empty stack when a closer arrives first, and a non-empty stack at the end. `"("` and `")("` both fail only if you test both.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Every code editor that highlights the matching bracket, and every HTML or JSON parser that reports "unexpected closing tag", runs this stack. When you type `}`, the editor pops the most recent unclosed `{` — that is the one it underlines.',
+        },
       ],
     },
     {
@@ -281,6 +287,12 @@ i=4  3 < 4, push 4   stack: [4,3]`,
           title: 'Why it is `O(n)` despite the inner `while`',
           text: 'Amortised counting: each index enters the stack exactly once and leaves at most once, so the total number of pops across the whole run is at most `n`. The inner loop can be long on one iteration only because it was short on many others.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A stock-market app that shows, for each day, "how many days since the price was last this high" is computing the previous greater element for every day. One monotonic stack over the price history answers all of them in a single pass.',
+        },
       ],
     },
     {
@@ -346,6 +358,12 @@ best = 10`,
         {
           kind: 'para',
           text: 'The maximal rectangle in a binary matrix is this same routine run once per row, with each row treated as a histogram of consecutive ones above it.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Finding the largest empty rectangle in a floor plan, or the largest block of free space in a grid of booked seats, is the histogram routine run row by row: each row turns the grid into bar heights, and the stack finds the widest rectangle under them.',
         },
       ],
     },
@@ -438,6 +456,12 @@ def dequeue(self) -> int:
           kind: 'para',
           text: 'A **deque** allows push and pop at both ends. It covers stacks, queues, and the monotonic queue below, which is why most libraries offer it as the single general container.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Keyboard input, audio playback and network cards all use circular buffers: the producer writes at the tail, the consumer reads at the head, both wrap around, and nothing is ever shifted. A video call that stutters is often a circular buffer that ran empty.',
+        },
       ],
     },
     {
@@ -514,6 +538,12 @@ for i, value in enumerate(a):
           kind: 'callout',
           tone: 'why',
           text: 'A smaller value that arrived earlier can never be the maximum again while a larger, newer value is still in the window — it will leave first. So dropping it is permanently safe, and each index is touched twice at most.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A fitness watch showing "your highest heart rate in the last 10 minutes", updated every second, is a sliding-window maximum. The monotonic deque makes each update constant time, which matters on a device with a tiny processor and a battery to protect.',
         },
       ],
     },

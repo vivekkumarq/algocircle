@@ -15,6 +15,7 @@ import { SeoService } from '../../core/services/seo.service';
 import { LayoutService } from '../../core/services/layout.service';
 import { Icon } from '../../shared/components/icon/icon';
 import { ContentBlocks } from '../../shared/components/content-blocks/content-blocks';
+import { RichPipe } from '../../shared/pipes/rich.pipe';
 
 /**
  * The advanced course: an overview at `/course`, one technique at
@@ -25,7 +26,7 @@ import { ContentBlocks } from '../../shared/components/content-blocks/content-bl
 @Component({
   selector: 'app-course-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, ContentBlocks],
+  imports: [RouterLink, Icon, ContentBlocks, RichPipe],
   templateUrl: './course-page.html',
   styleUrl: './course-page.scss',
 })

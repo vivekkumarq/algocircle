@@ -197,6 +197,12 @@ while queue:
           tone: 'trap',
           text: 'Taking `queue.size()` **before** the inner loop is what keeps levels separate. Reading it inside the loop mixes the next level in and quietly breaks every per-level answer.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Deleting a folder in a file manager is a postorder traversal — the contents must go before the folder that holds them. Printing a table of contents is preorder, and a compiler evaluating `(2 + 3) * 4` from its expression tree works postorder too: both operands first, then the operator.',
+        },
       ],
     },
     {
@@ -341,6 +347,12 @@ def height(node: TreeNode | None) -> int:
           tone: 'trap',
           text: 'Calling `height()` inside an `isBalanced()` that also recurses gives `O(n^2)` on a skewed tree — each node recomputes the heights below it. Returning height and the balance verdict together makes it `O(n)`.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A company\'s org chart answering "total salary cost under each manager" is bottom-up: each manager asks their reports for their totals, adds their own salary, and passes the sum up. Disk-usage tools like `du` compute folder sizes the same way.',
+        },
       ],
     },
     {
@@ -396,6 +408,12 @@ def walk(node: TreeNode | None, distance: int) -> None:
 
 # Python dicts keep insertion order, not sorted order — sort the keys at the end:
 ordered = [columns[d] for d in sorted(columns)]`,
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Views are mostly an interview device, but the horizontal-distance idea behind them is real: tools that draw trees on screen — org charts, family-tree apps, file-tree visualisers — give each node a column in much the same way to decide where it is placed, so that no two nodes overlap.',
         },
       ],
     },
@@ -512,6 +530,12 @@ def down(node: TreeNode | None) -> int:
     best = max(best, node.val + left + right)   # path turning here
     return node.val + max(left, right)          # path continuing upward`,
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Git finds the common ancestor of two branches before a merge — the "merge base" — which is the lowest common ancestor in the commit graph. Every three-way merge you have run started by computing it.',
+        },
       ],
     },
     {
@@ -601,6 +625,12 @@ def down(node: TreeNode | None) -> int:
           question: 'Why does inorder traversal of a BST produce sorted output?',
           answer: 'Inorder visits the entire left subtree, then the node, then the right subtree. By the BST invariant everything on the left is smaller and everything on the right is larger, and that holds recursively — so the sequence is sorted by construction.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'The ordered maps in standard libraries — Java\'s `TreeMap`, C++\'s `std::map` — are balanced binary search trees (red-black trees). They are what you reach for when a hash map is not enough because you also need "the next key after this one" or "all keys in a range".',
+        },
       ],
     },
     {
@@ -684,6 +714,12 @@ def down(node: TreeNode | None) -> int:
           kind: 'callout',
           tone: 'note',
           text: 'Reconstruction from preorder and inorder is `O(n)` only if you index the inorder positions in a hash map first. Searching for the root position on every call makes it `O(n^2)`.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Saving a document, sending a UI component tree from a server, or storing a nested comment thread as JSON are all tree serialisation — and the parser on the other side rebuilds the same shape precisely because the format records where each subtree ends.',
         },
       ],
     },

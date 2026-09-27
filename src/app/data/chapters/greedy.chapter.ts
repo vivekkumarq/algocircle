@@ -67,6 +67,12 @@ export const GREEDY: Chapter = {
             },
           ],
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A cashier giving change takes the largest note or coin that fits, then repeats. With rupee or dollar denominations that greedy habit always gives the fewest pieces — which is exactly why it feels trustworthy, and why the counterexample later in this chapter is so instructive.',
+        },
       ],
     },
     {
@@ -99,6 +105,12 @@ export const GREEDY: Chapter = {
         {
           kind: 'para',
           text: 'Worked example — activity selection. Sort by finish time and always take the earliest finisher that still fits. Suppose an optimal schedule starts with some other activity `X`. Your choice `G` finishes no later than `X`, so replacing `X` with `G` cannot conflict with anything that came after `X`. The count is unchanged, so the swapped schedule is still optimal — and it now contains your greedy choice.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Huffman coding, inside ZIP files and in JPEG and MP3 compression, is a greedy algorithm that is provably optimal: it repeatedly merges the two least frequent symbols. It works because the problem has exactly the two properties described here.',
         },
       ],
     },
@@ -181,6 +193,12 @@ for interval in intervals:
         merged[-1][1] = max(merged[-1][1], interval[1])
     else:
         merged.append(list(interval))   # copy, since we mutate the end above`,
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Booking the most meetings into one room is "sort by end time, take whatever fits". Calendar apps showing "you are free between…" merge your events by start time instead. Same list of intervals, different sort key, different question answered.',
         },
       ],
     },
@@ -338,6 +356,12 @@ optimal: 5 + 5 + 5        -> 2 coins`,
           kind: 'check',
           question: 'Fractional knapsack is greedy, but 0/1 knapsack is not. What changes?',
           answer: 'With fractions you can always fill the capacity exactly, so taking the best value-per-weight first can never waste space. With whole items, taking the best ratio can leave a gap that a different combination would have filled — the greedy choice is no longer guaranteed to appear in an optimal solution.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Real currencies are designed so that greedy change-making works. Old British coinage, with a half-crown, a florin and a threepence, did not always have that property. Anyone designing a points or voucher system with odd denominations can walk into the same trap.',
         },
       ],
     },

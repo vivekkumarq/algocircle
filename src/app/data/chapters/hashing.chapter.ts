@@ -145,6 +145,12 @@ buckets:
           text:
             'Two costs are easy to forget because they do not show up in the complexity. Hashing a long string reads the whole string, so the constant is proportional to key length rather than truly fixed. And a table that grows has to rehash everything into a bigger array — amortised away over many inserts, but a single insert can be slow, which matters if you care about latency rather than throughput.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Hash flooding is a real attack, not a thought experiment. In 2011 researchers showed that a single web request carrying thousands of form fields crafted to share one hash bucket could tie up a server\'s CPU for minutes. Python, Ruby, Java and others responded by randomising or hardening their string hashes — the fix is aimed squarely at the "buckets stay short" assumption.',
+        },
       ],
     },
     {
@@ -221,6 +227,12 @@ for i, value in enumerate(a):
           kind: 'para',
           text: 'The same shape appears constantly: "does a value with this property exist", "have I seen this before", "is there a duplicate within distance k". Turn the search into a lookup.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A payments reconciliation job that has to match each refund to the original charge of the same amount does not compare every pair. It files the charges in a map by amount and, for each refund, looks up the amount it needs. That is the complement lookup, run over millions of rows each night.',
+        },
       ],
     },
     {
@@ -290,6 +302,12 @@ for value in a:
           tone: 'key',
           text: 'Grouping is a two-step move: define an equivalence, then find a canonical key that all equivalent items produce. Once the key exists, the map does the rest.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Your phone\'s photo app groups pictures into albums by date and place; an email client threads messages by a normalised subject line. In each case the design work is choosing the key — the day, the city, the subject with "Re:" stripped — so that things which belong together hash to the same bucket.',
+        },
       ],
     },
     {
@@ -346,6 +364,12 @@ for value in a:
           question: 'Why is `seen.put(0, 1)` needed before the loop?',
           answer: 'It represents the empty prefix. Without it, a subarray that starts at index 0 and sums to `k` is never counted, because `running - k` would be 0 and 0 would not yet be in the map.',
         },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'A fraud rule like "any run of consecutive transactions on this card that adds up to exactly the amount of a known stolen balance" is a subarray-sum question, answered in one pass by storing running totals in a map as the transactions stream in.',
+        },
       ],
     },
     {
@@ -369,6 +393,12 @@ for value in a:
           kind: 'callout',
           tone: 'trap',
           text: 'In Java, arrays do not override `equals`, so `map.put(new int[]{1,2}, x)` can never be found again — two arrays with identical contents are different keys. Use a list, a string, or an encoded integer instead.',
+        },
+        {
+          kind: 'callout',
+          tone: 'real',
+          text:
+            'Caching the result of an expensive price calculation by a `(productId, region, currency)` key only works if two equal keys hash equally. Forget to define equality on that key object and every request is a cache miss — the cache quietly fills with duplicates and the service is exactly as slow as with no cache at all.',
         },
       ],
     },

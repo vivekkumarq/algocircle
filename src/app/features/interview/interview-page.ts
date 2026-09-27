@@ -4,13 +4,14 @@ import { QUESTION_SETS, QuestionLevel, TOTAL_QUESTIONS } from '../../data/interv
 import { TOPICS } from '../../data/topics.data';
 import { Icon } from '../../shared/components/icon/icon';
 import { SeoService } from '../../core/services/seo.service';
+import { RichPipe } from '../../shared/pipes/rich.pipe';
 
 type LevelFilter = QuestionLevel | 'All';
 
 @Component({
   selector: 'app-interview-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon],
+  imports: [RouterLink, Icon, RichPipe],
   templateUrl: './interview-page.html',
   styleUrl: './interview-page.scss',
 })
