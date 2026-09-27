@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CHAPTERS, chapterBySlug } from '../../data/chapters';
+import { topicHue } from '../../data/topics.data';
 import { Block } from '../../core/models/chapter.models';
 import { SeoService } from '../../core/services/seo.service';
 import { LayoutService } from '../../core/services/layout.service';
@@ -96,10 +97,7 @@ export class ChapterPage {
    * A stable hue per topic, so each chapter gets its own background wash and
    * you can tell at a glance that the page changed.
    */
-  protected readonly hue = computed(() => {
-    const order = this.chapter()?.order ?? 1;
-    return (order * 53 + 205) % 360;
-  });
+  protected readonly hue = computed(() => topicHue(this.chapter()?.order ?? 1));
 
   protected pad(order: number): string {
     return order.toString().padStart(2, '0');

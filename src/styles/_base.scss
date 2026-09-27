@@ -9,6 +9,19 @@
 /* An author rule that sets a display value silently beats the user-agent
    [hidden] rule, which is how a hidden overlay ends up invisible but still
    swallowing every tap. Make hiding win. */
+/* Topic colours. Set `--hue` and add this class: every accent inside the
+   element turns to that hue at the palette's own lightness and chroma, so
+   contrast holds in every theme. Browsers without oklch keep the theme accent. */
+@supports (color: oklch(50% 0.1 200)) {
+  .topic-tint {
+    --accent: oklch(var(--accent-l) var(--accent-c) var(--hue));
+    --accent-hover: oklch(var(--accent-hover-l) var(--accent-c) var(--hue));
+    --accent-text: oklch(var(--accent-text-l) var(--accent-c) var(--hue));
+    --accent-soft: oklch(var(--accent-soft-l) var(--accent-soft-c) var(--hue));
+    --accent-contrast: oklch(var(--accent-contrast-l) 0 0);
+  }
+}
+
 [hidden] {
   display: none !important;
 }

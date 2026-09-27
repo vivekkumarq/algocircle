@@ -2,10 +2,15 @@
   <p class="eyebrow"><app-icon name="book" [size]="14" /> Curriculum</p>
   <h1>DSA topics, in order</h1>
   <p class="lead">
-    {{ topics.length }} topics, {{ sections }} sections, about {{ minutes }} minutes of reading.
-    Start at <a routerLink="/learn/why-dsa">Why DSA</a> and work down, or jump to whatever you need —
-    nothing is locked.
+    Start at <a routerLink="/learn/why-dsa">Why DSA</a> and work down, or jump to whatever you
+    need — nothing is locked.
   </p>
+
+  <dl class="totals">
+    <div><dt>Topics</dt><dd>{{ topics.length }}</dd></div>
+    <div><dt>Sections</dt><dd>{{ sections }}</dd></div>
+    <div><dt>Minutes</dt><dd>{{ minutes }}</dd></div>
+  </dl>
 </header>
 
 <details class="map-toggle">
@@ -18,26 +23,42 @@
 
 @for (group of groups; track group.level) {
   <section class="level">
-    <h2 class="level__title">{{ group.level }}</h2>
+    <header class="level__head">
+      <h2 class="level__title">{{ group.level }}</h2>
+      <span class="level__meta">{{ group.topics.length }} topics · {{ group.minutes }} min</span>
+    </header>
 
-    <ul class="topics">
+    <ul class="cards">
       @for (topic of group.topics; track topic.slug) {
         <li>
-          <a class="topic" [routerLink]="['/learn', topic.slug]">
-            <span class="topic__order">{{ pad(topic.order) }}</span>
-
-            <span class="topic__body">
-              <span class="topic__title">{{ topic.title }}</span>
-              <span class="topic__summary" [innerHTML]="topic.summary | rich"></span>
-              <span class="topic__covers">
-                <span class="chip">{{ topic.sections.length }} sections</span>
-                <span class="chip">{{ topic.minutes }} min read</span>
-              </span>
+          <a class="card topic-tint" [style.--hue]="topic.hue" [routerLink]="['/learn', topic.slug]">
+            <span class="card__top">
+              <span class="card__num">{{ pad(topic.order) }}</span>
+              <span class="card__time"><app-icon name="clock" [size]="13" /> {{ topic.minutes }} min</span>
             </span>
 
-            <span class="topic__go">
-              {{ topic.minutes }} min
-              <app-icon name="arrow-right" [size]="14" />
+            <span class="card__title">{{ topic.title }}</span>
+            <span class="card__summary" [innerHTML]="topic.summary | rich"></span>
+
+            <span class="card__inside">
+              <span class="card__label">Inside</span>
+              @for (title of topic.inside; track title) {
+                <span class="card__item" [innerHTML]="title | rich"></span>
+              }
+              @if (topic.more > 0) {
+                <span class="card__more">+ {{ topic.more }} more sections</span>
+              }
+            </span>
+
+            <span class="card__foot">
+              <span class="card__after">
+                @if (topic.after.length) {
+                  Builds on {{ topic.after.join(', ') }}
+                } @else {
+                  Start here
+                }
+              </span>
+              <span class="card__go" aria-hidden="true"><app-icon name="arrow-right" [size]="15" /></span>
             </span>
           </a>
         </li>

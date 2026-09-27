@@ -508,6 +508,15 @@ export const TOPICS: TopicMeta[] = [
   },
 ];
 
+/**
+ * A stable hue per topic, spread round the colour wheel so neighbours differ.
+ * The lesson page and its card in the index both use it, so a topic keeps one
+ * colour wherever it appears.
+ */
+export function topicHue(order: number): number {
+  return (order * 53 + 205) % 360;
+}
+
 export const TOTAL_TOPIC_SECTIONS = TOPICS.reduce((n, t) => n + t.sections.length, 0);
 
 export const TOTAL_TOPIC_MINUTES = TOPICS.reduce((n, t) => n + t.minutes, 0);
