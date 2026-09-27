@@ -6,28 +6,28 @@
       <span class="backdrop__grid"></span>
     </div>
 
-    <header class="head">
-      <p class="eyebrow">
-        <a routerLink="/learn">DSA Topics</a> / {{ ch.level }} / Topic {{ pad(ch.order) }}
-      </p>
-      <h1>{{ ch.title }}</h1>
-      <p class="lead" [innerHTML]="ch.summary | rich"></p>
-
-      <div class="head__meta">
-        <span class="tag"><app-icon name="clock" [size]="12" /> {{ ch.readingMinutes }} min read</span>
-        <span class="tag">{{ ch.sections.length }} sections</span>
-        @if (prerequisites().length) {
-          <span class="tag">
-            After:
-            @for (item of prerequisites(); track item!.slug) {
-              <a [routerLink]="['/learn', item!.slug]">{{ item!.shortTitle ?? item!.title }}</a>
-            }
-          </span>
-        }
-      </div>
-    </header>
-
     <div class="layout">
+      <header class="head">
+        <p class="eyebrow">
+          <a routerLink="/learn">DSA Topics</a> / {{ ch.level }} / Topic {{ pad(ch.order) }}
+        </p>
+        <h1>{{ ch.title }}</h1>
+        <p class="lead" [innerHTML]="ch.summary | rich"></p>
+
+        <div class="head__meta">
+          <span class="tag"><app-icon name="clock" [size]="12" /> {{ ch.readingMinutes }} min read</span>
+          <span class="tag">{{ ch.sections.length }} sections</span>
+          @if (prerequisites().length) {
+            <span class="tag">
+              After:
+              @for (item of prerequisites(); track item!.slug) {
+                <a [routerLink]="['/learn', item!.slug]">{{ item!.shortTitle ?? item!.title }}</a>
+              }
+            </span>
+          }
+        </div>
+      </header>
+
       <app-rail-handle
         class="handle"
         side="right"

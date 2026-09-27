@@ -121,6 +121,13 @@
   --header-h: calc(var(--header-bar) + env(safe-area-inset-top, 0px));
   --sidebar-w: 268px;
   --content-max: 1280px;
+  /* The outer frame shared by the header bar and the page shell, so the logo,
+     the topic list and the contents line up, close to the screen edges. */
+  --frame-max: 1840px;
+  /* Lesson text grows a little with the screen: 15px on a laptop, 18px on a
+     1920px monitor. Reading columns are sized in multiples of it, so a wider
+     screen gives bigger text rather than longer lines. */
+  --lesson-size: clamp(0.95rem, 0.75rem + 0.3125vw, 1.125rem);
   --prose-max: 74ch;
   --gutter: clamp(16px, 4.2vw, 32px);
   --safe-t: env(safe-area-inset-top, 0px);

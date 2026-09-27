@@ -1,7 +1,7 @@
 :host {
   display: block;
   max-width: var(--prose-max);
-  font-size: 0.95rem;
+  font-size: var(--lesson-size);
   line-height: 1.72;
 }
 
@@ -11,7 +11,7 @@
 
 :host h3 {
   margin: var(--space-6) 0 var(--space-3);
-  font-size: 1.05rem;
+  font-size: calc(var(--lesson-size) * 1.105);
 }
 
 :host ul,
@@ -44,7 +44,7 @@
 
 .code__lang {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: calc(var(--lesson-size) * 0.716);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent-text);
@@ -52,7 +52,7 @@
 
 .code__caption {
   flex: 1;
-  font-size: 0.78rem;
+  font-size: calc(var(--lesson-size) * 0.821);
   color: var(--text-muted);
 }
 
@@ -67,7 +67,7 @@
   background: var(--bg-card);
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: calc(var(--lesson-size) * 0.716);
   opacity: 0;
   transition: opacity var(--dur) var(--ease), border-color var(--dur-fast) var(--ease),
     color var(--dur-fast) var(--ease);
@@ -100,7 +100,7 @@
   margin: 0;
   border: 0;
   border-radius: 0;
-  font-size: 0.82rem;
+  font-size: calc(var(--lesson-size) * 0.863);
 }
 
 /* ---- Callouts ---- */
@@ -139,7 +139,7 @@
   gap: var(--space-2);
   align-items: center;
   margin: 0 0 var(--space-2);
-  font-size: 0.76rem;
+  font-size: calc(var(--lesson-size) * 0.800);
   font-weight: 620;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -153,7 +153,7 @@
 
 .callout__body {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: calc(var(--lesson-size) * 0.968);
 }
 
 .callout--key {
@@ -211,7 +211,7 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.86rem;
+  font-size: calc(var(--lesson-size) * 0.905);
 }
 
 th,
@@ -226,7 +226,7 @@ th {
   top: 0;
   z-index: 1;
   background: var(--bg-inset);
-  font-size: 0.76rem;
+  font-size: calc(var(--lesson-size) * 0.800);
   font-weight: 620;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -253,7 +253,7 @@ tbody tr:last-child td {
 
 .table figcaption {
   margin-top: var(--space-2);
-  font-size: 0.78rem;
+  font-size: calc(var(--lesson-size) * 0.821);
   color: var(--text-muted);
 }
 
@@ -285,7 +285,7 @@ tbody tr:last-child td {
   border: 1px solid var(--border-strong);
   border-radius: 50%;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: calc(var(--lesson-size) * 0.758);
   color: var(--accent-text);
 }
 
@@ -312,7 +312,7 @@ tbody tr:last-child td {
   overflow-x: auto;
   background: var(--bg-code);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: calc(var(--lesson-size) * 0.821);
   line-height: 1.5;
   color: var(--text-secondary);
   white-space: pre;
@@ -320,7 +320,7 @@ tbody tr:last-child td {
 
 .diagram figcaption {
   margin-top: var(--space-2);
-  font-size: 0.78rem;
+  font-size: calc(var(--lesson-size) * 0.821);
   color: var(--text-muted);
 }
 
@@ -341,7 +341,7 @@ tbody tr:last-child td {
 
 .compare__col h4 {
   margin-bottom: var(--space-3);
-  font-size: 0.9rem;
+  font-size: calc(var(--lesson-size) * 0.947);
 }
 
 .compare__col ul {
@@ -350,7 +350,7 @@ tbody tr:last-child td {
 }
 
 .compare__col li {
-  font-size: 0.87rem;
+  font-size: calc(var(--lesson-size) * 0.916);
 }
 
 /* ---- Check yourself ---- */
@@ -367,7 +367,7 @@ tbody tr:last-child td {
   gap: var(--space-2);
   align-items: center;
   padding: var(--space-3) var(--space-4);
-  font-size: 0.88rem;
+  font-size: calc(var(--lesson-size) * 0.926);
   font-weight: 550;
   color: var(--text-primary);
   cursor: pointer;
@@ -385,7 +385,7 @@ tbody tr:last-child td {
 .check p {
   margin: 0;
   padding: 0 var(--space-4) var(--space-4);
-  font-size: 0.9rem;
+  font-size: calc(var(--lesson-size) * 0.947);
 }
 
 @media (min-width: 720px) {
@@ -411,7 +411,7 @@ tbody tr:last-child td {
   background: none;
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: calc(var(--lesson-size) * 0.716);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
@@ -455,7 +455,7 @@ tbody tr:last-child td {
   margin-top: var(--space-3);
   padding-top: var(--space-3);
   border-top: 1px solid var(--border);
-  font-size: 0.8rem;
+  font-size: calc(var(--lesson-size) * 0.842);
   color: var(--text-muted);
 }
 
