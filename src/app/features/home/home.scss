@@ -193,24 +193,46 @@
   color: var(--text-muted);
 }
 
+/* The frame is positioned in whole cells. One cell plus its gap is
+   (100% + gap) / 8 of the row, so `--from` and `--span` count cells and the
+   edges always land on cell borders, never part-way into one. The window
+   grows on the right and shrinks on the left, as the real algorithm does. */
 .window-demo__frame {
+  --gap: 6px;
+  --step: calc((100% + var(--gap)) / 8);
+  --from: 0;
+  --span: 2;
+
   position: absolute;
   top: -3px;
   bottom: -3px;
-  left: 0;
-  width: 25%;
+  left: calc(var(--from) * var(--step) - 3px);
+  width: calc(var(--span) * var(--step) - var(--gap) + 6px);
   border: 2px solid var(--accent);
   border-radius: var(--radius-md);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
-  animation: window 7s var(--ease) infinite;
+  animation: window 9s var(--ease) infinite;
+}
+
+@property --from {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --span {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 2;
 }
 
 @keyframes window {
-  0% { left: 0; width: 25%; }
-  25% { left: 0; width: 50%; }
-  50% { left: 25%; width: 50%; }
-  75% { left: 50%; width: 37.5%; }
-  100% { left: 75%; width: 25%; }
+  0%, 8% { --from: 0; --span: 2; }
+  18%, 26% { --from: 0; --span: 4; }
+  36%, 44% { --from: 2; --span: 2; }
+  54%, 62% { --from: 2; --span: 5; }
+  72%, 80% { --from: 5; --span: 3; }
+  92%, 100% { --from: 0; --span: 2; }
 }
 
 .window-demo__caption {
