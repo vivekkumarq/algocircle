@@ -1,5 +1,5 @@
 @if (chapter(); as ch) {
-  <article class="chapter" [style.--hue]="hue()">
+  <article class="chapter" [class.is-folded]="!layout.contentsOpen()" [style.--hue]="hue()">
     <div class="backdrop" aria-hidden="true">
       <span class="backdrop__blob backdrop__blob--a"></span>
       <span class="backdrop__blob backdrop__blob--b"></span>
@@ -28,7 +28,19 @@
     </header>
 
     <div class="layout">
-      <details class="toc" [open]="isWide()">
+      <app-rail-handle
+        class="handle"
+        side="right"
+        label="the contents"
+        [open]="layout.contentsOpen()"
+        (openChange)="layout.setContents($event)"
+      />
+
+      <details
+        class="toc"
+        [open]="isWide()"
+        [attr.inert]="layout.contentsOpen() ? null : ''"
+      >
         <summary class="toc__label">On this page</summary>
         <ol>
           @for (section of ch.sections; track section.id) {

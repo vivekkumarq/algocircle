@@ -15,17 +15,19 @@ import { SeoService } from '../../core/services/seo.service';
 import { LayoutService } from '../../core/services/layout.service';
 import { Icon } from '../../shared/components/icon/icon';
 import { ContentBlocks } from '../../shared/components/content-blocks/content-blocks';
+import { RailHandle } from '../../shared/components/rail-handle/rail-handle';
 
 @Component({
   selector: 'app-chapter-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, ContentBlocks],
+  imports: [RouterLink, Icon, ContentBlocks, RailHandle],
   templateUrl: './chapter-page.html',
   styleUrl: './chapter-page.scss',
 })
 export class ChapterPage {
   private readonly seo = inject(SeoService);
-  protected readonly isWide = inject(LayoutService).isWide;
+  protected readonly layout = inject(LayoutService);
+  protected readonly isWide = this.layout.isWide;
 
   /** Bound from the route parameter by `withComponentInputBinding()`. */
   readonly slug = input.required<string>();

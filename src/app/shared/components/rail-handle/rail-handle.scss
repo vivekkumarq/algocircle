@@ -1,0 +1,66 @@
+/* A full-height column holding the panel's border, with the grip riding
+   half-way down the viewport as the page scrolls. */
+:host {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 18px;
+}
+
+:host::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 50%;
+  width: 1px;
+  background: var(--border);
+  transition: background-color var(--dur) var(--ease);
+}
+
+:host(:hover)::before {
+  background: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+
+.grip {
+  position: sticky;
+  top: calc(50dvh - 22px);
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-muted);
+  cursor: grab;
+  touch-action: none;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+
+.grip:hover,
+.grip:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.grip:active {
+  cursor: grabbing;
+  background: var(--accent-soft);
+}
+
+.grip svg {
+  width: 10px;
+  height: 10px;
+  fill: currentcolor;
+  transition: transform var(--dur) var(--ease);
+}
+
+/* The triangle points the way the panel will move: an open left panel goes
+   left, a closed one comes back right; the right panel mirrors that. */
+:host(.is-left:not(.is-open)) svg,
+:host(:not(.is-left).is-open) svg {
+  transform: rotate(180deg);
+}

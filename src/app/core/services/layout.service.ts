@@ -1,14 +1,25 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
+import { StorageService } from './storage.service';
 
-/** Shared chrome state: the mobile navigation drawer and the desktop sidebar. */
+/**
+ * Shared chrome state: the mobile navigation drawer, and the two desktop side
+ * panels a reader can fold away to focus on the text. The panels remember
+ * their state between visits.
+ */
 @Injectable({ providedIn: 'root' })
 export class LayoutService {
+  private readonly storage = inject(StorageService);
+
   private readonly mobileNav = signal(false);
-  private readonly sidebar = signal(true);
+  private readonly sidebar = signal(this.storage.read('panel-left', true));
+  private readonly contents = signal(this.storage.read('panel-right', true));
   private readonly wide = signal(true);
 
   readonly mobileNavOpen = this.mobileNav.asReadonly();
+  /** The topic list on the left. */
   readonly sidebarOpen = this.sidebar.asReadonly();
+  /** The "On this page" list on the right of a lesson. */
+  readonly contentsOpen = this.contents.asReadonly();
 
   /** True once there is room for the sidebar and the table of contents. */
   readonly isWide = this.wide.asReadonly();
@@ -35,8 +46,14 @@ export class LayoutService {
     this.lockScroll(false);
   }
 
-  toggleSidebar(): void {
-    this.sidebar.update((open) => !open);
+  setSidebar(open: boolean): void {
+    this.sidebar.set(open);
+    this.storage.write('panel-left', open);
+  }
+
+  setContents(open: boolean): void {
+    this.contents.set(open);
+    this.storage.write('panel-right', open);
   }
 
   private lockScroll(locked: boolean): void {

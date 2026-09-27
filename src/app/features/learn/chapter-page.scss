@@ -111,6 +111,10 @@
   padding-top: var(--space-6);
 }
 
+.handle {
+  display: none;
+}
+
 /* ---- Table of contents ---- */
 
 .toc {
@@ -317,8 +321,42 @@
 }
 
 @media (min-width: 900px) {
+  /* Reading column, the seam with its handle, then the contents. Folding the
+     contents animates one track to zero and hands the width to the text. */
   .layout {
-    grid-template-columns: minmax(0, 1fr) minmax(180px, 220px);
+    --contents: clamp(180px, 16vw, 220px);
+
+    grid-template-columns: minmax(0, 1fr) auto var(--contents);
+    column-gap: var(--space-4);
+    transition: grid-template-columns var(--dur-slow) var(--ease);
+  }
+
+  .is-folded .layout {
+    --contents: 0px;
+  }
+
+  /* With the contents folded away the page is a reading view: the heading and
+     the text share one centred measure instead of hugging the left edge. The
+     heading spans the handle's column as well, so it is nudged by half of
+     that to line up with the text beneath it. */
+  .is-folded .head {
+    margin-inline: auto;
+    translate: calc((18px + var(--space-4)) / -2) 0;
+  }
+
+  .is-folded .body {
+    justify-self: center;
+    width: 100%;
+    max-width: 74ch;
+  }
+
+  .body {
+    grid-area: 1 / 1;
+  }
+
+  .handle {
+    display: flex;
+    grid-area: 1 / 2;
   }
 
   .toc__label {
@@ -334,14 +372,23 @@
   .toc {
     position: sticky;
     top: calc(var(--header-h) + var(--space-4));
-    order: 1;
+    grid-area: 1 / 3;
     align-self: start;
+    min-width: 0;
     max-height: calc(100dvh - var(--header-h) - var(--space-8));
     overflow-y: auto;
+    padding-left: 0;
     border: 0;
-    border-left: 1px solid var(--border);
     border-radius: 0;
     background: none;
+    transition: opacity var(--dur) var(--ease), visibility var(--dur);
+  }
+
+  .is-folded .toc {
+    visibility: hidden;
+    padding: 0;
+    opacity: 0;
+    overflow: hidden;
   }
 }
 

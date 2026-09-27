@@ -5,7 +5,8 @@
   margin-inline: auto;
 }
 
-.rail {
+.rail,
+.handle {
   display: none;
 }
 
@@ -16,16 +17,38 @@
 }
 
 @media (min-width: 1024px) {
+  /* The rail's width is one custom property so folding it is a single
+     transition on the grid, not a reflow per element. */
   :host {
+    --rail: clamp(220px, 21vw, var(--sidebar-w));
+
     display: grid;
-    grid-template-columns: minmax(220px, var(--sidebar-w)) minmax(0, 1fr);
-    gap: clamp(var(--space-4), 2.4vw, var(--space-6));
+    grid-template-columns: var(--rail) auto minmax(0, 1fr);
+    column-gap: clamp(var(--space-3), 1.6vw, var(--space-5));
     padding-inline: max(var(--gutter), var(--safe-l)) max(var(--gutter), var(--safe-r));
+    transition: grid-template-columns var(--dur-slow) var(--ease);
   }
 
+  :host(.is-folded) {
+    --rail: 0px;
+  }
+
+  /* `clip`, not `hidden`: hidden would make the rail a scroll container and
+     the sticky list inside it would scroll away with the page. */
   .rail {
     display: block;
-    border-right: 1px solid var(--border);
+    min-width: 0;
+    overflow: clip;
+    transition: opacity var(--dur) var(--ease), visibility var(--dur);
+  }
+
+  :host(.is-folded) .rail {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .handle {
+    display: flex;
   }
 
   .rail__inner {
@@ -44,7 +67,15 @@
 
 @media (min-width: 1024px) and (max-width: 1199px) {
   :host {
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: var(--space-4);
+    --rail: 220px;
+
+    column-gap: var(--space-3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host,
+  .rail {
+    transition: none;
   }
 }
