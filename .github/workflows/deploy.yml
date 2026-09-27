@@ -39,6 +39,9 @@ jobs:
           # single-page app keeps deep links such as /roadmap working.
           cp dist/algocircle/browser/index.html dist/algocircle/browser/404.html
           touch dist/algocircle/browser/.nojekyll
+          # ...but a page served from 404.html carries HTTP status 404. Give
+          # every page in the sitemap its own file so deep links return 200.
+          node tools/static-routes.mjs dist/algocircle/browser
 
       - uses: actions/configure-pages@v5
 

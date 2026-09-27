@@ -12,6 +12,7 @@ import { Block, CodeLanguage } from '../../../core/models/chapter.models';
 import { Icon } from '../icon/icon';
 import { AlgoVisual } from '../../visuals/algo-visual';
 import { richText } from '../../pipes/rich.pipe';
+import { CodeLanguageService } from '../../../core/services/code-language.service';
 
 type CodeBlock = Extract<Block, { kind: 'code' }>;
 
@@ -65,8 +66,9 @@ export class ContentBlocks {
     return out;
   });
 
-  /** One preference for the whole page: pick Python once and every block follows. */
-  protected readonly language = signal<CodeLanguage | null>(null);
+  /** One preference for the whole site: pick Python once and every block follows. */
+  private readonly preference = inject(CodeLanguageService);
+  protected readonly language = this.preference.current;
 
   protected shown(tabs: CodeBlock[]): CodeBlock {
     const preferred = this.language();
@@ -74,7 +76,7 @@ export class ContentBlocks {
   }
 
   protected choose(language: CodeLanguage): void {
-    this.language.set(language);
+    this.preference.set(language);
   }
 
   /**

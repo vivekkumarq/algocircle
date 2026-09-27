@@ -15,6 +15,7 @@ import { ProblemDifficulty } from '../../data/problems/problem.model';
 import { PATTERNS, patternBySlug } from '../../data/patterns/patterns.data';
 import { TOPICS } from '../../data/topics.data';
 import { SeoService } from '../../core/services/seo.service';
+import { CodeLanguageService } from '../../core/services/code-language.service';
 import { Icon } from '../../shared/components/icon/icon';
 import { RichPipe } from '../../shared/pipes/rich.pipe';
 
@@ -81,7 +82,9 @@ export class ProblemsPage {
   );
 
   // ---- detail state ------------------------------------------------------
-  protected readonly language = signal<'java' | 'python'>('java');
+  private readonly preference = inject(CodeLanguageService);
+  /** Solutions exist in Java and Python; any other preference shows Java. */
+  protected readonly language = computed(() => (this.preference.current() === 'python' ? 'python' : 'java'));
   protected readonly hintsShown = signal(0);
   protected readonly approachShown = signal(false);
   protected readonly solutionShown = signal(false);
@@ -135,7 +138,7 @@ export class ProblemsPage {
   }
 
   protected setLanguage(language: 'java' | 'python'): void {
-    this.language.set(language);
+    this.preference.set(language);
   }
 
   /** Confirmation state for the copy button on the implementation block. */
