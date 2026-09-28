@@ -10,10 +10,15 @@
   margin: 0;
 }
 
+/* Drawn on a 320-unit canvas. Past about 600px the scale runs away — in a
+   1600px column the 10px labels would render at 50px — so the drawing stops
+   growing and sits centred in its frame. */
 .viz svg {
   display: block;
   width: 100%;
+  max-width: 600px;
   height: auto;
+  margin-inline: auto;
   overflow: visible;
 }
 
@@ -223,6 +228,12 @@
   font-family: var(--font-mono);
   font-size: 10px;
   fill: var(--text-muted);
+}
+
+/* Centred unless the label says otherwise. A plain `text-anchor: middle`
+   here would beat the element's own attribute (any stylesheet rule outranks
+   an SVG presentation attribute) and centre labels meant to start at x. */
+.viz-caption:not([text-anchor]) {
   text-anchor: middle;
 }
 

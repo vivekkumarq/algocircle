@@ -125,7 +125,9 @@ export const STACKS_QUEUES: Chapter = {
 <rect x="430" y="98" width="60" height="34" rx="6" class="dg-box" />
 <text x="460" y="119.5" class="dg-t" text-anchor="middle">(</text>
 <text x="460" y="18" class="dg-m" text-anchor="middle">top</text>
-<text x="530" y="80" class="dg-s" text-anchor="start">the stack, just before the first closer</text>
+<text x="504" y="66" class="dg-s" text-anchor="start">the stack, just</text>
+<text x="504" y="80" class="dg-s" text-anchor="start">before the first</text>
+<text x="504" y="94" class="dg-s" text-anchor="start">closer</text>
 <text x="0" y="156" class="dg-s" text-anchor="start">a closer must match the top, and the stack must be empty at the end</text>`,
         },
         {

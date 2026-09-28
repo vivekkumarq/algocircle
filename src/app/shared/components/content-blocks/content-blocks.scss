@@ -444,10 +444,15 @@ tbody tr:last-child td {
   color: var(--text-secondary);
 }
 
+/* The card stretches with the column; the drawing keeps the size it was
+   drawn for. Scaled to a 1600px column a 620-unit drawing would be 2.6x,
+   with its labels at 34px. */
 .figure svg {
   display: block;
   width: 100%;
+  max-width: 720px;
   height: auto;
+  margin-inline: auto;
   overflow: visible;
 }
 

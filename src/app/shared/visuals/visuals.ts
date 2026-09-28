@@ -35,7 +35,8 @@ const CONTROLS = `
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <figure class="viz viz-loop">
-      <svg viewBox="0 0 320 150" role="img" aria-label="Growth of common complexity classes">
+      <!-- 360 wide, not 320: the curve labels sit to the right of x = 310. -->
+      <svg viewBox="0 0 360 150" role="img" aria-label="Growth of common complexity classes">
         <line x1="34" y1="130" x2="310" y2="130" class="viz-edge" />
         <line x1="34" y1="130" x2="34" y2="12" class="viz-edge" />
         <text x="172" y="146" class="viz-caption">input size n</text>
@@ -1026,7 +1027,7 @@ export class VizSortingBars {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <figure class="viz viz-loop">
-      <svg viewBox="0 0 320 160" role="img" aria-label="Repeated subproblems in naive Fibonacci">
+      <svg viewBox="0 0 320 174" role="img" aria-label="Repeated subproblems in naive Fibonacci">
         @for (edge of edges; track edge.d) {
           <path [attr.d]="edge.d" class="viz-edge" />
         }
@@ -1037,9 +1038,9 @@ export class VizSortingBars {
             <text [attr.x]="node.x" [attr.y]="node.y" class="viz-label">{{ node.label }}</text>
           </g>
         }
-        <text x="160" y="152" class="viz-caption">
-          highlighted calls are recomputed — caching them collapses the tree to a line
-        </text>
+        <!-- Two lines: as one, the sentence was wider than the drawing. -->
+        <text x="160" y="154" class="viz-caption">highlighted calls are recomputed —</text>
+        <text x="160" y="168" class="viz-caption">caching them collapses the tree to a line</text>
       </svg>
     </figure>
   `,
