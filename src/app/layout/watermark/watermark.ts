@@ -72,7 +72,10 @@ export class Watermark {
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       map((event) => this.sectionOf(event.urlAfterRedirects)),
-      startWith(this.sectionOf(this.router.url)),
+      // The address bar, not the router: before the first navigation ends the
+      // router still reports "/", so the mark started in the home page's spot
+      // and jumped once the real page arrived.
+      startWith(this.sectionOf(typeof location === 'undefined' ? this.router.url : location.pathname)),
     ),
     { initialValue: '' },
   );

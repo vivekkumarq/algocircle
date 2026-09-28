@@ -5,15 +5,16 @@ import {
   HostListener,
   computed,
   effect,
+  PendingTasks,
   inject,
   input,
   signal,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { isPlainKey } from '../../layout/shortcuts/shortcuts';
-import { CHAPTERS, chapterBySlug } from '../../data/chapters';
-import { topicHue } from '../../data/topics.data';
-import { Block } from '../../core/models/chapter.models';
+import { loadChapter } from '../../data/chapters/load';
+import { TOPICS, topicHue } from '../../data/topics.data';
+import { Block, Chapter } from '../../core/models/chapter.models';
 import { SeoService } from '../../core/services/seo.service';
 import { LayoutService } from '../../core/services/layout.service';
 import { ProgressService } from '../../core/services/progress.service';
@@ -38,14 +39,39 @@ export class ChapterPage {
   /** Bound from the route parameter by `withComponentInputBinding()`. */
   readonly slug = input.required<string>();
 
-  protected readonly chapter = computed(() => chapterBySlug(this.slug()));
+  /**
+   * The topic's metadata - title, summary, sections, neighbours - from the
+   * list the app already holds. The header, the contents and the pager are
+   * drawn from it straight away.
+   */
+  protected readonly meta = computed(() => TOPICS.find((topic) => topic.slug === this.slug()));
+
+  /**
+   * The lesson itself, fetched on its own: one topic, not all twenty. A few
+   * lines of signals rather than Angular's `resource`, which would add about
+   * 7 KB to the framework code every page downloads.
+   */
+  private readonly loaded = signal<Chapter | undefined>(undefined);
+  protected readonly loadFailed = signal(false);
+  private readonly attempt = signal(0);
+  private readonly pending = inject(PendingTasks);
+
+  protected readonly chapter = computed(() => {
+    const chapter = this.loaded();
+    // While the next topic loads, never show the previous one's body.
+    return chapter?.slug === this.slug() ? chapter : undefined;
+  });
+
+  protected retry(): void {
+    this.attempt.update((n) => n + 1);
+  }
 
   protected readonly position = computed(() => {
-    const index = CHAPTERS.findIndex((chapter) => chapter.slug === this.slug());
+    const index = TOPICS.findIndex((topic) => topic.slug === this.slug());
     if (index < 0) return null;
     return {
-      previous: index > 0 ? CHAPTERS[index - 1] : undefined,
-      next: index < CHAPTERS.length - 1 ? CHAPTERS[index + 1] : undefined,
+      previous: index > 0 ? TOPICS[index - 1] : undefined,
+      next: index < TOPICS.length - 1 ? TOPICS[index + 1] : undefined,
     };
   });
 
@@ -63,9 +89,9 @@ export class ChapterPage {
   }
 
   protected readonly prerequisites = computed(() =>
-    (this.chapter()?.prerequisites ?? [])
-      .map((slug) => chapterBySlug(slug))
-      .filter((chapter) => chapter !== undefined),
+    (this.meta()?.prerequisites ?? [])
+      .map((slug) => TOPICS.find((topic) => topic.slug === slug))
+      .filter((topic) => topic !== undefined),
   );
 
   private readonly host = inject(ElementRef);
@@ -79,10 +105,10 @@ export class ChapterPage {
 
   /** Phones: the section being read, for the bar under the header. */
   protected readonly current = computed(() => {
-    const chapter = this.chapter();
-    const index = chapter?.sections.findIndex((section) => section.id === this.reading()) ?? -1;
-    if (!chapter || index < 0) return null;
-    return { index, total: chapter.sections.length, title: chapter.sections[index].title };
+    const meta = this.meta();
+    const index = meta?.sections.findIndex((section) => section.id === this.reading()) ?? -1;
+    if (!meta || index < 0) return null;
+    return { index, total: meta.sections.length, title: meta.sections[index].title };
   });
 
   /** The bar's list of sections, opened by tapping it. */
@@ -121,13 +147,20 @@ export class ChapterPage {
 
     for (const section of sections) observer.observe(section);
     onCleanup(() => observer.disconnect());
+
+    // A link straight to a section (/learn/heaps#top-k) arrives before the
+    // lesson body does, so the router found nothing to scroll to. Now that the
+    // sections exist, go there - instantly, as a page load should land.
+    const hash = location.hash.length > 1 ? decodeURIComponent(location.hash.slice(1)) : '';
+    const target = hash ? document.getElementById(hash) : null;
+    target?.scrollIntoView({ block: 'start', behavior: 'instant' });
   }
 
   /**
    * A stable hue per topic, so each chapter gets its own background wash and
    * you can tell at a glance that the page changed.
    */
-  protected readonly hue = computed(() => topicHue(this.chapter()?.order ?? 1));
+  protected readonly hue = computed(() => topicHue(this.meta()?.order ?? 1));
 
   protected pad(order: number): string {
     return order.toString().padStart(2, '0');
@@ -169,6 +202,23 @@ export class ChapterPage {
   }
 
   constructor() {
+    effect((onCleanup) => {
+      const slug = this.slug();
+      this.attempt();
+      let current = true;
+      onCleanup(() => (current = false));
+
+      this.loadFailed.set(false);
+      // Registered as pending work, so tests and prerendering wait for it.
+      const done = this.pending.add();
+      loadChapter(slug)
+        .then(
+          (chapter) => current && this.loaded.set(chapter),
+          () => current && this.loadFailed.set(true),
+        )
+        .finally(done);
+    });
+
     // Re-observe whenever the topic changes: the component is reused across
     // slugs, so the previous chapter's sections are gone by then.
     effect((onCleanup) => {
@@ -183,15 +233,13 @@ export class ChapterPage {
     // Remember the place: the home page offers to continue from it.
     effect(() => {
       const section = this.reading();
-      const chapter = this.chapter();
-      if (section && chapter) this.progress.recordReading(chapter.slug, section);
+      const meta = this.meta();
+      if (section && meta) this.progress.recordReading(meta.slug, section);
     });
 
-    // Chapter metadata lives with the chapter, so the route stays lazy and the
-    // content is never pulled into the main bundle.
     effect(() => {
-      const chapter = this.chapter();
-      if (chapter) this.seo.update(chapter.title, chapter.summary, `/learn/${chapter.slug}`);
+      const meta = this.meta();
+      if (meta) this.seo.update(meta.title, meta.summary, `/learn/${meta.slug}`);
     });
   }
 }

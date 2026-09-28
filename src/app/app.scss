@@ -4,7 +4,12 @@
   min-height: 100dvh;
 }
 
+/* At least a screen tall, so the footer always starts below the fold. While a
+   page's code is still arriving, main is empty; without this the footer sat
+   right under the header and was shoved down when the page landed - a layout
+   shift of 0.81, almost all of the page's score. */
 main {
   flex: 1;
+  min-height: calc(100dvh - var(--header-h));
   outline: none;
 }

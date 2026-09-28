@@ -721,3 +721,69 @@
     animation: none;
   }
 }
+
+/* ---- While the lesson loads ---- */
+
+/* Roughly the shape of what is coming, and taller than the screen, so the
+   pager and the footer stay below the fold and nothing jumps on arrival. */
+.skeleton {
+  display: grid;
+  gap: var(--space-4);
+  min-height: 120vh;
+  align-content: start;
+}
+
+.skeleton__panel,
+.skeleton__line {
+  display: block;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(90deg, var(--bg-inset), var(--bg-subtle), var(--bg-inset));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.skeleton__panel {
+  height: 140px;
+}
+
+.skeleton__panel--tall {
+  height: 360px;
+  margin-top: var(--space-4);
+}
+
+.skeleton__line {
+  height: 14px;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton__line--short {
+  width: 60%;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.load-error {
+  padding: var(--space-6);
+  text-align: center;
+}
+
+.load-error h2 {
+  margin-bottom: var(--space-2);
+  font-size: 1.2rem;
+}
+
+.load-error p {
+  margin: 0 0 var(--space-4);
+  color: var(--text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton__panel,
+  .skeleton__line {
+    animation: none;
+  }
+}

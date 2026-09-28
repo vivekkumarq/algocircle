@@ -1,4 +1,4 @@
-@if (chapter(); as ch) {
+@if (meta(); as m) {
   <article class="chapter topic-tint" [class.is-folded]="!layout.contentsOpen()" [style.--hue]="hue()">
     <div class="backdrop" aria-hidden="true">
       <span class="backdrop__blob backdrop__blob--a"></span>
@@ -22,7 +22,7 @@
         </button>
         @if (sheetOpen()) {
           <ol class="minibar__sheet" id="minibar-sheet">
-            @for (section of ch.sections; track section.id; let i = $index) {
+            @for (section of m.sections; track section.id; let i = $index) {
               <li>
                 <a
                   [routerLink]="[]"
@@ -41,16 +41,18 @@
     }
 
     <div class="layout">
+      <!-- Everything above the lesson text comes from the topic list, which is
+           already loaded, so it paints at once; only the body waits. -->
       <header class="head">
         <p class="eyebrow">
-          <a routerLink="/learn">DSA Topics</a> / {{ ch.level }} / Topic {{ pad(ch.order) }}
+          <a routerLink="/learn">DSA Topics</a> / {{ m.level }} / Topic {{ pad(m.order) }}
         </p>
-        <h1>{{ ch.title }}</h1>
-        <p class="lead" [innerHTML]="ch.summary | rich"></p>
+        <h1>{{ m.title }}</h1>
+        <p class="lead" [innerHTML]="m.summary | rich"></p>
 
         <div class="head__meta">
-          <span class="tag"><app-icon name="clock" [size]="12" /> {{ ch.readingMinutes }} min read</span>
-          <span class="tag">{{ ch.sections.length }} sections</span>
+          <span class="tag"><app-icon name="clock" [size]="12" /> {{ m.minutes }} min read</span>
+          <span class="tag">{{ m.sections.length }} sections</span>
           <button
             type="button"
             class="tag tag--toggle"
@@ -63,8 +65,8 @@
           @if (prerequisites().length) {
             <span class="tag">
               After:
-              @for (item of prerequisites(); track item!.slug) {
-                <a [routerLink]="['/learn', item!.slug]">{{ item!.shortTitle ?? item!.title }}</a>
+              @for (item of prerequisites(); track item.slug) {
+                <a [routerLink]="['/learn', item.slug]">{{ item.label }}</a>
               }
             </span>
           }
@@ -86,7 +88,7 @@
       >
         <summary class="toc__label">On this page</summary>
         <ol>
-          @for (section of ch.sections; track section.id) {
+          @for (section of m.sections; track section.id) {
             <li>
               <a [routerLink]="[]" [fragment]="section.id" [class.is-current]="reading() === section.id">
                 {{ section.title }}
@@ -98,68 +100,85 @@
       </details>
 
       <div class="body">
-        <section class="definition surface">
-          <h2><app-icon name="book" [size]="16" /> {{ ch.definition.heading }}</h2>
-          <app-content-blocks [blocks]="definitionBlocks()" />
-        </section>
-
-        <section class="objectives surface">
-          <h2><app-icon name="target" [size]="16" /> By the end of this topic you can</h2>
-          <ul>
-            @for (objective of ch.objectives; track objective) {
-              <li [innerHTML]="objective | rich"></li>
-            }
-          </ul>
-        </section>
-
-        @for (section of ch.sections; track section.id; let i = $index) {
-          <section class="section" [id]="section.id">
-            <h2>
-              <span class="section__num">{{ pad(i + 1) }}</span>
-              {{ section.title }}
-              <a
-                class="anchor"
-                [routerLink]="[]"
-                [fragment]="section.id"
-                [attr.aria-label]="'Link to ' + section.title"
-              >#</a>
-            </h2>
-            <app-content-blocks [blocks]="section.blocks" />
+        @if (chapter(); as ch) {
+          <section class="definition surface">
+            <h2><app-icon name="book" [size]="16" /> {{ ch.definition.heading }}</h2>
+            <app-content-blocks [blocks]="definitionBlocks()" />
           </section>
-        }
 
-        <section class="takeaways surface" id="takeaways">
-          <h2><app-icon name="zap" [size]="16" /> Key takeaways</h2>
-          <ul>
-            @for (takeaway of ch.keyTakeaways; track takeaway) {
-              <li [innerHTML]="takeaway | rich"></li>
-            }
-          </ul>
-        </section>
+          <section class="objectives surface">
+            <h2><app-icon name="target" [size]="16" /> By the end of this topic you can</h2>
+            <ul>
+              @for (objective of ch.objectives; track objective) {
+                <li [innerHTML]="objective | rich"></li>
+              }
+            </ul>
+          </section>
 
-        <section class="finish" [class.is-done]="done()">
-          <span class="finish__mark" aria-hidden="true"><app-icon name="check" [size]="22" /></span>
-          <div class="finish__text">
-            <h2>{{ done() ? 'Topic complete' : 'Finished ' + (ch.shortTitle ?? ch.title) + '?' }}</h2>
-            <p>
-              {{
-                done()
-                  ? 'It is ticked off in the topic list and the sidebar. Come back to it any time.'
-                  : 'Mark it complete to tick it off in the topic list and keep track of where you are.'
-              }}
-            </p>
+          @for (section of ch.sections; track section.id; let i = $index) {
+            <section class="section" [id]="section.id">
+              <h2>
+                <span class="section__num">{{ pad(i + 1) }}</span>
+                {{ section.title }}
+                <a
+                  class="anchor"
+                  [routerLink]="[]"
+                  [fragment]="section.id"
+                  [attr.aria-label]="'Link to ' + section.title"
+                >#</a>
+              </h2>
+              <app-content-blocks [blocks]="section.blocks" />
+            </section>
+          }
+
+          <section class="takeaways surface" id="takeaways">
+            <h2><app-icon name="zap" [size]="16" /> Key takeaways</h2>
+            <ul>
+              @for (takeaway of ch.keyTakeaways; track takeaway) {
+                <li [innerHTML]="takeaway | rich"></li>
+              }
+            </ul>
+          </section>
+
+          <section class="finish" [class.is-done]="done()">
+            <span class="finish__mark" aria-hidden="true"><app-icon name="check" [size]="22" /></span>
+            <div class="finish__text">
+              <h2>{{ done() ? 'Topic complete' : 'Finished ' + m.label + '?' }}</h2>
+              <p>
+                {{
+                  done()
+                    ? 'It is ticked off in the topic list and the sidebar. Come back to it any time.'
+                    : 'Mark it complete to tick it off in the topic list and keep track of where you are.'
+                }}
+              </p>
+            </div>
+            <button
+              type="button"
+              class="btn"
+              [class.btn--primary]="!done()"
+              [class.btn--secondary]="done()"
+              [attr.aria-pressed]="done()"
+              (click)="toggleDone()"
+            >
+              {{ done() ? 'Mark as not done' : 'Mark as complete' }}
+            </button>
+          </section>
+        } @else if (loadFailed()) {
+          <section class="load-error surface" role="alert">
+            <h2>This topic did not load</h2>
+            <p>The connection may have dropped. Everything else on the page still works.</p>
+            <button type="button" class="btn btn--primary" (click)="retry()">Try again</button>
+          </section>
+        } @else {
+          <!-- Holds the space the lesson will fill, so nothing jumps when it arrives. -->
+          <div class="skeleton" aria-busy="true" aria-label="Loading the lesson">
+            <span class="skeleton__panel"></span>
+            <span class="skeleton__line"></span>
+            <span class="skeleton__line"></span>
+            <span class="skeleton__line skeleton__line--short"></span>
+            <span class="skeleton__panel skeleton__panel--tall"></span>
           </div>
-          <button
-            type="button"
-            class="btn"
-            [class.btn--primary]="!done()"
-            [class.btn--secondary]="done()"
-            [attr.aria-pressed]="done()"
-            (click)="toggleDone()"
-          >
-            {{ done() ? 'Mark as not done' : 'Mark as complete' }}
-          </button>
-        </section>
+        }
 
         @if (position(); as nav) {
           <nav class="pager" aria-label="Topic navigation">
