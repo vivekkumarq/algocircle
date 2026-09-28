@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Icon } from '../../shared/components/icon/icon';
 import { TopicGraph } from '../../shared/components/topic-graph/topic-graph';
@@ -8,6 +8,7 @@ import { PATTERN_PREVIEWS } from '../../data/patterns/pattern-preview.data';
 import { SITE_STATS } from '../../data/site-stats.data';
 import { RichPipe } from '../../shared/pipes/rich.pipe';
 import { HighlightPipe } from '../../shared/pipes/highlight.pipe';
+import { ProgressService } from '../../core/services/progress.service';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,21 @@ export class Home {
 
   protected readonly stats = SITE_STATS;
   protected readonly courseHours = Math.round(SITE_STATS.courseMinutes / 60);
+
+  private readonly progress = inject(ProgressService);
+
+  protected readonly doneCount = computed(
+    () => TOPICS.filter((topic) => this.progress.doneTopics().has(topic.slug)).length,
+  );
+
+  /** The topic and section the reader was last in, if they have started. */
+  protected readonly resume = computed(() => {
+    const last = this.progress.lastRead();
+    const topic = last && TOPICS.find((item) => item.slug === last.slug);
+    if (!last || !topic) return null;
+    const section = topic.sections.find((item) => item.id === last.section);
+    return { slug: topic.slug, topic: topic.title, section: section?.id, sectionTitle: section?.title };
+  });
 
   protected readonly patterns = PATTERN_PREVIEWS;
   protected readonly activePattern = signal(this.patterns[0].slug);
@@ -54,11 +70,11 @@ export class Home {
     },
     {
       q: 'Do I need an account?',
-      a: 'No. AlgoCircle is a static site with no backend and no sign-up. Nothing is tracked and nothing is locked — every topic is open from the first visit.',
+      a: 'No. AlgoCircle is a static site with no backend and no sign-up, and every topic is open from the first visit. The topics you mark complete, the problems you solve and the place you were reading are kept in your own browser — nothing is sent anywhere.',
     },
     {
       q: 'Which language should I use?',
-      a: 'Any of them. The explanations are language-neutral; code samples are mostly Java and readable pseudocode, with notes where C++ and Python differ in a way that matters.',
+      a: 'Any of them. The explanations are language-neutral, and every code sample comes in both Java and Python — pick one on any snippet and the whole site follows that choice.',
     },
     {
       q: 'Is this enough on its own?',

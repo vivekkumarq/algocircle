@@ -274,6 +274,24 @@ button { cursor: pointer; }
   color: var(--text-secondary);
 }
 
+/* A tag that is also a switch: "Mark complete", "Mark solved". */
+.tag--toggle {
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+
+.tag--toggle:hover {
+  border-color: var(--easy);
+  color: var(--text-primary);
+}
+
+.tag--toggle.is-done {
+  border-color: color-mix(in srgb, var(--easy) 55%, var(--border));
+  background: var(--easy-soft);
+  color: var(--easy);
+}
+
 .kbd {
   display: inline-block;
   min-width: 1.5em;

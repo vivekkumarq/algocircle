@@ -65,7 +65,12 @@
     <details class="group" open>
       <summary>
         <span class="group__name">{{ group.name }}</span>
-        <span class="group__count">{{ group.rows.length }} / {{ group.size }}</span>
+        <span class="group__count">
+          @if (solvedIn(group.rows); as n) {
+            <span class="group__solved"><app-icon name="check" [size]="12" /> {{ n }} solved</span>
+          }
+          {{ group.rows.length }} / {{ group.size }}
+        </span>
       </summary>
 
       <div class="table-scroll">
@@ -82,7 +87,12 @@
             @for (row of group.rows; track row.slug) {
               <tr>
                 <td>
-                  <a class="row__title" [routerLink]="['/problems', row.slug]">{{ row.title }}</a>
+                  <a class="row__title" [routerLink]="['/problems', row.slug]">
+                    @if (solved().has(row.slug)) {
+                      <app-icon class="solved-mark" name="check" [size]="14" aria-label="solved" />
+                    }
+                    {{ row.title }}
+                  </a>
                   <span class="row__statement" [innerHTML]="row.statement | rich"></span>
                 </td>
                 <td>

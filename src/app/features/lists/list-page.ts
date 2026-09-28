@@ -14,6 +14,7 @@ import { PATTERNS } from '../../data/patterns/patterns.data';
 import { SeoService } from '../../core/services/seo.service';
 import { Icon } from '../../shared/components/icon/icon';
 import { RichPipe } from '../../shared/pipes/rich.pipe';
+import { ProgressService } from '../../core/services/progress.service';
 
 type Level = 'All' | 'Easy' | 'Medium' | 'Hard';
 
@@ -30,6 +31,14 @@ type Level = 'All' | 'Easy' | 'Medium' | 'Hard';
   styleUrl: './list-page.scss',
 })
 export class ListPage {
+  /** Ticked off on each problem's own page. */
+  protected readonly solved = inject(ProgressService).solvedProblems;
+
+  protected solvedIn(slugs: readonly { slug: string }[]): number {
+    const solved = this.solved();
+    return slugs.filter((row) => solved.has(row.slug)).length;
+  }
+
   /** Route parameter; an unknown slug falls back to the core list. */
   readonly slug = input<string>();
 

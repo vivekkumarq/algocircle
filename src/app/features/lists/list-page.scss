@@ -277,3 +277,19 @@ tbody tr:hover {
     display: none;
   }
 }
+
+/* ---- Solved ---- */
+
+.group__solved {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  margin-right: var(--space-3);
+  color: var(--easy);
+}
+
+.solved-mark {
+  margin-right: 0.3rem;
+  color: var(--easy);
+  vertical-align: -2px;
+}

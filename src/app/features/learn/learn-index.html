@@ -10,6 +10,13 @@
     <div><dt>Topics</dt><dd>{{ topics.length }}</dd></div>
     <div><dt>Sections</dt><dd>{{ sections }}</dd></div>
     <div><dt>Minutes</dt><dd>{{ minutes }}</dd></div>
+    <div class="totals__progress">
+      <dt>Completed</dt>
+      <dd>{{ doneCount() }}<small> / {{ topics.length }}</small></dd>
+      <span class="meter" aria-hidden="true">
+        <span [style.width.%]="(doneCount() / topics.length) * 100"></span>
+      </span>
+    </div>
   </dl>
 </header>
 
@@ -31,10 +38,19 @@
     <ul class="cards">
       @for (topic of group.topics; track topic.slug) {
         <li>
-          <a class="card topic-tint" [style.--hue]="topic.hue" [routerLink]="['/learn', topic.slug]">
+          <a
+            class="card topic-tint"
+            [class.is-done]="done().has(topic.slug)"
+            [style.--hue]="topic.hue"
+            [routerLink]="['/learn', topic.slug]"
+          >
             <span class="card__top">
               <span class="card__num">{{ pad(topic.order) }}</span>
-              <span class="card__time"><app-icon name="clock" [size]="13" /> {{ topic.minutes }} min</span>
+              @if (done().has(topic.slug)) {
+                <span class="card__done"><app-icon name="check" [size]="13" /> Completed</span>
+              } @else {
+                <span class="card__time"><app-icon name="clock" [size]="13" /> {{ topic.minutes }} min</span>
+              }
             </span>
 
             <span class="card__title">{{ topic.title }}</span>

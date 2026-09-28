@@ -19,6 +19,7 @@ import { CodeLanguageService } from '../../core/services/code-language.service';
 import { Icon } from '../../shared/components/icon/icon';
 import { RichPipe } from '../../shared/pipes/rich.pipe';
 import { HighlightPipe } from '../../shared/pipes/highlight.pipe';
+import { ProgressService } from '../../core/services/progress.service';
 
 type LevelFilter = ProblemDifficulty | 'All';
 
@@ -83,6 +84,13 @@ export class ProblemsPage {
   );
 
   // ---- detail state ------------------------------------------------------
+  private readonly progress = inject(ProgressService);
+  protected readonly solved = this.progress.solvedProblems;
+
+  protected toggleSolved(slug: string): void {
+    this.progress.toggleSolved(slug);
+  }
+
   private readonly preference = inject(CodeLanguageService);
   /** Solutions exist in Java and Python; any other preference shows Java. */
   protected readonly language = computed(() => (this.preference.current() === 'python' ? 'python' : 'java'));

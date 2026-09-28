@@ -17,6 +17,15 @@
         <div class="head__meta">
           <span class="tag"><app-icon name="clock" [size]="12" /> {{ ch.readingMinutes }} min read</span>
           <span class="tag">{{ ch.sections.length }} sections</span>
+          <button
+            type="button"
+            class="tag tag--toggle"
+            [class.is-done]="done()"
+            [attr.aria-pressed]="done()"
+            (click)="toggleDone()"
+          >
+            <app-icon name="check" [size]="12" /> {{ done() ? 'Completed' : 'Mark complete' }}
+          </button>
           @if (prerequisites().length) {
             <span class="tag">
               After:
@@ -87,6 +96,30 @@
               <li [innerHTML]="takeaway | rich"></li>
             }
           </ul>
+        </section>
+
+        <section class="finish" [class.is-done]="done()">
+          <span class="finish__mark" aria-hidden="true"><app-icon name="check" [size]="22" /></span>
+          <div class="finish__text">
+            <h2>{{ done() ? 'Topic complete' : 'Finished ' + (ch.shortTitle ?? ch.title) + '?' }}</h2>
+            <p>
+              {{
+                done()
+                  ? 'It is ticked off in the topic list and the sidebar. Come back to it any time.'
+                  : 'Mark it complete to tick it off in the topic list and keep track of where you are.'
+              }}
+            </p>
+          </div>
+          <button
+            type="button"
+            class="btn"
+            [class.btn--primary]="!done()"
+            [class.btn--secondary]="done()"
+            [attr.aria-pressed]="done()"
+            (click)="toggleDone()"
+          >
+            {{ done() ? 'Mark as not done' : 'Mark as complete' }}
+          </button>
         </section>
 
         @if (position(); as nav) {

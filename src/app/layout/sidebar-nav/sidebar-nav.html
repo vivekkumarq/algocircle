@@ -32,14 +32,18 @@
     <h2 class="group__label">{{ group.level }}</h2>
     <ul>
       @for (topic of group.topics; track topic.slug) {
-        <li class="topic" [class.is-open]="isOpen(topic.slug)">
+        <li class="topic" [class.is-open]="isOpen(topic.slug)" [class.is-done]="done().has(topic.slug)">
           <div class="topic__row">
             <a
               [routerLink]="['/learn', topic.slug]"
               routerLinkActive="is-active"
               (click)="onNavigate()"
             >
-              <span class="num">{{ pad(topic.order) }}</span>
+              @if (done().has(topic.slug)) {
+                <span class="num num--done" aria-label="completed"><app-icon name="check" [size]="12" /></span>
+              } @else {
+                <span class="num">{{ pad(topic.order) }}</span>
+              }
               <span class="label">{{ topic.label }}</span>
             </a>
             <button

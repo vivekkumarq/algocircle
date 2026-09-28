@@ -501,3 +501,35 @@
     display: none;
   }
 }
+
+/* ---- Solved ---- */
+
+.solve {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+}
+
+.solve p {
+  flex: 1 1 18rem;
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.solve.is-done {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--easy) 45%, var(--border));
+  background: color-mix(in srgb, var(--easy-soft) 60%, var(--bg-card));
+}
+
+.solved-mark {
+  margin-right: 0.3rem;
+  color: var(--easy);
+  vertical-align: -2px;
+}

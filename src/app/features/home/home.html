@@ -10,6 +10,20 @@
         people — not a list of problems to grind.
       </p>
 
+      @if (resume(); as r) {
+        <a class="resume" [routerLink]="['/learn', r.slug]" [fragment]="r.section">
+          <span class="resume__label">
+            <app-icon name="bookmark" [size]="13" /> Continue where you left off
+          </span>
+          <span class="resume__title">{{ r.topic }}</span>
+          @if (r.sectionTitle) {
+            <span class="resume__section">{{ r.sectionTitle }}</span>
+          }
+          <span class="resume__meta">{{ doneCount() }} of {{ topicCount }} topics complete</span>
+          <span class="resume__go" aria-hidden="true"><app-icon name="arrow-right" [size]="16" /></span>
+        </a>
+      }
+
       <div class="hero__cta">
         <a class="btn btn--primary btn--lg" routerLink="/learn/why-dsa">
           Start with Why DSA <app-icon name="arrow-right" [size]="16" />

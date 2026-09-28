@@ -5,6 +5,7 @@ import { filter, map } from 'rxjs/operators';
 import { TOPIC_GROUPS } from '../../data/navigation.data';
 import { Icon } from '../../shared/components/icon/icon';
 import { LayoutService } from '../../core/services/layout.service';
+import { ProgressService } from '../../core/services/progress.service';
 
 /**
  * The curriculum as a plain numbered list. Shared by the desktop sidebar and
@@ -26,6 +27,7 @@ export class SidebarNav {
   private readonly router = inject(Router);
 
   protected readonly groups = TOPIC_GROUPS;
+  protected readonly done = inject(ProgressService).doneTopics;
 
   private readonly url = toSignal(
     this.router.events.pipe(

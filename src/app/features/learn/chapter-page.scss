@@ -471,3 +471,70 @@
   color: var(--accent-text);
   opacity: 0.75;
 }
+
+/* ---- Completion ---- */
+
+.finish {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: center;
+  margin-top: var(--space-7);
+  padding: var(--space-5);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.finish h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1.1rem;
+}
+
+.finish p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.finish__mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--border-strong);
+  border-radius: 50%;
+  color: transparent;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease), transform var(--dur-slow) var(--ease);
+}
+
+.finish.is-done {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--easy) 45%, var(--border));
+  background: color-mix(in srgb, var(--easy-soft) 60%, var(--bg-card));
+}
+
+.finish.is-done .finish__mark {
+  border-color: var(--easy);
+  background: var(--easy);
+  color: var(--bg-card);
+  animation: finish-pop var(--dur-slow) var(--ease);
+}
+
+@keyframes finish-pop {
+  40% {
+    transform: scale(1.18);
+  }
+}
+
+@media (max-width: 640px) {
+  .finish {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .finish .btn {
+    grid-column: 1 / -1;
+  }
+}

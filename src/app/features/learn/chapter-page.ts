@@ -14,6 +14,7 @@ import { topicHue } from '../../data/topics.data';
 import { Block } from '../../core/models/chapter.models';
 import { SeoService } from '../../core/services/seo.service';
 import { LayoutService } from '../../core/services/layout.service';
+import { ProgressService } from '../../core/services/progress.service';
 import { Icon } from '../../shared/components/icon/icon';
 import { ContentBlocks } from '../../shared/components/content-blocks/content-blocks';
 import { RailHandle } from '../../shared/components/rail-handle/rail-handle';
@@ -30,6 +31,7 @@ export class ChapterPage {
   private readonly seo = inject(SeoService);
   protected readonly layout = inject(LayoutService);
   protected readonly isWide = this.layout.isWide;
+  private readonly progress = inject(ProgressService);
 
   /** Bound from the route parameter by `withComponentInputBinding()`. */
   readonly slug = input.required<string>();
@@ -50,6 +52,13 @@ export class ChapterPage {
     const text = this.chapter()?.definition.text;
     return text ? [{ kind: 'para', text }] : [];
   });
+
+  /** Ticked off by the reader, in the topic list, the sidebar and here. */
+  protected readonly done = computed(() => this.progress.doneTopics().has(this.slug()));
+
+  protected toggleDone(): void {
+    this.progress.toggleTopic(this.slug());
+  }
 
   protected readonly prerequisites = computed(() =>
     (this.chapter()?.prerequisites ?? [])
@@ -112,6 +121,13 @@ export class ChapterPage {
 
       const frame = requestAnimationFrame(() => this.watchSections(onCleanup));
       onCleanup(() => cancelAnimationFrame(frame));
+    });
+
+    // Remember the place: the home page offers to continue from it.
+    effect(() => {
+      const section = this.reading();
+      const chapter = this.chapter();
+      if (section && chapter) this.progress.recordReading(chapter.slug, section);
     });
 
     // Chapter metadata lives with the chapter, so the route stays lazy and the

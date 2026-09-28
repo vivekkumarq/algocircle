@@ -11,6 +11,15 @@
         <span class="level" [class]="'level--' + p.difficulty.toLowerCase()">{{ p.difficulty }}</span>
         <a class="tag" [routerLink]="['/patterns', p.pattern]">Pattern: {{ patternName(p.pattern) }}</a>
         <a class="tag" [routerLink]="['/learn', p.topic]">Topic: {{ topicOf()?.label }}</a>
+        <button
+          type="button"
+          class="tag tag--toggle"
+          [class.is-done]="solved().has(p.slug)"
+          [attr.aria-pressed]="solved().has(p.slug)"
+          (click)="toggleSolved(p.slug)"
+        >
+          <app-icon name="check" [size]="12" /> {{ solved().has(p.slug) ? 'Solved' : 'Mark solved' }}
+        </button>
       </div>
     </header>
 
@@ -112,6 +121,27 @@
       </section>
     }
 
+    <section class="block solve" [class.is-done]="solved().has(p.slug)">
+      <p>
+        {{
+          solved().has(p.slug)
+            ? 'Solved — it is ticked off in the problem list and the Core List.'
+            : 'Solved it yourself? Tick it off, and it shows as solved in the problem list and the Core List.'
+        }}
+      </p>
+      <button
+        type="button"
+        class="btn"
+        [class.btn--primary]="!solved().has(p.slug)"
+        [class.btn--secondary]="solved().has(p.slug)"
+        [attr.aria-pressed]="solved().has(p.slug)"
+        (click)="toggleSolved(p.slug)"
+      >
+        <app-icon name="check" [size]="15" />
+        {{ solved().has(p.slug) ? 'Mark as unsolved' : 'Mark as solved' }}
+      </button>
+    </section>
+
     @if (related().length) {
       <section class="block">
         <h2>More problems with this pattern</h2>
@@ -210,7 +240,12 @@
                   {{ item.difficulty }}
                 </span>
                 <span class="problem__body">
-                  <span class="problem__title">{{ item.title }}</span>
+                  <span class="problem__title">
+                    @if (solved().has(item.slug)) {
+                      <app-icon class="solved-mark" name="check" [size]="14" aria-label="solved" />
+                    }
+                    {{ item.title }}
+                  </span>
                   <span class="problem__statement" [innerHTML]="item.statement | rich"></span>
                 </span>
                 <span class="problem__pattern">{{ patternName(item.pattern) }}</span>

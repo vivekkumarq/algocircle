@@ -261,3 +261,11 @@
     margin-bottom: var(--space-3);
   }
 }
+
+/* A finished topic trades its number for a tick. */
+.num--done {
+  display: inline-grid;
+  place-items: center;
+  width: 1.45em;
+  color: var(--easy);
+}

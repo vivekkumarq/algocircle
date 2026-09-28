@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
   ElementRef,
   afterNextRender,
@@ -18,6 +19,7 @@ import {
 import { Icon } from '../../shared/components/icon/icon';
 import { TopicGraph } from '../../shared/components/topic-graph/topic-graph';
 import { RichPipe } from '../../shared/pipes/rich.pipe';
+import { ProgressService } from '../../core/services/progress.service';
 
 /** Sections every topic ends with; the preview shows what is specific to it. */
 const SHARED_SECTIONS = new Set(['at-big-tech', 'in-the-wild']);
@@ -47,6 +49,11 @@ export class LearnIndex {
   protected readonly topics = TOPICS;
   protected readonly sections = TOTAL_TOPIC_SECTIONS;
   protected readonly minutes = TOTAL_TOPIC_MINUTES;
+
+  protected readonly done = inject(ProgressService).doneTopics;
+  protected readonly doneCount = computed(
+    () => TOPICS.filter((topic) => this.done().has(topic.slug)).length,
+  );
 
   protected readonly groups = TOPIC_GROUPS.map((group) => ({
     level: group.level,
