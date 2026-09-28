@@ -86,7 +86,7 @@
                 {{ copied() ? 'Copied' : 'Copy' }}
               </button>
             </figcaption>
-            <pre><code>{{ code() }}</code></pre>
+            <pre><code [innerHTML]="code() | highlight: language()"></code></pre>
           </figure>
         </section>
       } @else {

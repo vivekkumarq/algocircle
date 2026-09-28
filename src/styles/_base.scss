@@ -407,3 +407,12 @@ button { cursor: pointer; }
     transform: none;
   }
 }
+
+/* -------- Syntax colours (see HighlightPipe) -------- */
+
+.tok-k { color: var(--syn-keyword); }
+.tok-s { color: var(--syn-string); }
+.tok-n { color: var(--syn-number); }
+.tok-t { color: var(--syn-type); }
+.tok-f { color: var(--syn-fn); }
+.tok-c { color: var(--text-muted); font-style: italic; }

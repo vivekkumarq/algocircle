@@ -18,6 +18,7 @@ import { SeoService } from '../../core/services/seo.service';
 import { CodeLanguageService } from '../../core/services/code-language.service';
 import { Icon } from '../../shared/components/icon/icon';
 import { RichPipe } from '../../shared/pipes/rich.pipe';
+import { HighlightPipe } from '../../shared/pipes/highlight.pipe';
 
 type LevelFilter = ProblemDifficulty | 'All';
 
@@ -29,7 +30,7 @@ type LevelFilter = ProblemDifficulty | 'All';
 @Component({
   selector: 'app-problems-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, RichPipe],
+  imports: [RouterLink, Icon, RichPipe, HighlightPipe],
   templateUrl: './problems-page.html',
   styleUrl: './problems-page.scss',
 })

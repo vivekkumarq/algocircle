@@ -35,7 +35,7 @@
       <h2>Template</h2>
       <figure class="code">
         <figcaption>pseudocode</figcaption>
-        <pre><code>{{ p.template }}</code></pre>
+        <pre><code [innerHTML]="p.template | highlight: 'pseudocode'"></code></pre>
       </figure>
     </section>
 

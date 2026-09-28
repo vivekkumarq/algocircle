@@ -43,7 +43,7 @@
           <span class="editor__dots" aria-hidden="true"><i></i><i></i><i></i></span>
           <span class="editor__file">sliding_window.txt</span>
         </div>
-        <pre class="editor__code"><code>{{ patterns[0].template }}</code></pre>
+        <pre class="editor__code"><code [innerHTML]="patterns[0].template | highlight: 'pseudocode'"></code></pre>
         <div class="editor__meta">
           <span class="tag">Topic 09: Sliding Window</span>
           <span class="tag">{{ patterns[0].complexity }}</span>
@@ -141,7 +141,7 @@
       </ul>
 
       <h4>Template</h4>
-      <pre><code>{{ pattern().template }}</code></pre>
+      <pre><code [innerHTML]="pattern().template | highlight: 'pseudocode'"></code></pre>
       <p class="patterns__complexity">{{ pattern().complexity }}</p>
     </article>
   </div>

@@ -91,6 +91,12 @@ const PAIRS = [
   ['--accent-contrast', '--accent', 4.5, 'text on a primary button'],
   ['--info', '--info-soft', 4.5, 'the "In real life" label'],
   ['--text-secondary', '--info-soft', 4.5, 'text in an "In real life" panel'],
+  ['--syn-keyword', '--bg-code', 4.5, 'code: keyword'],
+  ['--syn-string', '--bg-code', 4.5, 'code: string'],
+  ['--syn-number', '--bg-code', 4.5, 'code: number'],
+  ['--syn-type', '--bg-code', 4.5, 'code: type'],
+  ['--syn-fn', '--bg-code', 4.5, 'code: fn'],
+  ['--text-muted', '--bg-code', 3.0, 'code: comments'],
 ];
 
 for (const [name, tokens] of [['root', root], ...themed]) {

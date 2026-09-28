@@ -13,6 +13,7 @@ import { Icon } from '../icon/icon';
 import { AlgoVisual } from '../../visuals/algo-visual';
 import { richText } from '../../pipes/rich.pipe';
 import { CodeLanguageService } from '../../../core/services/code-language.service';
+import { HighlightPipe } from '../../pipes/highlight.pipe';
 
 type CodeBlock = Extract<Block, { kind: 'code' }>;
 
@@ -32,7 +33,7 @@ const CALLOUT_LABEL = {
 @Component({
   selector: 'app-content-blocks',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, AlgoVisual],
+  imports: [Icon, AlgoVisual, HighlightPipe],
   templateUrl: './content-blocks.html',
   styleUrl: './content-blocks.scss',
 })

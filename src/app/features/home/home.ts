@@ -7,11 +7,12 @@ import { TOPICS, TOTAL_TOPIC_MINUTES, TOTAL_TOPIC_SECTIONS } from '../../data/to
 import { PATTERN_PREVIEWS } from '../../data/patterns/pattern-preview.data';
 import { SITE_STATS } from '../../data/site-stats.data';
 import { RichPipe } from '../../shared/pipes/rich.pipe';
+import { HighlightPipe } from '../../shared/pipes/highlight.pipe';
 
 @Component({
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, TopicGraph, RichPipe],
+  imports: [RouterLink, Icon, TopicGraph, RichPipe, HighlightPipe],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

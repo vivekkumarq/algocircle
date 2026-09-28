@@ -62,7 +62,7 @@
             {{ copied() === tab.source ? 'Copied' : 'Copy' }}
           </button>
         </figcaption>
-        <pre><code>{{ tab.source }}</code></pre>
+        <pre><code [innerHTML]="tab.source | highlight: tab.language"></code></pre>
       </figure>
     }
 

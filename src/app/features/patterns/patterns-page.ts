@@ -6,6 +6,7 @@ import { TOPICS } from '../../data/topics.data';
 import { SeoService } from '../../core/services/seo.service';
 import { Icon } from '../../shared/components/icon/icon';
 import { RichPipe } from '../../shared/pipes/rich.pipe';
+import { HighlightPipe } from '../../shared/pipes/highlight.pipe';
 
 /**
  * Index at /patterns, one pattern at /patterns/:slug. Each pattern lists the
@@ -15,7 +16,7 @@ import { RichPipe } from '../../shared/pipes/rich.pipe';
 @Component({
   selector: 'app-patterns-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, RichPipe],
+  imports: [RouterLink, Icon, RichPipe, HighlightPipe],
   templateUrl: './patterns-page.html',
   styleUrl: './patterns-page.scss',
 })
