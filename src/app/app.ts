@@ -7,11 +7,23 @@ import { MobileNav } from './layout/mobile-nav/mobile-nav';
 import { SearchOverlay } from './layout/search-overlay/search-overlay';
 import { Watermark } from './layout/watermark/watermark';
 import { Shortcuts } from './layout/shortcuts/shortcuts';
+import { RouteProgress } from './layout/route-progress/route-progress';
+import { BackToTop } from './layout/back-to-top/back-to-top';
 import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Footer, MobileNav, SearchOverlay, Shortcuts, Watermark],
+  imports: [
+    RouterOutlet,
+    Header,
+    Footer,
+    MobileNav,
+    SearchOverlay,
+    Shortcuts,
+    RouteProgress,
+    BackToTop,
+    Watermark,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -24,10 +36,12 @@ export class App {
     // `scroll-margin-top` the headings carry, so a section arrived at from
     // another page lands underneath the sticky header. Tell the scroller how
     // tall that header is instead.
-    inject(ViewportScroller).setOffset(() => [
-      0,
-      (document.querySelector('app-header')?.getBoundingClientRect().height ?? 0) + 16,
-    ]);
+    // Below 900px a lesson also has its section bar under the header.
+    inject(ViewportScroller).setOffset(() => {
+      const header = document.querySelector('app-header')?.getBoundingClientRect().height ?? 0;
+      const bar = window.innerWidth < 900 && document.querySelector('app-chapter-page') ? 46 : 0;
+      return [0, header + bar + 16];
+    });
   }
 
   /**

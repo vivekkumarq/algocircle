@@ -15,7 +15,7 @@
         <summary class="toc__label">On this page</summary>
         <ol>
           @for (section of g.sections; track section.id) {
-            <li><a [href]="'#' + section.id">{{ section.title }}</a></li>
+            <li><a [routerLink]="[]" [fragment]="section.id">{{ section.title }}</a></li>
           }
         </ol>
       </details>

@@ -77,6 +77,17 @@ export class ChapterPage {
    */
   protected readonly reading = signal('');
 
+  /** Phones: the section being read, for the bar under the header. */
+  protected readonly current = computed(() => {
+    const chapter = this.chapter();
+    const index = chapter?.sections.findIndex((section) => section.id === this.reading()) ?? -1;
+    if (!chapter || index < 0) return null;
+    return { index, total: chapter.sections.length, title: chapter.sections[index].title };
+  });
+
+  /** The bar's list of sections, opened by tapping it. */
+  protected readonly sheetOpen = signal(false);
+
   private watchSections(onCleanup: (fn: () => void) => void): void {
     if (typeof IntersectionObserver === 'undefined') return;
 
@@ -85,6 +96,14 @@ export class ChapterPage {
     if (!sections.length) return;
 
     const visible = new Set<string>();
+
+    // The band a section must reach to count as "being read" starts just
+    // below whatever covers the top of the page: the header, and on phones the
+    // section bar too. Starting it higher let the last sliver of the section
+    // above still count, so a jump named the wrong section.
+    const header = document.querySelector('app-header')?.getBoundingClientRect().height ?? 64;
+    const bar = window.innerWidth < 900 ? 46 : 0;
+    const top = Math.round(header + bar + 24);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -97,7 +116,7 @@ export class ChapterPage {
         const current = sections.find((section) => visible.has(section.id));
         if (current) this.reading.set(current.id);
       },
-      { rootMargin: '-72px 0px -55% 0px' },
+      { rootMargin: `-${top}px 0px -55% 0px` },
     );
 
     for (const section of sections) observer.observe(section);
@@ -119,6 +138,10 @@ export class ChapterPage {
   /** J and K step through the sections; N and P move between topics. */
   @HostListener('document:keydown', ['$event'])
   protected onKey(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && this.sheetOpen()) {
+      this.sheetOpen.set(false);
+      return;
+    }
     if (!isPlainKey(event)) return;
     const key = event.key.toLowerCase();
 
@@ -151,6 +174,7 @@ export class ChapterPage {
     effect((onCleanup) => {
       this.chapter();
       this.reading.set('');
+      this.sheetOpen.set(false);
 
       const frame = requestAnimationFrame(() => this.watchSections(onCleanup));
       onCleanup(() => cancelAnimationFrame(frame));

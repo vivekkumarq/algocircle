@@ -6,6 +6,40 @@
       <span class="backdrop__grid"></span>
     </div>
 
+    <!-- Phones and tablets: where you are, and a way to jump, always in reach. -->
+    @if (current(); as c) {
+      <nav class="minibar" [class.is-open]="sheetOpen()" aria-label="Sections">
+        <button
+          type="button"
+          class="minibar__toggle"
+          [attr.aria-expanded]="sheetOpen()"
+          aria-controls="minibar-sheet"
+          (click)="sheetOpen.set(!sheetOpen())"
+        >
+          <span class="minibar__num">{{ pad(c.index + 1) }}<small> / {{ c.total }}</small></span>
+          <span class="minibar__title">{{ c.title }}</span>
+          <app-icon name="chevron-down" [size]="16" />
+        </button>
+        @if (sheetOpen()) {
+          <ol class="minibar__sheet" id="minibar-sheet">
+            @for (section of ch.sections; track section.id; let i = $index) {
+              <li>
+                <a
+                  [routerLink]="[]"
+                  [fragment]="section.id"
+                  [class.is-current]="section.id === reading()"
+                  (click)="sheetOpen.set(false)"
+                >
+                  <span>{{ pad(i + 1) }}</span> {{ section.title }}
+                </a>
+              </li>
+            }
+          </ol>
+          <div class="minibar__scrim" (click)="sheetOpen.set(false)" aria-hidden="true"></div>
+        }
+      </nav>
+    }
+
     <div class="layout">
       <header class="head">
         <p class="eyebrow">
@@ -54,12 +88,12 @@
         <ol>
           @for (section of ch.sections; track section.id) {
             <li>
-              <a [href]="'#' + section.id" [class.is-current]="reading() === section.id">
+              <a [routerLink]="[]" [fragment]="section.id" [class.is-current]="reading() === section.id">
                 {{ section.title }}
               </a>
             </li>
           }
-          <li><a href="#takeaways">Key takeaways</a></li>
+          <li><a [routerLink]="[]" fragment="takeaways">Key takeaways</a></li>
         </ol>
       </details>
 
@@ -83,7 +117,12 @@
             <h2>
               <span class="section__num">{{ pad(i + 1) }}</span>
               {{ section.title }}
-              <a class="anchor" [href]="'#' + section.id" [attr.aria-label]="'Link to ' + section.title">#</a>
+              <a
+                class="anchor"
+                [routerLink]="[]"
+                [fragment]="section.id"
+                [attr.aria-label]="'Link to ' + section.title"
+              >#</a>
             </h2>
             <app-content-blocks [blocks]="section.blocks" />
           </section>
