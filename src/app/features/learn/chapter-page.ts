@@ -2,13 +2,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostListener,
   computed,
   effect,
   inject,
   input,
   signal,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { isPlainKey } from '../../layout/shortcuts/shortcuts';
 import { CHAPTERS, chapterBySlug } from '../../data/chapters';
 import { topicHue } from '../../data/topics.data';
 import { Block } from '../../core/models/chapter.models';
@@ -110,6 +112,37 @@ export class ChapterPage {
 
   protected pad(order: number): string {
     return order.toString().padStart(2, '0');
+  }
+
+  private readonly router = inject(Router);
+
+  /** J and K step through the sections; N and P move between topics. */
+  @HostListener('document:keydown', ['$event'])
+  protected onKey(event: KeyboardEvent): void {
+    if (!isPlainKey(event)) return;
+    const key = event.key.toLowerCase();
+
+    if (key === 'j' || key === 'k') {
+      const element = this.host.nativeElement as HTMLElement;
+      const sections = [...element.querySelectorAll<HTMLElement>('section.section[id]')];
+      if (!sections.length) return;
+      const current = sections.findIndex((section) => section.id === this.reading());
+      const target =
+        key === 'j'
+          ? sections[Math.min(current + 1, sections.length - 1)]
+          : sections[Math.max(current - 1, 0)];
+      event.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(history.state, '', `#${target.id}`);
+      return;
+    }
+
+    const nav = this.position();
+    const topic = key === 'n' ? nav?.next : key === 'p' ? nav?.previous : undefined;
+    if (topic) {
+      event.preventDefault();
+      void this.router.navigate(['/learn', topic.slug]);
+    }
   }
 
   constructor() {

@@ -59,6 +59,12 @@
   display: none;
 }
 
+/* The open palette is the focus indicator; a ring inside it is noise. */
+.field input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 .results {
   flex: 1;
   overflow-y: auto;
@@ -93,19 +99,50 @@
 }
 
 .result {
-  display: grid;
-  gap: 0.1rem;
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
   width: 100%;
   min-height: var(--touch);
-  padding: 0.65rem var(--space-5);
+  padding: 0.6rem var(--space-5);
   border: 0;
   background: none;
   text-align: left;
+  cursor: pointer;
   transition: background-color var(--dur-fast) var(--ease);
 }
 
 .result.is-active {
   background: var(--accent-soft);
+}
+
+.result__text {
+  display: grid;
+  flex: 1;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.result__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.result.is-active .result__icon {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  color: var(--accent-text);
+}
+
+.result__keys {
+  flex: none;
 }
 
 .result__title {

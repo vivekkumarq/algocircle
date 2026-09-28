@@ -56,6 +56,21 @@ export class LayoutService {
     this.storage.write('panel-right', open);
   }
 
+  /** Both panels away, or both back: the reading view in one step. */
+  toggleFocus(): void {
+    const focused = !this.sidebar() && !this.contents();
+    this.setSidebar(focused);
+    this.setContents(focused);
+  }
+
+  private readonly help = signal(false);
+  /** The keyboard shortcuts sheet. */
+  readonly helpOpen = this.help.asReadonly();
+
+  setHelp(open: boolean): void {
+    this.help.set(open);
+  }
+
   private lockScroll(locked: boolean): void {
     if (typeof document === 'undefined') return;
     document.body.style.overflow = locked ? 'hidden' : '';

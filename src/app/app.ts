@@ -6,11 +6,12 @@ import { Footer } from './layout/footer/footer';
 import { MobileNav } from './layout/mobile-nav/mobile-nav';
 import { SearchOverlay } from './layout/search-overlay/search-overlay';
 import { Watermark } from './layout/watermark/watermark';
+import { Shortcuts } from './layout/shortcuts/shortcuts';
 import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Footer, MobileNav, SearchOverlay, Watermark],
+  imports: [RouterOutlet, Header, Footer, MobileNav, SearchOverlay, Shortcuts, Watermark],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
