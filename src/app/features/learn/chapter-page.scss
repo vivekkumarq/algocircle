@@ -2,12 +2,10 @@
   display: block;
 }
 
-/* One reading column for the heading and the text. Its width is a multiple
-   of the lesson type size, so a line holds about the same number of
-   characters at every screen width, and it is centred in whatever room the
-   page has. Inner caps defer to it. */
+/* The heading and the text fill the reading column edge to edge, with the
+   panels open or folded; inner caps defer to it. The lesson type grows with
+   the screen, so a wide column also gets larger text. */
 .chapter {
-  --measure: calc(var(--lesson-size) * 48);
   --prose-max: 100%;
 
   position: relative;
@@ -15,10 +13,7 @@
 
 .head,
 .body {
-  width: 100%;
   min-width: 0;
-  max-width: var(--measure);
-  justify-self: center;
 }
 
 /* Every topic carries its own accent, mixed from one hue so the whole page —
@@ -334,12 +329,9 @@
 }
 
 @media (min-width: 900px) {
-  /* Reading column, the seam with its handle, then the contents. Folding the
-     contents animates one track to zero and hands the width to the text. */
   /* Wider: the reading column, the seam with its handle, and the contents,
      which start level with the title and stay in view. Folding the contents
-     animates one track to zero; the column keeps its measure and simply
-     re-centres in the room it gains. */
+     animates one track to zero and hands its width to the text. */
   .layout {
     --contents: clamp(180px, 15vw, 272px);
 

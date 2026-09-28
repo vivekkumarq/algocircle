@@ -120,7 +120,6 @@
   --header-bar: 56px;
   --header-h: calc(var(--header-bar) + env(safe-area-inset-top, 0px));
   --sidebar-w: 268px;
-  --content-max: 1280px;
   /* The outer frame shared by the header bar and the page shell, so the logo,
      the topic list and the contents line up, close to the screen edges. */
   --frame-max: 1840px;
@@ -128,7 +127,7 @@
      1920px monitor. Reading columns are sized in multiples of it, so a wider
      screen gives bigger text rather than longer lines. */
   --lesson-size: clamp(0.95rem, 0.75rem + 0.3125vw, 1.125rem);
-  --prose-max: 74ch;
+  --prose-max: 100%;
   --gutter: clamp(16px, 4.2vw, 32px);
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-r: env(safe-area-inset-right, 0px);
@@ -657,7 +656,6 @@
 
 [data-size='large'] {
   --font-scale: 1.12;
-  --prose-max: 68ch;
 }
 
 [data-font='mono'][data-size='small'] {

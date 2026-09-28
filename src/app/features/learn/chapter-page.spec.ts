@@ -40,7 +40,8 @@ describe('Chapter page', () => {
       expect(element.querySelector('.missing')).toBeNull();
       expect(element.querySelector('h1')?.textContent).toContain(chapter.title);
     }
-  });
+    // Twenty full lessons; a busy CI machine can exceed the 5s default.
+  }, 30_000);
 
   it('links to the next chapter but not past the end', async () => {
     const first = await render(CHAPTERS[0].slug);

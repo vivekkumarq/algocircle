@@ -11,6 +11,13 @@ describe('rich text', () => {
     );
   });
 
+  it('renders a single pair of asterisks as emphasis', () => {
+    expect(richText('the meeting that *finishes first* wins')).toBe(
+      'the meeting that <em>finishes first</em> wins',
+    );
+    expect(richText('**bold** and *soft*')).toBe('<strong>bold</strong> and <em>soft</em>');
+  });
+
   it('leaves unpaired markers alone', () => {
     expect(richText('a ` b and 2 ** 3')).toBe('a ` b and 2 ** 3');
   });
