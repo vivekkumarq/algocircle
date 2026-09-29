@@ -75,7 +75,9 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* Phones keep the wash but not the drift: animating two large blurred layers
+   under the text costs a small GPU a composite every frame while reading. */
+@media (prefers-reduced-motion: reduce), (max-width: 899px) {
   .backdrop__blob {
     animation: none;
   }

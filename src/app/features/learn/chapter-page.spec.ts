@@ -19,12 +19,24 @@ describe('Chapter page', () => {
     return fixture.nativeElement as HTMLElement;
   }
 
-  it('renders every section of a chapter', async () => {
-    const element = await render('why-dsa');
+  it('draws the first sections with the page, then every section soon after', async () => {
+    const fixture = TestBed.createComponent(ChapterPage);
+    fixture.componentRef.setInput('slug', 'why-dsa');
+    await fixture.whenStable();
+    const element = fixture.nativeElement as HTMLElement;
     const chapter = CHAPTERS[0];
 
     expect(element.querySelector('h1')?.textContent).toContain(chapter.title);
+    expect(element.querySelectorAll('.section').length).toBeGreaterThanOrEqual(3);
+    expect(element.querySelector('.takeaways')).toBeNull();
+
+    // The rest arrive a couple at a time in idle moments.
+    for (let i = 0; i < 100 && element.querySelectorAll('.section').length < chapter.sections.length; i++) {
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      await fixture.whenStable();
+    }
     expect(element.querySelectorAll('.section').length).toBe(chapter.sections.length);
+    expect(element.querySelector('.takeaways')).not.toBeNull();
   });
 
   it('builds a table of contents from the section anchors', async () => {

@@ -35,6 +35,8 @@ export const appConfig: ApplicationConfig = {
       // section would flash on every contents click.
       withViewTransitions({
         skipInitialTransition: true,
+        // (In development builds Angular logs the skipped transition's
+        // AbortError; production builds swallow it.)
         onViewTransitionCreated: ({ transition, from, to }) => {
           if (pathOf(from) === pathOf(to)) transition.skipTransition();
         },

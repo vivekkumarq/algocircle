@@ -3,14 +3,18 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Injector,
+  afterNextRender,
   computed,
   effect,
   PendingTasks,
   inject,
   input,
   signal,
+  untracked,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router, RouterLink, Scroll } from '@angular/router';
 import { isPlainKey } from '../../layout/shortcuts/shortcuts';
 import { loadChapter } from '../../data/chapters/load';
 import { TOPICS, topicHue } from '../../data/topics.data';
@@ -22,6 +26,10 @@ import { Icon } from '../../shared/components/icon/icon';
 import { ContentBlocks } from '../../shared/components/content-blocks/content-blocks';
 import { RailHandle } from '../../shared/components/rail-handle/rail-handle';
 import { RichPipe } from '../../shared/pipes/rich.pipe';
+
+/** Sections drawn with the page; the rest follow a couple at a time. */
+const FIRST_SECTIONS = 3;
+const BATCH = 2;
 
 @Component({
   selector: 'app-chapter-page',
@@ -65,6 +73,27 @@ export class ChapterPage {
   protected retry(): void {
     this.attempt.update((n) => n + 1);
   }
+
+  /**
+   * How many sections are in the page so far. Laying out a whole lesson at
+   * once was a single task of 300-400 ms on a desktop - the page froze just as
+   * it appeared. The first few sections (all anyone can see) render with the
+   * page and the rest follow in idle moments, so no task is long enough to
+   * notice and the lesson is complete a fraction of a second later.
+   */
+  private readonly shown = signal(FIRST_SECTIONS);
+
+  protected readonly visibleSections = computed(
+    () => this.chapter()?.sections.slice(0, this.shown()) ?? [],
+  );
+
+  protected readonly allShown = computed(() => {
+    const chapter = this.chapter();
+    return !!chapter && this.shown() >= chapter.sections.length;
+  });
+
+  /** The slug whose deep link has been honoured, so later batches do not re-jump. */
+  private jumpedFor = '';
 
   protected readonly position = computed(() => {
     const index = TOPICS.findIndex((topic) => topic.slug === this.slug());
@@ -150,7 +179,11 @@ export class ChapterPage {
 
     // A link straight to a section (/learn/heaps#top-k) arrives before the
     // lesson body does, so the router found nothing to scroll to. Now that the
-    // sections exist, go there - instantly, as a page load should land.
+    // sections exist, go there - instantly, as a page load should land. Once
+    // per lesson: later batches must not pull the reader back.
+    const slug = this.slug();
+    if (this.jumpedFor === slug) return;
+    this.jumpedFor = slug;
     const hash = location.hash.length > 1 ? decodeURIComponent(location.hash.slice(1)) : '';
     const target = hash ? document.getElementById(hash) : null;
     target?.scrollIntoView({ block: 'start', behavior: 'instant' });
@@ -219,16 +252,65 @@ export class ChapterPage {
         .finally(done);
     });
 
-    // Re-observe whenever the topic changes: the component is reused across
-    // slugs, so the previous chapter's sections are gone by then.
-    effect((onCleanup) => {
-      this.chapter();
+    // A new topic starts with nothing read and the section list closed.
+    effect(() => {
+      this.slug();
       this.reading.set('');
       this.sheetOpen.set(false);
+      this.jumpedFor = '';
+    });
 
+    // Once the lesson is in, draw the first sections - and every section up
+    // to one named in the URL, so a deep link lands exactly - then add the
+    // rest a couple at a time when the browser is idle.
+    effect((onCleanup) => {
+      const chapter = this.chapter();
+      if (!chapter) return;
+      const total = chapter.sections.length;
+      const hash = location.hash.length > 1 ? decodeURIComponent(location.hash.slice(1)) : '';
+      const target = hash === 'takeaways' ? total : chapter.sections.findIndex((s) => s.id === hash) + 1;
+      untracked(() => this.shown.set(Math.max(FIRST_SECTIONS, target)));
+
+      const idle = (step: () => void): number =>
+        typeof requestIdleCallback === 'function'
+          ? requestIdleCallback(step, { timeout: 250 })
+          : (setTimeout(step, 16) as unknown as number);
+      const cancel = (handle: number) =>
+        typeof cancelIdleCallback === 'function' ? cancelIdleCallback(handle) : clearTimeout(handle);
+
+      let handle = 0;
+      const step = () => {
+        if (this.shown() >= total) return;
+        this.shown.update((n) => Math.min(total, n + BATCH));
+        handle = idle(step);
+      };
+      handle = idle(step);
+      onCleanup(() => cancel(handle));
+    });
+
+    // Re-observe as sections arrive: the component is reused across slugs and
+    // the list grows batch by batch.
+    effect((onCleanup) => {
+      this.chapter();
+      this.shown();
       const frame = requestAnimationFrame(() => this.watchSections(onCleanup));
       onCleanup(() => cancelAnimationFrame(frame));
     });
+
+    // A contents click can name a section that is not drawn yet; draw them
+    // all, then go there - once Angular has actually put them in the page.
+    const injector = inject(Injector);
+    inject(Router)
+      .events.pipe(takeUntilDestroyed())
+      .subscribe((event) => {
+        if (!(event instanceof Scroll) || !event.anchor || document.getElementById(event.anchor)) return;
+        const anchor = event.anchor;
+        this.shown.set(Number.MAX_SAFE_INTEGER);
+        afterNextRender(
+          () => document.getElementById(anchor)?.scrollIntoView({ block: 'start', behavior: 'instant' }),
+          { injector },
+        );
+      });
 
     // Remember the place: the home page offers to continue from it.
     effect(() => {

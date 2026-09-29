@@ -1,5 +1,9 @@
 @if (meta(); as m) {
-  <article class="chapter topic-tint" [class.is-folded]="!layout.contentsOpen()" [style.--hue]="hue()">
+  <article
+    class="chapter topic-tint"
+    [class.is-folded]="!layout.contentsOpen()"
+    [style.--hue]="hue()"
+  >
     <div class="backdrop" aria-hidden="true">
       <span class="backdrop__blob backdrop__blob--a"></span>
       <span class="backdrop__blob backdrop__blob--b"></span>
@@ -16,7 +20,9 @@
           aria-controls="minibar-sheet"
           (click)="sheetOpen.set(!sheetOpen())"
         >
-          <span class="minibar__num">{{ pad(c.index + 1) }}<small> / {{ c.total }}</small></span>
+          <span class="minibar__num"
+            >{{ pad(c.index + 1) }}<small> / {{ c.total }}</small></span
+          >
           <span class="minibar__title">{{ c.title }}</span>
           <app-icon name="chevron-down" [size]="16" />
         </button>
@@ -81,16 +87,16 @@
         (openChange)="layout.setContents($event)"
       />
 
-      <details
-        class="toc"
-        [open]="isWide()"
-        [attr.inert]="layout.contentsOpen() ? null : ''"
-      >
+      <details class="toc" [open]="isWide()" [attr.inert]="layout.contentsOpen() ? null : ''">
         <summary class="toc__label">On this page</summary>
         <ol>
           @for (section of m.sections; track section.id) {
             <li>
-              <a [routerLink]="[]" [fragment]="section.id" [class.is-current]="reading() === section.id">
+              <a
+                [routerLink]="[]"
+                [fragment]="section.id"
+                [class.is-current]="reading() === section.id"
+              >
                 {{ section.title }}
               </a>
             </li>
@@ -115,7 +121,7 @@
             </ul>
           </section>
 
-          @for (section of ch.sections; track section.id; let i = $index) {
+          @for (section of visibleSections(); track section.id; let i = $index) {
             <section class="section" [id]="section.id">
               <h2>
                 <span class="section__num">{{ pad(i + 1) }}</span>
@@ -125,44 +131,56 @@
                   [routerLink]="[]"
                   [fragment]="section.id"
                   [attr.aria-label]="'Link to ' + section.title"
-                >#</a>
+                  >#</a
+                >
               </h2>
               <app-content-blocks [blocks]="section.blocks" />
             </section>
           }
 
-          <section class="takeaways surface" id="takeaways">
-            <h2><app-icon name="zap" [size]="16" /> Key takeaways</h2>
-            <ul>
-              @for (takeaway of ch.keyTakeaways; track takeaway) {
-                <li [innerHTML]="takeaway | rich"></li>
-              }
-            </ul>
-          </section>
-
-          <section class="finish" [class.is-done]="done()">
-            <span class="finish__mark" aria-hidden="true"><app-icon name="check" [size]="22" /></span>
-            <div class="finish__text">
-              <h2>{{ done() ? 'Topic complete' : 'Finished ' + m.label + '?' }}</h2>
-              <p>
-                {{
-                  done()
-                    ? 'It is ticked off in the topic list and the sidebar. Come back to it any time.'
-                    : 'Mark it complete to tick it off in the topic list and keep track of where you are.'
-                }}
-              </p>
+          @if (!allShown()) {
+            <!-- The rest of the lesson, arriving in idle moments. -->
+            <div class="skeleton" aria-hidden="true">
+              <span class="skeleton__line"></span>
+              <span class="skeleton__line"></span>
+              <span class="skeleton__panel skeleton__panel--tall"></span>
             </div>
-            <button
-              type="button"
-              class="btn"
-              [class.btn--primary]="!done()"
-              [class.btn--secondary]="done()"
-              [attr.aria-pressed]="done()"
-              (click)="toggleDone()"
-            >
-              {{ done() ? 'Mark as not done' : 'Mark as complete' }}
-            </button>
-          </section>
+          } @else {
+            <section class="takeaways surface" id="takeaways">
+              <h2><app-icon name="zap" [size]="16" /> Key takeaways</h2>
+              <ul>
+                @for (takeaway of ch.keyTakeaways; track takeaway) {
+                  <li [innerHTML]="takeaway | rich"></li>
+                }
+              </ul>
+            </section>
+
+            <section class="finish" [class.is-done]="done()">
+              <span class="finish__mark" aria-hidden="true"
+                ><app-icon name="check" [size]="22"
+              /></span>
+              <div class="finish__text">
+                <h2>{{ done() ? 'Topic complete' : 'Finished ' + m.label + '?' }}</h2>
+                <p>
+                  {{
+                    done()
+                      ? 'It is ticked off in the topic list and the sidebar. Come back to it any time.'
+                      : 'Mark it complete to tick it off in the topic list and keep track of where you are.'
+                  }}
+                </p>
+              </div>
+              <button
+                type="button"
+                class="btn"
+                [class.btn--primary]="!done()"
+                [class.btn--secondary]="done()"
+                [attr.aria-pressed]="done()"
+                (click)="toggleDone()"
+              >
+                {{ done() ? 'Mark as not done' : 'Mark as complete' }}
+              </button>
+            </section>
+          }
         } @else if (loadFailed()) {
           <section class="load-error surface" role="alert">
             <h2>This topic did not load</h2>
@@ -184,7 +202,9 @@
           <nav class="pager" aria-label="Topic navigation">
             @if (nav.previous) {
               <a class="pager__link" [routerLink]="['/learn', nav.previous.slug]">
-                <span class="pager__dir"><app-icon name="chevron-right" [size]="13" /> Previous</span>
+                <span class="pager__dir"
+                  ><app-icon name="chevron-right" [size]="13" /> Previous</span
+                >
                 <span class="pager__title">{{ nav.previous.title }}</span>
               </a>
             } @else {
