@@ -169,7 +169,9 @@ export class SearchOverlay {
   protected readonly entries = computed<Entry[]>(() => {
     if (!this.searching()) return this.commands();
 
-    const actions = this.commands().filter((entry) => commandMatches(this.query(), entry));
+    const query = this.query();
+    const actions = this.commands().filter((entry) => commandMatches(query, entry));
+    const named = (entry: Entry) => commandMatches(query, { ...entry, detail: '' });
 
     const found = this.results().map<Entry>((result, i) => ({
       key: `r${i}`,
@@ -178,9 +180,10 @@ export class SearchOverlay {
       detail: result.detail,
       run: () => this.go(result),
     }));
-    // A command that matches is what was meant: "theme" should not scroll past
-    // every lesson that mentions the word.
-    return [...actions, ...found];
+    // A command whose name matches is what was meant: "theme" should not
+    // scroll past every lesson that mentions the word. One that only matches
+    // in passing ("Dijkstra" in the course's blurb) waits below the lessons.
+    return [...actions.filter(named), ...found, ...actions.filter((entry) => !named(entry))];
   });
 
   protected readonly grouped = computed(() => {
