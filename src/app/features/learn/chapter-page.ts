@@ -95,6 +95,9 @@ export class ChapterPage {
   /** The slug whose deep link has been honoured, so later batches do not re-jump. */
   private jumpedFor = '';
 
+  /** Where the "being read" band starts, below the header (and phone bar). */
+  private bandTop = 0;
+
   protected readonly position = computed(() => {
     const index = TOPICS.findIndex((topic) => topic.slug === this.slug());
     if (index < 0) return null;
@@ -156,9 +159,14 @@ export class ChapterPage {
     // below whatever covers the top of the page: the header, and on phones the
     // section bar too. Starting it higher let the last sliver of the section
     // above still count, so a jump named the wrong section.
-    const header = document.querySelector('app-header')?.getBoundingClientRect().height ?? 64;
-    const bar = window.innerWidth < 900 ? 46 : 0;
-    const top = Math.round(header + bar + 24);
+    // Measured once per lesson: reading the header's size forces a layout,
+    // and doing it on every batch forced each batch's layout synchronously.
+    if (!this.bandTop) {
+      const header = document.querySelector('app-header')?.getBoundingClientRect().height ?? 64;
+      const bar = window.innerWidth < 900 ? 46 : 0;
+      this.bandTop = Math.round(header + bar + 24);
+    }
+    const top = this.bandTop;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -258,6 +266,7 @@ export class ChapterPage {
       this.reading.set('');
       this.sheetOpen.set(false);
       this.jumpedFor = '';
+      this.bandTop = 0;
     });
 
     // Once the lesson is in, draw the first sections - and every section up

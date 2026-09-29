@@ -16,7 +16,12 @@
         (pointerenter)="enter(node.slug)"
         (focusin)="enter(node.slug)"
       >
-        <a [routerLink]="['/learn', node.slug]" [attr.aria-label]="node.label + ': ' + node.summary">
+        <!-- The name starts with the visible text ("01 Why DSA"), so voice
+             control can target the node by what it shows. -->
+        <a
+          [routerLink]="['/learn', node.slug]"
+          [attr.aria-label]="pad(node.order) + ' ' + node.label + ': ' + node.summary"
+        >
           <rect
             [attr.x]="node.x"
             [attr.y]="node.y"

@@ -146,7 +146,7 @@
       <div class="compare">
         @for (column of block.columns; track column.title) {
           <div class="compare__col">
-            <h4 [innerHTML]="rich(column.title)"></h4>
+            <h3 [innerHTML]="rich(column.title)"></h3>
             <ul>
               @for (point of column.points; track point) {
                 <li [innerHTML]="rich(point)"></li>

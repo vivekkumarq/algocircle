@@ -339,8 +339,10 @@ tbody tr:last-child td {
   background: var(--bg-card);
 }
 
-.compare__col h4 {
-  margin-bottom: var(--space-3);
+/* An h3, not an h4: it sits directly under the section's h2, and skipping a
+   level breaks the outline screen readers navigate by. */
+:host .compare__col h3 {
+  margin: 0 0 var(--space-3);
   font-size: calc(var(--lesson-size) * 0.947);
 }
 
