@@ -1,6 +1,13 @@
 import { Routes } from '@angular/router';
 
 /**
+ * Courses share one page; the route hands it the course. Resolving from a
+ * dynamic import keeps each course's lessons in a chunk of their own.
+ */
+const advancedCourse = () => import('./data/course').then((m) => m.ADVANCED_COURSE);
+const zeroToHero = () => import('./data/zero-to-hero').then((m) => m.ZERO_TO_HERO);
+
+/**
  * Every topic in the curriculum is served by `learn/:slug` and every problem by
  * `problems/:slug`, so the route table does not grow when content is added. Only the
  * landing page sits outside the shell; everything else shares the same frame.
@@ -106,9 +113,29 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'zero-to-hero',
+        title: 'Zero to Hero: Logic to Code',
+        loadComponent: () => import('./features/course/course-page').then((m) => m.CoursePage),
+        resolve: { course: zeroToHero },
+        data: {
+          description:
+            'Learn to think through a problem and turn the thinking into code, from your first loop to every interview pattern, with every line of code explained.',
+        },
+      },
+      {
+        path: 'zero-to-hero/:slug',
+        loadComponent: () => import('./features/course/course-page').then((m) => m.CoursePage),
+        resolve: { course: zeroToHero },
+        data: {
+          description:
+            'One step of Zero to Hero: a problem solved the way you would think it through, by hand first, then in Java and Python with every line explained.',
+        },
+      },
+      {
         path: 'course',
         title: 'Advanced Algorithms',
         loadComponent: () => import('./features/course/course-page').then((m) => m.CoursePage),
+        resolve: { course: advancedCourse },
         data: {
           description:
             'An advanced algorithms course: twenty-two techniques, each with the idea, why it is correct, the code in Java and Python, and the problems that drill it.',
@@ -117,6 +144,7 @@ export const routes: Routes = [
       {
         path: 'course/:slug',
         loadComponent: () => import('./features/course/course-page').then((m) => m.CoursePage),
+        resolve: { course: advancedCourse },
         data: {
           description:
             'One advanced algorithm technique explained in full: the idea, the proof, the code in Java and Python, the cost and the common trap.',

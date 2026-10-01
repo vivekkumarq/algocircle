@@ -240,3 +240,28 @@
     cursor: default;
   }
 }
+
+/* The step after reading: a course that makes you do it. */
+.practise {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-8);
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+}
+
+.practise p {
+  flex: 1 1 320px;
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.practise strong {
+  color: var(--text-primary);
+}

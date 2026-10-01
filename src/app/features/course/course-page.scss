@@ -458,3 +458,9 @@
     grid-column: 2;
   }
 }
+
+/* The breadcrumb flows as one line of text, so a long section name wraps
+   like a sentence instead of splitting the pill into two columns. */
+.lesson .eyebrow {
+  display: inline-block;
+}

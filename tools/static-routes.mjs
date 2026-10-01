@@ -37,12 +37,13 @@ function slugs(folder) {
 }
 
 // Slugs that live in these folders but are not pages of that section.
-const NOT_PAGES = new Set(['/problems/core-75', '/course/advanced-algorithms']);
+const NOT_PAGES = new Set(['/problems/core-75', '/course/advanced-algorithms', '/zero-to-hero/zero-to-hero']);
 const expected = [
   ...[...slugs('chapters')].map((s) => `/learn/${s}`),
   ...[...slugs('patterns')].map((s) => `/patterns/${s}`),
   ...[...slugs('problems')].map((s) => `/problems/${s}`),
   ...[...slugs('course')].map((s) => `/course/${s}`),
+  ...[...slugs('zero-to-hero')].map((s) => `/zero-to-hero/${s}`),
   ...[...slugs('guides')].map((s) => `/guide/${s}`),
 ].filter((path) => !NOT_PAGES.has(path));
 

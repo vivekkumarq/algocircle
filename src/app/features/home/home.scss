@@ -92,6 +92,36 @@
   margin-top: var(--space-6);
 }
 
+/* The way in for someone who has not written much code yet. */
+.beginner {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin-top: var(--space-4);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.beginner strong {
+  color: var(--accent-text);
+}
+
+.beginner app-icon {
+  flex: none;
+  color: var(--accent);
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.beginner:hover span {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.beginner:hover app-icon:last-child {
+  transform: translateX(3px);
+}
+
 .hero__stats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

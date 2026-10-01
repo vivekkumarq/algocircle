@@ -7,7 +7,7 @@
 
     <header class="head">
       <p class="eyebrow">
-        <a routerLink="/course">{{ course.name }}</a> / {{ section() }} / Lesson
+        <a [routerLink]="base()">{{ course().shortName }}</a> / {{ section() }} / Lesson
         {{ pad(number()) }}
       </p>
       <h1>{{ item.title }}</h1>
@@ -17,7 +17,13 @@
         <span class="tag"><app-icon name="clock" [size]="12" /> {{ item.minutes }} min</span>
         @if (topic(); as related) {
           <span class="tag">
-            Assumes: <a [routerLink]="['/learn', related.slug]">{{ related.label }}</a>
+            {{ course().topicLabel }}: <a [routerLink]="['/learn', related.slug]">{{ related.label }}</a>
+          </span>
+        }
+        @if (item.pattern) {
+          <span class="tag">
+            <app-icon name="layers" [size]="12" />
+            <a [routerLink]="['/patterns', item.pattern]">Pattern card</a>
           </span>
         }
       </div>
@@ -27,18 +33,18 @@
       <nav class="rail" aria-label="Course lessons">
         <details class="rail__wrap" [open]="isWide()">
           <summary class="rail__label">
-            All {{ lessonCount }} lessons
+            All {{ lessonCount() }} lessons
             <app-icon name="chevron-down" [size]="14" />
           </summary>
 
-          @for (group of course.sections; track group.name) {
+          @for (group of course().sections; track group.name) {
             <section class="rail__group">
               <h2>{{ group.name }}</h2>
               <ul>
                 @for (entry of group.lessons; track entry.slug) {
                   <li>
                     <a
-                      [routerLink]="['/course', entry.slug]"
+                      [routerLink]="[base(), entry.slug]"
                       [class.is-current]="entry.slug === item.slug"
                     >
                       <span class="rail__num">{{ pad(orderIn(entry.slug)) }}</span>
@@ -80,26 +86,26 @@
         @if (pager(); as nav) {
           <nav class="pager" aria-label="Lesson navigation">
             @if (nav.previous) {
-              <a class="pager__link" [routerLink]="['/course', nav.previous.slug]">
+              <a class="pager__link" [routerLink]="[base(), nav.previous.slug]">
                 <span class="pager__dir">Previous</span>
                 <span class="pager__title">{{ nav.previous.title }}</span>
               </a>
             } @else {
-              <a class="pager__link" routerLink="/course">
+              <a class="pager__link" [routerLink]="base()">
                 <span class="pager__dir">Back</span>
                 <span class="pager__title">Course overview</span>
               </a>
             }
 
             @if (nav.next) {
-              <a class="pager__link pager__link--next" [routerLink]="['/course', nav.next.slug]">
+              <a class="pager__link pager__link--next" [routerLink]="[base(), nav.next.slug]">
                 <span class="pager__dir">Next</span>
                 <span class="pager__title">{{ nav.next.title }}</span>
               </a>
             } @else {
-              <a class="pager__link pager__link--next" routerLink="/list/core-75">
-                <span class="pager__dir">Finished the course</span>
-                <span class="pager__title">Work the Core List</span>
+              <a class="pager__link pager__link--next" [routerLink]="course().finish.link">
+                <span class="pager__dir">{{ course().finish.label }}</span>
+                <span class="pager__title">{{ course().finish.title }}</span>
               </a>
             }
           </nav>
@@ -110,21 +116,21 @@
 } @else if (isIndex()) {
   <header class="head head--index">
     <p class="eyebrow"><app-icon name="layers" [size]="14" /> Course</p>
-    <h1>{{ course.name }}</h1>
-    <p class="lead" [innerHTML]="course.description | rich"></p>
+    <h1>{{ course().name }}</h1>
+    <p class="lead" [innerHTML]="course().description | rich"></p>
 
     <dl class="stats">
       <div>
         <dt>Lessons</dt>
-        <dd>{{ lessonCount }}</dd>
+        <dd>{{ lessonCount() }}</dd>
       </div>
       <div>
         <dt>Sections</dt>
-        <dd>{{ course.sections.length }}</dd>
+        <dd>{{ course().sections.length }}</dd>
       </div>
       <div>
         <dt>Reading time</dt>
-        <dd>{{ hours }}h</dd>
+        <dd>{{ hours() }}h</dd>
       </div>
       <div>
         <dt>Languages</dt>
@@ -133,29 +139,30 @@
     </dl>
 
     <div class="head__actions">
-      <a class="btn btn--primary" [routerLink]="['/course', course.sections[0].lessons[0].slug]">
-        Start with {{ course.sections[0].lessons[0].title }}
+      <a class="btn btn--primary" [routerLink]="[base(), first().slug]">
+        Start with {{ first().title }}
         <app-icon name="arrow-right" [size]="15" />
       </a>
-      <a class="btn btn--secondary" routerLink="/learn">Core topics first</a>
+      <a class="btn btn--secondary" [routerLink]="course().aside.link">{{ course().aside.label }}</a>
     </div>
   </header>
 
   <div class="sections">
-    @for (group of course.sections; track group.name) {
+    @for (group of course().sections; track group.name) {
       <section class="group">
         <header class="group__head">
           <h2>{{ group.name }}</h2>
           <p [innerHTML]="group.blurb | rich"></p>
           <span class="group__meta">
-            {{ group.lessons.length }} lessons · {{ minutesOf(group.name) }} min
+            {{ group.lessons.length }} {{ group.lessons.length === 1 ? 'lesson' : 'lessons' }} ·
+            {{ minutesOf(group.name) }} min
           </span>
         </header>
 
         <ul class="group__list">
           @for (entry of group.lessons; track entry.slug) {
             <li>
-              <a class="card" [routerLink]="['/course', entry.slug]">
+              <a class="card" [routerLink]="[base(), entry.slug]">
                 <span class="card__num">{{ pad(orderIn(entry.slug)) }}</span>
                 <span class="card__text">
                   <span class="card__title">{{ entry.title }}</span>
@@ -170,16 +177,12 @@
     }
   </div>
 
-  <p class="footnote">
-    Every lesson states the technique, why it is correct, what it costs, and the mistake people make
-    — then sends you straight to problems that need it. Read them in order, or jump to the one
-    blocking you.
-  </p>
+  <p class="footnote" [innerHTML]="course().footnote | rich"></p>
 } @else {
   <div class="missing">
     <h1>We couldn't find that lesson</h1>
     <p class="lead">The link may be out of date. The course overview lists every lesson.</p>
-    <a class="btn btn--primary" routerLink="/course">
+    <a class="btn btn--primary" [routerLink]="base()">
       Course overview <app-icon name="arrow-right" [size]="15" />
     </a>
   </div>

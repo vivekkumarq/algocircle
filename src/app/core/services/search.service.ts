@@ -8,7 +8,8 @@ export type SearchKind =
   | 'Algorithm'
   | 'Question'
   | 'Guide'
-  | 'Lesson';
+  | 'Lesson'
+  | 'Zero to Hero';
 
 export interface SearchEntry {
   kind: SearchKind;
@@ -35,6 +36,7 @@ const KIND_WEIGHT: Record<SearchKind, number> = {
   Section: 3,
   Algorithm: 3,
   Lesson: 3,
+  'Zero to Hero': 3,
   Guide: 2,
   Question: 1,
 };
@@ -88,7 +90,7 @@ export class SearchService {
   }
 
   private async build(): Promise<void> {
-    const [chapters, patterns, problems, algorithms, questions, guides, course] =
+    const [chapters, patterns, problems, algorithms, questions, guides, course, zeroToHero] =
       await Promise.all([
         import('../../data/chapters'),
         import('../../data/patterns/patterns.data'),
@@ -97,6 +99,7 @@ export class SearchService {
         import('../../data/interview'),
         import('../../data/guides/guides.data'),
         import('../../data/course'),
+        import('../../data/zero-to-hero'),
       ]);
 
     const entries: SearchEntry[] = [];
@@ -188,16 +191,25 @@ export class SearchService {
       }
     }
 
-    for (const lesson of course.COURSE_LESSONS) {
-      add({
-        kind: 'Lesson',
-        title: lesson.title,
-        detail: lesson.tagline,
-        route: ['/course', lesson.slug],
-        body: lesson.blocks
-          .map((block) => ('text' in block ? block.text : ''))
-          .join(' '),
-      });
+    for (const { path, lessons, label } of [
+      { path: 'course', lessons: course.COURSE_LESSONS, label: 'Lesson' as const },
+      {
+        path: zeroToHero.ZERO_TO_HERO.path,
+        lessons: zeroToHero.ZERO_TO_HERO.sections.flatMap((section) => section.lessons),
+        label: 'Zero to Hero' as const,
+      },
+    ]) {
+      for (const lesson of lessons) {
+        add({
+          kind: label,
+          title: lesson.title,
+          detail: lesson.tagline,
+          route: ['/' + path, lesson.slug],
+          body: lesson.blocks
+            .map((block) => ('text' in block ? block.text : ''))
+            .join(' '),
+        });
+      }
     }
 
     this.entries = entries;

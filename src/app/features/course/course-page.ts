@@ -1,14 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
-  ADVANCED_COURSE,
-  COURSE_LESSONS,
-  TOTAL_COURSE_LESSONS,
-  TOTAL_COURSE_MINUTES,
+  Course,
   lessonBySlug,
+  lessonsOf,
   neighbours,
   sectionOf,
-} from '../../data/course';
+} from '../../data/course/course.model';
 import { PROBLEMS } from '../../data/problems';
 import { TOPICS } from '../../data/topics.data';
 import { SeoService } from '../../core/services/seo.service';
@@ -18,10 +16,11 @@ import { ContentBlocks } from '../../shared/components/content-blocks/content-bl
 import { RichPipe } from '../../shared/pipes/rich.pipe';
 
 /**
- * The advanced course: an overview at `/course`, one technique at
- * `/course/:slug`. Lessons are authored as the same typed blocks as a chapter,
- * so this page only has to supply the frame — the lesson list, the practice
- * problems and the pager.
+ * A course: an overview at `/<path>`, one lesson at `/<path>/:slug`. The
+ * course itself arrives through the route (resolved from a lazy import), so
+ * every course shares this frame without sharing a chunk. Lessons are
+ * authored as the same typed blocks as a chapter, so this page only supplies
+ * the lesson list, the practice problems and the pager.
  */
 @Component({
   selector: 'app-course-page',
@@ -34,6 +33,9 @@ export class CoursePage {
   private readonly seo = inject(SeoService);
   protected readonly isWide = inject(LayoutService).isWide;
 
+  /** Bound from the route's resolver. */
+  readonly course = input.required<Course>();
+
   /**
    * Empty on the overview route; bound from the route parameter otherwise.
    * The router binds `undefined` when the matched route has no `:slug`, so
@@ -43,20 +45,25 @@ export class CoursePage {
 
   private readonly current = computed(() => this.slug() ?? '');
 
-  protected readonly course = ADVANCED_COURSE;
-  protected readonly lessonCount = TOTAL_COURSE_LESSONS;
-  protected readonly totalMinutes = TOTAL_COURSE_MINUTES;
-  protected readonly hours = Math.round(TOTAL_COURSE_MINUTES / 60);
+  protected readonly base = computed(() => '/' + this.course().path);
+  private readonly lessons = computed(() => lessonsOf(this.course()));
+  protected readonly lessonCount = computed(() => this.lessons().length);
+  protected readonly hours = computed(() =>
+    Math.round(this.lessons().reduce((sum, lesson) => sum + lesson.minutes, 0) / 60),
+  );
+  protected readonly first = computed(() => this.lessons()[0]);
 
-  protected readonly lesson = computed(() => lessonBySlug(this.current()));
+  protected readonly lesson = computed(() => lessonBySlug(this.course(), this.current()));
   protected readonly isIndex = computed(() => this.current() === '');
-  protected readonly section = computed(() => sectionOf(this.current()));
-  protected readonly pager = computed(() => neighbours(this.current()));
+  protected readonly section = computed(() => sectionOf(this.course(), this.current()));
+  protected readonly pager = computed(() => neighbours(this.course(), this.current()));
 
   /** Reading order, so the sidebar can number the lessons 1..n. */
-  private readonly orderOf = new Map(COURSE_LESSONS.map((lesson, index) => [lesson.slug, index + 1]));
+  private readonly orderOf = computed(
+    () => new Map(this.lessons().map((lesson, index) => [lesson.slug, index + 1])),
+  );
 
-  protected readonly number = computed(() => this.orderOf.get(this.current()) ?? 0);
+  protected readonly number = computed(() => this.orderOf().get(this.current()) ?? 0);
 
   private readonly topicBySlug = new Map(TOPICS.map((topic) => [topic.slug, topic]));
 
@@ -80,15 +87,12 @@ export class CoursePage {
   constructor() {
     effect(() => {
       const lesson = this.lesson();
+      const course = this.course();
 
       if (lesson) {
-        this.seo.update(lesson.title, lesson.tagline, `/course/${lesson.slug}`);
+        this.seo.update(lesson.title, lesson.tagline, `${this.base()}/${lesson.slug}`);
       } else if (this.isIndex()) {
-        this.seo.update(
-          this.course.name,
-          `${TOTAL_COURSE_LESSONS} advanced algorithm techniques, each with the idea, the proof, the code in Java and Python, and the problems that drill it.`,
-          '/course',
-        );
+        this.seo.update(course.name, course.tagline, this.base());
       }
     });
   }
@@ -98,11 +102,11 @@ export class CoursePage {
   }
 
   protected minutesOf(sectionName: string): number {
-    const section = this.course.sections.find((item) => item.name === sectionName);
+    const section = this.course().sections.find((item) => item.name === sectionName);
     return section?.lessons.reduce((sum, lesson) => sum + lesson.minutes, 0) ?? 0;
   }
 
   protected orderIn(slug: string): number {
-    return this.orderOf.get(slug) ?? 0;
+    return this.orderOf().get(slug) ?? 0;
   }
 }

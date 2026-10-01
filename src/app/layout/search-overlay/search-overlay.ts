@@ -116,6 +116,7 @@ export class SearchOverlay {
     });
 
     const places: [string, string, string, string][] = [
+      ['Zero to Hero', 'Logic building from scratch, every line of code explained', 'compass', '/zero-to-hero'],
       ['DSA topics', 'All 20 topics, in order', 'book', '/learn'],
       ['Roadmap', 'The curriculum as a map you can drag and zoom', 'map', '/roadmap'],
       ['The Core List', 'The classic interview problems, by category', 'bookmark', '/list/core-75'],

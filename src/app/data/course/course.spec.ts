@@ -1,13 +1,5 @@
-import {
-  ADVANCED_COURSE,
-  COURSE_LESSONS,
-  TOTAL_COURSE_LESSONS,
-  TOTAL_COURSE_MINUTES,
-  courseBySlug,
-  lessonBySlug,
-  neighbours,
-  sectionOf,
-} from './index';
+import { ADVANCED_COURSE, COURSE_LESSONS, TOTAL_COURSE_LESSONS, TOTAL_COURSE_MINUTES } from './index';
+import { lessonBySlug, neighbours, sectionOf } from './course.model';
 import { PROBLEMS } from '../problems';
 import { TOPICS } from '../topics.data';
 import { VISUALS } from '../../shared/visuals/visuals';
@@ -18,11 +10,10 @@ describe('advanced course', () => {
     expect(new Set(slugs).size).toBe(TOTAL_COURSE_LESSONS);
   });
 
-  it('finds the course and every lesson by slug', () => {
-    expect(courseBySlug(ADVANCED_COURSE.slug)).toBe(ADVANCED_COURSE);
+  it('finds every lesson by slug', () => {
     for (const lesson of COURSE_LESSONS) {
-      expect(lessonBySlug(lesson.slug)).toBe(lesson);
-      expect(sectionOf(lesson.slug)).toBeDefined();
+      expect(lessonBySlug(ADVANCED_COURSE, lesson.slug)).toBe(lesson);
+      expect(sectionOf(ADVANCED_COURSE, lesson.slug)).toBeDefined();
     }
   });
 
@@ -113,9 +104,9 @@ describe('advanced course', () => {
     const first = COURSE_LESSONS[0];
     const last = COURSE_LESSONS[TOTAL_COURSE_LESSONS - 1];
 
-    expect(neighbours(first.slug).previous).toBeUndefined();
-    expect(neighbours(first.slug).next).toBe(COURSE_LESSONS[1]);
-    expect(neighbours(last.slug).next).toBeUndefined();
+    expect(neighbours(ADVANCED_COURSE, first.slug).previous).toBeUndefined();
+    expect(neighbours(ADVANCED_COURSE, first.slug).next).toBe(COURSE_LESSONS[1]);
+    expect(neighbours(ADVANCED_COURSE, last.slug).next).toBeUndefined();
   });
 
   it('shows every Java snippet with a Python one beside it', () => {

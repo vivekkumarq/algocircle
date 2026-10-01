@@ -283,6 +283,12 @@
 }
 
 @media (min-width: 1024px) and (max-width: 1319px) {
+  /* Seven links and "More" share the bar with the actions here. */
+  .primary > a,
+  .more__trigger {
+    padding-inline: 0.5rem;
+  }
+
   .search-trigger {
     min-width: var(--touch);
     justify-content: center;

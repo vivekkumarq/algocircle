@@ -24,6 +24,7 @@ const SECTIONS: Record<string, Placement> = {
   list: { right: -13, top: 12, size: 63, rotate: 9, hue: 40 },
   algorithms: { right: -9, top: 20, size: 61, rotate: -11, hue: -12 },
   course: { right: -15, top: 8, size: 67, rotate: 14, hue: 52 },
+  'zero-to-hero': { right: -10, top: 12, size: 64, rotate: -12, hue: 70 },
   interview: { right: -11, top: 16, size: 59, rotate: -9, hue: 34 },
   guide: { right: -12, top: 24, size: 57, rotate: 5, hue: -40 },
 };

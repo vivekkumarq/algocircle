@@ -31,6 +31,12 @@
         <a class="btn btn--secondary btn--lg" routerLink="/learn">Browse all topics</a>
       </div>
 
+      <a class="beginner" routerLink="/zero-to-hero">
+        <app-icon name="compass" [size]="15" />
+        <span>New to coding, or freeze in front of a problem? Start with <strong>Zero to Hero</strong></span>
+        <app-icon name="arrow-right" [size]="14" />
+      </a>
+
       <dl class="hero__stats">
         <div>
           <dt>Topics</dt>
@@ -216,6 +222,16 @@
   </header>
 
   <div class="cards">
+    <a class="card card--link" routerLink="/zero-to-hero">
+      <span class="card__icon"><app-icon name="target" [size]="18" /></span>
+      <h3>Zero to Hero: logic to code</h3>
+      <p>
+        A course that drills one method from your first loop to every interview pattern: solve it
+        by hand, write the slow version, find what repeats, then the better one, every line explained.
+      </p>
+      <span class="card__link">Start the course <app-icon name="arrow-right" [size]="14" /></span>
+    </a>
+
     <a class="card card--link" routerLink="/guide/build-logic">
       <span class="card__icon"><app-icon name="compass" [size]="18" /></span>
       <h3>How to build logic</h3>

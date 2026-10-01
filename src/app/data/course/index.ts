@@ -1,4 +1,4 @@
-import { Course, CourseLesson } from './course.model';
+import { Course, CourseLesson, lessonsOf } from './course.model';
 import { ARRAY_LESSONS } from './arrays.lessons';
 import {
   FAST_SLOW,
@@ -19,10 +19,17 @@ import { DP_LESSONS } from './dp.lessons';
  */
 export const ADVANCED_COURSE: Course = {
   slug: 'advanced-algorithms',
+  path: 'course',
   name: 'Advanced Algorithms',
+  shortName: 'Advanced Algorithms',
   tagline: 'The techniques that turn a correct solution into an optimal one.',
   description:
     'Twenty-two techniques, each one lesson: what it is for, why it is correct, the code in Java and Python, the cost, the trap, and the problems that drill it. Work through it after the core topics — every lesson assumes you already know the data structure it uses.',
+  topicLabel: 'Assumes',
+  aside: { label: 'Core topics first', link: '/learn' },
+  finish: { label: 'Finished the course', title: 'Work the Core List', link: '/list/core-75' },
+  footnote:
+    'Every lesson states the technique, why it is correct, what it costs, and the mistake people make — then sends you straight to problems that need it. Read them in order, or jump to the one blocking you.',
   sections: [
     {
       name: 'Arrays',
@@ -67,12 +74,8 @@ export const ADVANCED_COURSE: Course = {
   ],
 };
 
-export const COURSES: Course[] = [ADVANCED_COURSE];
-
 /** Every lesson in reading order, flattened across the sections. */
-export const COURSE_LESSONS: CourseLesson[] = ADVANCED_COURSE.sections.flatMap(
-  (section) => section.lessons,
-);
+export const COURSE_LESSONS: CourseLesson[] = lessonsOf(ADVANCED_COURSE);
 
 export const TOTAL_COURSE_LESSONS = COURSE_LESSONS.length;
 
@@ -80,34 +83,5 @@ export const TOTAL_COURSE_MINUTES = COURSE_LESSONS.reduce(
   (total, lesson) => total + lesson.minutes,
   0,
 );
-
-export function courseBySlug(slug: string): Course | undefined {
-  return COURSES.find((course) => course.slug === slug);
-}
-
-export function lessonBySlug(slug: string): CourseLesson | undefined {
-  return COURSE_LESSONS.find((lesson) => lesson.slug === slug);
-}
-
-/** The section a lesson belongs to, for the breadcrumb. */
-export function sectionOf(slug: string): string | undefined {
-  return ADVANCED_COURSE.sections.find((section) =>
-    section.lessons.some((lesson) => lesson.slug === slug),
-  )?.name;
-}
-
-/** Previous and next lesson in reading order, for the pager. */
-export function neighbours(slug: string): {
-  previous?: CourseLesson;
-  next?: CourseLesson;
-} {
-  const index = COURSE_LESSONS.findIndex((lesson) => lesson.slug === slug);
-  if (index < 0) return {};
-
-  return {
-    previous: index > 0 ? COURSE_LESSONS[index - 1] : undefined,
-    next: index < COURSE_LESSONS.length - 1 ? COURSE_LESSONS[index + 1] : undefined,
-  };
-}
 
 export type { Course, CourseLesson, CourseSection } from './course.model';
