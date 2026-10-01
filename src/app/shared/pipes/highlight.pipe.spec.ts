@@ -1,4 +1,4 @@
-import { highlightCode } from './highlight.pipe';
+import { highlightCode, toLines } from './highlight.pipe';
 
 const kinds = (html: string) =>
   [...html.matchAll(/<span class="tok-(\w)">([^<]*)<\/span>/g)].map(([, kind, text]) => `${kind}:${text}`);
@@ -31,5 +31,22 @@ describe('syntax highlighting', () => {
 
   it('leaves an unknown language as plain escaped text', () => {
     expect(highlightCode('a < b', 'text')).toBe('a &lt; b');
+  });
+});
+
+describe('one span per line', () => {
+  it('wraps every line, tagged with its indentation, keeping empty lines', () => {
+    expect(toLines('a\n    b\n\n  c')).toBe(
+      '<span class="ln ln-0">a</span><span class="ln ln-4">    b</span>' +
+        '<span class="ln ln-0"></span><span class="ln ln-2">  c</span>',
+    );
+  });
+
+  it('closes and reopens a token that runs across a line break', () => {
+    const html = toLines(highlightCode('/* one\n   two */ x', 'java'));
+    expect(html).toBe(
+      '<span class="ln ln-0"><span class="tok-c">/* one</span></span>' +
+        '<span class="ln ln-3"><span class="tok-c">   two */</span> x</span>',
+    );
   });
 });

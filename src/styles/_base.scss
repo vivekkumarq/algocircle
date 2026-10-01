@@ -93,10 +93,11 @@ ol { margin: 0 0 var(--space-4); padding-left: 1.25rem; }
 
 li { margin-bottom: var(--space-2); color: var(--text-secondary); }
 
+/* No ligatures: a learner copying `<=` by eye must see two characters, not `≤`. */
 code,
 kbd,
 pre,
-samp { font-family: var(--font-mono); font-size: 0.875em; }
+samp { font-family: var(--font-mono); font-size: 0.875em; font-variant-ligatures: none; }
 
 code {
   padding: 0.12em 0.38em;
@@ -117,6 +118,27 @@ pre {
 }
 
 pre code { padding: 0; border: 0; background: none; }
+
+/* Highlighted code arrives one span per line, each tagged with its indent
+   (highlight.pipe.ts). On a narrow screen long lines wrap instead of hiding
+   off the edge, and the wrapped part hangs two columns in from the line's own
+   code. Comments are the point of most snippets; they should not need a
+   sideways scroll to read. */
+pre code .ln { display: block; }
+pre code .ln:empty::before { content: '\200b'; }
+
+@for $i from 1 through 32 {
+  .ln-#{$i} { --indent: #{$i}; }
+}
+
+@media (max-width: 720px) {
+  pre code { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+  pre code .ln {
+    padding-left: calc((var(--indent, 0) + 2) * 1ch);
+    text-indent: calc((var(--indent, 0) + 2) * -1ch);
+  }
+}
 
 hr { height: 1px; margin: var(--space-6) 0; border: 0; background: var(--border); }
 

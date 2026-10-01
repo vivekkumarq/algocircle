@@ -115,9 +115,32 @@ export function highlightCode(source: string | null | undefined, language: strin
   return out + escape(code.slice(last));
 }
 
+/**
+ * Puts each line of highlighted code in its own `<span class="ln ln-N">`, N
+ * being the line's indentation. On a narrow screen a long line can then wrap
+ * with a hanging indent (see `_base.scss`): the continuation sits under the
+ * line's own code, not back at column 0. A token that runs across a line break
+ * (a block comment) is closed at the break and reopened on the next line.
+ */
+export function toLines(html: string): string {
+  let carried = '';
+  return html
+    .split('\n')
+    .map((raw) => {
+      let line = carried ? `<span class="${carried}">${raw}` : raw;
+      const opened = [...line.matchAll(/<span class="([^"]+)">/g)];
+      const closed = line.split('</span>').length - 1;
+      carried = opened.length > closed ? opened[opened.length - 1][1] : '';
+      if (carried) line += '</span>';
+      const indent = /^ */.exec(line.replace(/<[^>]+>/g, ''))![0].length;
+      return `<span class="ln ln-${Math.min(indent, 32)}">${line}</span>`;
+    })
+    .join('');
+}
+
 @Pipe({ name: 'highlight' })
 export class HighlightPipe implements PipeTransform {
   transform(source: string | null | undefined, language: string | null | undefined): string {
-    return highlightCode(source, language);
+    return toLines(highlightCode(source, language));
   }
 }
