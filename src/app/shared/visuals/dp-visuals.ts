@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { createStepPlayer } from './step-player';
 
 /* ---------------------------------------------------------------------------
@@ -41,7 +41,7 @@ interface DpFrame {
           <button
             type="button"
             class="viz-btn"
-            [class.viz-btn--primary]="option === mode"
+            [class.viz-btn--primary]="option === mode()"
             (click)="setMode(option)"
           >
             {{ option === 'edit' ? 'Edit distance' : 'Longest common subsequence' }}
@@ -88,15 +88,18 @@ export class VizDpTable {
   protected readonly b = ['h', 'o', 'r', 's', 'e'];
 
   protected readonly modes: DpMode[] = ['edit', 'lcs'];
-  protected mode: DpMode = 'edit';
+  protected readonly mode = signal<DpMode>('edit');
 
-  protected frames: DpFrame[] = this.build('edit');
+  /** A getter over a signal, so the shared controls' `frames.length` follows the switch. */
+  protected get frames(): DpFrame[] {
+    return this.built();
+  }
+  private readonly built = computed(() => this.build(this.mode()));
   protected readonly player = createStepPlayer(() => this.frames.length, 700);
   protected readonly frame = computed(() => this.frames[this.player.index()]);
 
   protected setMode(mode: DpMode): void {
-    this.mode = mode;
-    this.frames = this.build(mode);
+    this.mode.set(mode);
     this.player.reset();
   }
 
@@ -299,7 +302,7 @@ export class VizPalindrome {
           <button
             type="button"
             class="viz-btn"
-            [class.viz-btn--primary]="option === mode"
+            [class.viz-btn--primary]="option === mode()"
             (click)="setMode(option)"
           >
             {{ option === 'naive' ? 'Naive scan' : 'KMP' }}
@@ -349,15 +352,18 @@ export class VizStringMatch {
   protected readonly pattern = 'ababc'.split('');
 
   protected readonly modes = ['naive', 'kmp'] as const;
-  protected mode: 'naive' | 'kmp' = 'naive';
+  protected readonly mode = signal<'naive' | 'kmp'>('naive');
 
-  protected frames = this.build('naive');
+  /** A getter over a signal, so the shared controls' `frames.length` follows the switch. */
+  protected get frames() {
+    return this.built();
+  }
+  private readonly built = computed(() => this.build(this.mode()));
   protected readonly player = createStepPlayer(() => this.frames.length, 750);
   protected readonly frame = computed(() => this.frames[this.player.index()]);
 
   protected setMode(mode: 'naive' | 'kmp'): void {
-    this.mode = mode;
-    this.frames = this.build(mode);
+    this.mode.set(mode);
     this.player.reset();
   }
 
