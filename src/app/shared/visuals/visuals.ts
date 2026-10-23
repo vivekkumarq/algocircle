@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { createStepPlayer } from './step-player';
 import {
   VizDpTable,
@@ -493,7 +493,7 @@ interface TreeNodeView {
           <button
             type="button"
             class="viz-btn"
-            [class.viz-btn--primary]="option === order"
+            [class.viz-btn--primary]="option === order()"
             (click)="setOrder(option)"
           >
             {{ option }}
@@ -544,9 +544,13 @@ export class VizTreeTraversal {
   ];
 
   protected readonly orders: TraversalOrder[] = ['preorder', 'inorder', 'postorder'];
-  protected order: TraversalOrder = 'preorder';
+  protected readonly order = signal<TraversalOrder>('preorder');
 
-  protected frames = this.walk('preorder');
+  /** A getter over a signal, so the shared controls' `frames.length` follows the switch. */
+  protected get frames(): number[] {
+    return this.walked();
+  }
+  private readonly walked = computed(() => this.walk(this.order()));
   protected readonly player = createStepPlayer(() => this.frames.length);
   protected readonly step = computed(() => this.player.index());
 
@@ -558,8 +562,7 @@ export class VizTreeTraversal {
   );
 
   protected setOrder(order: TraversalOrder): void {
-    this.order = order;
-    this.frames = this.walk(order);
+    this.order.set(order);
     this.player.reset();
   }
 
@@ -607,7 +610,7 @@ interface GraphFrame {
           <button
             type="button"
             class="viz-btn"
-            [class.viz-btn--primary]="option === mode"
+            [class.viz-btn--primary]="option === mode()"
             (click)="setMode(option)"
           >
             {{ option === 'bfs' ? 'Breadth-first' : 'Depth-first' }}
@@ -664,16 +667,19 @@ export class VizGraphTraversal {
 
   protected readonly edges = this.buildEdges();
   protected readonly modes: TraversalMode[] = ['bfs', 'dfs'];
-  protected mode: TraversalMode = 'bfs';
+  protected readonly mode = signal<TraversalMode>('bfs');
 
-  protected frames: GraphFrame[] = this.build('bfs');
+  /** A getter over a signal, so the shared controls' `frames.length` follows the switch. */
+  protected get frames(): GraphFrame[] {
+    return this.built();
+  }
+  private readonly built = computed(() => this.build(this.mode()));
 
   protected readonly player = createStepPlayer(() => this.frames.length, 1300);
   protected readonly frame = computed(() => this.frames[this.player.index()]);
 
   protected setMode(mode: TraversalMode): void {
-    this.mode = mode;
-    this.frames = this.build(mode);
+    this.mode.set(mode);
     this.player.reset();
   }
 

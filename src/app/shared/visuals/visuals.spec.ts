@@ -81,4 +81,24 @@ describe('diagrams', () => {
     // 2 swaps with 7, then with 4: two swaps up a tree of height two.
     expect(viz.note()).toContain('restored in 2 swaps');
   });
+
+  it('shows the chosen mode from its very first frame', async () => {
+    const graph = await open('graph-traversal');
+    await graph.press('Depth-first');
+    expect(graph.note()).toContain('stack');
+
+    const dp = await open('dp-table');
+    await dp.press('Longest common subsequence');
+    expect(dp.note()).toContain('longest common subsequence');
+
+    const match = await open('string-match');
+    const naive = match.note();
+    await match.press('KMP');
+    expect(match.note()).not.toBe(naive);
+
+    const tree = await open('tree-traversal');
+    await tree.press('inorder');
+    const sequence = [...tree.element.querySelectorAll('svg text.viz-caption')].at(-1);
+    expect(sequence?.textContent?.trim()).toBe('A');
+  });
 });
