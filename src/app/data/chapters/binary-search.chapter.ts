@@ -42,7 +42,7 @@ export const BINARY_SEARCH: Chapter = {
           kind: 'visual',
           name: 'binary-search',
           caption:
-            'Ten values, four comparisons. Doubling the array would add just one more.',
+            'Ten values, never more than four comparisons. Doubling the array would add just one more.',
         },
         {
           kind: 'callout',

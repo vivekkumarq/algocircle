@@ -2,6 +2,22 @@ import { TestBed } from '@angular/core/testing';
 import { VISUALS, VisualName } from './visuals';
 import { CHAPTERS } from '../../data/chapters';
 
+/** Renders one visual and presses its buttons by label. */
+async function open(name: VisualName) {
+  TestBed.resetTestingModule();
+  const fixture = TestBed.createComponent(VISUALS[name]);
+  await fixture.whenStable();
+  const element = fixture.nativeElement as HTMLElement;
+  const press = async (label: string, times = 1): Promise<void> => {
+    for (let i = 0; i < times; i++) {
+      [...element.querySelectorAll('button')].find((b) => b.textContent?.trim() === label)?.click();
+      await fixture.whenStable();
+    }
+  };
+  const note = () => element.querySelector('.viz-note')?.textContent?.trim() ?? '';
+  return { element, press, note };
+}
+
 describe('diagrams', () => {
   it('renders every visual in the registry without error', async () => {
     for (const name of Object.keys(VISUALS) as VisualName[]) {
@@ -50,5 +66,12 @@ describe('diagrams', () => {
     await fixture.whenStable();
 
     expect(element.querySelector('.viz-note')?.textContent).not.toBe(before);
+  });
+
+  it('reports the comparisons binary search actually made', async () => {
+    const viz = await open('binary-search');
+    await viz.press('Step', 20);
+    // 16, then 56, then 23: three looks at the array.
+    expect(viz.note()).toContain('Found it in 3 comparisons');
   });
 });

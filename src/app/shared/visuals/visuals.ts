@@ -150,15 +150,17 @@ export class VizBinarySearch {
     const frames: SearchFrame[] = [];
     let lo = 0;
     let hi = this.values.length - 1;
+    let comparisons = 0;
 
     frames.push({ lo, hi, mid: -1, found: false, note: `Looking for ${this.target}. The whole array is still in play.` });
 
     while (lo <= hi) {
       const mid = lo + Math.floor((hi - lo) / 2);
       const value = this.values[mid];
+      comparisons++;
 
       if (value === this.target) {
-        frames.push({ lo, hi, mid, found: true, note: `a[${mid}] = ${value}. Found it in ${frames.length} comparisons.` });
+        frames.push({ lo, hi, mid, found: true, note: `a[${mid}] = ${value}. Found it in ${comparisons} comparisons.` });
         break;
       }
 
