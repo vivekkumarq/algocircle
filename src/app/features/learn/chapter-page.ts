@@ -230,7 +230,8 @@ export class ChapterPage {
           : sections[Math.max(current - 1, 0)];
       event.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      history.replaceState(history.state, '', `#${target.id}`);
+      // A bare `#id` resolves against <base href="/">, which is the home page.
+      history.replaceState(history.state, '', `${location.pathname}${location.search}#${target.id}`);
       return;
     }
 
