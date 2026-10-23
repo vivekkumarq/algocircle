@@ -843,9 +843,11 @@ export class VizHeap {
     ];
 
     let i = values.length - 1;
+    let swaps = 0;
     while (i > 0) {
       const parent = Math.floor((i - 1) / 2);
       if (values[parent] <= values[i]) break;
+      swaps++;
 
       frames.push({
         values: [...values],
@@ -860,7 +862,7 @@ export class VizHeap {
       frames.push({ values: [...values], moving: i, compare: -1, note: `2 moves up one level. Only this path changed — everything else is untouched.` });
     }
 
-    frames.push({ values: [...values], moving: 0, compare: -1, note: 'Heap property restored in three swaps: at most the height of the tree.' });
+    frames.push({ values: [...values], moving: i, compare: -1, note: `Heap property restored in ${swaps} swaps: at most the height of the tree.` });
     return frames;
   }
 }

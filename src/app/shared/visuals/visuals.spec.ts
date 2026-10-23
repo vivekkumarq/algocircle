@@ -74,4 +74,11 @@ describe('diagrams', () => {
     // 16, then 56, then 23: three looks at the array.
     expect(viz.note()).toContain('Found it in 3 comparisons');
   });
+
+  it('reports the swaps the heap sift-up actually made', async () => {
+    const viz = await open('heap');
+    await viz.press('Step', 20);
+    // 2 swaps with 7, then with 4: two swaps up a tree of height two.
+    expect(viz.note()).toContain('restored in 2 swaps');
+  });
 });
