@@ -2,7 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
 export const SITE_NAME = 'AlgoCircle';
-export const SITE_URL = 'https://vivekkumarq.github.io/algocircle/';
+/** The custom domain the site is served from; the github.io address redirects here. */
+export const SITE_URL = 'https://algocircle.duckdns.org/';
 const DEFAULT_DESCRIPTION =
   'AlgoCircle is a structured data structures and algorithms curriculum: learn the concepts, ' +
   'recognise the patterns, visualise the algorithms, and practise for interviews.';
@@ -17,7 +18,7 @@ export class SeoService {
     // Authored summaries carry `code` and **bold** markers; previews show plain text.
     description = description.replace(/`|\*\*/g, '');
     const fullTitle = pageTitle ? `${pageTitle} · ${SITE_NAME}` : `${SITE_NAME} — Master DSA`;
-    const url = SITE_URL.replace(/\/$/, '') + path;
+    const url = SITE_URL.replace(/\/$/, '') + (path || '/');
 
     this.title.setTitle(fullTitle);
     this.meta.updateTag({ name: 'description', content: description });
