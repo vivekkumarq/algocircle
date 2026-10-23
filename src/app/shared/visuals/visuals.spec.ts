@@ -101,4 +101,18 @@ describe('diagrams', () => {
     const sequence = [...tree.element.querySelectorAll('svg text.viz-caption')].at(-1);
     expect(sequence?.textContent?.trim()).toBe('A');
   });
+
+  it('reverses a linked list one pointer per step', async () => {
+    const viz = await open('linked-reverse');
+    const arrows = () => [...viz.element.querySelectorAll('path.viz-edge')];
+
+    // "Point 2 back at 1": 2 -> 1 is drawn, 2 no longer reaches 3, 3 -> 4 is untouched.
+    await viz.press('Step', 2);
+    expect(arrows().length).toBe(2);
+    expect(arrows().filter((path) => path.classList.contains('viz-edge--on')).length).toBe(1);
+
+    await viz.press('Step', 2);
+    expect(arrows().length).toBe(3);
+    expect(arrows().every((path) => path.classList.contains('viz-edge--on'))).toBe(true);
+  });
 });

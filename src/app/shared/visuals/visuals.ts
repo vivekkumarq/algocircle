@@ -421,12 +421,14 @@ export class VizStackQueue {
         }
 
         @for (link of links; track link.from) {
-          <path
-            [attr.d]="flipped(link.from) ? link.back : link.forward"
-            class="viz-edge"
-            [class.viz-edge--on]="flipped(link.from)"
-            marker-end="url(#viz-arrow)"
-          />
+          @if (!cut(link.from)) {
+            <path
+              [attr.d]="flipped(link.from) ? link.back : link.forward"
+              class="viz-edge"
+              [class.viz-edge--on]="flipped(link.from)"
+              marker-end="url(#viz-arrow)"
+            />
+          }
         }
 
         <defs>
@@ -455,18 +457,24 @@ export class VizLinkedReverse {
   }));
 
   protected readonly frames = [
-    { current: 0, flippedUpTo: -1, note: 'previous = null, current = node 1.' },
-    { current: 1, flippedUpTo: 0, note: 'Save the next node, point 1 backwards at null, advance.' },
-    { current: 2, flippedUpTo: 1, note: 'Point 2 back at 1.' },
-    { current: 3, flippedUpTo: 2, note: 'Point 3 back at 2.' },
-    { current: 4, flippedUpTo: 3, note: 'Point 4 back at 3. current is null, so previous — node 4 — is the new head.' },
+    { current: 0, note: 'previous = null, current = node 1.' },
+    { current: 1, note: 'Save the next node, point 1 backwards at null, advance.' },
+    { current: 2, note: 'Point 2 back at 1.' },
+    { current: 3, note: 'Point 3 back at 2.' },
+    { current: 4, note: 'Point 4 back at 3. current is null, so previous — node 4 — is the new head.' },
   ];
 
   protected readonly player = createStepPlayer(() => this.frames.length);
   protected readonly frame = computed(() => this.frames[this.player.index()]);
 
+  /** Every node before `previous` already points back at the one before it. */
   protected flipped(index: number): boolean {
-    return index <= this.frame().flippedUpTo;
+    return index < this.frame().current - 1;
+  }
+
+  /** `previous` now points back and `current` still points on: no arrow joins them. */
+  protected cut(index: number): boolean {
+    return index === this.frame().current - 1;
   }
 }
 
