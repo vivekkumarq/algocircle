@@ -56,7 +56,12 @@ export class SearchService {
 
   async ensureIndex(): Promise<void> {
     if (this.ready()) return;
-    this.loading ??= this.build();
+    // A download that failed (offline, or a deploy replaced the chunks) is
+    // not kept, so the next call tries again instead of failing forever.
+    this.loading ??= this.build().catch((error: unknown) => {
+      this.loading = undefined;
+      throw error;
+    });
     await this.loading;
   }
 

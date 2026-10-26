@@ -65,6 +65,7 @@ export class SearchOverlay {
   protected readonly query = signal('');
   protected readonly active = signal(0);
   protected readonly indexing = signal(false);
+  protected readonly indexFailed = signal(false);
 
   private readonly searching = computed(() => this.query().trim().length >= 2);
 
@@ -218,8 +219,14 @@ export class SearchOverlay {
 
     if (!this.search.ready()) {
       this.indexing.set(true);
-      await this.search.ensureIndex();
-      this.indexing.set(false);
+      this.indexFailed.set(false);
+      try {
+        await this.search.ensureIndex();
+      } catch {
+        this.indexFailed.set(true);
+      } finally {
+        this.indexing.set(false);
+      }
     }
   }
 
