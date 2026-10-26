@@ -21,6 +21,8 @@
     <div class="results" id="palette-results" role="listbox">
       @if (indexing() && searchingNow()) {
         <p class="state">Building the index…</p>
+      } @else if (indexFailed() && searchingNow()) {
+        <p class="state">Search could not load. Check your connection, then open search again.</p>
       } @else if (searchingNow() && flat().length === 0) {
         <p class="state">Nothing matches “{{ query() }}”.</p>
       } @else {

@@ -52,3 +52,18 @@ describe('SearchService', () => {
     expect(search.search('the', 5).length).toBeLessThanOrEqual(5);
   });
 });
+
+describe('SearchService when the index fails to download', () => {
+  it('tries again on the next call instead of failing forever', async () => {
+    TestBed.resetTestingModule();
+    const search = TestBed.inject(SearchService);
+    const build = vi.spyOn(search as unknown as { build(): Promise<void> }, 'build');
+    build.mockRejectedValueOnce(new Error('Failed to fetch dynamically imported module'));
+
+    await expect(search.ensureIndex()).rejects.toThrow();
+    expect(search.ready()).toBe(false);
+
+    await search.ensureIndex();
+    expect(search.ready()).toBe(true);
+  });
+});
