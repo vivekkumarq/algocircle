@@ -87,7 +87,7 @@
   @if (hovered(); as node) {
     <div class="card">
       <p class="card__title">{{ pad(node.order) }} · {{ node.label }}</p>
-      <p class="card__summary">{{ node.summary }}</p>
+      <p class="card__summary" [innerHTML]="node.summary | rich"></p>
       <p class="card__meta">
         {{ node.level }} · {{ node.sections }} sections · {{ node.minutes }} min ·
         {{ node.problems }} problems

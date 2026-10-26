@@ -14,6 +14,7 @@ import { GRAPH_LAYOUT, TOPIC_POSITIONS } from '../../data/topic-graph.data';
 import { PROBLEMS } from '../../data/problems';
 import { SeoService } from '../../core/services/seo.service';
 import { Icon } from '../../shared/components/icon/icon';
+import { RichPipe } from '../../shared/pipes/rich.pipe';
 
 interface Node {
   slug: string;
@@ -37,7 +38,7 @@ interface Node {
 @Component({
   selector: 'app-roadmap-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon],
+  imports: [RouterLink, Icon, RichPipe],
   templateUrl: './roadmap-page.html',
   styleUrl: './roadmap-page.scss',
 })
