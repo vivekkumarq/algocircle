@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { RouterLink } from '@angular/router';
 import { TOPICS } from '../../../data/topics.data';
 import { GRAPH_LAYOUT, TOPIC_POSITIONS } from '../../../data/topic-graph.data';
+import { RichPipe } from '../../pipes/rich.pipe';
 
 interface GraphNode {
   slug: string;
@@ -33,7 +34,7 @@ interface GraphEdge {
 @Component({
   selector: 'app-topic-graph',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, RichPipe],
   templateUrl: './topic-graph.html',
   styleUrl: './topic-graph.scss',
 })
