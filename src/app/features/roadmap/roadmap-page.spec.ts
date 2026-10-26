@@ -82,4 +82,28 @@ describe('roadmap page', () => {
 
     expect(router.url).toBe('/');
   });
+
+  it('zooms when two fingers pinch apart', async () => {
+    const fixture = TestBed.createComponent(RoadmapPage);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const surface = fixture.nativeElement.querySelector('.surface') as Element;
+    const touch = (type: string, pointerId: number, clientX: number) =>
+      surface.dispatchEvent(
+        new PointerEvent(type, { bubbles: true, pointerId, isPrimary: pointerId === 1, button: 0, clientX, clientY: 0 }),
+      );
+    const zoom = () => fixture.nativeElement.querySelector('.controls__zoom').textContent.trim();
+
+    const before = zoom();
+    touch('pointerdown', 1, 100);
+    touch('pointerdown', 2, 200);
+    touch('pointermove', 2, 300);     // the fingers end twice as far apart
+    touch('pointerup', 2, 300);
+    touch('pointerup', 1, 100);
+    await fixture.whenStable();
+
+    expect(before).toBe('100%');
+    expect(zoom()).toBe('200%');
+  });
 });
