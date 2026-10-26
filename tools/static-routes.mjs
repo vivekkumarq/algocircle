@@ -61,14 +61,17 @@ const put = (file) => {
 };
 
 let written = 0;
+const folders = new Set();
 for (const path of paths) {
   if (path === '/') continue;
   const name = path.replace(/^\/|\/$/g, '');
   put(join(OUT, `${name}.html`));
-  // /learn is a page and also a folder of pages. Should Pages prefer the
-  // folder and redirect to /learn/, that has an entry too.
-  if (paths.some((other) => other.startsWith(`${path}/`))) put(join(OUT, name, 'index.html'));
   written++;
+  // Pages may answer a folder of pages (/learn, /list) by redirecting to
+  // /learn/ and serving its index.html, so every such folder needs one,
+  // page or not: /list is only a redirect to /list/core-75 in the app.
+  if (name.includes('/')) folders.add(name.slice(0, name.lastIndexOf('/')));
 }
+for (const folder of folders) put(join(OUT, folder, 'index.html'));
 
 console.log(`${written} pages given a static entry; sitemap covers all ${expected.length} content pages.`);
