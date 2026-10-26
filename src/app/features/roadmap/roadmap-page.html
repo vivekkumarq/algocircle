@@ -33,7 +33,7 @@
       [attr.width]="width"
       [attr.height]="height"
       [attr.viewBox]="'0 0 ' + width + ' ' + height"
-      role="img"
+      role="group"
       aria-label="Curriculum roadmap: every topic and its prerequisites"
     >
       @for (edge of edges; track edge.id) {
@@ -45,7 +45,10 @@
           [class]="'node node--' + state(node.slug) + ' node--level-' + node.level.toLowerCase()"
           (pointerenter)="active.set(node.slug)"
         >
-          <a [routerLink]="['/learn', node.slug]" [attr.aria-label]="node.label">
+          <a
+            [routerLink]="['/learn', node.slug]"
+            [attr.aria-label]="pad(node.order) + ' ' + node.label"
+          >
             <rect
               [attr.x]="node.x"
               [attr.y]="node.y"
