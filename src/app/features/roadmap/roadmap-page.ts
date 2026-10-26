@@ -111,6 +111,9 @@ export class RoadmapPage {
   private moved = false;
   /** Set once the reader takes control, so auto-fitting stops interfering. */
   private touched = false;
+  /** Every finger or pen on the map; two of them make a pinch. */
+  private readonly pointers = new Map<number, { x: number; y: number }>();
+  private pinch: { spread: number; zoom: number } | null = null;
 
   // ---- hover -------------------------------------------------------------
   protected readonly active = signal<string | null>(null);
@@ -216,6 +219,18 @@ export class RoadmapPage {
   protected onPointerDown(event: PointerEvent): void {
     if (event.button !== 0) return;
     this.touched = true;
+    // The first pointer of a gesture starts afresh, so one released off the
+    // map earlier can never pair with a new finger.
+    if (event.isPrimary) this.pointers.clear();
+    this.pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+
+    // A second finger turns the drag into a pinch. Lifting from a pinch is
+    // never a click on the node underneath.
+    if (this.pointers.size === 2) {
+      this.pinch = { spread: this.spread(), zoom: this.zoom() };
+      this.moved = true;
+      return;
+    }
     this.pointerStart = { x: event.clientX, y: event.clientY, panX: this.panX(), panY: this.panY() };
     this.moved = false;
     this.dragging.set(true);
@@ -224,6 +239,15 @@ export class RoadmapPage {
   }
 
   protected onPointerMove(event: PointerEvent): void {
+    if (this.pointers.has(event.pointerId)) {
+      this.pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    }
+
+    if (this.pinch) {
+      if (this.pinch.spread > 0) this.scale(this.spread() / this.pinch.spread, this.pinch.zoom);
+      return;
+    }
+
     if (!this.pointerStart) return;
 
     const dx = event.clientX - this.pointerStart.x;
@@ -242,6 +266,10 @@ export class RoadmapPage {
   }
 
   protected onPointerUp(event: PointerEvent): void {
+    this.pointers.delete(event.pointerId);
+    // The finger left behind after a pinch does not resume the drag: it
+    // would jump the map back to where that drag began.
+    this.pinch = null;
     this.pointerStart = null;
     this.dragging.set(false);
     const surface = event.currentTarget as HTMLElement;
@@ -291,8 +319,14 @@ export class RoadmapPage {
     this.panY.set(0);
   }
 
-  private scale(factor: number): void {
-    this.zoom.update((value) => Math.min(2.5, Math.max(0.3, value * factor)));
+  private scale(factor: number, from = this.zoom()): void {
+    this.zoom.set(Math.min(2.5, Math.max(0.3, from * factor)));
+  }
+
+  /** How far apart the two pointers of a pinch are. */
+  private spread(): number {
+    const [a, b] = [...this.pointers.values()];
+    return Math.hypot(a.x - b.x, a.y - b.y);
   }
 
   protected pad(order: number): string {
