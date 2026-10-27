@@ -1,10 +1,12 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, inject, provideBrowserGlobalErrorListeners } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
+  Router,
   TitleStrategy,
   provideRouter,
   withComponentInputBinding,
   withInMemoryScrolling,
+  withNavigationErrorHandler,
   withRouterConfig,
   withViewTransitions,
 } from '@angular/router';
@@ -29,6 +31,17 @@ export const appConfig: ApplicationConfig = {
       // Clicking a section you already jumped to, after scrolling away, is the
       // same URL again; without this the router ignores it and nothing moves.
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
+      // A tab opened before a deploy still asks for the old build's page
+      // chunks, which Pages no longer has, so a link to any page not yet
+      // visited did nothing. Load that page afresh from the new build. Never
+      // for the first navigation, so a broken build cannot reload forever.
+      withNavigationErrorHandler(({ error, url }) => {
+        const message = String((error as Error | undefined)?.message ?? error);
+        const missingChunk = /dynamically imported module|Importing a module script failed/i.test(
+          message,
+        );
+        if (missingChunk && navigator.onLine && inject(Router).navigated) location.assign(url);
+      }),
       // A GPU-composited cross-fade between pages where the browser supports
       // it; everywhere else the navigation is simply instant, as before. A
       // jump within one page skips it: fading the whole page to reach a
