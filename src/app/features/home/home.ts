@@ -86,7 +86,7 @@ export class Home {
     },
     {
       q: 'Does it work offline?',
-      a: 'Once the page has loaded, yes. All content ships with the application rather than being fetched from an API.',
+      a: 'Partly. Nothing comes from an API, but each page and the search index are downloaded the first time you open them, so the pages you have already opened keep working if the connection drops and the rest wait for it to come back.',
     },
   ];
 }
